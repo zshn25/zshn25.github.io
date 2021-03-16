@@ -57,6 +57,8 @@ layout: default
   <div class="post-content e-content" itemprop="articleBody">
     {{ content | toc  }}
   </div>
+  {% include share-buttons.html %}
+  {% include  related_posts.html%}
   {%- if page.comments -%}
     {%- include utterances.html -%}
   {%- endif -%}
