@@ -4,7 +4,9 @@ title: About Me
 permalink: /about/
 ---
 
-Welcome to [Curiosity](https://zshn25.github.io/curiosity), by Zeeshan Khan Suri. I am a Masters of Science (Msc) in Visual Computing from Saarland University, Germany. Curiosity is my personal diary. I wish to share my perspective on various topics.
+## :wave: Welcome to [Curiosity](https://zshn25.github.io/)
+
+My name is Zeeshan Khan Suri. I believe in life long learning :man_student:, I earn for knowledge and I seek for the truth :mag:. In curiosity, I plan to document :pencil: my journey towards this goal :rocket:, for that is what that matters in the end :roller_coaster:. Be open minded, humble (like myself :stuck_out_tongue_winking_eye:) and try not to judge me by my perspective of things. 
 
 <!-- This website is powered by **[fastpages](https://github.com/fastai/fastpages)** [^1].
 
