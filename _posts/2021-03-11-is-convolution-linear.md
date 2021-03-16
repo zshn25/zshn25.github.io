@@ -91,3 +91,15 @@ So, if convolutions are linear, we should be able to express the discrete convol
   $$  
 >   
 > -- <cite>[Discrete convoliton using Toeplitz matrix](https://en.wikipedia.org/wiki/Toeplitz_matrix#Discrete_convolution)</cite> 
+
+If you use this article, please cite
+
+```
+@misc{suri_2021,
+      title={Is convolution linear?},
+      url={https://zshn25.github.io}, 
+      journal={Curiosity}, 
+      author={Suri, Zeeshan Khan}, 
+      year={2021}, 
+      month={Mar}}
+```
