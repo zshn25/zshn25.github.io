@@ -21,7 +21,20 @@ img.emoji{
   color: light-grey;
 }
 
+.fixed-top{position:fixed;
+  top:0;
+  right:0;
+  left:0;
+  z-index:1030;
+  width:100%;
+  background:white;
+  height: $header-height
+  } // Fixed pos of header 
+
+.search-padding {  padding-top: $header-height/2}
+
 .page-content {
+        padding-top: $header-height; 
         -webkit-font-smoothing: antialiased !important;
         text-rendering: optimizeLegibility !important;
         font-family: "Segoe UI", SegoeUI, Roboto, "Segoe WP", "Helvetica Neue", "Helvetica", "Tahoma", "Arial", sans-serif !important;
@@ -53,6 +66,9 @@ h3, h4 {
 p {
     margin-top:1rem !important; 
     margin-bottom:1rem !important;   
+    -webkit-hyphens: auto;
+      -ms-hyphens: auto;
+        hyphens: auto;
 }
 
 h1, h2, h3, h4 {
@@ -113,10 +129,56 @@ details.description:not([open]) summary::after {
     width: 25px !important;
     height: 23px !important;
   }
+  a:hover{
+    background-color: #ddd;
+  }
 }
 
 // Make Anchor Links Appear Only on Hover
+// h1 {
+//   margin-left: -20px;
+//   padding-left: 10px; 
+// }
 
+h2 {
+  margin-left: -18px;
+  padding-left: 10px; 
+}
+
+h3 {
+  margin-left: -16px;
+  padding-left: 10px; 
+}
+
+h4 {
+  margin-left: -14px;
+  padding-left: 10px; 
+}
+
+h5 {
+  margin-left: -12px;
+  padding-left: 10px; 
+}
+
+h6 {
+  margin-left: -10px;
+  padding-left: 10px; 
+}
+
+h1 .octicon, h2 .octicon, h3 .octicon, h4 .octicon, h5 .octicon, h6 .octicon  {
+  visibility: hidden;
+}
+
+h1:hover .octicon, h2:hover .octicon, h3:hover .octicon, h4:hover .octicon, h5:hover .octicon, h6:hover .octicon {
+  visibility: visible;
+}
+
+.octicon {
+  fill: currentColor;
+  padding: 0;
+  margin-left: -16px;
+  vertical-align: middle;
+}
 .anchor-link {
   opacity: 0;
   padding-left: 0.375em;

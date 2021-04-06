@@ -1,0 +1,22 @@
+{% comment %}
+Adapted from https://github.com/jekyll/minima/pull/557
+ToDo: For hidden posts, loop over previous/next posts and find the first non hidden one
+{% endcomment %}
+
+<hr>
+<div class="post-nav" style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+  <p style="flex: 1 1 0; width: 45%; padding-right: 0.5em;">
+    {% if page.previous.url %}
+    {% unless page.previous.hidden %}
+    <a href="{{page.previous.url | relative_url}}">&#8672;&nbsp;{{page.previous.title| markdownify | strip_html }}</a>
+    {% endunless %}
+    {% endif %}
+  </p>
+  <p style="flex: 1 1 0; width: 45%; padding-left: 0.5em; text-align: right">
+    {% if page.next.url %}
+    {% unless page.next.hidden %}
+    <a href="{{page.next.url | relative_url}}">{{page.next.title| markdownify | strip_html }}&nbsp;&#8674;</a>
+    {% endunless %}
+    {% endif %}
+  </p>
+</div>

@@ -1,4 +1,4 @@
-<header class="site-header">
+<header class="fixed-top site-header">
 
   <div class="wrapper">
     {%- assign default_paths = site.pages | map: "path" -%}
@@ -21,11 +21,20 @@
           {%- for path in page_paths -%}
             {%- assign my_page = site.pages | where: "path", path | first -%}
             {%- if my_page.title -%}
+            {% comment %}
             <!-- add different calass if want to highlight current tab
             <a {% if my_page.url == page.url %} class="active"{% endif %} href="{{ my_page.url | relative_url }}">{{ my_page.title | escape }}</a> -->
+            {% endcomment %}
             <a class="page-link" href="{{ my_page.url | relative_url }}">{{ my_page.title | escape }}</a>
             {%- endif -%}
           {%- endfor -%}
+          {%comment%}
+          For day night thingy
+          {%endcomment%}
+          <span id="nav-switch-theme" class="nav-anchor">
+            <span class="nav-theme-icon fas fa-fw" aria-hidden="true" title="Theme"></span>
+            <span class="sr-only">Toggle Theme</span>
+          </span>
         </div>
       </nav>
     {%- endif -%}

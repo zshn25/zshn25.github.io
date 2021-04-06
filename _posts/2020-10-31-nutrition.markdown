@@ -3,7 +3,6 @@ layout: post
 title:  "Nutrition"
 description: "Preventing disease is the first step to long-term health and well-being. By following basic nutrition advice you can improve your health by significant amounts."
 date:   2020-10-29 22:21:23 -0700
-toc: true
 comments: true
 image: images/cook.jpg
 categories: health nutrition cooking
@@ -12,19 +11,12 @@ redirect_from:
   - /cooking/health/nutrition/
 author: Zeeshan Khan Suri
 sidebar: toc
+toc: true
 ---
 
 Preventing disease is the first step to long-term health and well-being. By following basic nutrition advice you can improve your health by significant amounts.
 
 {::options parse_block_html="true" /}
-
-<!-- ## Contents
-{:.no_toc}
-
-1. TOC
-{:toc} -->
-
----
 
 ***Disclaimer***: *Nutrition is not a solved problem. We still don’t know for sure which foods to eat and which ones to avoid but there is a decades of consistent science and research, which I want to bring to you. Take it with a grain of salt*
 {: .note}
@@ -43,7 +35,8 @@ Western diet is now a major cause of obesity, which is a recognized chronic dise
 <iframe src="https://ourworldindata.org/grapher/share-of-adults-who-are-overweight?time=2016" style="width: 100%; height: 600px; border: 0px none;"></iframe>
 
 {:refdef: style="text-align: center;"}
-*Fig. 1: Obesity is increasing worldwide at an alarming rate. [Source]( https://ourworldindata.org/grapher/share-of-adults-who-are-overweight?time=2016)*
+<sub><sup>*Fig. 1: Obesity is increasing worldwide at an alarming rate. [Source]( https://ourworldindata.org/grapher/share-of-adults-who-are-overweight?time=2016)*
+</sup></sub>
 {:refdef}
 
 The need to be aware of nutrition in order to avoid obesity and stay healthy now is more than ever. Controlling our food behavior is essential to our long term well being.
@@ -54,7 +47,7 @@ We are increasingly outsourcing our food preparation. Convenient food has become
 
 {:refdef: style="text-align: center;"}
 <figure class="video_container">
-  <iframe width="400" height="225" src="https://www.youtube.com/embed/oSDC4C3_16Y" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  <iframe width="100%" height="300vh" src="https://www.youtube.com/embed/oSDC4C3_16Y" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </figure>
 {: refdef}
 
@@ -76,7 +69,8 @@ Historically, food was a scarce resource. In the animal kingdom, presence of foo
 [![bmi](https://upload.wikimedia.org/wikipedia/commons/6/6f/Obesity_%26_BMI.png){: width="50%" .shadow}](https://en.wikipedia.org/wiki/Body_mass_index#/media/File:Obesity_&_BMI.png)
 {: refdef}
 {:refdef: style="text-align: center;"}
-*Fig.2: Obesity and BMI. [BruceBlaus](https://commons.wikimedia.org/wiki/User:BruceBlaus), [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons*
+<sup><sub>*Fig.2: Obesity and BMI. [BruceBlaus](https://commons.wikimedia.org/wiki/User:BruceBlaus), [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons*
+</sup></sub>
 {: refdef}
 
 ### Is dietary fat really bad?
@@ -156,7 +150,8 @@ Home-made food, cooked using high quality ingredients, having natural unsaturate
 [![bmi](https://upload.wikimedia.org/wikipedia/commons/e/eb/Nutrition-pyramid.jpg){: width="50%" .shadow}](https://commons.wikimedia.org/wiki/File:Nutrition-pyramid.jpg)
 {: refdef}
 {:refdef: style="text-align: center;"}
-*Fig.3: Food pyramid. [Spmallare](https://commons.wikimedia.org/wiki/File:Nutrition-pyramid.jpg), [CC BY 3.0](https://creativecommons.org/licenses/by/3.0), via Wikimedia Commons*
+<sub><sup>*Fig.3: Food pyramid. [Spmallare](https://commons.wikimedia.org/wiki/File:Nutrition-pyramid.jpg), [CC BY 3.0](https://creativecommons.org/licenses/by/3.0), via Wikimedia Commons*
+</sup></sub>
 {: refdef}
 
 Even if you're not obese, being aware of the food you eat and maintaining physical exercise will ensure long term health.

@@ -6,7 +6,7 @@
 # https://learn-the-web.algonquindesign.ca/topics/markdown-yaml-cheat-sheet/#yaml
 # https://learnxinyminutes.com/docs/yaml/
 
-title: C U R I O S I T Y
+title: Curiosity
 description: >- # this means to ignore newlines until "baseurl:"
   I am curious. Therefore I am.
 author:
@@ -88,12 +88,12 @@ html_escape:
 
 # Everything below here should be left alone. Modifications may break fastpages
 future: true
-theme: minima
+# theme: minima
 plugins:
   - jekyll-feed
   - jekyll-gist
   - jekyll-octicons
-  - jekyll-toc
+  # - jekyll-toc
   - jekyll-twitter-plugin
   - jekyll-relative-links
   - jekyll-seo-tag

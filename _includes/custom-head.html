@@ -56,10 +56,18 @@ function wrap_img(fn) {
 window.onload = wrap_img;
 </script>
 
-<script>
+{% comment %}
+<!-- <script> Replaced with liquid one
     document.addEventListener("DOMContentLoaded", function(){
     // add link icon to anchor tags
     var elem = document.querySelectorAll(".anchor-link")
     elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
     });
-</script>
+</script> -->
+<!-- Dark mode -->
+{% endcomment %}
+<script src="/assets/js/applytheme.js"></script>
+<script src="/assets/js/main.js"></script>
+
+<!-- <link id="dark-css" href="/assets/css/dark.scss" rel="stylesheet" media="(prefers-color-scheme: dark)"> -->
+<link id="dark-css" href="{{ '/assets/css/dark.css' | relative_url }}" rel="stylesheet" media="(prefers-color-scheme: dark)">
