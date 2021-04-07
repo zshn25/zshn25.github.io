@@ -16,10 +16,12 @@ toc: true
 
 Preventing disease is the first step to long-term health and well-being. By following basic nutrition advice you can improve your health by significant amounts.
 
-{::options parse_block_html="true" /}
+<!-- {::options parse_block_html="true" /} -->
 
-***Disclaimer***: *Nutrition is not a solved problem. We still don’t know for sure which foods to eat and which ones to avoid but there is a decades of consistent science and research, which I want to bring to you. Take it with a grain of salt*
-{: .note}
+{% include alert.html note="Nutrition is not a solved problem. We still don’t know for sure which foods to eat and which ones to avoid but there is a decades of consistent science and research, which I want to bring to you. Take it with a grain of salt"%}
+
+<!-- ***Disclaimer***: *Nutrition is not a solved problem. We still don’t know for sure which foods to eat and which ones to avoid but there is a decades of consistent science and research, which I want to bring to you. Take it with a grain of salt*
+{: .note} -->
 
 ## Obesity as a worldwide public health crisis
 
@@ -33,7 +35,6 @@ Western diet is now a major cause of obesity, which is a recognized chronic dise
 {:refdef} -->
 
 <iframe src="https://ourworldindata.org/grapher/share-of-adults-who-are-overweight?time=2016" style="width: 100%; height: 600px; border: 0px none;"></iframe>
-
 {:refdef: style="text-align: center;"}
 <sub><sup>*Fig. 1: Obesity is increasing worldwide at an alarming rate. [Source]( https://ourworldindata.org/grapher/share-of-adults-who-are-overweight?time=2016)*
 </sup></sub>

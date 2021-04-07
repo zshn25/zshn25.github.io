@@ -6,12 +6,12 @@ image: https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Image_pyramid.s
 date:   2021-02-09 15:21:23 -0700
 categories: deep-learning computer-vision pytorch 
 author: Zeeshan Khan Suri
-published: true
+published: false
 comments: true
 ---
 
 
-{::options parse_block_html="true" /}
+<!-- {::options parse_block_html="true" /} -->
 
 [![image pyramid](https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Image_pyramid.svg/1200px-Image_pyramid.svg.png)](https://commons.wikimedia.org/wiki/File:Image_pyramid.svg#/media/File:Image_pyramid.svg)
 {:refdef: style="text-align: center;font-size: .8rem;font-style: italic;color: light-grey;"}
