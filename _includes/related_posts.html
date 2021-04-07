@@ -33,7 +33,7 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
 
             {% if sameTagCount >= minCommonTags %}
                 <article class="archive-item">
-                    <p class="post-meta post-meta-title"><a class="page-meta" href="{{ site.baseurl }}{{ post.url }}">{{post.title}}</a>  •  {{ post.date | date: date_format }}  •  <i class="fas fa-tags category-tags-icon"></i></i><a class="category-tags-link"
+                    <p class="post-meta post-meta-title"><a class="page-meta" href="{{ site.baseurl }}{{ post.url }}">{{post.title}}</a>  • <i class="far fa-calendar-alt"> {{ post.date | date: date_format }}  •  <i class="fas fa-tags category-tags-icon"></i></i> <a class="category-tags-link"
                         href="{{site.baseurl}}/categories/#{{category|slugize}}">{{ commonTags }}</a>
                     </p>
                 </article>

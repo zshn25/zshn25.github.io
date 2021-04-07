@@ -13,8 +13,8 @@
       </a>
     </h3>
     <p class="post-meta-description">{{ post.description }}</p>
-    <p class="post-meta">{{ post.date | date: date_format }}
-      • {% assign words = post.content | strip_html | number_of_words %}
+    <p class="post-meta"><i class="far fa-calendar-alt"></i> {{ post.date | date: date_format }}
+      • <i class="far fa-clock"></i> {% assign words = post.content | strip_html | number_of_words %}
       {% if words < 360 %} 1 min read {% else %} {{ words | divided_by:180 }} mins read {% endif %}</p>
 
         {% if post.categories.size > 0 and site.show_tags %}

@@ -13,6 +13,7 @@ layout: default
       {%- endif -%}
     {%- endif -%}
     <p class="post-meta post-meta-title">
+      <i class="far fa-calendar-alt"></i> 
       {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
       <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
         {{ page.date | date: date_format }}
@@ -25,13 +26,13 @@ layout: default
         </time>
       {%- endif -%}
       {%- if page.author -%}
-        • {% for author in page.author %}
+        • <i class="far fa-user"></i> {% for author in page.author %}
           <span itemprop="author" itemscope itemtype="http://schema.org/Person">
             <span class="p-author h-card" itemprop="name">{{ author }}</span></span>
             {%- if forloop.last == false %}, {% endif -%}
         {% endfor %}
       {%- endif %}
-       • {% include reading_time.html -%}
+       • <i class="far fa-clock"></i> {% include reading_time.html -%}
     </p>
 
     {% if page.categories.size > 0 and site.show_tags %}
@@ -54,22 +55,34 @@ layout: default
     {% endif -%}
   </header>
 
-  {% assign my_min = page.toc_min | default: site.toc_min | default: 1 %}
-  {% assign my_max = page.toc_max | default: site.toc_max | default: 3 %}
+  {% assign my_min = page.toc_min | default: site.toc_min | default: 2 %}
+  {% assign my_max = page.toc_max | default: site.toc_max | default: 6 %}
 
   <div class="post-content e-content" itemprop="articleBody">
     {% if page.toc %}
       <aside class="sidebar__right sticky">
       <nav class="toc">
-        {% include toc.html sanitize=true html=content h_min=2 h_max=6 skip_no_ids=true %}
+        {% include toc.html sanitize=true html=content h_min=my_min h_max=my_max skip_no_ids=true %}
       </nav>
     </aside>
     {% comment %}
-    {% include toc.html html=content sanitize="true" h_min=my_min h_max=my_max %}
+    <!-- {% include toc.html html=content sanitize="true" h_min=my_min h_max=my_max %} -->
     {% endcomment %}
     {% endif %}
     {{ content }}
   </div>
+
+  {% comment %}<!-- Repeat notebook execution links in the bottom -->{% endcomment %}
+  {% if page.layout == 'notebook' %}
+      {% if page.badges or page.badges == nil %}
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          {% unless page.hide_github_badge or site.default_badges.github != true %}{% include notebook_github_link.html %}{% endunless %}
+          {% unless page.hide_binder_badge or site.default_badges.binder != true  %}{% include notebook_binder_link.html %}{% endunless %}
+          {% unless page.hide_colab_badge or site.default_badges.colab != true %}{% include notebook_colab_link.html %}{% endunless %}
+        </div>
+      {% endif -%}
+    {% endif -%}
+
   {% include share-buttons.html %}
 
   {% include previous_next_links.html %}
