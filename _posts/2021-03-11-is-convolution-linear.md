@@ -10,7 +10,7 @@ comments: true
 published: true
 ---
 
-{::options parse_block_html="true" /}
+<!-- {::options parse_block_html="true" /} -->
 
 Discrete convolutions are characterized as matrix multiplications and are thus able to execute really fast on GPUs. But, how are they characterized as matrix multiplications? Are convolutions linear? Let's find out.
 
@@ -55,14 +55,18 @@ To show that convolution is linear, for $ \ x,y,f : \mathbb{R}\to \mathbb{R}, \ 
 $(\alpha x + \beta y) * f \stackrel{!}{=} \alpha (x * f) + \beta (y * f)$
 {:refdef}
 
-### 2.1 *Proof:*
+### 2.1 Proof
 
-$$\large{\begin{aligned} (\alpha x + \beta  y) * f  &=  \int_{\mathbb{R}} \! (\alpha x(t) + \beta  y(t)) f(x-t) \, \mathrm{d}t  \\                    &=  \int_{\mathbb{R}} \! (\alpha x(t)f(x-t) + \beta  y(t)f(x-t))  \, \mathrm{d}t \\                    &=  \int_{\mathbb{R}} \! \alpha x(t)f(x-t) \, \mathrm{d}t + \int_{\mathbb{R}} \!  \beta  y(t)f(x-t)  \, \mathrm{d}t \\                    &=  \alpha \int_{\mathbb{R}} \!  x(t)f(x-t) \, \mathrm{d}t + \beta \int_{\mathbb{R}} \!  y(t)f(x-t)  \, \mathrm{d}t \\                    &=  \alpha( x * f) + \beta( y * f)\end{aligned} }$$
+$$\large{\begin{aligned} (\alpha x + \beta  y) * f  &=  \int_{\mathbb{R}} \! (\alpha x(t) + \beta  y(t)) f(x-t) \, \mathrm{d}t  \\
+                                                    &=  \int_{\mathbb{R}} \! (\alpha x(t)f(x-t) + \beta  y(t)f(x-t))  \, \mathrm{d}t \\
+                                                    &=  \alpha \int_{\mathbb{R}} \!  x(t)f(x-t) \, \mathrm{d}t + \beta \int_{\mathbb{R}} \!  y(t)f(x-t)  \, \mathrm{d}t \quad \text{(Linearity of integral)}\\
+                                                    &=  \alpha( x * f) + \beta( y * f)\end{aligned} }$$
 
 proves that convolution is a linear operator. This proof directly follows from that fact that an integral is a linear mapping of real-valued (integrable) functions to $\mathbb{R}$.
 
 $\small{\displaystyle\int_a^b{[{c_1}{f_1}(x)+{c_2}{f_2}(x)+\cdots +{c_n}{f_n}(x)]dx}={c_1}\displaystyle\int_a^b{f_1(x)dx}+{c_2}\displaystyle\int_a^b{f_2(x)dx}+\cdots +{c_n}\displaystyle\int_a^b{f_n(x)dx}}$
 
+___
 ## 3. Discrete convolution as matrix multiplication
 
 So, if convolutions are linear, we should be able to express the discrete convolution as a matrix multiplication. In fact, one of the input function is converted to a [Toeplitz matrix](https://en.wikipedia.org/wiki/Toeplitz_matrix), enabling a discrete convolution to be characterized by a convolution.
@@ -92,12 +96,12 @@ So, if convolutions are linear, we should be able to express the discrete convol
 >   
 > -- <cite>[Discrete convoliton using Toeplitz matrix](https://en.wikipedia.org/wiki/Toeplitz_matrix#Discrete_convolution)</cite> 
 
-If you use this article, please cite
+If this article was helpful to you, consider citing
 
 ```
-@misc{suri_2021,
+@misc{suri_is-convolution-linear_2021,
       title={Is convolution linear?},
-      url={https://zshn25.github.io}, 
+      url={https://zshn25.github.io/is-convolution-linear/}, 
       journal={Curiosity}, 
       author={Suri, Zeeshan Khan}, 
       year={2021}, 

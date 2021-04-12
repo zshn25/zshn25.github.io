@@ -3,7 +3,6 @@
   <div class="col-4 d-table-cell p-3 v-align-middle">
     <a href="{{ post.url | relative_url }}"></a>
     <img class="image-preview " src="{{ post.image | relative_url }}" />
-    </a>
   </div>
   {%- endif -%}
   <div class="col-8 d-table-cell p-3">
@@ -13,14 +12,14 @@
       </a>
     </h3>
     <p class="post-meta-description">{{ post.description }}</p>
-    <p class="post-meta"><i class="far fa-calendar-alt"></i> {{ post.date | date: date_format }}
+    <p class="post-meta"><i class="far fa-calendar-alt"></i>  {{ post.date | date: date_format }}
       • <i class="far fa-clock"></i> {% assign words = post.content | strip_html | number_of_words %}
       {% if words < 360 %} 1 min read {% else %} {{ words | divided_by:180 }} mins read {% endif %}</p>
 
         {% if post.categories.size > 0 and site.show_tags %}
-        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i>
+        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
           {% for category in post.categories %}
-          <a class="category-tags-link" href="{{site.baseurl}}/categories/#{{category|slugize}}">{{category}}</a>
+          <a class="category-tags-link label label-default" href="{{site.baseurl}}/categories/#{{category|slugize}}">#{{category}}</a>
           {% unless forloop.last %}&nbsp;{% endunless %}
           {% endfor %}
         </p>
