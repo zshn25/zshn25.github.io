@@ -4,7 +4,7 @@ title:      "Guide to Ethereum Mining"
 description: "Without paying any fees"
 comments: true
 date:       2021-01-12 15:21:23 -0700
-categories: cryptocurrency ethereum 
+# categories: cryptocurrency ethereum 
 author:     Zeeshan Khan Suri
 hidden:    true
 hide: true

@@ -35,8 +35,13 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
                 <article class="archive-item">
                     <p class="post-meta"><a class="post-meta-title" href="{{ site.baseurl }}{{ post.url }}">{{post.title}}</a>  •  
                         <i class="far fa-calendar-alt"></i> {{ post.date | date: date_format }}  •  
+                        <i class="far fa-clock"></i> {% assign words = post.content | strip_html | number_of_words %}
+      {% if words < 360 %} 1 min read {% else %} {{ words | divided_by:180 }} mins read {% endif %}  •  
                         <i class="fas fa-tags category-tags-icon"></i>
-                        <a class="category-tags-link" href="{{site.baseurl}}/categories/#{{commonTags|slugize}}">{{ commonTags }}</a>
+                            {% for category in post.categories %}
+                                <a class="category-tags-link label label-default" href="{{site.baseurl}}/categories/#{{category|slugize}}">#{{category}}</a>
+                                {% unless forloop.last %}&nbsp;{% endunless %}
+                            {% endfor %}
                     </p>
                 </article>
                 {% assign maxRelatedCounter = maxRelatedCounter | plus: 1 %}
