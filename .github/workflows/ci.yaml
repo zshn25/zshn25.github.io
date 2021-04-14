@@ -29,6 +29,7 @@ jobs:
       uses: actions/checkout@main
       with:
         persist-credentials: false
+        submodules: true # https://talk.jekyllrb.com/t/adding-pages-from-other-github-repos-on-personal-jekyll-website/5875/4?u=zshn25
 
     - name: convert notebooks and word docs to posts
       uses: ./_action_files
