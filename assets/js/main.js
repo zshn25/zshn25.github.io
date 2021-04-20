@@ -1,6 +1,6 @@
 // Dark/Light color scheme switch button
-document.querySelector("#nav-switch-theme").style.display = "inline";
-document.querySelector("#nav-switch-theme").addEventListener("click", changeColorScheme);
+// document.querySelector("#nav-switch-theme").style.display = "inline";
+// document.querySelector("#nav-switch-theme").addEventListener("click", changeColorScheme);
 
 function changeColorScheme() {
   // Use whatever users want
@@ -57,17 +57,15 @@ if (
   fixThemeImages();
 }
 
-
-
 // Back button after anchor link should return to previous page and not to same page
 // From https://github.com/allejo/jekyll-anchor-headings/discussions/31#discussioncomment-564411
-<script>
-    document.querySelectorAll('a').forEach(el => {
-        el.addEventListener('click', event => {
-            event.preventDefault();
-
-            const hash = el.getAttribute('href');
-            window.location.replace(('' + window.location).split('#')[0] + hash);
-        })
-    })
-</script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.heading-anchor').forEach(function (el) {
+    el.addEventListener('click', function (event) {
+      event.preventDefault();
+  
+      const hash = el.getAttribute('href');
+      window.location.replace(('' + window.location).split('#')[0] + hash);
+    });
+  });
+}, false);
