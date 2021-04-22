@@ -21,7 +21,14 @@ img.emoji{
   color: light-grey;
 }
 
-.fixed-top{position:fixed;
+.site-header {
+  // overwrite default site header border properties
+  border-top: 0px ;
+  border-bottom: 0px ;
+}
+
+.fixed-top{
+  position:fixed;
   top:0;
   right:0;
   left:0;

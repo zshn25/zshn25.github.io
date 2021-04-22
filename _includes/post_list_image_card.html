@@ -7,9 +7,16 @@
   {%- endif -%}
   <div class="col-8 d-table-cell p-3">
     <h3>
+      {% comment %} For external link posts {% endcomment %}
+      {% if post.link %}
+      <a class="post-link" href="{{ post.link }}" target="_blank">
+        {{ post.title | escape }}
+        <sup><i class="fas fa-external-link-alt" style="font-size: 75%"></i></sup> </a>
+      {% else %}
       <a class="post-link" href="{{ post.url | relative_url }}">
         {{ post.title | escape }}
       </a>
+      {% endif %}
     </h3>
     <p class="post-meta-description">{{ post.description }}</p>
     <p class="post-meta"><i class="far fa-calendar-alt"></i>  {{ post.date | date: date_format }}

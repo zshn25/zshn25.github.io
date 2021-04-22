@@ -4,7 +4,14 @@ layout: default
 <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title p-name" itemprop="name headline">{{ page.title | escape }}</h1>
+    <h1 class="post-title p-name" itemprop="name headline">{% comment %} For external link posts {% endcomment %}
+      {% if page.link %}
+      <a  href="{{ post.link }}" target="_blank">
+        {{ page.title | escape }}
+        <sup><i class="fas fa-external-link-alt" style="font-size: 50%"></i></sup> </a>
+      {% else %}
+        {{ page.title | escape }}
+      {% endif %}</h1>
     {%- if page.description -%}
       {%- if site.html_escape.description -%}
         <p class="page-description">{{ page.description | escape }}</p>
@@ -82,13 +89,11 @@ layout: default
         </div>
       {% endif -%}
     {% endif -%}
-
+  <hr>
   {% include share-buttons.html %}
-
-  {% include previous_next_links.html %}
-
   {% comment %}<!-- only show related on a post page when `related: true` -->{% endcomment %}
   {% include  related_posts.html%}
+  {% include previous_next_links.html %}
   {%- if page.comments -%}
     {%- include utterances.html -%}
   {%- endif -%}
