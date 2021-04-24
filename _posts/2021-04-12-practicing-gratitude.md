@@ -4,7 +4,7 @@ title:  "Practicing Gratitude"
 description: "A reminder that being normal is still a blessing"
 image: images/flower-3175428_640.jpg
 date:   2021-04-11 15:21:23 -0700
-categories: gratitude
+categories: philosophy gratitude
 author: Zeeshan Khan Suri
 comments: true
 published: true
