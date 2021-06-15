@@ -11,6 +11,9 @@ comments: true
 ---
 
 
+{% include alert.html content="This post is still in draft. Some of the ideas are complete but needs expansion. Suggestions and comments are always welcome"%}
+
+
 <!-- {::options parse_block_html="true" /} -->
 
 It is often important and helpful to formally define what we are talking about for everyone to be on the same page. **Privacy is the ability to choose to express oneself selectively**. It is the subtle distinction between what is morally acceptable between the bedroom, the bathroom, the dining table and the street. There are often things that we share with our friends/family over dinner which we would rather not share in public. Or, there might be things in our minds we would be embarrassed and even guilty to share with anyone else. This subtle distinction, when crossed could lead to undesirable consequences. For example, we would be okay finding ourselves naked in a shower but the same in a public place would be obnoxious. 
@@ -29,7 +32,7 @@ Most people ask me why they should care about their own privacy. It's not like t
 
 ### You might have nothing to hide, but you have something to fear
 
-Most people do not realize the consequences of sharing things online or just allowing applications to access their information. If you are worried of keeping your house unlocked, you should as well be worried about let others into your virtual life through your virtual windows. Applications are constantly tracking every single activity you do online. From, exactly how many milliseconds you look at a post, where exactly do you look on the picture to how fast do you scroll through a post. Your every single interaction imaginable is being tracked by almost every modern application and is being stored permanently linking it to you. More of this is the [How is your online privacy getting infringed](#how) section.
+Most people do not realize the consequences of sharing things online or just allowing applications to access their information. If you are worried of keeping your house unlocked, you should as well be worried to let others into your life through your virtual windows. Applications are constantly tracking every single activity you do online. From, exactly how many milliseconds you look at a post, where exactly do you look on a picture, to how fast do you scroll through a post. Your every single interaction imaginable is being tracked by almost every modern application and is being stored permanently linking it to you. More of this is the [How is your online privacy getting infringed](#how) section.
 
 #### You might be taken out of context or misinterpreted
 
@@ -38,8 +41,9 @@ Most people do not realize the consequences of sharing things online or just all
 >
 > -[Cardinal Richelieu](https://en.wikiquote.org/wiki/Cardinal_Richelieu)
 
-Privacy protects us from those who can misinterpret what we say, from those who maliciously want to harm us and from the powerful who want to abuse their power over us. Your personal preferences such as which flavor or ice cream you like might definitely be harmless but your political/religious believes could be used against you. You might be denied access to services, for example, your bank might deny you credit because you You might be denied from entering certain countries
+Privacy protects us from those who can misinterpret what we say, from those who maliciously want to harm us and from the powerful who want to abuse their power over us. Your personal preferences such as which flavor or ice cream you like might definitely be harmless but your political/religious believes could be used against you. You might be denied access to services, for example, your bank might deny you credit because you You might be denied from entering certain countries.
 
+I need privacy, not because my actions are questionable, but because your judgement and intentions are.
 
 ### Right to privacy
 
@@ -62,7 +66,7 @@ That freedom is taken away when privacy is taken away ( for e.g., via surveillan
 
 > Freedom is not worth having if it does not include freedom of making mistakes.
 >
-> Mahatma Gandhi[^gandhi]
+> Mahatma Gandhi[^5]
 
 
 #### End-to-end encryption is not enough
@@ -170,4 +174,4 @@ To summarize, I would like to point you to the following TED talk which will hop
 - [^3] https://www.businessinsider.com/stolen-data-of-533-million-facebook-users-leaked-online-2021-4?r=DE&IR=T
 - [^4] Kosinski, M., Stillwell, D., & Graepel, T. (2013). Private traits and attributes are predictable from digital records of human behavior. Proceedings of the National Academy of Sciences of the United States of America, 110(15), 5802–5805. [https://doi.org/10.1073/pnas.1218772110](https://doi.org/10.1073/pnas.1218772110){:target="_blank"}
 
-[^gandhi](https://books.google.de/books?id=1HZDAAAAYAAJ&q=%22Freedom+is+not+worth+having+if+it+does+not+connote+freedom+to+err%22&pg=PA31&redir_esc=y&hl=en#v=onepage){:target="_blank"}
+[^5](https://books.google.de/books?id=1HZDAAAAYAAJ&q=%22Freedom+is+not+worth+having+if+it+does+not+connote+freedom+to+err%22&pg=PA31&redir_esc=y&hl=en#v=onepage){:target="_blank"}
