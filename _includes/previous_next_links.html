@@ -3,19 +3,21 @@ Adapted from https://github.com/jekyll/minima/pull/557
 ToDo: For hidden posts, loop over previous/next posts and find the first non hidden one
 {% endcomment %}
 
-<div class="post-nav" style="display: flex; justify-content: space-between; flex-wrap: wrap;">
-  <p style="flex: 1 1 0; width: 45%; padding-right: 0.5em;">
-    {% if page.previous.url %}
-    {% unless page.previous.hidden %}
-    <a href="{{page.previous.url | relative_url}}">&#8672;&nbsp;{{page.previous.title| markdownify | strip_html }}</a>
-    {% endunless %}
-    {% endif %}
-  </p>
-  <p style="flex: 1 1 0; width: 45%; padding-left: 0.5em; text-align: right">
-    {% if page.next.url %}
-    {% unless page.next.hidden %}
-    <a href="{{page.next.url | relative_url}}">{{page.next.title| markdownify | strip_html }}&nbsp;&#8674;</a>
-    {% endunless %}
-    {% endif %}
-  </p>
-</div>
+<nav class="paginate-container"  aria-label="Pagination"></nav>
+  <div class="pagination" style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+      {% if page.previous.url %}
+        {% unless page.previous.hidden %}
+          <a class="previous_page" style="flex: 1 1 0; width: 45%; padding-right: 0.5em; text-align: right; background-color: transparent;" rel="previous" aria-label="Previous Page" href="{{page.previous.url | relative_url}}"><b>Previous:</b> {{page.previous.title | markdownify | strip_html }}</a>
+        {% endunless %}
+      {% else %}
+        <span class="previous_page" aria-disabled="true">Previous</span>
+      {% endif %}
+      {% if page.next.url %}
+        {% unless page.next.hidden %}
+          <a class="next_page" style="flex: 1 1 0; width: 45%; padding-left: 0.5em; text-align: left; background-color: transparent;" rel="next" aria-label="Next Page" href="{{page.next.url | relative_url}}"><b>Next:</b> {{page.next.title | markdownify | strip_html }}</a>
+        {% endunless %}
+      {% else %}
+        <span class="next_page" aria-disabled="true">Next</span>
+      {% endif %}
+  </div>
+</nav>

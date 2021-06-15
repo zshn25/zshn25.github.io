@@ -172,15 +172,15 @@ h6 {
   padding-left: 10px; 
 }
 
-h1 .octicon, h2 .octicon, h3 .octicon, h4 .octicon, h5 .octicon, h6 .octicon  {
+h1 .octicon-heading-anchor, h2 .octicon-heading-anchor, h3 .octicon-heading-anchor, h4 .octicon-heading-anchor, h5 .octicon-heading-anchor, h6 .octicon-heading-anchor  {
   visibility: hidden;
 }
 
-h1:hover .octicon, h2:hover .octicon, h3:hover .octicon, h4:hover .octicon, h5:hover .octicon, h6:hover .octicon {
+h1:hover .octicon-heading-anchor, h2:hover .octicon-heading-anchor, h3:hover .octicon-heading-anchor, h4:hover .octicon-heading-anchor, h5:hover .octicon-heading-anchor, h6:hover .octicon-heading-anchor {
   visibility: visible;
 }
 
-.octicon {
+.octicon-heading-anchor {
   fill: currentColor;
   padding: 0;
   margin-left: -16px;
