@@ -66,7 +66,7 @@ That freedom is taken away when privacy is taken away ( for e.g., via surveillan
 
 > Freedom is not worth having if it does not include freedom of making mistakes.
 >
-> Mahatma Gandhi[^5]
+> [Mahatma Gandhi](https://books.google.de/books?id=1HZDAAAAYAAJ&q=%22Freedom+is+not+worth+having+if+it+does+not+connote+freedom+to+err%22&pg=PA31&redir_esc=y&hl=en#v=onepage){:target="_blank"}
 
 
 #### End-to-end encryption is not enough
@@ -173,5 +173,3 @@ To summarize, I would like to point you to the following TED talk which will hop
 - [^2] https://www.schneier.com/essays/archives/2006/05/the_eternal_value_of.html
 - [^3] https://www.businessinsider.com/stolen-data-of-533-million-facebook-users-leaked-online-2021-4?r=DE&IR=T
 - [^4] Kosinski, M., Stillwell, D., & Graepel, T. (2013). Private traits and attributes are predictable from digital records of human behavior. Proceedings of the National Academy of Sciences of the United States of America, 110(15), 5802–5805. [https://doi.org/10.1073/pnas.1218772110](https://doi.org/10.1073/pnas.1218772110){:target="_blank"}
-
-[^5](https://books.google.de/books?id=1HZDAAAAYAAJ&q=%22Freedom+is+not+worth+having+if+it+does+not+connote+freedom+to+err%22&pg=PA31&redir_esc=y&hl=en#v=onepage){:target="_blank"}
