@@ -48,11 +48,11 @@ We are increasingly outsourcing our food preparation. Convenient food has become
 
 {:refdef: style="text-align: center;"}
 <figure class="video_container">
-  <iframe width="100%" height="300vh" src="https://www.youtube.com/embed/oSDC4C3_16Y" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  <iframe width="100%" height="400vh" src="https://www.youtube-nocookie.com/embed/oSDC4C3_16Y" frameborder="0" allowfullscreen></iframe>
 </figure>
 {: refdef}
 
-This is not an ad. As seen in the above commercial, nutrient dense foods tend to spoil fast while processed foods usually have very low nutrients in order to increase their shelf life (even pests don't want to eat processed food). The refining process removes important nutrients such as fiber, iron, B vitamins, in order to increase the food's shelf life. Their business model is to use the cheapest available raw ingredients, process it as much as possible to increase shelf life and add large amounts salt, fat and sugar to make them seem attractive.
+This is not an Ad. As seen in the above commercial, nutrient dense foods tend to spoil fast while processed foods usually have very low nutrients in order to increase their shelf life (even pests don't want to eat processed food). The refining process removes important nutrients such as fiber, iron, B vitamins, in order to increase the food's shelf life. Their business model is to use the cheapest available raw ingredients, process it as much as possible to increase shelf life and add large amounts salt, fat and sugar to make them seem attractive.
 
 ---
 

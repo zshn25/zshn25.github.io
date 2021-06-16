@@ -11,7 +11,7 @@ comments: true
 ---
 
 
-{% include alert.html content="This post is still in draft. Some of the ideas are complete but needs expansion. Suggestions and comments are always welcome"%}
+{% include alert.html content="This post is still in draft mode. Some of the ideas are complete but needs expansion. Suggestions and comments are always welcome"%}
 
 
 <!-- {::options parse_block_html="true" /} -->
@@ -110,7 +110,7 @@ This again brings up my point on personal freedom. Privacy speaks freedom. The a
 
 ## What can you do about it?
 
-Governments approve surveillance programs citing anti-terrorism and the question arises "security versus privacy". Schneier argues that the real question should be "liberty versus control"[^2]. He argues that foreign physical threat is as bad as
+Governments approve surveillance programs citing anti-terrorism and the question arises "security versus privacy". Schneier argues that the real question should be **liberty versus control**[^2]. He argues that foreign physical threat is as bad as ...
 ### The privacy paradox
 
 Many people are indeed concerned about their privacy but behave as they didn't. This is known as [the privacy paradox](https://en.wikipedia.org/wiki/Privacy#The_privacy_paradox). 
@@ -132,13 +132,16 @@ Choose companies and services that are interested in their users' privacy and ta
 What can you do?
 
 - Use encryption everywhere
+
+  {:refdef: style="text-align: center;"}
   <figure>
-  <iframe src="https://archive.org/embed/tips-to-help-avoid-online-surveillance" width="75%" height="100%" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe>
+  <iframe src="https://archive.org/embed/tips-to-help-avoid-online-surveillance" width="75%" height="400vh" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe>
   <figcaption><a class="no_icon" target="_blank" href="https://ssd.eff.org/en/module/animated-overview-how-strong-encryption-can-help-avoid-online-surveillance" rel="noopener noreferrer">How Strong Encryption Can Help Avoid Online Surveillance</a>
   </figcaption>
   </figure>
+  {: refdef}
 
-  Install https://www.eff.org/https-everywhere browser plugin
+- Install https://www.eff.org/https-everywhere browser plugin
 - Change your default search engine to Duckduckgo on all browsers and start using it.
 - Avoid platforms which are notorious for privacy abuse.
 - Use Tor. Tor uses decentralized.
@@ -156,20 +159,20 @@ https://chrome.google.com/webstore/detail/google-analytics-opt-out/fllaojicojecl
 
 ### Closing thoughts
 
-#### Book recommentation
+#### Book recommendation
 
 To summarize, I would like to point you to the following TED talk which will hopefully fill-in the gaps I left unfilled. 
 
 
 {:refdef: style="text-align: center;"}
 <figure class="video_container"> 
- <div style="max-width:854px"><div style="position:relative;height:0;padding-bottom:56.25%"><iframe src="https://embed.ted.com/talks/glenn_greenwald_why_privacy_matters" width="75%" height="480" style="position:absolute;left:0;top:0;width:100%;height:100%" frameborder="0" scrolling="no" allowfullscreen></iframe></div></div>
+ <div style="max-width:854px"><div style="position:relative;height:0;padding-bottom:56.25%"><iframe src="https://embed.ted.com/talks/glenn_greenwald_why_privacy_matters" width="75%" height="400vh" style="position:absolute;left:0;top:0;width:100%;height:100%" frameborder="0" scrolling="no" allowfullscreen></iframe></div></div>
 </figure>
 {: refdef}
 
 
 ## References
 
-- [^2] https://www.schneier.com/essays/archives/2006/05/the_eternal_value_of.html
-- [^3] https://www.businessinsider.com/stolen-data-of-533-million-facebook-users-leaked-online-2021-4?r=DE&IR=T
-- [^4] Kosinski, M., Stillwell, D., & Graepel, T. (2013). Private traits and attributes are predictable from digital records of human behavior. Proceedings of the National Academy of Sciences of the United States of America, 110(15), 5802–5805. [https://doi.org/10.1073/pnas.1218772110](https://doi.org/10.1073/pnas.1218772110){:target="_blank"}
+[^2]: [The Eternal Value of Privacy](https://www.schneier.com/essays/archives/2006/05/the_eternal_value_of.html)
+[^3]: [533 million Facebook users' phone numbers and personal data have been leaked online](https://www.businessinsider.com/stolen-data-of-533-million-facebook-users-leaked-online-2021-4)
+[^4]: Kosinski, M., Stillwell, D., & Graepel, T. (2013). Private traits and attributes are predictable from digital records of human behavior. Proceedings of the National Academy of Sciences of the United States of America, 110(15), 5802–5805. [https://doi.org/10.1073/pnas.1218772110](https://doi.org/10.1073/pnas.1218772110){:target="_blank"}

@@ -27,7 +27,6 @@ An example of the 1D convolution of a box function with itself can be seen in th
 
 <!-- ToDo: Make this figure myself (interactive?) in Jupyter -->
 
-{:refdef: style="text-align: center;font-size: .8rem;font-style: italic;color: light-grey;"}
 [![convolution](https://upload.wikimedia.org/wikipedia/commons/6/6a/Convolution_of_box_signal_with_itself2.gif)](https://upload.wikimedia.org/wikipedia/commons/6/6a/Convolution_of_box_signal_with_itself2.gif)
 <sub><sup>*Convolution of a box function with itself. By [Brian Amberg derivative work: Tinos](https://commons.wikimedia.org/wiki/File:Convolution_of_box_signal_with_itself2.gif), [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0).*
 </sup></sub>
