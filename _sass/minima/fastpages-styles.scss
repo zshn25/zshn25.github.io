@@ -18,7 +18,7 @@ img.emoji{
   text-align: center;
   font-size: .8rem;
   font-style: italic;
-  color: light-grey;
+  color: $post-content-color;
 }
 
 .site-header {
@@ -34,7 +34,7 @@ img.emoji{
   left:0;
   z-index:1030;
   width:100%;
-  background:white;
+  background: $background-color;
   height: $header-height
   } // Fixed pos of header 
 
@@ -49,8 +49,8 @@ img.emoji{
 
 // make non-headings slightly lighter
 .post-content p, .post-content li {
-   font-size: 20px;
-   color: #515151;
+  font-size: 20px;
+   color: $post-content-color;
 }
 
 .post-link{
@@ -222,8 +222,8 @@ h6:hover .anchor-link {
 .page-description {
   margin-top: .5rem !important;
   margin-bottom: .5rem !important;
-  color: #585858;
-  font-size: 115%;
+  color: $post-content-color;
+  font-size: 125%;
 }
 
 // Custom styling for category tags
@@ -233,7 +233,7 @@ h6:hover .anchor-link {
   opacity: 50%;
 }
 .category-tags-link {
-  color:#9a81bb !important;
+  color: $curiosity-complementary !important;
   font-size: 13px !important;
 }
 

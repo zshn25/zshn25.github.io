@@ -28,7 +28,8 @@ img + em {
     float: left; 
     text-align: center;
 }
-#share-buttons > div > svg {height: 16px; fill: #d5d5d5; margin-top: 10px;}
+#share-buttons > div > svg {height: 16px; fill: #aaaaaa;
+                             margin-top: 10px;}
 #share-buttons > div:hover {cursor: pointer;}
 #share-buttons > div.facebook:hover > svg {fill: #3B5998;}
 #share-buttons > a.facebook:hover > svg {fill: #3B5998;}
@@ -61,12 +62,39 @@ img + em {
     content: "\f186";
   }
 
-// @import "minima/dark-mode";
+
+// Purple links and text selection
+a:link {
+  color: $curiosity-main-dark;
+}
+a:visited {
+  color: $curiosity-main-dark;
+}
+
+::selection
+{
+    background: $curiosity-main;
+    color: white;
+    text-shadow: none;
+}
+::-moz-selection
+{
+    background: $curiosity-main;
+    color: white;
+    text-shadow: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  // Styles for dark mode here
+  @import "minima/dark-mode";
+}
 
 // If you want to turn off dark background for syntax highlighting, comment or delete the below line.
 @import "minima/fastpages-dracula-highlight"; 
+// @import "minima/dark-mode"
 // @import "minimal-mistakes/variables";
 // @import "minimal-mistakes/breakpoint/breakpoint";
 // @import "minimal-mistakes/mixins";
 // @import "minimal-mistakes/sidebar";
 // @import "minimal-mistakes/navigation";
+
