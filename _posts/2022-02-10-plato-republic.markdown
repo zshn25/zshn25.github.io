@@ -2,7 +2,7 @@
 layout: post
 title:  "Notes on Justice from Plato's Republic"
 description: "What is justice? Is a just person good? Even when the consequences of  being unjust are taken away? Even when the advantages of having the reputation of being just are taken away?"
-date:   2022-02-10 22:21:23 -0700
+date:   2022-02-09 22:21:23 -0700
 comments: true
 image: https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/The_Death_of_Socrates_MET_DP-13139-001.jpg/640px-The_Death_of_Socrates_MET_DP-13139-001.jpg
 categories: politics philosophy justice
