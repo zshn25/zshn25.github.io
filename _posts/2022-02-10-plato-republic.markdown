@@ -4,14 +4,16 @@ title:  "Notes on Justice from Plato's Republic"
 description: "What is justice? Is a just person good? Even when the consequences of  being unjust are taken away? Even when the advantages of having the reputation of being just are taken away?"
 date:   2022-02-09 22:21:23 -0700
 comments: true
-image: https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/The_Death_of_Socrates_MET_DP-13139-001.jpg/640px-The_Death_of_Socrates_MET_DP-13139-001.jpg
+image: https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/The_Death_of_Socrates_MET_DP-13139-001.jpg/1081px-The_Death_of_Socrates_MET_DP-13139-001.jpg
 categories: politics philosophy justice
 author: Zeeshan Khan Suri
 ---
 
-In Plato’s Republic, Socrates tries to define what justice is and why pursuing justice is good not only because what having the reputation of being just leads to, but also in by itself. This distinction between seeming to be just, and being just is characterized by the question that, if one removes all the consequences of being unjust, doesn’t a just person act same as a unjust person.
+In Plato’s Republic [^1], Socrates attempts to define what justice is and why pursuing justice is good not only because what having the reputation of being just leads to, but also in by itself. This distinction between seeming to be just, and being just is characterized by the question, "if one removes all the consequences of being unjust, doesn’t a just person act same as a unjust person?".
 
-The attempts to do this by first looking not at justice in an individual but at justice in a hypothetical self-constructed just city and later claims an individual to be similar to a city in this regard and thus the argument also applies to an individual.
+First, it is said that justice is **to give what one is owed**. But, such a definition is ambiguous and open to interpretation. Furthermore, knowledge is a prerequisite here, as in order to know what one is owed, knowledge is required.
+
+So, in order to define justice more precisely, Socrates proposes to first look not at justice in an individual, but by hypothetically constructing justice in a just city and later claims an individual to be similar to a city and thus the definition of justice in a city translates to that of an individual.
 
 ## Socrates‘s just city
 
@@ -56,3 +58,8 @@ There are as many types of soul as there are of political constitution
 ## Criticism
 
 Plato’s excessive emphasis on unity would seem to destroy the natural diversity of humans that make up a city. Is there one and only one thing each person does best? If so, who decides what that thing would be for each person? Would such a plan not be overly coercive in forcing people into predefined social roles? Shouldn’t individuals be free to choose for themselves their own plans of life wherever they take them? -->
+
+
+## References
+
+[^1]: [The Republic, Plato](https://en.wikisource.org/wiki/The_Republic_of_Plato)
