@@ -9,8 +9,7 @@ categories: politics philosophy greed wealth
 author: Zeeshan Khan Suri
 ---
 
-{% include alert.html text="The whole post is an excerpt from Aristotle’s Politics Book 1."%}
-
+{% include alert.html content="The whole post is an excerpt from Aristotle’s Politics Book 1."%}
 
 Art of household management must either find ready to hand, or itself provide, such things necessary to life, and useful for the community of the family or state, as can be stored. They are the elements of true riches; for the amount of **the property which is needed for a good life is not unlimited**. There is a boundary fixed, just as there is in other arts; for the instruments of any art are never unlimited, either in number or size, and riches may be defined as a number of instruments to be used in a household or in a state.
 
