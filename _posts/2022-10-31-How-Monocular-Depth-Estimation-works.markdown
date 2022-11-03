@@ -100,15 +100,54 @@ The answer is not straightforward. Even if we think about exploiting motion, the
 </sup></sub>
 {: refdef}
 
-Zhou et.al's SfMLearner: Unsupervised Learning of Depth and Ego-Motion from Video[^8] does exactly that. They introduce an additional network which estimates the 6 DOF rigid ego-motion/pose $T \in \text{SE}(3)$, between the cameras of the two consecutive frames. The working principle is similar to before but the warping of one frame onto the other is done by
+Zhou et.al's SfMLearner: Unsupervised Learning of Depth and Ego-Motion from Video[^8] does exactly that. They introduce an additional network which estimates the 6 DOF rigid ego-motion/pose $T \in \text{SE}(3)$, between the cameras of the two consecutive frames with pixel locations $[x_t, y_t, 1]^T$ and $[x_{t+1}, y_{t+1}, 1]^T$ resp.. The working principle is similar to before but the warping of one frame onto the other is done by
 
 {:refdef: style="text-align: center;"}
-## $I(x,y,t+1) \stackrel{!}{=} KTK^{-1}d_{xy}I(x,y,t)$,
+## $\left(\begin{array}{c}x_{t+1} \\\\ y_{t+1} \\\\ 1 \end{array} \right) \stackrel{!}{=} KTK^{-1}d_{xy} \left(\begin{array}{c}x_t \\\\ y_t \\\\ 1 \end{array} \right)$,
 {: refdef}
 
-where the camera intrinsics matrix $K$ is assumed to be known.
+where the camera intrinsics matrix $K = \Bigl[\begin{smallmatrix}k_x&0&p_x \\\\ 0&k_y&p_y \\\\ 0&0&1\end{smallmatrix} \Bigr]$, with focal lengths $f_x, f_y$ and principal point $p_x, p_y$ is assumed to be known. Next, we will see how this makes sense
+
+{:refdef: style="text-align: center;"}
+![s]({{site.baseurl}}/images/3dreco/2011_09_26_drive_0022_sync 226_cam_t.png){: width="90%" .shadow}
+{: refdef}
+{:refdef: style="text-align: center;"}
+$K^{-1}d_{xy} \left(\begin{array}{c}x_t \\\\ y_t \\\\ 1 \end{array} \right)$
+{: refdef}
+
+Intiutively, given the depth $D$, one could unproject the image coordinates using the depth and the inverse camera intrinsics onto 3D.
+
+{:refdef: style="text-align: center;"}
+![s]({{site.baseurl}}/images/3dreco/2011_09_26_drive_0022_sync 226_both_cams.png){: width="90%" .shadow}
+{: refdef}
+{:refdef: style="text-align: center;"}
+$TK^{-1}d_{xy} \left(\begin{array}{c}x_t \\\\ y_t \\\\ 1 \end{array} \right)$
+{: refdef}
+
+Then, the camera is transformed to that at time $t+1$.
+
+{:refdef: style="text-align: center;"}
+![s]({{site.baseurl}}/images/3dreco/2011_09_26_drive_0022_sync 226_cam_tplus1.png){: width="90%" .shadow}
+{: refdef}
+{:refdef: style="text-align: center;"}
+$TK^{-1}d_{xy} \left(\begin{array}{c}x_t \\\\ y_t \\\\ 1 \end{array} \right)$
+{: refdef}
+
+And, the points are projected back onto this transformed camera using the same camera intrinsics, to synthesize the image at time $t+1$
+
+{:refdef: style="text-align: center;"}
+![s]({{site.baseurl}}/images/3dreco/warped_tplus1.png){: width="75%" .shadow}
+{: refdef}
+{:refdef: style="text-align: center;"}
+$KTK^{-1}d_{xy} \left(\begin{array}{c}x_t \\\\ y_t \\\\ 1 \end{array} \right)$
+{: refdef}
+
+This is now compared to the original frame from time $t+1$ and the loss is backpropogated to both the depth and the pose networks.
 
 
+**P.S.** This is not exactly true. The pose $T$ is used not to transform the camera but the point cloud (in the reverse direction to that of the camera pose), but conceptually it's the same.
+
+___
 
 If this article was helpful to you, consider citing
 
