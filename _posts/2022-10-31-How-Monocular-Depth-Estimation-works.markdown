@@ -145,7 +145,32 @@ $KTK^{-1}d_{xy} \left(\begin{array}{c}x_t \\\\ y_t \\\\ 1 \end{array} \right)$
 This is now compared to the original frame from time $t+1$ and the loss is backpropogated to both the depth and the pose networks.
 
 
-**P.S.** This is not exactly true. The pose $T$ is used not to transform the camera but the point cloud (in the reverse direction to that of the camera pose), but conceptually it's the same.
+
+**P.S.** This is not exactly correct. The pose $T$ is used, not to transform the camera, but to transform the point cloud (in the reverse direction to that of the camera pose), but conceptually it's the same. I will now explain how this concept is executed.
+
+
+The resulting 2D rigid flow (flow due to rigid camera motion) that transforms each pixel at time $t$ to that of at time $t+1$ can be visualized as follows. Note that this flow is a function of depth and 6 DOF transformation.
+
+
+{:refdef: style="text-align: center;"}
+![s]({{site.baseurl}}/images/3dreco/flow_t_tplus1.png)
+{: refdef}
+{:refdef: style="text-align: center;"}
+$KTK^{-1}d_{xy} \left(\begin{array}{c}x_t \\\\ y_t \\\\ 1 \end{array} \right)$
+{: refdef}
+
+
+
+<!-- Because of the lack of differentiable colored point cloud renderers, the point cloud in transformed and projected back onto the camera at timt $t$, such that this has to be  -->
+
+
+
+
+## Demo
+
+<iframe src="https://hf.space/embed/gisep81646/afcsaqws/+"></iframe>
+
+
 
 ___
 
