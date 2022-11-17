@@ -44,10 +44,9 @@ permalink: /:title/
 # Github and twitter are optional:
 minima:
   social_links:
-    github: zshn25
-    linkedin: zshn25
-    twitter: zshn25
-    facebook: zshn25
+    - { platform: github,  user_url: "https://github.com/zshn25" }
+    - { platform: twitter,  user_url: "https://twitter.com/zshn25" }
+    - { platform: linkedin,  user_url: "https://www.linkedin.com/in/zshn25" }
 
 # Set this to true to get LaTeX math equation support
 use_math: true
