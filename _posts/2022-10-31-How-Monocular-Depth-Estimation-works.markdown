@@ -49,8 +49,6 @@ In-fact we are looking at methods that do not rely on the availability ground-tr
 ## The stereo case
 Godard et.al., propose a method called monodepth[^6], to estimate depth from a single image, trained on stereo image pairs (without the need for depth GT). The idea is similar: synthesize the right view from the left one and compare the synthesized and the real right views as supervision. 
 
-
-
 {:refdef: style="text-align: center;"}
 ![s]({{site.baseurl}}/images/3dreco/input_right.jpg){: width="50%" .shadow} 
 ![right]({{site.baseurl}}/images/3dreco/input_left.jpg){: width="50%" .shadow}
@@ -139,17 +137,18 @@ And, the points are projected back onto this transformed camera using the same c
 ![s]({{site.baseurl}}/images/3dreco/warped_tplus1.png){: width="75%" .shadow}
 {: refdef}
 {:refdef: style="text-align: center;"}
-$KTK^{-1}d_{xy} \left(\begin{array}{c}x_t \\\\ y_t \\\\ 1 \end{array} \right)$
+$I_{t} \, \Big\langle KTK^{-1}d_{xy} \left(\begin{array}{c}x_t \\\\ y_t \\\\ 1 \end{array} \right) \Big\rangle $
 {: refdef}
 
-This is now compared to the original frame from time $t+1$ and the loss is backpropogated to both the depth and the pose networks.
+, where $\Big\langle \Big\rangle $ is the sampling operator. This projection of $I_t$ onto the coordinate at time $t+1$ geometrically synthesizes the image $\hat{I}_{t+1}$ and can now be compared to the original frame from time $t+1$ and the loss is backpropogated to both the depth and the pose networks.
 
 
+### Note
+This is not exactly correct. The pose $T$ is used, not to transform the camera, but to transform the point cloud (in the reverse direction to that of the camera pose), and the image $I_{t+1}$ is warped onto $t$, but the underlying concept remains the same. I will now explain how this idea is executed.
 
-**P.S.** This is not exactly correct. The pose $T$ is used, not to transform the camera, but to transform the point cloud (in the reverse direction to that of the camera pose), but conceptually it's the same. I will now explain how this concept is executed.
+## Flow field due to rigid camera motion
 
-
-The resulting 2D rigid flow (flow due to rigid camera motion) that transforms each pixel at time $t$ to that of at time $t+1$ can be visualized as follows. Note that this flow is a function of depth and 6 DOF transformation.
+The resulting 2D rigid flow (flow due to rigid camera motion) that transforms each pixel at time $t+1$ to that at time $t$ can be visualized as follows. 
 
 
 {:refdef: style="text-align: center;"}
@@ -159,18 +158,29 @@ The resulting 2D rigid flow (flow due to rigid camera motion) that transforms ea
 $KTK^{-1}d_{xy} \left(\begin{array}{c}x_t \\\\ y_t \\\\ 1 \end{array} \right)$
 {: refdef}
 
+Note that this flow is a function of depth and 6 DOF transformation, i.e. the rigif flow field depends not only on the rigid 6 DOF transformation of the camera, but also on the distance of each point to the camera. Intuitively, this makes sense since objects fat away seem to move less in the image plane than those far away. This is known as motion parallax
+
+{:refdef: style="text-align: center;"}
+[![Odontodactylus scyllarus eyes](https://upload.wikimedia.org/wikipedia/commons/a/ab/Parallax.gif)](https://en.wikipedia.org/wiki/File:Parallax.gif)
+{: refdef}
+{:refdef: style="text-align: center;"}
+<sub><sup>*Motion Parallax: Objects farther away appear to move lesser than those close-by. [Nathaniel Domek](https://commons.wikimedia.org/wiki/File:Parallax.gif), [CC BY 3.0](https://creativecommons.org/licenses/by/3.0), via Wikimedia Commons*
+</sup></sub>
+{: refdef}
 
 
 <!-- Because of the lack of differentiable colored point cloud renderers, the point cloud in transformed and projected back onto the camera at timt $t$, such that this has to be  -->
 
 
+## Realtime Demo
 
-
-## Demo
-
-<iframe src="https://hf.space/embed/gisep81646/afcsaqws/+"></iframe>
-
-
+{:refdef: style="text-align: center;"}
+<iframe src="https://hf.space/embed/gisep81646/afcsaqws/+" frameBorder="0" width="100%" height="450" title="Gradio app" class="container p-0 flex-grow space-iframe"></iframe>
+{: refdef}
+{:refdef: style="text-align: center;"}
+<sub><sup>*Gradio Demo: Use the Example image as input or upload your own driving image. [MIT License](https://huggingface.co/spaces/gisep81646/afcsaqws/blob/main/LICENSE)*
+</sup></sub>
+{: refdef}
 
 ___
 
