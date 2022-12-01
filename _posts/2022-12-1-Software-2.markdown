@@ -1,0 +1,104 @@
+---
+layout: post
+title:  "Software 2.0 2.0"
+description: "Realizing Performance in Era of Deep Learning by Scaling with Data"
+image: https://github.com/nianticlabs/monodepth2/blob/master/assets/teaser.gif?raw=true
+date:   2022-11-30 20:21:23 -0700
+categories: deep-learning 
+author: Zeeshan Khan Suri
+published: false
+comments: true
+---
+
+
+
+
+
+
+Traditional methods for solving a problem involved human in the loop, where people come up with steps required to tackle it.
+
+For example, think about a problem of estimating the depth of an object from an image. A traditional algorithm would contain the following steps
+
+- Gather 2 frames with enough baseline such that there is change within the scene but not too much
+
+- Find features such as SURF on one frame, assuming the same features also to be found on the other frame.
+
+- Find correspondence between these features, filter the correspondences and estimate a 2D flow
+
+- Derive relative depth from the flow
+
+
+
+# Scaling with data
+
+Such an approach would work good enough in general scenarios which satisfy the approach's approximations/assumptions and can directly be deployed for all kinds of data 
+
+
+
+ -> graph of data in x and straight horizontal line of performance
+
+
+ Can we do better? 
+
+ Yes, we can change the approach's steps a bit and may gain overall performance. But, winner takes it all
+
+
+# Era of AI
+
+AL/ML replaced the handcrafted features (SURF) in this example to derive these features from the data.
+
+
+Previously there was input -> model/algorithm/code -> output. With AI/ML, this has changed to 2 steps: 
+
+1) Training -> much input data -> model -> output, where the input and output are known and the model is learnt.
+
+2) Deployment -> input -> learnt model -> output, where input is known, model was learnt in Step 1 and output is derived.
+
+
+{:refdef: style="text-align: center;"}
+![s]({{site.baseurl}}/images/performance_data.svg) 
+{: refdef}
+{:refdef: style="text-align: center;"}
+<sub><sup>*As the training data increases, the performance of a DL model increases but traditional methods do not depend on the training data*
+</sup></sub>
+{: refdef}
+
+
+
+# Algorithm 2.0 thinking
+
+First, to gain performance, the model needs to be intellignetly scaled by feeding in huge amounts of data. 
+
+Secondly, in order to be able to feed in that much amount of data, there needs to be infrastructure.
+
+3) As in the case of traditional algorithms, one cannot just hand-engineer the algorithm and use it in deployment forever. One needs to continuously improve/train the learnt model and continuoiusly deploy it
+
+4) New data doesn't come for free. It is labor intensive and expensive to label data. Smart gathering is required. One cannot just copy paste existing data and assume the data has increased. It has to increase meaningfully.
+
+
+
+The holy grail? or just a fad?
+
+For many applications, the performance gain is really not that critical. Other factors such as explainability, fail-safe, etc are equally important.
+
+{:refdef: style="text-align: center;"}
+![s]({{site.baseurl}}/images/performance_lowdata.svg) 
+{: refdef}
+{:refdef: style="text-align: center;"}
+<sub><sup>*If data is limited, traditional algorithms provide better performance*
+</sup></sub>
+{: refdef}
+
+## Continuous improvement
+
+But, if the performance gains are to be realized, scaling with data is the way to go and the way to execute this smartly is
+
+{:refdef: style="text-align: center;"}
+![s]({{site.baseurl}}/images/loop.svg) 
+{: refdef}
+{:refdef: style="text-align: center;"}
+<sub><sup>*Continuous Improvement loop*
+</sup></sub>
+{: refdef}
+
+
