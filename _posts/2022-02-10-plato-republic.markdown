@@ -49,6 +49,12 @@ Justice is the combination and harmonious interaction of the moderate, the coura
 <!-- %
 ### Is it better to act just, be just, or to be unjust?
 
+Machiavelli
+
+Plato says about justice in his answer to Glaucon in Book II of the Republic where…or Thrasymachus…where they both say it is more important, is it not more important to have the appearance of being just than the reality of it?
+The prince should appear all mercy, all faith, all honesty, all humanity and all religion. Nothing is more necessary to appear to have this last quality.
+
+
 Virtue is a kind of health, fine condition, and well-being of the soul, while vice is disease, shameful condition, and weakness. 
 
 There are as many types of soul as there are of political constitution
@@ -57,7 +63,10 @@ There are as many types of soul as there are of political constitution
 
 ## Criticism
 
-Plato’s excessive emphasis on unity would seem to destroy the natural diversity of humans that make up a city. Is there one and only one thing each person does best? If so, who decides what that thing would be for each person? Would such a plan not be overly coercive in forcing people into predefined social roles? Shouldn’t individuals be free to choose for themselves their own plans of life wherever they take them? -->
+Plato’s excessive emphasis on unity would seem to destroy the natural diversity of humans that make up a city. Is there one and only one thing each person does best? If so, who decides what that thing would be for each person? Would such a plan not be overly coercive in forcing people into predefined social roles? Shouldn’t individuals be free to choose for themselves their own plans of life wherever they take them? 
+
+
+-->
 
 
 ## References
