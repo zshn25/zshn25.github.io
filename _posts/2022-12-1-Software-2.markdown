@@ -2,9 +2,9 @@
 layout: post
 title:  "Software 2.0 2.0"
 description: "Realizing Performance in Era of Deep Learning by Scaling with Data"
-image: https://github.com/nianticlabs/monodepth2/blob/master/assets/teaser.gif?raw=true
+image: {{site.baseurl}}/images/performance_lowdata.svg
 date:   2022-11-30 20:21:23 -0700
-categories: deep-learning 
+categories: deep-learning mlops
 author: Zeeshan Khan Suri
 published: false
 comments: true
@@ -15,19 +15,21 @@ comments: true
 
 
 
-Traditional methods for solving a problem involved human in the loop, where people come up with steps required to tackle it.
+Traditional methods for solving a software problem involve people coming up with the required algorithmic steps to tackle it.
 
 For example, think about a problem of estimating the depth of an object from an image. A traditional algorithm would contain the following steps
 
 - Gather 2 frames with enough baseline such that there is change within the scene but not too much
 
-- Find features such as SURF on one frame, assuming the same features also to be found on the other frame.
+- Find features such as SIFT, etc. on one frame, assuming the same features also exist on the other frame.
 
 - Find correspondence between these features, filter the correspondences and estimate a 2D flow
 
 - Derive relative depth from the flow
 
+At test time, Deep learning replaces all of this with just one model inference call. So, we go from re-implementing production level code to passing the input through a bunch of linear algebra.
 
+At training time, this may not be as simple. Supervision requires existance of many examples of inputs and outputs through which the network learns a mapping between them.
 
 # Scaling with data
 
