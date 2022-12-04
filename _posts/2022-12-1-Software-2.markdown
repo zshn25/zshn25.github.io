@@ -2,11 +2,11 @@
 layout: post
 title:  "Software 2.0 2.0"
 description: "Realizing Performance in Era of Deep Learning by Scaling with Data"
-image: {{site.baseurl}}/images/performance_lowdata.svg
-date:   2022-11-30 20:21:23 -0700
+image: images/performance_lowdata.svg
+date:   2022-12-04 20:21:23 -0700
 categories: deep-learning mlops
 author: Zeeshan Khan Suri
-published: false
+published: true
 comments: true
 ---
 
