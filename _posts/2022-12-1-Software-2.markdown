@@ -11,9 +11,9 @@ comments: true
 ---
 
 
+This post is a rebuttal on Andrej Karpathy's [Software 2.0](https://karpathy.medium.com/software-2-0-a64152b37c35). It is brilliant and you should definitely read it but I thought the critical takeaway was lost in the many great points and I wanted to make that more explicit.
 
-
-
+___
 
 Traditional methods for solving a software problem involve people coming up with the required algorithmic steps to tackle it.
 
@@ -51,7 +51,7 @@ Learning based approaches replaced the handcrafted features (SURF in the above e
 
 Traditional approach is to come up with a model/algorithm that converts an input to an output.
 
-### $ \text{} \rightarrow \parbox{\textwidth}{ model } \rightarrow \text{}
+### $ \text{input} \rightarrow \parbox{\textwidth}{ model } \rightarrow \text{output} $
 
 Deep learning replaces this with 2 steps: 
 
