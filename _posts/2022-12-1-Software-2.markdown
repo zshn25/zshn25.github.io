@@ -27,35 +27,39 @@ For example, think about a problem of estimating the depth of an object from an 
 
 - Derive relative depth from the flow
 
-At test time, Deep learning replaces all of this with just one model inference call. So, we go from re-implementing production level code to passing the input through a bunch of linear algebra.
+## Scaling with data
 
-At training time, this may not be as simple. Supervision requires existance of many examples of inputs and outputs through which the network learns a mapping between them.
+Such an approach would work good enough in general and can be deployed for all kinds of scenarios which satisfy the approach's approximations/assumptions but its performance would not depend on the amount of available data.
 
-# Scaling with data
+{:refdef: style="text-align: center;"}
+![s]({{site.baseurl}}/images/performance_classical.svg) 
+{: refdef}
+{:refdef: style="text-align: center;"}
+<sub><sup>*Performance of a traditional algorithm does not depend on the amount of avaiable data*
+</sup></sub>
+{: refdef}
 
-Such an approach would work good enough in general scenarios which satisfy the approach's approximations/assumptions and can directly be deployed for all kinds of data 
+### How can we do better? 
 
+We can try to improve each of the approach's steps and gain overall performance, and decades of research in Computer Vision does exactly that. But, by changing our fundemental thinking towards learning based approaches, unprecidented improvements were realized.
 
+## Era of learning
 
- -> graph of data in x and straight horizontal line of performance
+Learning based approaches replaced the handcrafted features (SURF in the above example) to derive these features from the data. Neural networks replaced the rest
 
+### Neural networks are function approximators
 
- Can we do better? 
+Traditional approach is to come up with a model/algorithm that converts an input to an output.
 
- Yes, we can change the approach's steps a bit and may gain overall performance. But, winner takes it all
+### $ \text{} \rightarrow \parbox{\textwidth}{ model } \rightarrow \text{}
 
+Deep learning replaces this with 2 steps: 
 
-# Era of AI
+1. Training: Given many examples of input and output data, the model is learnt.
 
-AL/ML replaced the handcrafted features (SURF) in this example to derive these features from the data.
+2. Deployment: The learnt model is used on new inputs to infer their outputs.
 
-
-Previously there was input -> model/algorithm/code -> output. With AI/ML, this has changed to 2 steps: 
-
-1) Training -> much input data -> model -> output, where the input and output are known and the model is learnt.
-
-2) Deployment -> input -> learnt model -> output, where input is known, model was learnt in Step 1 and output is derived.
-
+This allows the performance of the model to be dependent on the amount of training data available.
 
 {:refdef: style="text-align: center;"}
 ![s]({{site.baseurl}}/images/performance_data.svg) 
@@ -65,21 +69,23 @@ Previously there was input -> model/algorithm/code -> output. With AI/ML, this h
 </sup></sub>
 {: refdef}
 
+### Production time
+
+Traditional algorithms have to be almost always completely re-written from their prototyping phase to production while keeping the computational power and memory in check. At test time, Deep learning replaces all of this with just one model inference call. So, we go from re-implementing production level code to passing the input through a bunch of linear algebra. Neural networks cost same amount of memory and even better comoutational effeciency during inference time. 
 
 
-# Algorithm 2.0 thinking
+## Algorithm 2.0ic thinking
 
-First, to gain performance, the model needs to be intellignetly scaled by feeding in huge amounts of data. 
+1. First, to gain performance, it is not eough to copy paste one training example into multiple copies. The model needs to be intellignetly scaled by feeding in huge amounts of new data with much variation, representing the true population as truely as possible.
 
-Secondly, in order to be able to feed in that much amount of data, there needs to be infrastructure.
+2. Secondly, new data doesn't come for free. It is labor-intensive and expensive to label data. Smart gathering is required. One cannot just copy paste existing data and assume the data has increased. It has to increase meaningfully.
 
-3) As in the case of traditional algorithms, one cannot just hand-engineer the algorithm and use it in deployment forever. One needs to continuously improve/train the learnt model and continuoiusly deploy it
+3. Thirdly, in order to be able to feed in that much amount of data, there needs to be infrastructure in place.
 
-4) New data doesn't come for free. It is labor intensive and expensive to label data. Smart gathering is required. One cannot just copy paste existing data and assume the data has increased. It has to increase meaningfully.
+4. As in the case of traditional algorithms, one cannot just hand-engineer the algorithm and use it in deployment forever. One needs to continuously improve/train the learnt model and continuoiusly deploy it. This is also where the data can be selected smartly for the next iteration of improvement.
 
 
-
-The holy grail? or just a fad?
+## The holy grail? or just a fad?
 
 For many applications, the performance gain is really not that critical. Other factors such as explainability, fail-safe, etc are equally important.
 
