@@ -2,7 +2,7 @@
 layout: post
 title:  "Software 2.0 2.0"
 description: "Realizing Performance in Era of Deep Learning by Scaling with Data"
-image: images/performance_lowdata.svg
+image: images/loop.svg
 date:   2022-12-04 20:21:23 -0700
 categories: deep-learning mlops
 author: Zeeshan Khan Suri
@@ -51,7 +51,7 @@ Learning based approaches replaced the handcrafted features (SURF in the above e
 
 Traditional approach is to come up with a model/algorithm that converts an input to an output.
 
-### $ \text{input} \rightarrow \parbox{\textwidth}{ model } \rightarrow \text{output} $
+### $ \text{input} \rightarrow \ model \ \rightarrow \text{output} $
 
 Deep learning replaces this with 2 steps: 
 
@@ -87,13 +87,13 @@ Traditional algorithms have to be almost always completely re-written from their
 
 ## The holy grail? or just a fad?
 
-For many applications, the performance gain is really not that critical. Other factors such as explainability, fail-safe, etc are equally important.
+For many applications, the performance gain is really not that critical. Other factors such as explainability, fail-safe, etc are equally important, which the current deeo learning approaches lack. The availability of data is another critical factor in deciding to choose learning based approaches.
 
 {:refdef: style="text-align: center;"}
 ![s]({{site.baseurl}}/images/performance_lowdata.svg) 
 {: refdef}
 {:refdef: style="text-align: center;"}
-<sub><sup>*If data is limited, traditional algorithms provide better performance*
+<sub><sup>*If data is limited (green part), traditional algorithms provide better performance*
 </sup></sub>
 {: refdef}
 
