@@ -39,26 +39,28 @@ But this post is not about that. We will be looking at more recent neural networ
 # $d = \mathcal{f}(i)$
 {:refdef}
 
-In-fact we are looking at methods that do not rely on the availability ground-truth (GT) depths. Why? Because it is expensive and tedious to gather such ground truth, making it difficult to scale. But, how can we teach a neural network to estimate the underlying depth without having ground truth? Thanks for asking that! Geometry comes to the rescue. The idea is to synthesize different views of the same scene and compare these synthesized views with the real ones for supervision. It underlies **the brightness constantcy assumption**[^5], where parts of the same scene are assumed to be observed in multiple views. A similar assumption is used in binocular vision, where the content of what a left eye/camera sees is very similar to that of what the right one sees; and in motion/optical-flow estimation, where the motion is the vector $u_{xy}, v_{xy}$ defined by the change in pixel locations as
+In-fact we are looking at methods that do not rely on the availability ground-truth (GT) depths. Why? Because it is expensive and tedious to gather such ground truth and difficult to calibrate and align different sensor ouputs, making it difficult to scale. But, how can we teach a neural network to estimate the underlying depth without having ground truth? Thanks for asking that! Geometry comes to the rescue. The idea is to synthesize different views of the same scene and compare these synthesized views with the real ones for supervision. It underlies on **the brightness constantcy assumption**[^5], where parts of the same scene are assumed to be observed in multiple views. A similar assumption is used in binocular vision, where the content of what a left eye/camera sees is very similar to that of what the right one sees; and in motion/optical-flow estimation, where the motion is the vector $u_{xy}, v_{xy}$ defined by the change in pixel locations as
 
 {:refdef: style="text-align: center;"}
 ## $I(x, y, t) = I(x + u_{xy}, y + v_{xy}, t + 1)$
 {:refdef}
 
 
-## The stereo case
-Godard et.al., propose a method called monodepth[^6], to estimate depth from a single image, trained on stereo image pairs (without the need for depth GT). The idea is similar: synthesize the right view from the left one and compare the synthesized and the real right views as supervision. 
+## Stereo supervision
+Garg et.al., propose a method called monodepth[^6], to estimate depth from a single image, trained on stereo image pairs (without the need for depth GT). The idea is similar: synthesize the right view from the left one and compare the synthesized and the real right views as supervision. 
 
-{:refdef: style="text-align: center;"}
-![s]({{site.baseurl}}/images/3dreco/input_right.jpg){: width="50%" .shadow} 
-![right]({{site.baseurl}}/images/3dreco/input_left.jpg){: width="50%" .shadow}
+{:refdef: style="float: left;"}
+<img src="{{site.baseurl}}/images/3dreco/input_right.png" style="float: left; width: 49.5%">
+{: refdef}
+{:refdef: style="float: right;"}
+  <img src="{{site.baseurl}}/images/3dreco/input_left.png" style="float: right; width: 49.5%">
 {: refdef}
 {:refdef: style="text-align: center;"}
 <sub><sup>*Left and right images of the same scene from the [KITTI dataset](https://www.cvlibs.net/datasets/kitti/index.php)[^7]*
 </sup></sub>
 {: refdef}
 
-But, how will this help learn depth? This is because the synthesis is a function of depth. In a calibrated stereo setting, the optical flow is unidirectional (horizontal) and so only its magnitude a.k.a. disparity is to be found. The problem then boils down to finding a per-pixel disparity that when applied to the left image, gives the right image.
+But, how will this help learn depth? This is because view synthesis is a function of depth. In a rectified stereo setting, the optical flow is unidirectional (horizontal) and so only its magnitude a.k.a. disparity is to be found. The problem then boils down to finding a per-pixel disparity that when applied to the left image, gives the right image.
 
 {:refdef: style="text-align: center;"}
 ## $I_{l}(x, y) \stackrel{!}{=} I_r(x + d_{xy}, y)$
@@ -76,6 +78,22 @@ The depth from disparity can be calculated by $\text{depth} = \frac{\text{focal 
 
 <!-- https://camo.githubusercontent.com/347a28083896fc6b18f12e29933fb7adc3ebfa485ee383897c59fe4a0983f97e/687474703a2f2f76697375616c2e63732e75636c2e61632e756b2f707562732f6d6f6e6f44657074682f6d6f6e6f64657074685f7465617365722e676966 -->
 
+The pipeline goes as follows: 
+1. A network predicts the dense disparity map of the left image.
+  ![s]({{site.baseurl}}/images/3dreco/0_hug.png){: .shadow}
+  <!-- {:refdef: style="text-align: center;"}
+  <sub><sup>*Depth as a function of disparity via triangulation[^3]. By [fr:Utilisateur:COLETTE](https://commons.wikimedia.org/wiki/File:Triangulation.svg), [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0), via Wikimedia Commons*
+  </sup></sub>
+  {: refdef} -->
+2. Relative camera pose (Ego-motion) is known, which in this case of recitfied stereo is just a scalar, representing the horizontal shift of 5.4 cm in X-direction.
+  ![s]({{site.baseurl}}/images/3dreco/1_hug.png){: .shadow}
+3. Using the estimated disparity, a per-pixel flow in the left image's coordinates is calculated based on the known relative rigid camera pose.
+  ![s]({{site.baseurl}}/images/3dreco/2.png){: .shadow}
+4. The right input image is warped using the flow, into the view of the left image.
+  ![s]({{site.baseurl}}/images/3dreco/3.png){: .shadow}
+5. The warped right image onto the left's view needs to be consistent with the original left image if the estimated depth from the network is correct. A loss is thus calculated between the two and is propogated through the depth network, thereby, making it learn to predict monocular depth.
+  ![s]({{site.baseurl}}/images/3dreco/4.png){: .shadow}
+
 ## The Monocular case
 
 While the stereo case is analogous to animals using binocular vision to perceive 3D, what about the monocular case, where creatures are still able to reconstruct the underlying 3D structure of the scene using a single eye? Can the above method be extended for monocular case?
@@ -91,7 +109,7 @@ While the stereo case is analogous to animals using binocular vision to perceive
 The answer is not straightforward. Even if we think about exploiting motion, the relative ego-motion of the camera from one frame at time $t$ to the next $t+1$ is not known, unlike in stereo case where the pose between the left and right cameras is known (and uni-directional for calibrated cases). Not only is the camera pose not known between two timesteps, it is also changing and not constant as in stereo case. So, in order to extend the stereo approach to monocular case, relative camera pose or camera ego-motion has to also be predicted between any 2 consecutive frames.
 
 {:refdef: style="text-align: center;"}
-![s]({{site.baseurl}}/images/3dreco/sfmlearner.png){: width="75%" .shadow}
+![s]({{site.baseurl}}/images/3dreco/5mono.png){: width="75%" .shadow}
 {: refdef}
 {:refdef: style="text-align: center;"}
 <sub><sup>*SfMLearner: Unsupervised Learning of Depth and Ego-Motion from Video[^8]*
@@ -204,7 +222,8 @@ If this article was helpful to you, consider citing
 [^3]: [Triangulation](https://en.wikipedia.org/wiki/Triangulation)
 [^4]: A. Saxena, M. Sun and A. Y. Ng, "[Make3D: Learning 3D Scene Structure from a Single Still Image](https://ieeexplore.ieee.org/document/4531745)," in IEEE Transactions on Pattern Analysis and Machine Intelligence, vol. 31, no. 5, pp. 824-840, May 2009, doi: 10.1109/TPAMI.2008.132.
 [^5]: [Brightness Constancy](https://www.cs.cmu.edu/~16385/s17/Slides/14.1_Brightness_Constancy.pdf)
-[^6]: C. Godard, O. M. Aodha and G. J. Brostow, "[Unsupervised Monocular Depth Estimation with Left-Right Consistency](https://github.com/mrharicot/monodepth)," 2017 IEEE Conference on Computer Vision and Pattern Recognition (CVPR), 2017, pp. 6602-6611, doi: 10.1109/CVPR.2017.699.
+[^6]: Garg, R., B.G., V.K., Carneiro, G., Reid, I. (2016). [Unsupervised CNN for Single View Depth Estimation: Geometry to the Rescue](https://doi.org/10.1007/978-3-319-46484-8_45). In: Leibe, B., Matas, J., Sebe, N., Welling, M. (eds) Computer Vision – ECCV 2016. ECCV 2016. Lecture Notes in Computer Science(), vol 9912. Springer, Cham. 
+[^9]: C. Godard, O. M. Aodha and G. J. Brostow, "[Unsupervised Monocular Depth Estimation with Left-Right Consistency](https://github.com/mrharicot/monodepth)," 2017 IEEE Conference on Computer Vision and Pattern Recognition (CVPR), 2017, pp. 6602-6611, doi: 10.1109/CVPR.2017.699.
 [^7]: A Geiger, P Lenz, C Stiller, and R Urtasun. 2013. Vision meets robotics: The KITTI dataset. Int. J. Rob. Res. 32, 11 (September 2013), 1231–1237. https://doi.org/10.1177/0278364913491297
 [^8]: T. Zhou, M. Brown, N. Snavely and D. G. Lowe, "[Unsupervised Learning of Depth and Ego-Motion from Video](https://github.com/tinghuiz/SfMLearner)," 2017 IEEE Conference on Computer Vision and Pattern Recognition (CVPR), 2017, pp. 6612-6619, doi: 10.1109/CVPR.2017.700.
 
