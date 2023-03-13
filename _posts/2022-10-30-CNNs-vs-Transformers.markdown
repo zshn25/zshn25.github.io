@@ -22,7 +22,8 @@ $\textcolor{FF7800}{\textbf{y}} =  \textcolor{9966FF}{W} \textcolor{2EC27E}{\tex
 {:refdef}
 
 {:refdef: style="text-align: center;"}
-![fullyconnected]({{site.baseurl}}/images/fullyconnected.svg)
+<!--![fullyconnected]({{site.baseurl}}/images/fullyconnected.svg)-->
+<img src="./images/fullyconnected.svg"></img>
 {:refdef}
 {:refdef: style="text-align: center;"}
 <sub><sup>*In a fully connected layer, each output depends on (and is connected to) all inputs*
