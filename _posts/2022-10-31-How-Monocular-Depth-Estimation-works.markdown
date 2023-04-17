@@ -190,7 +190,7 @@ Note that this flow is a function of depth and 6 DOF transformation, i.e. the ri
 <!-- Because of the lack of differentiable colored point cloud renderers, the point cloud in transformed and projected back onto the camera at timt $t$, such that this has to be  -->
 
 
-## Realtime Demo
+<!-- ## Realtime Demo
 
 {:refdef: style="text-align: center;"}
 <iframe src="https://hf.space/embed/gisep81646/afcsaqws/+" frameBorder="0" width="100%" height="450" title="Gradio app" class="container p-0 flex-grow space-iframe"></iframe>
@@ -198,16 +198,18 @@ Note that this flow is a function of depth and 6 DOF transformation, i.e. the ri
 {:refdef: style="text-align: center;"}
 <sub><sup>*Gradio Demo: Use the Example image as input or upload your own driving image. [MIT License](https://huggingface.co/spaces/gisep81646/afcsaqws/blob/main/LICENSE)*
 </sup></sub>
-{: refdef}
+{: refdef} -->
 
 ___
+
+© Zeeshan Khan Suri, [<i class="fab fa-creative-commons"></i> <i class="fab fa-creative-commons-by"></i> <i class="fab fa-creative-commons-nc"></i>](http://creativecommons.org/licenses/by-nc/4.0/)
 
 If this article was helpful to you, consider citing
 
 ```
 @misc{suri_how_monocular_depth_estimation_2022,
       title={Self-supervised monocular depth estimation},
-      url={https://zshn25.github.io/is-convolution-linear/}, 
+      url={https://zshn25.github.io/How-Monocular-Depth-Estimation-works/}, 
       journal={Curiosity}, 
       author={Suri, Zeeshan Khan}, 
       year={2022}, 
