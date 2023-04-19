@@ -36,7 +36,7 @@ comments: true
     </span>
     <!-- Video Link. -->
     <span class="link-block">
-      <a  target="_blank" disabled
+      <a href="https://www.youtube.com/watch?v=AN1AGR85N2A"  target="_blank"
           class="external-link button is-big is-rounded is-dark disabled">
         <span class="icon">
             <i class="fab fa-youtube"></i>
@@ -92,7 +92,7 @@ While disambiguating scale during training is not possible without some kind of 
 ![teaser]({{site.baseurl}}/images/3dreco/md2seqscales.png) 
 {: refdef}
 {:refdef: style="text-align: center;"}
-<sub><sup>*Scale factors ($\frac{\text{GT}}{\text{pred}}$) within each KITTI sequences are highly varying*
+<sub><sup>*Scale factors ($$\frac{\text{GT}}{\text{pred}}$$) within each KITTI sequences are highly varying*
 </sup></sub>
 {: refdef}
 
@@ -101,7 +101,7 @@ While disambiguating scale during training is not possible without some kind of 
 
 For an introduction to self-supervised monocular depth estimation, checkout my previous blog post on [Self-supervised Monocular Depth Estimation]({{ site.baseurl }}{% post_url 2022-10-31-How-Monocular-Depth-Estimation-works %})
 
-
+{% include youtube.html content="https://www.youtube.com/embed/AN1AGR85N2A" %}{: width="100%" .shadow}
 ___
 
 
@@ -142,7 +142,7 @@ ___
     </span>
     <!-- Video Link. -->
     <span class="link-block">
-      <a  target="_blank" disabled
+      <a href="https://www.youtube.com/watch?v=AN1AGR85N2A"  target="_blank"
           class="external-link button is-big is-rounded is-dark disabled">
         <span class="icon">
             <i class="fab fa-youtube"></i>
