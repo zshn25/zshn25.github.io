@@ -79,13 +79,15 @@ comments: true
 ## Abstract
 
 Self-supervised monocular depth estimation approaches suffer not only from scale ambiguity but also infer temporally inconsistent depth maps w.r.t. scale.
+
 {:refdef: style="text-align: center;"}
-![]({{site.baseurl}}/images/Li_Enforcing_Temporal_Consistency_in_Video_Depth_Estimation_ICCVW_2021.png)
+![Enforcing_Temporal_Consistency_in_Video_Depth_Estimation]({{site.baseurl}}/images/3dreco/Li_Enforcing_Temporal_Consistency_in_Video_Depth_Estimation_ICCVW_2021.png)
 {: refdef}
 {:refdef: style="text-align: center;"}
 <sub><sup>*Two depth estimation results on four frames showing the inconsistency problem in existing MDE methods. Image taken from Li et. al.[^1]*
 </sup></sub>
 {: refdef}
+
 While disambiguating scale during training is not possible without some kind of ground truth supervision, having scale consistent depth predictions would make it possible to calculate scale once during inference as a post-processing step and use it over-time. With this as a goal, a set of temporal consistency losses that minimize pose inconsistencies over time are introduced. Evaluations show that introducing these constraints not only reduces depth inconsistencies but also improves the baseline performance of depth and ego-motion prediction.
 
 {:refdef: style="text-align: center;"}
