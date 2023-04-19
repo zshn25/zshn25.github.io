@@ -62,7 +62,18 @@ img + em {
     content: "\f186";
   }
 
-
+// External links
+// a[href]:not(:where(
+//     /* exclude hash only links */
+//     [href^="#"],
+//     /* exclude relative but not double slash only links */
+//     [href^="/"]:not([href^="//"]),
+//     /* domains to exclude */
+//     [href*="//zshn25.github.io"],
+//   )):after {
+//     content: ' ' url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAIpJREFUeNqEkIEJwCAMBGPpEs7hHK6hY+gauoZr6Bo6RtqEWkxb6EMQnuM/USEirIoxSmOKwDkhBEwp4VPkb4801Xun9xW4e+9FldYarLUvkBPPOp4JGWOgtSaSt6VWQKUU9nPOEiSIgAmNMdadFTjn7utqrXwh6fLvH9nXhamW5ksMnpfDnw4BBgBfunO056MmqAAAAABJRU5ErkJggg==);
+//   }
+// a[rel*="external"]::after
 // Purple links and text selection
 a:link {
   color: $curiosity-main-dark;
@@ -98,3 +109,54 @@ a:visited {
 // @import "minimal-mistakes/sidebar";
 // @import "minimal-mistakes/navigation";
 
+// Bulma buttom elements for Nerfies like buttons for paper, code, video, etc.
+// @import "https://cdn.jsdelivr.net/npm/bulma@0.9.4/sass/utilities/_all.sass";
+// @import "https://cdn.jsdelivr.net/npm/bulma@0.9.4/sass/elements/button.sass";
+
+.button {
+  background-color: white;
+  border-color: #dbdbdb;
+  border-width: 1px;
+  color: #363636;
+  cursor: pointer;
+  justify-content: center;
+  padding-bottom: calc(0.5em - 1px);
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-top: calc(0.5em - 1px);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.button[disabled] {
+  cursor: not-allowed;
+}
+.button[disabled],
+fieldset[disabled] .button {
+  background-color: white;
+  border-color: #dbdbdb;
+  box-shadow: none;
+  opacity: 0.5;
+}
+.button.is-dark[disabled],
+fieldset[disabled] .button.is-dark {
+  background-color: #363636;
+  border-color: #363636;
+  box-shadow: none;
+}
+.button.is-rounded {
+  border-radius: 290486px;
+  padding-left: calc(1em + .25em);
+  padding-right: calc(1em + .25em);
+}
+.button.is-normal {
+  font-size: 1rem;
+}
+.button.is-big {
+  font-size: 1.5rem;
+}
+.button.is-dark {
+  background-color: #363636;
+  border-color: transparent;
+  color: #fff;
+}
