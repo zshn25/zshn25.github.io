@@ -1,12 +1,12 @@
 ---
 layout: post
-title:  "Aristotle’s two kinds of wealth getting"
+title:  "Reasons for earning money: The good and the ugly"
 description: "Art of household management vs. art of wealth accumulation according to Aristotle"
 date:   2022-08-14 12:21:23 -0700
 comments: true
 image: https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Aristotle_Altemps_Inv8575.jpg/179px-Aristotle_Altemps_Inv8575.jpg
 categories: politics philosophy greed wealth
-author: Zeeshan Khan Suri
+author: Aristotle
 ---
 
 {% include alert.html content="The whole post is an excerpt from Aristotle’s Politics Book 1."%}

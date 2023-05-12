@@ -18,7 +18,7 @@ comments: true
     <!-- PDF Link. -->
     <span class="link-block">
       <a href="https://arxiv.org/pdf/2304.08916" target="_blank"
-          class="external-link button is-big is-rounded is-dark">
+          class="external-link button is-normal is-rounded is-dark">
         <span class="icon">
             <i class="fas fa-file-pdf"></i>
         </span>
@@ -27,7 +27,7 @@ comments: true
     </span>
     <span class="link-block">
       <a href="https://arxiv.org/abs/2304.08916" target="_blank"
-          class="external-link button is-big is-rounded is-dark">
+          class="external-link button is-normal is-rounded is-dark">
         <span class="icon">
             <i class="ai ai-arxiv"></i>
         </span>
@@ -37,7 +37,7 @@ comments: true
     <!-- Video Link. -->
     <span class="link-block">
       <a href="https://www.youtube.com/watch?v=AN1AGR85N2A"  target="_blank"
-          class="external-link button is-big is-rounded is-dark disabled">
+          class="external-link button is-normal is-rounded is-dark disabled">
         <span class="icon">
             <i class="fab fa-youtube"></i>
         </span>
@@ -47,7 +47,7 @@ comments: true
     <!-- Code Link. -->
     <span class="link-block">
       <a  target="_blank" disabled
-          class="external-link button is-big is-rounded is-dark"> 
+          class="external-link button is-normal is-rounded is-dark"> 
         <span class="icon">
             <i class="fab fa-github"></i>
         </span>
@@ -57,7 +57,7 @@ comments: true
     <!-- Dataset Link. -->
     <span class="link-block">
       <a href="https://www.cvlibs.net/datasets/kitti/" target="_blank"
-          class="external-link button is-big is-rounded is-dark">
+          class="external-link button is-normal is-rounded is-dark">
         <span class="icon">
             <i class="far fa-images"></i>
         </span>
@@ -110,13 +110,17 @@ ___
 ## BibTeX
 
 ```
-@misc{suri2023pose,
-      title={Pose Constraints for Consistent Self-supervised Monocular Depth and Ego-motion}, 
-      author={Zeeshan Khan Suri},
-      year={2023},
-      eprint={2304.08916},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV}
+@InProceedings{10.1007/978-3-031-31438-4_23,
+author="Suri, Zeeshan Khan",
+editor="Gade, Rikke and Felsberg, Michael and K{\"a}m{\"a}r{\"a}inen, Joni-Kristian",
+title="Pose Constraints for Consistent Self-supervised Monocular Depth and Ego-Motion",
+booktitle="Image Analysis",
+year="2023",
+publisher="Springer Nature Switzerland",
+address="Cham",
+pages="340--353",
+isbn="978-3-031-31438-4",
+doi={10.1007/978-3-031-31438-4_23}
 }
 ```
 
@@ -126,7 +130,7 @@ ___
     <!-- PDF Link. -->
     <span class="link-block">
       <a href="https://arxiv.org/pdf/2304.08916" target="_blank"
-          class="external-link button is-big is-rounded is-dark">
+          class="external-link button is-normal is-rounded is-dark">
         <span class="icon">
             <i class="fas fa-file-pdf"></i>
         </span>
@@ -135,7 +139,7 @@ ___
     </span>
     <span class="link-block">
       <a href="https://arxiv.org/abs/2304.08916" target="_blank"
-          class="external-link button is-big is-rounded is-dark">
+          class="external-link button is-normal is-rounded is-dark">
         <span class="icon">
             <i class="ai ai-arxiv"></i>
         </span>
@@ -145,7 +149,7 @@ ___
     <!-- Video Link. -->
     <span class="link-block">
       <a href="https://www.youtube.com/watch?v=AN1AGR85N2A"  target="_blank"
-          class="external-link button is-big is-rounded is-dark disabled">
+          class="external-link button is-normal is-rounded is-dark disabled">
         <span class="icon">
             <i class="fab fa-youtube"></i>
         </span>
@@ -155,7 +159,7 @@ ___
     <!-- Code Link. -->
     <span class="link-block">
       <a  target="_blank" disabled
-          class="external-link button is-big is-rounded is-dark"> 
+          class="external-link button is-normal is-rounded is-dark"> 
         <span class="icon">
             <i class="fab fa-github"></i>
         </span>
@@ -165,7 +169,7 @@ ___
     <!-- Dataset Link. -->
     <span class="link-block">
       <a href="https://www.cvlibs.net/datasets/kitti/" target="_blank"
-          class="external-link button is-big is-rounded is-dark">
+          class="external-link button is-normal is-rounded is-dark">
         <span class="icon">
             <i class="far fa-images"></i>
         </span>
