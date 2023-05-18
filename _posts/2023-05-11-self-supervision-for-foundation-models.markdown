@@ -10,11 +10,14 @@ comments: true
 ---
 
 > ## [Performance of deep neural networks scales with data and model size]({{ site.baseurl }}{% post_url 2022-12-1-Software-2 %})
+{:title="The blockquote title"}
+{:.no_toc}
 
-Recent developments in deep learning can be attributed to the growing amount of data and model size. This realization has lead to the rapidly developing field of **foundational models**, i.e. large scale, complex neural networks, for e.g. [GPT 4](https://openai.com/research/gpt-4), [CLIP](https://openai.com/research/clip), [ImageBind](https://facebookresearch.github.io/ImageBind/paper), etc., trained on very large, diverse datasets. By feeding-in huge amounts of high quality labeled data through large artificial neural network models, machines are shown to be taught to outperform humans at multiple tasks. 
+
+Recent developments in deep learning can be attributed to the growing amount of data and model size. This realization has lead to the rapidly developing field of **foundational models**, i.e. large scale, complex neural networks, for e.g. [GPT 4](https://openai.com/research/gpt-4), [DINO v2](https://dinov2.metademolab.com/), [ImageBind](https://facebookresearch.github.io/ImageBind/paper), etc., trained on very large, diverse datasets. By feeding-in huge amounts of high quality labeled data through large artificial neural network models, machines are shown to be taught to outperform humans at multiple tasks. 
 
 {:refdef: style="text-align: center;"}
-![s]({{site.baseurl}}/images/performance_data.svg) 
+[![s]({{site.baseurl}}/images/performance_data.svg)]({{ site.baseurl }}{% post_url 2022-12-1-Software-2 %})
 {: refdef}
 {:refdef: style="text-align: center;"}
 <sub><sup>*As the training data increases, the performance of a DL model increases but traditional methods do not depend on the training data*
@@ -44,9 +47,10 @@ To work robustly in real world scenarios, these feature descriptors must be inva
 
 ## Learning features
 
-With the rise of deep learning, features and their descriptors are no longer hand-engineered, but learnt from the underlying data. Vision models such as CNNs and vision transformers process input images to extract high-dimensional latent representations, which could be thought as features. Unlike pixel-level features such as SIFT, ORB, latents are **not local** (do not correspond to pixel locations) but **based on the semantics** of the global image contents.
+With the rise of deep learning, features and their descriptors are no longer hand-engineered, but learnt from the underlying data. Vision models such as CNNs and transformers process input images to extract high-dimensional latent representations, which could be thought as features. Unlike pixel-level features such as SIFT, ORB, latents are **not local** (do not correspond to pixel locations) but **based on the semantics** of the global image contents.
 
 > Checkout my blog post on [how to extract feature pyramids from torchvison models]({{ site.baseurl }}{% post_url 2021-02-01-ResNet-feature-pyramid-in-Pytorch %})
+{:.no_toc}
 
 ## The need for foundation models
 
@@ -69,15 +73,15 @@ You are absolutely right. Existing models such as YOLO[^3] object detection, ext
 
 Animals, including humans, learn a many concepts such as object permanance, etc., without explicit supervision. 
 
-{% include youtube.html content="https://www.youtube.com/embed/OLrYzY3jVPY" %}{: width="100%" .shadow}
+<!-- {% include youtube.html content="https://www.youtube.com/embed/OLrYzY3jVPY" %}{: width="100%" .shadow}
 {:refdef: style="text-align: center;"}
 <sub><sup>
 </sup></sub>
-{: refdef}
+{: refdef} -->
 
 Is it possible to make machines learn general concepts without explicit supervision? If so, how?
 
-If we are able formulate **pretext tasks**, we can use <mark>self-supervised learning to learn good data representations and general concepts from massively-available, unlabelled data</mark>, we can use such models directly (without fine-tuning, Zero-Shot) for multiple **downstream tasks**. (atleast, that's the hope).
+If we are able formulate **pretext tasks**, we can use <mark>self-supervised learning</mark> to <mark>learn good data representations and general concepts from massively-available, unlabelled data</mark>, we can use such models directly (without fine-tuning, Zero-Shot) for multiple **downstream tasks**. (atleast, that's the hope).
 
 {:refdef: style="text-align: center;"}
 [![feature-learning](https://upload.wikimedia.org/wikipedia/commons/0/0b/Feature_Learning_Diagram.png)](https://en.wikipedia.org/wiki/Feature_learning#/media/File:Feature_Learning_Diagram.png)
@@ -87,25 +91,69 @@ If we are able formulate **pretext tasks**, we can use <mark>self-supervised lea
 </sup></sub>
 {: refdef}
 
-## Pretext tasks in computer vision
+## Pretext tasks for images
+
+Any task that doesn't require explitcit labels can be used as a pretext task. The goal is to be able to make use of as much data as possible.
+
+> ## For a more comprehensive list of self-supervised pretext tasks, checkout [this page from Papers with Code](https://paperswithcode.com/methods/category/self-supervised-learning), and [this curated list](https://github.com/jason718/awesome-self-supervised-learning) of research in self-supervised learning
 
 Prediction/Generation and Similarity are the two main concepts that can be exploited to design self-supervised pretext tasks. 
 
-### Generative pretext tasks
+### Generative pretext tasks based on restoration
 
-These methods involves artificially manipulating the input and teaching the network to undo the manipulation. Examples of such input manipulation include masking out regions in image[^6], reordering/permuting patches as a Jigsaw puzzle[^5], transformations of the image, such as rotation, and viewpoint change[^7], removing color[^8], etc.  
+These methods involve artificially manipulating the input and teaching the network to undo the manipulation. The hope is that in order to restore large a variety of training data, the network learns robust image representations. Examples of such input manipulations include masking out image regions[^6], adding Gaussian noise[^9], reordering/permuting patches as a Jigsaw puzzle[^5], transformations of the image, such as rotation, and viewpoint change[^7], removing color[^8], etc.  
+
+{:refdef: style="text-align: center;"}
+![multi-task]({{site.baseurl}}/images/generative_cat.png) 
+{: refdef}
+{:refdef: style="text-align: center;"}
+<sub><sup>Examples of image degradations: masking, noising, permuting, rotating, grey-scaling. The pretext task is to recover the original image.
+</sup></sub>
+{: refdef}
+
+The difficulty in these methods is the parameterization of degradation is dependent on the exact degradation method, making it hard to combine with other manipulations. For example, the parameters of adding gaussian noise are the mean and standard deviation of the gaussian noise function, which can be estimated by the network to subtract and recover the original image. For rotation, this would be the angle, which means there should now be another head to predict the angle if these both are to be combined.
 
 <!-- A large variety of pretext tasks have been proposed to learn neural representations of the data's underlying structure. For example, Noroozi et al.propose to find a reordering of tiles from a 3x3 grid of a square region cropped from an image as the pretext task; \cite{9879206} propose masked autoencoders, which masks random patches of the input image and reconstructs the missing patches as the pretext task; \cite{pmlr-v139-radford21a}'s CLIP: given an image, predict which out of a set of 32,768 randomly sampled text snippets, was actually paired with it in their dataset as the pretext task. 
 
 Since the main objective in this tasks is to rely on existing unlabeled data for pre-training, one of the main similarities in these tasks is to degrade the input and define a task for the network to reconstruct the original input. For example, \cite{8579073} shuffle and \cite{9879206} remove patches from the image, \cite{rombach2021highresolution} successively apply Gaussian noise to the image -->
 
+### Feature similarity as a pretext task
+
+Rather than having an explicit task, the idea is to maximize similarity of features of similar images.
+
+#### Contrastive learning
+
 {:refdef: style="text-align: center;"}
-![pretext](https://production-media.paperswithcode.com/thumbnails/task/task-0000001882-b4b42454.jpg) 
+![multi-task]({{site.baseurl}}/images/contrastive.svg) 
 {: refdef}
 {:refdef: style="text-align: center;"}
-<sub><sup>. Image from [Yann LeCunn](https://www.youtube-nocookie.com/watch?v=7I0Qt7GALVk).
+<sub><sup>Contrastive learning example: Cat and it's augmentations (positive samples), shown by green arrows, must have similar feature representations than the Colosseum image chosen at random (negative sample).
 </sup></sub>
 {: refdef}
+
+One of the most influential self-supervised techniques is contrastive learning which, as the name implies, uses not only positive samples but also contrasts them with negative samples. This differs from generic image classification where images being labeled a category are shown to the model as positive samples. The figure above outlines an example of contrastive learning. The positive examples are shown by green arrows are images sampled from an image with different augmentations, such as rotation, cropping, color, etc. Another image (Colosseum) is chosen at random which acts as the negative sample. The fundamental assumption of contrastive learning is that features of the positive samples lie closer to each other (**positive samples attract**) than to those of a negative sample (**positive-negative samples repel**). This is realized by minimizing the distance between positive samples while maximizing the distance between negative samples in feature space.
+
+
+# tldr; Conclusion
+
+Performance of supervised models depends on the availability of high quality labeled data, which is tedious to aquire, and thereby limiting. Self-supervised learning not only makes it possible to realize gains via abundant unlabeled data, but also gives way for foundation models that learn a generic neural representation of inputs, whose knowledge can be transformed to application specific downstream tasks. The key to this is designing self-supervised pretext tasks to make use of unlabeled data. The underlying principle of generative pretext tasks is to corrupt the input and make the network recover the original input from the corrupt one. Feature similarity based pretext tasks learn data representations that are similar for similar inputs and dissimilar for dissimilar inputs.
+
+... to be continued
+
+# Further Resources
+
+## Lectures
+
+- Yann LeCunn's [](https://www.facebook.com/epflcampus/videos/1960325127394608), [[Slides](https://drive.google.com/file/d/12pDCno02FJPDEBk4iGuuaj8b2rr48Hh0/view)
+
+## Codebases
+
+- [![](https://github.com/facebookresearch/vissl/raw/main/.github/logo/Logo_Color_Light_BG.png){: style="height: 2.5em" }](https://github.com/facebookresearch/vissl)
+
+## Articles
+
+- [Self-supervised learning: The dark matter of intelligence](https://ai.facebook.com/blog/self-supervised-learning-the-dark-matter-of-intelligence/)
+- Weng, Lilian (2019). [Self-Supervised Representation Learning](https://lilianweng.github.io/posts/2019-11-10-self-supervised/)
 
 # References
 
@@ -117,14 +165,10 @@ Since the main objective in this tasks is to rely on existing unlabeled data for
 [^6]: K. He, X. Chen, S. Xie, Y. Li, P. Dollár and R. Girshick, "[Masked Autoencoders Are Scalable Vision Learners](https://openaccess.thecvf.com/content/CVPR2022/html/He_Masked_Autoencoders_Are_Scalable_Vision_Learners_CVPR_2022_paper.html)," 2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), New Orleans, LA, USA, 2022, pp. 15979-15988, doi: 10.1109/CVPR52688.2022.01553.
 [^7]: Pulkit Agrawal, Joao Carreira, and Jitendra Malik. 2015. [Learning to See by Moving](https://www.cv-foundation.org/openaccess/content_iccv_2015/papers/Agrawal_Learning_to_See_ICCV_2015_paper.pdf). In Proceedings of the 2015 IEEE International Conference on Computer Vision (ICCV) (ICCV '15). IEEE Computer Society, USA, 37–45. https://doi.org/10.1109/ICCV.2015.13
 [^8]: Zhang, Isola, Efros. [Colorful Image Colorization](https://arxiv.org/abs/1603.08511). In ECCV, 2016 
+[^9]: Xiang, W., Yang, H., Huang, D., & Wang, Y. (2023). [Denoising Diffusion Autoencoders are Unified Self-supervised Learners](https://arxiv.org/abs/2303.09769). ArXiv, abs/2303.09769.
+[^10]: Goyal, P., Caron, M., Lefaudeux, B., Xu, M., Wang, P., Pai, V.M., Singh, M., Liptchinsky, V., Misra, I., Joulin, A., & Bojanowski, P. (2021). [Self-supervised Pretraining of Visual Features in the Wild](https://arxiv.org/abs/2103.01988). ArXiv, abs/2103.01988.
 
 
-# Resources
-
-Lectures
-
-- Yann LeCunn's [](https://www.facebook.com/epflcampus/videos/1960325127394608), [[Slides](https://drive.google.com/file/d/12pDCno02FJPDEBk4iGuuaj8b2rr48Hh0/view)]
-
-Code
-
-- (https://github.com/facebookresearch/vissl)
+*[SIFT]: Scale-invariant feature transform
+*[ORB]: Oriented FAST and rotated BRIEF
+*[CNN]: Convolutional neural network

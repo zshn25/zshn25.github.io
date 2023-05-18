@@ -42,6 +42,14 @@ Of forms of government in which one rules, we call that which regards the common
 
 Of the above-mentioned forms, the perversions are as follows: of royalty, tyranny; of aristocracy, oligarchy; of constitutional government, democracy. For tyranny is a kind of monarchy which has in view the interest of the monarch only; oligarchy has in view the interest of the wealthy; democracy, of the needy: none of them the common good of all.
 
+{:refdef: style="text-align: center;"}
+[![constitutions](https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Aristotle%27s_constitutions.svg/1920px-Aristotle%27s_constitutions.svg.png)](https://commons.wikimedia.org/wiki/Category:Politics_(Aristotle)#/media/File:Aristotle's_constitutions.svg)
+{: refdef}
+{:refdef: style="text-align: center;"}
+<sub><sup>* Aristotle's classifications of political constitutions. By [Chiswick Chap](https://commons.wikimedia.org/wiki/User:Chiswick_Chap), [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons*
+</sup></sub>
+{: refdef}
+
 The real difference between democracy and oligarchy is poverty and wealth. Wherever men rule by reason of their wealth, weather they be few or many, that is an oligarchy, and where the poor rule, that is a democracy and wealth… and freedom are the grounds on which the two classes lay claim to the government.
 
 Kings rule according to law over voluntary subjects, but tyrants over involuntary; and the one are guarded by their fellow-citizens the others are guarded against them.

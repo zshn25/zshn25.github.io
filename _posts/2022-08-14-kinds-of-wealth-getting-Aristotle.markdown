@@ -4,12 +4,12 @@ title:  "Reasons for earning money: The good and the ugly"
 description: "Art of household management vs. art of wealth accumulation according to Aristotle"
 date:   2022-08-14 12:21:23 -0700
 comments: true
-image: https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Aristotle_Altemps_Inv8575.jpg/179px-Aristotle_Altemps_Inv8575.jpg
+image: images/aristotle_wallstreet.jpeg
 categories: politics philosophy greed wealth
 author: Aristotle
 ---
 
-{% include alert.html content="The whole post is an excerpt from Aristotle’s Politics Book 1."%}
+{% include alert.html content="The whole post is a collection of excerpts from [Aristotle’s Politics](https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.01.0058%3Abook%3D1%3Asection%3D1256a), Book 1."%}
 
 Art of household management must either find ready to hand, or itself provide, such things necessary to life, and useful for the community of the family or state, as can be stored. They are the elements of true riches; for the amount of **the property which is needed for a good life is not unlimited**. There is a boundary fixed, just as there is in other arts; for the instruments of any art are never unlimited, either in number or size, and riches may be defined as a number of instruments to be used in a household or in a state.
 
@@ -33,3 +33,8 @@ But the art of wealth-getting which consists in household management, on the oth
 Hence some persons are led to believe that getting wealth is the object of household management, and the whole idea of their lives is that they ought either to increase their money without limit, or at any rate not to lose it. The origin of this disposition in men is that they are intent upon living only, and not upon living well; and, as their desires are unlimited they also desire that the means of gratifying them should be without limit. Those who do aim at a good life seek the means of obtaining bodily pleasures; and, since the enjoyment of these appears to depend on property, they are absorbed in getting wealth: and so there arises the second species of wealth-getting. For, as their enjoyment is in excess, they seek an art which produces the excess of enjoyment; and, if they are not able to supply their pleasures by the art of getting wealth, they try other arts, using in turn every faculty in a manner contrary to nature. The quality of courage, for example, is not intended to make wealth, but to inspire confidence; neither is this the aim of the general's or of the physician's art; but the one aims at victory and the other at health. Nevertheless, some men turn every quality or art into a means of getting wealth; this they conceive to be the end, and to the promotion of the end they think all things must contribute. 
 
 Thus, then, we have considered the art of wealth-getting which is unnecessary, and why men want it; and also the necessary art of wealth-getting, which we have seen to be different from the other, and to be a natural part of the art of managing a household, concerned with the provision of food, not, however, like the former kind, unlimited, but having a limit.
+
+Further Reading
+
+- [Philosophy of Money and Finance](https://plato.stanford.edu/entries/money-finance/), The Stanford Encyclopedia of Philosophy (SEP) 
+- [Aristotle's Politics](https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.01.0058%3Abook%3D1%3Asection%3D1256a)
