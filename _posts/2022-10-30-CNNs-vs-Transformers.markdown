@@ -106,7 +106,13 @@ $\textcolor{FF7800}{\textbf{y}} = \text{softmax}\left(\frac{\textcolor{2EC27E}{\
 
 Also note that in the basic version, the self-similarity of the inputs always causes the diagonal to be of the highest similarity and makes the weight matrix symmetric. This problem is also elevated by transforming the same input using two seperate learnable weight matrices, $\textcolor{9966FF}{W_K}$ and $\textcolor{9966FF}{W_Q}$
 
+## Convolution vs. Attention: Which is better?
 
+Although attention based models such as vision transformers have shown to outperform CNN based methods, a careful analysis of the two shows comparible performance.[^4]
+
+In early layers of a neural network for images, spatial relations can be captured by convolutions and the later layers could benifit from long-range receptive fields offered by attention. Hence, both can be combined.[^5]
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Am I going to argue that &quot;Conv is all you need&quot;?<br>No!<br>My favorite architecture is DETR-like: ConvNet (or ConvNeXt) for the first layers, then something more memory-based and permutation invariant like transformer blocks for object-based reasoning on top.<a href="https://t.co/LA2J72N93A">https://t.co/LA2J72N93A</a></p>&mdash; Yann LeCun (@ylecun) <a href="https://twitter.com/ylecun/status/1481198016266739715?ref_src=twsrc%5Etfw">January 12, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
 ## Summary
 
@@ -124,3 +130,5 @@ Also note that in the basic version, the self-similarity of the inputs always ca
 [^1]: Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., ... & Polosukhin, I. (2017). [Attention is all you need](https://dl.acm.org/doi/10.5555/3295222.3295349). Advances in neural information processing systems, 30.
 [^2]: [https://en.wikipedia.org/wiki/Transformer_(machine_learning_model)#Scaled_dot-product_attention](https://en.wikipedia.org/wiki/Transformer_(machine_learning_model)#Scaled_dot-product_attention)
 [^3]: Dai, Z., Liu, H., Le, Q. V., & Tan, M. (2021). [Coatnet: Marrying convolution and attention for all data sizes](https://papers.nips.cc/paper/2021/hash/20568692db622456cc42a2e853ca21f8-Abstract.html). Advances in Neural Information Processing Systems, 34, 3965-3977.
+[^4]: Z. Liu, H. Mao, C. -Y. Wu, C. Feichtenhofer, T. Darrell and S. Xie, "[A ConvNet for the 2020s](https://arxiv.org/abs/2201.03545)," 2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), New Orleans, LA, USA, 2022, pp. 11966-11976, doi: 10.1109/CVPR52688.2022.01167.
+[^5]: Xiao, T., Singh, M., Mintun, E., Darrell, T., Dollár, P., & Girshick, R.B. (2021). [Early Convolutions Help Transformers See Better](https://proceedings.neurips.cc/paper/2021/file/ff1418e8cc993fe8abcfe3ce2003e5c5-Paper.pdf). Neural Information Processing Systems.

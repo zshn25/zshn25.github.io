@@ -99,7 +99,15 @@ For many applications, the performance gain is really not that critical. Other f
 
 ## Continuous improvement
 
-But, if the performance gains are to be realized, scaling with data is the way to go and the way to execute this smartly is
+But, if the performance gains are to be realized, scaling with data is the way to go.
+
+<iframe src="https://ourworldindata.org/grapher/artificial-intelligence-number-training-datapoints" loading="lazy" style="width: 100%; height: 600px; border: 0px none;"></iframe>
+{:refdef: style="text-align: center;"}
+<sub><sup>*Amount of data used to train notable AI systems. Source: [Our World in Data](https://ourworldindata.org/grapher/artificial-intelligence-number-training-datapoints)*
+</sup></sub>
+{: refdef}
+
+And the way to execute this smartly is by continuous improvement
 
 {:refdef: style="text-align: center;"}
 ![s]({{site.baseurl}}/images/loop.svg) 
