@@ -39,7 +39,7 @@ Such an approach would work good enough in general and can be deployed for all k
 </sup></sub>
 {: refdef}
 
-### How can we do better? 
+### How can we do better?
 
 We can try to improve each of the approach's steps and gain overall performance, and decades of research in Computer Vision does exactly that. But, by changing our fundemental thinking towards learning based approaches, unprecidented improvements were realized.
 
@@ -47,13 +47,16 @@ We can try to improve each of the approach's steps and gain overall performance,
 
 Learning based approaches replaced the handcrafted features (SURF in the above example) to derive these features from the data. Neural networks replaced the rest
 
+> Checkout my blog post on [self-supervised learning for foundation models]({{ site.baseurl }}{% post_url 2023-05-11-self-supervision-for-foundation-models %})
+{:.no_toc}
+
 ### Neural networks are function approximators
 
 Traditional approach is to come up with a model/algorithm that converts an input to an output.
 
 ### $ \text{input} \rightarrow \ model \ \rightarrow \text{output} $
 
-Deep learning replaces this with 2 steps: 
+Deep learning replaces this with 2 steps:
 
 1. Training: Given many examples of input and output data, the model is learnt.
 
@@ -62,7 +65,7 @@ Deep learning replaces this with 2 steps:
 This allows the performance of the model to be dependent on the amount of training data available.
 
 {:refdef: style="text-align: center;"}
-![s]({{site.baseurl}}/images/performance_data.svg) 
+![s]({{site.baseurl}}/images/performance_data.svg)
 {: refdef}
 {:refdef: style="text-align: center;"}
 <sub><sup>*As the training data increases, the performance of a DL model increases but traditional methods do not depend on the training data*
@@ -71,8 +74,7 @@ This allows the performance of the model to be dependent on the amount of traini
 
 ### Production time
 
-Traditional algorithms have to be almost always completely re-written from their prototyping phase to production while keeping the computational power and memory in check. At test time, Deep learning replaces all of this with just one model inference call. So, we go from re-implementing production level code to passing the input through a bunch of linear algebra. Neural networks cost same amount of memory and even better comoutational effeciency during inference time. 
-
+Traditional algorithms have to be almost always completely re-written from their prototyping phase to production while keeping the computational power and memory in check. At test time, Deep learning replaces all of this with just one model inference call. So, we go from re-implementing production level code to passing the input through a bunch of linear algebra. Neural networks cost same amount of memory and even better comoutational effeciency during inference time.
 
 ## Algorithm 2.0ic thinking
 
@@ -83,7 +85,6 @@ Traditional algorithms have to be almost always completely re-written from their
 3. Thirdly, in order to be able to feed in that much amount of data, there needs to be infrastructure in place.
 
 4. As in the case of traditional algorithms, one cannot just hand-engineer the algorithm and use it in deployment forever. One needs to continuously improve/train the learnt model and continuoiusly deploy it. This is also where the data can be selected smartly for the next iteration of improvement.
-
 
 ## The holy grail? or just a fad?
 
@@ -110,11 +111,9 @@ But, if the performance gains are to be realized, scaling with data is the way t
 And the way to execute this smartly is by continuous improvement
 
 {:refdef: style="text-align: center;"}
-![s]({{site.baseurl}}/images/loop.svg) 
+![s]({{site.baseurl}}/images/loop.svg)
 {: refdef}
 {:refdef: style="text-align: center;"}
 <sub><sup>*Continuous Improvement loop*
 </sup></sub>
 {: refdef}
-
-

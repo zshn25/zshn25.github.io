@@ -29,7 +29,7 @@ Recent developments in deep learning can be attributed to the growing amount of 
 </sup></sub>
 {: refdef}
 
-But, collecting such massive amounts of carefully labeled data costs enormous time, effort and money; and are error prone. For e.g. Northcutt et al.[^1] outline errors in the labels of widely used datasets. What if there was a way to use massively available but **unlabled** data?
+But, collecting such massive amounts of carefully labeled data costs enormous time, effort and money; and are error prone. For e.g. Northcutt et al.[^1], and https://labelerrors.com/ outline errors in the labels of widely used datasets. What if there was a way to use massively available but **unlabled** data?
 
 In this post, I motivate the necessity for large, general-purpose data representation models, known as foundation models, and in what ways self-supervised learning enables this achievement. Stay tuned!
 
@@ -248,6 +248,8 @@ In this post, I focus on vision foundation models. But, there are plenty of reso
 
 - [![](https://github.com/facebookresearch/vissl/raw/main/.github/logo/Logo_Color_Light_BG.png){: style="height: 2.5em; text-align: left;" }](https://github.com/facebookresearch/vissl)
 - [![](https://docs.lightly.ai/self-supervised-learning/_static/lightly_logo_crop_white_text.png){: style="height: 2.5em; text-align: left;" }](https://docs.lightly.ai/self-supervised-learning/index.html)
+- [![](https://github.com/vturrisi/solo-learn/raw/main/logo.png){: style="height: 2.5em; text-align: left;" }](https://github.com/vturrisi/solo-learn)
+
 
 ## Read
 
@@ -260,6 +262,24 @@ In this post, I focus on vision foundation models. But, there are plenty of reso
 ## Data
 
 - [LAION-5B](https://laion.ai/blog/laion-5b/) Open Large-scale CLIP-filtered image-text paired dataset
+
+
+___
+
+© Zeeshan Khan Suri, [<i class="fab fa-creative-commons"></i> <i class="fab fa-creative-commons-by"></i> <i class="fab fa-creative-commons-nc"></i>](http://creativecommons.org/licenses/by-nc/4.0/)
+
+If this article was helpful to you, consider citing
+
+```
+@misc{suri_self-supervision-for-foundation-models_2023,
+      title={Self-supervised learning for vision foundation models},
+      url={https://zshn25.github.io/self-supervision-for-foundation-models/}, 
+      journal={Curiosity}, 
+      author={Suri, Zeeshan Khan}, 
+      year={2023}, 
+      month={May}}
+```
+
 
 # References
 
@@ -284,6 +304,7 @@ In this post, I focus on vision foundation models. But, there are plenty of reso
 [^19]: Bommasani, Rishi, et al. ["On the opportunities and risks of foundation models."](https://crfm.stanford.edu/report.html) arXiv preprint arXiv:2108.07258 (2021).
 [^20]: Park, Namuk, et al. "[What Do Self-Supervised Vision Transformers Learn?.](https://arxiv.org/abs/2305.00729)" arXiv preprint arXiv:2305.00729 (2023).
 [^21]: Radford, Alec, Luke Metz, and Soumith Chintala. "[Unsupervised representation learning with deep convolutional generative adversarial networks.](https://arxiv.org/abs/1511.06434)" arXiv preprint arXiv:1511.06434 (2015).
+
 
 *[SIFT]: Scale-invariant feature transform
 *[ORB]: Oriented FAST and rotated BRIEF

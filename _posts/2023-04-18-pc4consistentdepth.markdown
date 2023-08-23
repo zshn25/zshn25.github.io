@@ -17,10 +17,10 @@ comments: true
 <div style="text-align: center;">
     <!-- PDF Link. -->
     <span class="link-block">
-      <a href="https://arxiv.org/pdf/2304.08916" target="_blank"
+      <a href="https://link.springer.com/chapter/10.1007/978-3-031-31438-4_23" target="_blank"
           class="external-link button is-normal is-rounded is-dark">
         <span class="icon">
-            <i class="fas fa-file-pdf"></i>
+            <i class="ai ai-springer"></i>
         </span>
         <span>Paper</span>
       </a>
@@ -46,7 +46,7 @@ comments: true
     </span>
     <!-- Code Link. -->
     <span class="link-block">
-      <a  target="_blank" disabled
+      <a href="https://github.com/zshn25/pc4consistentdepth" target="_blank"
           class="external-link button is-normal is-rounded is-dark"> 
         <span class="icon">
             <i class="fab fa-github"></i>
@@ -129,10 +129,10 @@ doi={10.1007/978-3-031-31438-4_23}
 <div style="text-align: center;">
     <!-- PDF Link. -->
     <span class="link-block">
-      <a href="https://arxiv.org/pdf/2304.08916" target="_blank"
+      <a href="https://link.springer.com/chapter/10.1007/978-3-031-31438-4_23" target="_blank"
           class="external-link button is-normal is-rounded is-dark">
         <span class="icon">
-            <i class="fas fa-file-pdf"></i>
+            <i class="ai ai-springer"></i>
         </span>
         <span>Paper</span>
       </a>
@@ -158,7 +158,7 @@ doi={10.1007/978-3-031-31438-4_23}
     </span>
     <!-- Code Link. -->
     <span class="link-block">
-      <a  target="_blank" disabled
+      <a href="https://github.com/zshn25/pc4consistentdepth" target="_blank"
           class="external-link button is-normal is-rounded is-dark"> 
         <span class="icon">
             <i class="fab fa-github"></i>
