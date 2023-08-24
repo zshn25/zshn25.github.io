@@ -26,9 +26,9 @@ jobs:
           
 
     - name: Copy Repository Contents
-      uses: actions/checkout@master
+      uses: actions/checkout@v3
       with:
-        persist-credentials: false
+        persist-credentials: true
         submodules: true # https://talk.jekyllrb.com/t/adding-pages-from-other-github-repos-on-personal-jekyll-website/5875/4?u=zshn25
 
     - name: convert notebooks and word docs to posts
