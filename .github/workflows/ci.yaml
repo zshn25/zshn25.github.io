@@ -26,7 +26,7 @@ jobs:
           
 
     - name: Copy Repository Contents
-      uses: actions/checkout@v3
+      uses: actions/checkout@main
       with:
         persist-credentials: true
         submodules: true # https://talk.jekyllrb.com/t/adding-pages-from-other-github-repos-on-personal-jekyll-website/5875/4?u=zshn25
