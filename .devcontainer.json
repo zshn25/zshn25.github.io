@@ -7,6 +7,14 @@
     "appPort": [4000, 8080],
     "extensions": ["ms-python.python",
                    "ms-azuretools.vscode-docker"],
-    "runServices": ["converter", "notebook", "jekyll", "watcher"]
+    "runServices": ["converter", "notebook", "jekyll", "watcher"],
+    "customizations": {
+        "codespaces": {
+          "repositories": {
+            "zshn25/compilation-of-3d-mesh-model-resources": {
+              "permissions": "write-all"
+            }
+          }
+        }
+      }
 }
-

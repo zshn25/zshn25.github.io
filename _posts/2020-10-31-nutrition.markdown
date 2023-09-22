@@ -46,11 +46,7 @@ The need to be aware of nutrition in order to avoid obesity and stay healthy now
 
 We are increasingly outsourcing our food preparation. Convenient food has become a norm. These fast-food is often designed as snack-food and marketed to be eaten continuously throughout the day. Such foods are not only less healthy, very high in salt, trans-fat and sugar, but we also tend to overeat them.
 
-{:refdef: style="text-align: center;"}
-<figure class="video_container">
-  <iframe width="100%" height="400vh" src="https://www.youtube-nocookie.com/embed/oSDC4C3_16Y" frameborder="0" allowfullscreen></iframe>
-</figure>
-{: refdef}
+{% include youtube.html content="Aubn2Oh6Stg" %}{: width="70%" .shadow}
 
 This is not an Ad. As seen in the above commercial, nutrient dense foods tend to spoil fast while processed foods usually have very low nutrients in order to increase their shelf life (even pests don't want to eat processed food). The refining process removes important nutrients such as fiber, iron, B vitamins, in order to increase the food's shelf life. Their business model is to use the cheapest available raw ingredients, process it as much as possible to increase shelf life and add large amounts salt, fat and sugar to make them seem attractive.
 
@@ -66,13 +62,14 @@ We have all been taught that food is made up of 3 macronutrients
 
 Historically, food was a scarce resource. In the animal kingdom, presence of food was unpredictable. So, we evolved to store food in the body for later use. All calories (including proteins, carbs and fats) that aren't converted into usable energy, [ATP](https://en.wikipedia.org/wiki/Adenosine_triphosphate), are stored in the body in the form of [adipose tissue](https://en.wikipedia.org/wiki/Adipose_tissue) for later use. This is what we call body fat. It is not necessarily bad to have body fat but if you have excess of body fat, it can lead to severe long term-health issues.
 
+<!--
 {:refdef: style="text-align: center;"}
 [![bmi](https://upload.wikimedia.org/wikipedia/commons/6/6f/Obesity_%26_BMI.png){: width="50%" .shadow}](https://en.wikipedia.org/wiki/Body_mass_index#/media/File:Obesity_&_BMI.png)
 {: refdef}
 {:refdef: style="text-align: center;"}
 <sup><sub>*Fig.2: Obesity and BMI. [BruceBlaus](https://commons.wikimedia.org/wiki/User:BruceBlaus), [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons*
 </sup></sub>
-{: refdef}
+{: refdef} -->
 
 ### Is dietary fat really bad?
 

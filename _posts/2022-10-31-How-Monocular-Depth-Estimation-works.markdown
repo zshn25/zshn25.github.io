@@ -2,7 +2,7 @@
 layout: post
 title:  "Self-supervised monocular depth estimation"
 description: "How to estimate depth and ego-motion from videos: Neural Networks"
-image: https://github.com/nianticlabs/monodepth2/blob/master/assets/teaser.gif?raw=true
+image: https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/2551b04d-fd4e-4ec9-9869-3e8c9ac5e7bf/d93a0lc-e4ecbd7d-6120-4925-be1d-1e250d7e0830.png/v1/fill/w_1024,h_576,q_80,strp/cyclops_greek_mythology_by_nilesdino_d93a0lc-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NTc2IiwicGF0aCI6IlwvZlwvMjU1MWIwNGQtZmQ0ZS00ZWM5LTk4NjktM2U4YzlhYzVlN2JmXC9kOTNhMGxjLWU0ZWNiZDdkLTYxMjAtNDkyNS1iZTFkLTFlMjUwZDdlMDgzMC5wbmciLCJ3aWR0aCI6Ijw9MTAyNCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.kEfvRjpv5KXW_HtOAtsBltiTNTF7DswBz8TwLvRVwyo
 date:   2022-10-30 19:21:23 -0700
 categories: deep-learning computer-vision 3d-reconstruction structure-from-motion visual-odometry
 author: Zeeshan Khan Suri
@@ -27,11 +27,7 @@ We rely on monocular cues for perceiving 3D even with a single eye. These monocu
 
 If animals are able to use these cues to reason about the relative 3D structure, the question arises, is there a way to make machines do the same? A famous paper from 2009 called [Make3D](http://make3d.cs.cornell.edu/)[^4] says "yes!".
 
-{:refdef: style="text-align: center;"}
-<figure class="video_container">
-  <iframe width="70%" height="300vh" src="https://www.youtube-nocookie.com/embed/GWWIn29ZV4Q" frameborder="0" allowfullscreen></iframe>
-</figure>
-{: refdef}
+{% include youtube.html content="GWWIn29ZV4Q" %}{: width="70%" .shadow}
 
 But this post is not about that. We will be looking at more recent neural network based approaches. After all, neural networks can be thought as function approximators and with enough data, should be able to approximate the function $\mathcal{f}$ that maps an RGB pixel $i \in \mathbb{R}^3$ to its depth $d$
 

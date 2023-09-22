@@ -164,12 +164,7 @@ https://chrome.google.com/webstore/detail/google-analytics-opt-out/fllaojicojecl
 To summarize, I would like to point you to the following TED talk which will hopefully fill-in the gaps I left unfilled. 
 
 
-{:refdef: style="text-align: center;"}
-<figure class="video_container"> 
- <div style="max-width:854px"><div style="position:relative;height:0;padding-bottom:56.25%"><iframe src="https://embed.ted.com/talks/glenn_greenwald_why_privacy_matters" width="75%" height="400vh" style="position:absolute;left:0;top:0;width:100%;height:100%" frameborder="0" scrolling="no" allowfullscreen></iframe></div></div>
-</figure>
-{: refdef}
-
+{% include youtube.html content="pcSlowAhvUk" %}{: width="100%" .shadow}
 
 ## References
 

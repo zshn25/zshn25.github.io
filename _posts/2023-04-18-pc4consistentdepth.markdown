@@ -103,7 +103,7 @@ While disambiguating scale during training is not possible without some kind of 
 
 For an introduction to self-supervised monocular depth estimation, checkout my previous blog post on [Self-supervised Monocular Depth Estimation]({{ site.baseurl }}{% post_url 2022-10-31-How-Monocular-Depth-Estimation-works %})
 
-{% include youtube.html content="https://www.youtube.com/embed/AN1AGR85N2A" %}{: width="100%" .shadow}
+{% include youtube.html content="AN1AGR85N2A" %}{: width="100%" .shadow}
 ___
 
 
