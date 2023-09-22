@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" />
+  
+  <meta name="referrer" content="no-referrer"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Compilation of 3D mesh models | Curiosity</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Compilation of 3D mesh models" />
+<meta name="author" content="Zeeshan Khan Suri" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Awesome compilation of 3D mesh model datasets and resources for research purposes." />
+<meta property="og:description" content="Awesome compilation of 3D mesh model datasets and resources for research purposes." />
+<link rel="canonical" href="https://zshn25.github.io/compilation-3d-mesh-resources/" />
+<meta property="og:url" content="https://zshn25.github.io/compilation-3d-mesh-resources/" />
+<meta property="og:site_name" content="Curiosity" />
+<meta property="og:image" content="https://deep-geometry.github.io/abc-dataset/assets/images/header.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-04-14T17:21:23-05:00" />
+<script type="application/ld+json">
+{"url":"https://zshn25.github.io/compilation-3d-mesh-resources/","@type":"BlogPosting","headline":"Compilation of 3D mesh models","dateModified":"2021-04-14T17:21:23-05:00","datePublished":"2021-04-14T17:21:23-05:00","image":"https://deep-geometry.github.io/abc-dataset/assets/images/header.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://zshn25.github.io/compilation-3d-mesh-resources/"},"author":{"@type":"Person","name":"Zeeshan Khan Suri"},"description":"Awesome compilation of 3D mesh model datasets and resources for research purposes.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons/css/academicons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.js" integrity="sha384-YNHdsYkH6gMx9y3mRkmcJ2mFUjTd0qNQQvY9VYZgQd7DcN7env35GzlmFaZ23JGp" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+            // customised options
+            // • auto-render specific keys, e.g.:
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '$', right: '$', display: false},
+                {left: '\\(', right: '\\)', display: false},
+                {left: '\\[', right: '\\]', display: true}
+            ],
+            // • rendering keys, e.g.:
+            throwOnError : false
+            });
+        });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+
+<script src="/assets/js/applytheme.js"></script>
+<script src="/assets/js/main.js"></script>
+
+<!-- <link id="dark-css" href="/assets/css/dark.scss" rel="stylesheet" media="(prefers-color-scheme: dark)"> -->
+<link id="dark-css" href="/assets/css/dark.scss" rel="stylesheet" media="(prefers-color-scheme: dark)"></head>
+<body><header class="site-header fixed-top">
+
+  <div class="wrapper"><a class="site-title no-underline hover-grow" rel="author" href="/"> <img src="/images/logo.png" style="max-width:40px;" alt="Curiosity logo"> Curiosity</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+            <a class="page-link" href="/about/">About</a>
+            <a class="page-link" href="/categories/">Tags</a>
+          <span id="nav-switch-theme" class="nav-anchor">
+            <span class="nav-theme-icon fas fa-fw" aria-hidden="true" title="Theme"></span>
+            <span class="sr-only">Toggle Theme</span>
+          </span>
+        </div>
+      </nav></div>
+</header>
+    
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting"><header class="post-header">
+      <h1 class="post-title p-name" itemprop="name headline">
+        
+        
+          
+      
+        Compilation of 3D mesh models
+      
+        
+        
+      </h1>
+    <p class="page-description">Awesome compilation of 3D mesh model datasets and resources for research purposes.</p><p class="post-meta post-meta-title">
+      <i class="far fa-calendar-alt"></i><time class="dt-published" datetime="2021-04-14T17:21:23-05:00" itemprop="datePublished">
+        Apr 14, 2021
+      </time>• <i class="far fa-user"></i> 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Zeeshan Khan Suri</span></span>
+       • <i class="far fa-clock"></i> <span class="read-time" title="Estimated read time">
+    
+    
+      2 mins read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link label label-default" href="/categories/#3d-mesh">#3d-mesh</a>
+        &nbsp;
+      
+        <a class="category-tags-link label label-default" href="/categories/#datasets">#datasets</a>
+        &nbsp;
+      
+        <a class="category-tags-link label label-default" href="/categories/#computer-vision">#computer-vision</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  
+  
+
+  <div class="post-content e-content" itemprop="articleBody">
+    
+    <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <a href="https://github.com/zshn25/compilation-of-3d-mesh-model-resources" role="button" target="_blank">
+        <img class="notebook-badge-image" src="/assets/badges/github.svg" alt="View On GitHub" />
+    </a>
+        </div>
+
+<p><a href="https://github.com/zshn25/compilation-of-3d-mesh-model-resources/graphs/commit-activity"><img src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" alt="Maintenance" /></a>
+<a href="https://github.com/zshn25/compilation-of-3d-mesh-model-resources/pulls"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat" alt="PR's Welcome" /></a>
+<a href="https://github.com/sindresorhus/awesome"><img src="https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg" alt="Awesome" /></a></p>
+
+<p>A compilation of 3D mesh models found on the web for research purposes.</p>
+
+<p><strong>Disclaimer</strong>: All images shown here are the sole property of their respective owners. I do not claim any Copyright/authority over them.</p>
+
+<p><strong>Note</strong>: This list is not regularly updated and is looking for maintainers. If you want to include some dataset, please open a Pull Request.</p>
+
+<ol>
+  <li>
+    <p><a href="https://omniobject3d.github.io/">OmniObject3D</a>, 2023: 6k objects in 190 categories
+ <img src="https://omniobject3d.github.io/img/teaser_full_v2.gif" alt="OmniObject3D" /></p>
+  </li>
+  <li>
+    <p><a href="https://objaverse.allenai.org/">Objaverse</a>, 2023: 800K+ Annotated 3D Objects</p>
+
+    <p><img src="https://objaverse.allenai.org/vdiv.png" alt="Objaverse" /></p>
+  </li>
+  <li>
+    <p><a href="https://amazon-berkeley-objects.s3.amazonaws.com/index.html">Amazon Berkeley Objects (ABO) Dataset</a>, 2022</p>
+
+    <p><img src="https://amazon-berkeley-objects.s3.amazonaws.com/static_html/assets/render_collection_bright_b.jpg" alt="abo" /></p>
+  </li>
+  <li>
+    <p><a href="https://tianchi.aliyun.com/specials/promotion/alibaba-3d-future">3D-FUTURE: 3D FUrniture shape with TextURE</a>, 2021</p>
+
+    <p><img src="https://img.alicdn.com/tfs/TB1HTSfz4v1gK0jSZFFXXb0sXXa-1999-1037.png" alt="3dfuture" /></p>
+  </li>
+  <li>
+    <p><a href="https://ai.meta.com/datasets/CO3D-dataset/">Co3D: Common Objects in 3D</a>, 2021</p>
+
+    <p><img src="https://github.com/facebookresearch/co3d/raw/main/grid.gif" alt="co3d" /></p>
+  </li>
+  <li>
+    <p><a href="https://liuliu66.github.io/articulationobjects/index.html">AKB-48 Articulation Objects</a></p>
+
+    <p><img src="https://liuliu66.github.io/articulationobjects/images/templatemo_middle.png" alt="akb-48" /></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/rehg-lab/lowshot-shapebias#toys4k-3d-object-dataset">Toys4K</a>, 2021: 4k objects</p>
+
+    <p><img src="https://user-images.githubusercontent.com/13421307/144886151-2d04660f-816b-4f40-9b7e-ed1851c1f2c6.gif" alt="Toys4K" /></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/apple/ml-hypersim">Hypersim</a>, 2021</p>
+
+    <p><img src="https://github.com/apple/ml-hypersim/raw/main/docs/teaser_web.jpg" alt="Hypersim" /></p>
+  </li>
+  <li>
+    <p><a href="https://matterport.com/habitat-matterport-3d-research-dataset">Habitat-Matterport 3D Research Dataset (HM3D)</a>, <a href="https://github.com/matterport/habitat-matterport-3dresearch">Link2</a>, <a href="https://aihabitat.org/datasets/hm3d/">Link3</a>, 2021</p>
+  </li>
+  <li>
+    <p><a href="https://github.com/EPFL-VILAB/omnidata/tree/main/omnidata_tools/dataset#readme">Omnidata</a>, <a href="https://omnidata.vision">Link2</a>, 2021</p>
+
+    <p><img src="https://camo.githubusercontent.com/0eac9fdba667ef1187453ebf3ea5ecfa188420e801c9999b131115a18a7bfda7/68747470733a2f2f6f6d6e69646174612e766973696f6e2f6173736574732f6d61696e5f706167652f737461727465725f646174617365742e6a7067" alt="Omnidata" /></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/StanfordVL/taskonomy/tree/master/data">TASKONOMY Dataset</a>, 2021
+ <img src="https://camo.githubusercontent.com/654e0c61a179e469b82a8b346bf7e222e1f821675a3f800a4c3f2b7f19b2997b/687474703a2f2f7461736b6f6e6f6d792e766973696f6e2f7374617469632f696d616765732f646174617365745f7468756d626e61696c2e706e67" alt="TASKONOMY" /></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/YoYo000/BlendedMVS">BlendedMVS</a>, 2020</p>
+
+    <p><img src="https://github.com/YoYo000/BlendedMVS/raw/master/doc/cover0.gif" alt="" />
+ <img src="https://github.com/YoYo000/BlendedMVS/raw/master/doc/cover1.gif" alt="" /></p>
+  </li>
+  <li>
+    <p><a href="https://app.gazebosim.org/GoogleResearch/fuel/collections/Scanned%20Objects%20by%20Google%20Research">Scanned Objects by Google Research</a>, 2020</p>
+
+    <p><!-- ![](blob:https://app.gazebosim.org/6816943e-1f8d-4c2f-8ad6-f20c2c1a0965) --></p>
+  </li>
+  <li>
+    <p><a href="https://hkust-vgd.github.io/scanobjectnn/">ScanObjectNN: Revisiting Point Cloud Classification: A New Benchmark Dataset and Classification Model on Real-World Data</a>, 2019: 15k real scanned objects</p>
+
+    <p><img src="https://hkust-vgd.github.io/scanobjectnn/images/objects_teaser.png" alt="scanobjectnn" /></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/facebookresearch/Replica-Dataset">Replica</a>, <a href="https://aihabitat.org/datasets/replica_cad/">ReplicaCAD</a>, 2019</p>
+
+    <p><img src="https://github.com/facebookresearch/Replica-Dataset/raw/main/assets/ReplicaModalities.png" alt="replica" /></p>
+  </li>
+  <li>
+    <p><a href="https://deep-geometry.github.io/abc-dataset/">ABC Dataset</a>, 2019</p>
+
+    <p><img src="https://deep-geometry.github.io/abc-dataset/assets/images/header.png" alt="ABC" /></p>
+
+    <p><img src="https://github.com/zshn25/compilation-of-3d-mesh-model-resources/blob/master/images/abc.png?raw=true" alt="Random examples from the dataset. Most models are mechanical parts with sharp edges and well defined surfaces" />
+ Random examples from the dataset. Most models are mechanical parts with sharp edges and well defined surfaces</p>
+  </li>
+  <li>
+    <p><a href="https://shrec19.cs.cf.ac.uk/">SHREC’19</a>, Shape Correspondence with Isometric and Non-Isometric Deformations, 2019</p>
+
+    <p><img src="https://shrec19.cs.cf.ac.uk/img/banner.jpg" alt="shrec19" /></p>
+  </li>
+  <li>
+    <p><a href="http://profs.scienze.univr.it/~marin/shrec19/">SHREC’19</a>, Correspondence in Humans with Different Connectivity, 2019</p>
+
+    <p><img src="http://profs.scienze.univr.it/~marin/shrec19/teaser.png" alt="shrec19" /></p>
+  </li>
+  <li>
+    <p><a href="http://pix3d.csail.mit.edu/">Pix3D</a>, 2018</p>
+
+    <p><img src="https://github.com/zshn25/compilation-of-3d-mesh-model-resources/blob/master/images/pix3d.png?raw=true" alt="Pix3d" /></p>
+  </li>
+  <li>
+    <p><a href="https://casual-effects.com/data/">Morgan McGuire, Computer Graphics Archive</a>, 2017</p>
+
+    <p><img src="https://github.com/zshn25/compilation-of-3d-mesh-model-resources/blob/master/images/MorganMcGuireComputerGraphicsArchive.png?raw=true" alt="casualeffects" /></p>
+  </li>
+  <li>
+    <p><a href="http://humanshape.mpi-inf.mpg.de/#">MPII Human Shape</a></p>
+
+    <p><img src="http://humanshape.mpi-inf.mpg.de/images/pca_components.png" alt="mpi" /></p>
+  </li>
+  <li>
+    <p><a href="https://www.tanksandtemples.org/">Tanks and Temples</a>
+ <img src="https://www.tanksandtemples.org/static/websites/modern-business/images/tankB.png" alt="" />
+ <img src="https://www.tanksandtemples.org/static/websites/modern-business/images/templeB.png" alt="" /></p>
+  </li>
+  <li>
+    <p><a href="https://github.com/alexsax/2D-3D-Semantics">2D-3D Semantics</a>, 2017</p>
+
+    <p><img src="https://github.com/alexsax/2D-3D-Semantics/raw/master/assets/figure_1.jpg?raw=true" alt="2d3d" /></p>
+  </li>
+  <li>
+    <p><a href="https://downloads.greyc.fr/Greyc3DColoredMeshDatabase/">GREYC 3D Colored Mesh Database</a>, 2017</p>
+
+    <p><img src="https://github.com/zshn25/compilation-of-3d-mesh-model-resources/blob/master/images/greyc3dcoloredmeshdatabase.png?raw=true" alt="greyc3dcoloredmeshdatabase" /></p>
+  </li>
+  <li>
+    <p><a href="https://ten-thousand-models.appspot.com/">Thingi10K</a>, 2017</p>
+
+    <p><img src="https://github.com/zshn25/compilation-of-3d-mesh-model-resources/blob/master/images/thingi.png?raw=true" alt="" />
+<img src="https://github.com/zshn25/compilation-of-3d-mesh-model-resources/blob/master/images/thingi_pairs.png?raw=true" alt="" /></p>
+  </li>
+  <li>
+    <p><a href="http://cvgl.stanford.edu/projects/objectnet3d/">ObjectNet3D</a>, 2016</p>
+
+    <p><img src="https://github.com/zshn25/compilation-of-3d-mesh-model-resources/blob/master/images/objectnet.png?raw=true" alt="ObjectNet3D" /></p>
+  </li>
+  <li>
+    <p><a href="http://shapenet.cs.stanford.edu/shrec16/">ShapeNet</a>, 2016</p>
+
+    <p><img src="http://shapenet.cs.stanford.edu/shrec16/images/logo.png" alt="shapenet" /></p>
+  </li>
+  <li>
+    <p><a href="https://catalog.data.gov/dataset/nist-cad-models-and-step-files-with-pmi">NIST CAD Models</a>, 2016</p>
+
+    <p><img src="https://www.nist.gov/sites/default/files/images/2018/01/10/pmi-ftc-figure_1.png" alt="NIST" /></p>
+  </li>
+  <li>
+    <p><a href="https://vision.in.tum.de/data/datasets/topkids">Kids with Topological Noise</a>, 2016</p>
+
+    <p><img src="https://vision.in.tum.de/_media/data/datasets/topkids/topkids_teaser.png" alt="topkids" /></p>
+  </li>
+  <li>
+    <p><a href="http://redwood-data.org/3dscan/index.html">A Large Dataset of Object Scans</a>, 2016</p>
+
+    <p><img src="http://redwood-data.org/3dscan/img/teaser.jpg" alt="A Large Dataset of Object Scans" /></p>
+  </li>
+  <li>
+    <p><a href="https://vision.in.tum.de/data/datasets/partial">TOSCA PARTIAL</a>, 2015</p>
+
+    <p><img src="https://vision.in.tum.de/_media/data/datasets/partial.png" alt="TOSCA" /></p>
+  </li>
+  <li>
+    <p><a href="http://modelnet.cs.princeton.edu/#">ModelNet</a>, 2015</p>
+
+    <p><img src="http://3dvision.princeton.edu/projects/2014/3DShapeNets/thumbnail.jpg" alt="" /></p>
+  </li>
+  <li>
+    <p><a href="http://cvgl.stanford.edu/projects/pascal3d.html">PASCAL+</a>, 2014</p>
+
+    <p><img src="http://cvgl.stanford.edu/projects/pascal3d+/cads.png" alt="PASCAL+" /></p>
+  </li>
+  <li>
+    <p><a href="http://faust.is.tue.mpg.de/">FAUST</a>, 2014</p>
+
+    <p><img src="http://faust.is.tue.mpg.de/assets/test_resize.png" alt="faust" /></p>
+  </li>
+  <li>
+    <p><a href="https://vision.in.tum.de/data/datasets/kids">Kids</a>, 2014</p>
+
+    <p><img src="https://vision.in.tum.de/_media/data/datasets/rodola-cvpr14-kids-large.png" alt="kids" /></p>
+  </li>
+  <li>
+    <p><a href="http://vision.imar.ro/human3.6m/description.php">Human 3.6</a>, 2014</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align: center">.</th>
+          <th style="text-align: center">.</th>
+          <th style="text-align: center">.</th>
+          <th> </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: center"> </td>
+          <td style="text-align: center"><img src="http://vision.imar.ro/human3.6m/images/overviewimg2.png" alt="ikea" /></td>
+          <td style="text-align: center"><img src="http://vision.imar.ro/human3.6m/images/overviewimg.png" alt="ikea" /></td>
+          <td><img src="http://vision.imar.ro/human3.6m/images/scans/2.png" alt="ikea" /></td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <p><a href="https://graphics.soe.ucsc.edu/data/BodyModels/">Body Models</a>, 2014</p>
+
+    <p><img src="https://graphics.soe.ucsc.edu/data/BodyModels/spring.files/image002.jpg" alt="body" /></p>
+  </li>
+  <li>
+    <p><a href="https://vision.in.tum.de/data/datasets/clutter">Clutter</a>, 2013</p>
+
+    <p><img src="https://vision.in.tum.de/_media/members/rodola/datasets/rodola-ijcv12-scene.png" alt="clutter" /></p>
+  </li>
+  <li>
+    <p><a href="http://ikea.csail.mit.edu/">IKEA Dataset</a>, 2013</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align: center">.</th>
+          <th style="text-align: center">.</th>
+          <th style="text-align: center">.</th>
+          <th> </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: center"> </td>
+          <td style="text-align: center"><img src="http://ikea.csail.mit.edu/obj_list/IKEA_table_LACK/lack_table_3_obj0_object/0060.png" alt="ikea" /></td>
+          <td style="text-align: center"><img src="http://ikea.csail.mit.edu/obj_list/IKEA_chair_POANG/24abfbc0942cbf8fc8b7874340ccdda3_obj0_object/0060.png" alt="ikea" /></td>
+          <td><img src="http://ikea.csail.mit.edu/obj_list/IKEA_bookcase_BILLY/billy_bookcase_1_obj0_object/0060.png" alt="ikea" /></td>
+        </tr>
+        <tr>
+          <td style="text-align: center"> </td>
+          <td style="text-align: center"><img src="http://ikea.csail.mit.edu/obj_list/IKEA_table_LACK/lack_table_2_obj0_object/0060.png" alt="ikea" /></td>
+          <td style="text-align: center"><img src="http://ikea.csail.mit.edu/obj_list/IKEA_bookcase_EXPEDIT/d0d7346d825b67f399fdfb1d38fef5b_obj0_object/0060.png" alt="ikea" /></td>
+          <td><img src="http://ikea.csail.mit.edu/obj_list/IKEA_sofa_KARLSTAD/karlstad_sofa_1_obj0_object/0060.png" alt="ikea" /></td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <p><a href="http://tosca.cs.technion.ac.il/book/shrec.html">SHREC’10,’11</a>, 2010, 2011</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align: center">.</th>
+          <th style="text-align: center">.</th>
+          <th style="text-align: center">.</th>
+          <th> </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: center"> </td>
+          <td style="text-align: center"><img src="http://tosca.cs.technion.ac.il/book/images/shrec_retrieval.png" alt="shrec10" /></td>
+          <td style="text-align: center"><img src="http://tosca.cs.technion.ac.il/book/images/shrec_corr.png" alt="shrec10" /></td>
+          <td><img src="http://tosca.cs.technion.ac.il/book/images/shrec_feat.png" alt="shrec10" /></td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <p><a href="http://segeval.cs.princeton.edu/">A Benchmark for 3D Mesh Segmentation</a>, 2009</p>
+
+    <p><img src="http://segeval.cs.princeton.edu/public/figures/representative.jpg" alt="benchmark" /></p>
+  </li>
+  <li>
+    <p><a href="http://tosca.cs.technion.ac.il/book/resources_data.html">TOSCA High-res</a>, 2008</p>
+
+    <p><img src="http://tosca.cs.technion.ac.il/images/data_toscahires.jpg" alt="" /></p>
+  </li>
+  <li>
+    <p><a href="http://www.cim.mcgill.ca/~shape/benchMark/">McGill 3D Shape Benchmark</a>, 2008</p>
+
+    <p><img src="http://www.cim.mcgill.ca/~shape/benchMark/images/crabs/crabs1.jpg" alt="mcgill" /></p>
+  </li>
+  <li>
+    <p><a href="http://watertight.ge.imati.cnr.it/">SHREC’07, Watertight Dataset</a>, 2007</p>
+
+    <p><img src="https://github.com/zshn25/compilation-of-3d-mesh-model-resources/blob/master/images/watertight.png?raw=true" alt="" /></p>
+  </li>
+  <li>
+    <p><a href="http://tosca.cs.technion.ac.il/book/resources_data.html">Human Face</a>, 2006</p>
+
+    <p><img src="http://tosca.cs.technion.ac.il/images/data_face.jpg" alt="" /></p>
+  </li>
+  <li>
+    <p><a href="http://tosca.cs.technion.ac.il/book/resources_data.html">Non-rigid world</a>, 2006</p>
+
+    <p><img src="http://tosca.cs.technion.ac.il/images/data_nonrigid3d.jpg" alt="" /></p>
+  </li>
+  <li>
+    <p><a href="http://ai.stanford.edu/~drago/Projects/scape/scape.html">SCAPE</a>, 2004</p>
+
+    <p><img src="http://ai.stanford.edu/~drago/Projects/scape/markertransformation.gif" alt="scape" /></p>
+  </li>
+  <li>
+    <p><a href="http://graphics.cs.brown.edu/games/brown-mesh-set/">The Brown Mesh Set</a>, 2004</p>
+
+    <p><img src="http://graphics.cs.brown.edu/games/brown-mesh-set/icon.png" alt="" /></p>
+  </li>
+  <li>
+    <p><a href="http://people.csail.mit.edu/sumner/research/deftransfer/data.html">Mesh Data from Deformation Transfer for Triangle Meshes</a>, 2004</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align: center">.</th>
+          <th style="text-align: center">.</th>
+          <th style="text-align: center">.</th>
+          <th style="text-align: right">.</th>
+          <th style="text-align: right">.</th>
+          <th> </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: center"> </td>
+          <td style="text-align: center"><img src="http://people.csail.mit.edu/sumner/research/deftransfer/stamps/horse-poses.jpg" alt="Keenan" /></td>
+          <td style="text-align: center"><img src="http://people.csail.mit.edu/sumner/research/deftransfer/stamps/camel-collapse.jpg" alt="Keenan" /></td>
+          <td style="text-align: right"><img src="http://people.csail.mit.edu/sumner/research/deftransfer/stamps/cat-poses.jpg" alt="Keenan" /></td>
+          <td style="text-align: right"><img src="http://people.csail.mit.edu/sumner/research/deftransfer/stamps/camel-gallop.jpg" alt="Keenan" /></td>
+          <td><img src="http://people.csail.mit.edu/sumner/research/deftransfer/stamps/lion-poses.jpg" alt="Keenan" /></td>
+        </tr>
+        <tr>
+          <td style="text-align: center"> </td>
+          <td style="text-align: center"><img src="http://people.csail.mit.edu/sumner/research/deftransfer/stamps/face-poses.jpg" alt="Keenan" /></td>
+          <td style="text-align: center"><img src="http://people.csail.mit.edu/sumner/research/deftransfer/stamps/head-poses.jpg" alt="Keenan" /></td>
+          <td style="text-align: right"><img src="http://people.csail.mit.edu/sumner/research/deftransfer/stamps/flamingo-poses.jpg" alt="Keenan" /></td>
+          <td style="text-align: right"><img src="http://people.csail.mit.edu/sumner/research/deftransfer/stamps/elephant-poses.jpg" alt="Keenan" /></td>
+          <td><img src="http://people.csail.mit.edu/sumner/research/deftransfer/stamps/elephant-gallop.jpg" alt="Keenan" /></td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <p><a href="http://shape.cs.princeton.edu/benchmark/">The Princeton Shape Benchmark</a>, 2003</p>
+  </li>
+</ol>
+
+<p><img src="https://github.com/zshn25/compilation-of-3d-mesh-model-resources/blob/master/images/Princeton.png?raw=true" alt="The Princeton Shape Benchmark" /></p>
+      <h2 id="other-miscellaneous-data">
+        
+        
+          <a href="#other-miscellaneous-data" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Other Miscellaneous Data
+        
+        
+      </h2>
+    
+
+<ul>
+  <li>
+    <p><a href="https://www.cs.cmu.edu/~kmcrane/Projects/ModelRepository/">Keenan’s 3D Model Repository</a></p>
+
+    <p><img src="https://github.com/zshn25/compilation-of-3d-mesh-model-resources/blob/master/images/jerry_blendshapes.png?raw=true" alt="" />, mostly under <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0 1.0 Universal (CC0 1.0) Public Domain Dedication</a></p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align: center">.</th>
+          <th style="text-align: center">.</th>
+          <th style="text-align: center">.</th>
+          <th style="text-align: right">.</th>
+          <th style="text-align: right">.</th>
+          <th> </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: center"> </td>
+          <td style="text-align: center"><img src="https://wsrv.nl/?url=https://www.cs.cmu.edu/~kmcrane/Projects/ModelRepository/spot.png&amp;w=150" alt="Keenan" /></td>
+          <td style="text-align: center"><img src="https://wsrv.nl/?url=https://www.cs.cmu.edu/~kmcrane/Projects/ModelRepository/bob.png&amp;w=150" alt="Keenan" /></td>
+          <td style="text-align: right"><img src="https://wsrv.nl/?url=https://www.cs.cmu.edu/~kmcrane/Projects/ModelRepository/blub.jpg&amp;w=150" alt="Keenan" /></td>
+          <td style="text-align: right"><img src="https://wsrv.nl/?url=https://www.cs.cmu.edu/~kmcrane/Projects/ModelRepository/origins.jpg&amp;w=150" alt="Keenan" /></td>
+          <td><img src="https://wsrv.nl/?url=https://www.cs.cmu.edu/~kmcrane/Projects/ModelRepository/Nefertiti.png&amp;w=150" alt="Keenan" /></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p><a href="https://github.com/keenancrane/Scotty3Dataset">Scotty3Dataset</a>, 2020 <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a></p>
+
+    <p><img src="https://github.com/keenancrane/Scotty3Dataset/blob/main/mosaic.png?raw=true" alt="Scotty3Dataset" /></p>
+
+    <p>See <a href="https://www.cs.cmu.edu/~kmcrane/Projects/ModelRepository/">Keenan’s 3D Model Repository</a> for more</p>
+  </li>
+  <li>
+    <p><a href="http://www.sci.utah.edu/~wald/animrep/">The Utah 3D Animation Repository</a></p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align: center">.</th>
+          <th style="text-align: center">.</th>
+          <th style="text-align: center">.</th>
+          <th style="text-align: right">.</th>
+          <th style="text-align: right">.</th>
+          <th style="text-align: right">.</th>
+          <th> </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: center"> </td>
+          <td style="text-align: center"><img src="http://www.sci.utah.edu/~wald/animrep/generated/ben.small.jpg" alt="utah" /></td>
+          <td style="text-align: center"><img src="http://www.sci.utah.edu/~wald/animrep/generated/explodingDragon.small.jpg" alt="ikea" /></td>
+          <td style="text-align: right"><img src="http://www.sci.utah.edu/~wald/animrep/generated/fairy.small.jpg" alt="ikea" /></td>
+          <td style="text-align: right"><img src="http://www.sci.utah.edu/~wald/animrep/generated/hand.small.jpg" alt="ikea" /></td>
+          <td style="text-align: right"><img src="http://www.sci.utah.edu/~wald/animrep/generated/toasters.small.jpg" alt="ikea" /></td>
+          <td><img src="http://www.sci.utah.edu/~wald/animrep/generated/wood-doll.small.jpg" alt="ikea" /></td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <p><a href="http://graphics.stanford.edu/data/3Dscanrep/">The Stanford 3D Scanning Repository</a></p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align: center">.</th>
+          <th style="text-align: center">.</th>
+          <th style="text-align: center">.</th>
+          <th style="text-align: right">.</th>
+          <th style="text-align: right">.</th>
+          <th style="text-align: right">.</th>
+          <th> </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: center"> </td>
+          <td style="text-align: center"><img src="http://graphics.stanford.edu/data/3Dscanrep/stanford-bunny-cebal-ssh.gif" alt="utah" /></td>
+          <td style="text-align: center"><img src="http://graphics.stanford.edu/data/3Dscanrep/happy.gif" alt="ikea" /></td>
+          <td style="text-align: right"><img src="http://graphics.stanford.edu/data/3Dscanrep/dragon.gif" alt="ikea" /></td>
+          <td style="text-align: right"><img src="http://graphics.stanford.edu/data/3Dscanrep/armadillo.gif" alt="ikea" /></td>
+          <td style="text-align: right"><img src="http://graphics.stanford.edu/data/3Dscanrep/xyzrgb/dragon_thumb.jpg" alt="ikea" /></td>
+          <td><img src="http://graphics.stanford.edu/data/3Dscanrep/lucy-vray_28_mil_poly_hdri_gi.gif" alt="ikea" /></td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <p><a href="http://www.headus.com.au/samples/killeroo/index.html">Killeroo 3D Scan</a></p>
+
+    <p><img src="http://www.headus.com.au/samples/killeroo/scan.small.jpg" alt="killeroo" /></p>
+  </li>
+  <li>
+    <p><a href="http://www.headus.com.au/samples/vrml.html">Cyberware Whole Body Scans</a></p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align: center">.</th>
+          <th style="text-align: center">.</th>
+          <th style="text-align: center">.</th>
+          <th style="text-align: right">.</th>
+          <th style="text-align: right">.</th>
+          <th> </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: center"> </td>
+          <td style="text-align: center"><img src="http://www.headus.com.au/samples/wb-vrml/small-wb6.jpg" alt="utah" /></td>
+          <td style="text-align: center"><img src="http://www.headus.com.au/samples/wb-vrml/small-wb1.jpg" alt="ikea" /></td>
+          <td style="text-align: right"><img src="http://www.headus.com.au/samples/wb-vrml/small-wb2.jpg" alt="ikea" /></td>
+          <td style="text-align: right"><img src="http://www.headus.com.au/samples/wb-vrml/small-wb3.jpg" alt="ikea" /></td>
+          <td><img src="http://www.headus.com.au/samples/wb-vrml/small-wb5.jpg" alt="ikea" /></td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <p><a href="http://resources.mpi-inf.mpg.de/mpimodel/v1.0/">MPI Informatics Building Model</a></p>
+
+    <p><img src="http://resources.mpi-inf.mpg.de/mpimodel/v1.0/images/introimage.jpg" alt="" /></p>
+  </li>
+  <li>
+    <p><a href="http://www.graphics.cornell.edu/online/box/data.html">Cornell Box</a></p>
+
+    <p><img src="http://www.graphics.cornell.edu/online/box/box.small.jpg" alt="" /></p>
+  </li>
+  <li>
+    <p><a href="https://nasa3d.arc.nasa.gov/models">NASA 3D Model Repo</a></p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align: center">.</th>
+          <th style="text-align: center">.</th>
+          <th style="text-align: center">.</th>
+          <th style="text-align: right">.</th>
+          <th style="text-align: right">.</th>
+          <th style="text-align: right">.</th>
+          <th> </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: center"> </td>
+          <td style="text-align: center"><img src="https://nasa3d.arc.nasa.gov/shared_assets/models/nmss-z2/Z2_428x321.png" alt="utah" /></td>
+          <td style="text-align: center"><img src="https://nasa3d.arc.nasa.gov/shared_assets/models/sofia/ClosedEndView_428x321.jpg" alt="ikea" /></td>
+          <td style="text-align: right"><img src="https://nasa3d.arc.nasa.gov/shared_assets/models/r2/R2_428x321.GIF" alt="ikea" /></td>
+          <td style="text-align: right"><img src="https://nasa3d.arc.nasa.gov/shared_assets/models/mkiii-suit/mkiii-suit-428-321.jpg" alt="ikea" /></td>
+          <td style="text-align: right"><img src="https://nasa3d.arc.nasa.gov/shared_assets/models/astronaut-glove/astronautglove-428x321.jpg" alt="ikea" /></td>
+          <td><img src="https://nasa3d.arc.nasa.gov/shared_assets/models/astronaut/astronaut1-428-321.jpg" alt="ikea" /></td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <p><a href="http://visionair.ge.imati.cnr.it/ontologies/shapes/">Aim@Shape</a></p>
+  </li>
+  <li>
+    <p><a href="https://developer.nvidia.com/orca">ORCA: Open Research Content Archive</a></p>
+
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align: center">.</th>
+          <th style="text-align: center">.</th>
+          <th style="text-align: center">.</th>
+          <th style="text-align: right">.</th>
+          <th> </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="text-align: center"> </td>
+          <td style="text-align: center"><img src="https://developer.nvidia.com/sites/default/files/akamai/gameworks/Falcor/Bistro_Cover.png" alt="" /></td>
+          <td style="text-align: center"><img src="https://developer.nvidia.com/sites/default/files/akamai/gameworks/Falcor/EmeraldSquare_Cover.png" alt="" /></td>
+          <td style="text-align: right"><img src="https://developer.nvidia.com/sites/default/files/akamai/gameworks/Falcor/white%20oak_big.jpg" alt="" /></td>
+          <td><img src="https://developer.nvidia.com/sites/default/files/akamai/gameworks/Falcor/SunTemple_Cover.png" alt="" /></td>
+        </tr>
+      </tbody>
+    </table>
+  </li>
+  <li>
+    <p><a href="https://www.morphosource.org/">MorphoSource</a></p>
+
+    <p><img src="https://www.morphosource.org/themes/morphosource/graphics/morphosource/homePageFeaured.jpg" alt="medical" /></p>
+  </li>
+  <li>
+    <p><a href="https://sites.google.com/site/brainrobotdata/home/models">Procedurally Generated Random Objects</a></p>
+
+    <p><img src="https://sites.google.com/site/brainrobotdata/_/rsrc/1507136597830/home/models/TexturedProceduralObjects.png?height=159&amp;width=200" alt="" /></p>
+  </li>
+</ul>
+      <h2 id="other-compilations">
+        
+        
+          <a href="#other-compilations" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Other compilations
+        
+        
+      </h2>
+    
+
+<ul>
+  <li>
+    <p><a href="https://en.wikipedia.org/wiki/List_of_common_3D_test_models">Wikipedia - List_of_common_3D_test_models</a></p>
+  </li>
+  <li>
+    <p><a href="https://all3dp.com/1/free-3d-models-download-best-sites-3d-archive-3d/">Free 3D Models Download: The Best Sites of 2022</a></p>
+  </li>
+  <li>
+    <p><a href="http://visionair.ge.imati.cnr.it/ontologies/shapes/link.jsp">Aim@Shape Links</a></p>
+  </li>
+  <li>
+    <p><a href="http://lodbook.com/models/">Level of Detail for 3D Graphics</a></p>
+  </li>
+  <li>
+    <p><a href="http://www.pointclouds.org/news/2013/01/07/point-cloud-data-sets/">Point Cloud Library Dataset</a></p>
+  </li>
+  <li>
+    <p><a href="http://yulanguo.me/dataset.html">Yulan Guo’s website</a></p>
+  </li>
+</ul><hr />
+
+<p>© Zeeshan Khan Suri, <a href="http://creativecommons.org/licenses/by-nc/4.0/"><i class="fab fa-creative-commons"></i> <i class="fab fa-creative-commons-by"></i> <i class="fab fa-creative-commons-nc"></i></a></p>
+
+<p>If this article was helpful to you, consider citing</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@misc{suri_compilation_3d_models,
+      title={ Compilation of 3D mesh models },
+      url={https://zshn25.github.io/compilation-3d-mesh-resources/}, 
+      journal={Curiosity}, 
+      author={Suri, Zeeshan Khan}, 
+      year={2021}, 
+      month={Aug}}
+</code></pre></div></div>
+
+<div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <a href="https://github.com/zshn25/compilation-of-3d-mesh-model-resources" role="button" target="_blank">
+        <img class="notebook-badge-image" src="/assets/badges/github.svg" alt="View On GitHub" />
+    </a>
+        </div>
+
+  </div><hr>
+  <!-- This code is taken from Jekyll-Codex (jekyllcodex.org). MIT License
+Copyright (c) 2020 Usecue BV -->
+
+
+
+
+<div style="text-align: center;">
+    <span style="color: rgb(134, 134, 134);">Share on : </span>
+    <div id="share-buttons">
+        <div class="facebook" title="Share this on Facebook" onclick="window.open('http://www.facebook.com/share.php?u=https://zshn25.github.io/compilation-3d-mesh-resources/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
+        <div class="twitter" title="Share this on Twitter" onclick="window.open('https://twitter.com/intent/tweet?text=Compilation of 3D mesh models&url=https://zshn25.github.io/compilation-3d-mesh-resources/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></div>
+        <div class="linkedin" title="Share this on Linkedin" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=https://zshn25.github.io/compilation-3d-mesh-resources/&title=&summary=&source=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></div>
+        <!-- <div class="pinterest" title="Share this on Pinterest" onclick="window.open('https://pinterest.com/pin/create/button/?url=&media=https://zshn25.github.iohttps://deep-geometry.github.io/abc-dataset/assets/images/header.png&description=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M256 597q0-108 37.5-203.5t103.5-166.5 152-123 185-78 202-26q158 0 294 66.5t221 193.5 85 287q0 96-19 188t-60 177-100 149.5-145 103-189 38.5q-68 0-135-32t-96-88q-10 39-28 112.5t-23.5 95-20.5 71-26 71-32 62.5-46 77.5-62 86.5l-14 5-9-10q-15-157-15-188 0-92 21.5-206.5t66.5-287.5 52-203q-32-65-32-169 0-83 52-156t132-73q61 0 95 40.5t34 102.5q0 66-44 191t-44 187q0 63 45 104.5t109 41.5q55 0 102-25t78.5-68 56-95 38-110.5 20-111 6.5-99.5q0-173-109.5-269.5t-285.5-96.5q-200 0-334 129.5t-134 328.5q0 44 12.5 85t27 65 27 45.5 12.5 30.5q0 28-15 73t-37 45q-2 0-17-3-51-15-90.5-56t-61-94.5-32.5-108-11-106.5z"/></svg></div> -->
+        <div class="mail" title="Share this through Email" onclick="window.open('mailto:?&body=https://zshn25.github.io/compilation-3d-mesh-resources/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1792 710v794q0 66-47 113t-113 47h-1472q-66 0-113-47t-47-113v-794q44 49 101 87 362 246 497 345 57 42 92.5 65.5t94.5 48 110 24.5h2q51 0 110-24.5t94.5-48 92.5-65.5q170-123 498-345 57-39 100-87zm0-294q0 79-49 151t-122 123q-376 261-468 325-10 7-42.5 30.5t-54 38-52 32.5-57.5 27-50 9h-2q-23 0-50-9t-57.5-27-52-32.5-54-38-42.5-30.5q-91-64-262-182.5t-205-142.5q-62-42-117-115.5t-55-136.5q0-78 41.5-130t118.5-52h1472q65 0 112.5 47t47.5 113z"/></svg></div>
+    </div>
+</div>
+  
+  <!-- Source: https://stackoverflow.com/questions/25348389/jekyll-and-liquid-show-related-posts-by-amount-of-equal-tags-2 
+License: https://creativecommons.org/licenses/by-sa/3.0/-->
+<div class="relatedPosts">
+      <h3>
+        
+        
+          You might also like
+        
+        
+      </h3>
+    
+
+    
+    
+
+    
+    
+
+    
+        
+
+            
+            
+
+            
+
+            
+                <article class="archive-item">
+                    <p class="post-meta"><a class="post-meta-title" href="/self-supervision-for-foundation-models/">Self-supervised learning for vision foundation models</a>  •  
+                        <i class="far fa-calendar-alt"></i> May 11, 2023  •  
+                        <i class="far fa-clock"></i> 
+       17 mins read   •  
+                        <i class="fas fa-tags category-tags-icon"></i>
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#computer-vision">#computer-vision</a>
+                                &nbsp;
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#large-neural-networks">#large-neural-networks</a>
+                                &nbsp;
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#foundation-models">#foundation-models</a>
+                                &nbsp;
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#self-supervision">#self-supervision</a>
+                                
+                            
+                    </p>
+                </article>
+                
+                
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+                <article class="archive-item">
+                    <p class="post-meta"><a class="post-meta-title" href="/How-Monocular-Depth-Estimation-works/">Self-supervised monocular depth estimation</a>  •  
+                        <i class="far fa-calendar-alt"></i> Oct 30, 2022  •  
+                        <i class="far fa-clock"></i> 
+       9 mins read   •  
+                        <i class="fas fa-tags category-tags-icon"></i>
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#deep-learning">#deep-learning</a>
+                                &nbsp;
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#computer-vision">#computer-vision</a>
+                                &nbsp;
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#3d-reconstruction">#3d-reconstruction</a>
+                                &nbsp;
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#structure-from-motion">#structure-from-motion</a>
+                                &nbsp;
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#visual-odometry">#visual-odometry</a>
+                                
+                            
+                    </p>
+                </article>
+                
+                
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+                <article class="archive-item">
+                    <p class="post-meta"><a class="post-meta-title" href="/is-convolution-linear/">Is convolution linear?</a>  •  
+                        <i class="far fa-calendar-alt"></i> Mar 11, 2021  •  
+                        <i class="far fa-clock"></i> 
+       2 mins read   •  
+                        <i class="fas fa-tags category-tags-icon"></i>
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#mathematics">#mathematics</a>
+                                &nbsp;
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#computer-vision">#computer-vision</a>
+                                
+                            
+                    </p>
+                </article>
+                
+                
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+                <article class="archive-item">
+                    <p class="post-meta"><a class="post-meta-title" href="/ResNet-feature-pyramid-in-Pytorch/">ResNet feature pyramid in Pytorch</a>  •  
+                        <i class="far fa-calendar-alt"></i> Feb 9, 2021  •  
+                        <i class="far fa-clock"></i> 
+       10 mins read   •  
+                        <i class="fas fa-tags category-tags-icon"></i>
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#deep-learning">#deep-learning</a>
+                                &nbsp;
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#computer-vision">#computer-vision</a>
+                                &nbsp;
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#pytorch">#pytorch</a>
+                                
+                            
+                    </p>
+                </article>
+                
+                
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+    
+    
+</div>
+  
+
+<nav class="paginate-container"  aria-label="Pagination"></nav>
+  <div class="pagination" style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+      
+        
+          <a class="previous_page" style="flex: 1 1 0; width: 45%; padding-right: 0.5em; text-align: right; background-color: transparent;" rel="previous" aria-label="Previous Page" href="/practicing-gratitude/"><b>Previous:</b> Practicing Gratitude
+</a>
+        
+      
+      
+        
+          <a class="next_page" style="flex: 1 1 0; width: 45%; padding-left: 0.5em; text-align: left; background-color: transparent;" rel="next" aria-label="Next Page" href="/fasting-during-ramadan/"><b>Next:</b> The virtue of fasting during Ramadan
+</a>
+        
+      
+  </div>
+</nav><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="zshn25/zshn25.github.io"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/compilation-3d-mesh-resources/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="https://feedrabbit.com/?url=https://zshn25.github.io/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">© Zeeshan Khan Suri </li>
+          <div xmlns:cc="http://creativecommons.org/ns#" > Text under  <a href="http://creativecommons.org/licenses/by-nc/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1"></a> unless stated otherwise. Images and other media have their own copyright. </div>
+          <li><a class="u-email" href="mailto:zshn25[at]gmail[dot]com">zshn25[at]gmail[dot]com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>I am curious. Therefore I am.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul></div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

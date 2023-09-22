@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" />
+  
+  <meta name="referrer" content="no-referrer"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>ResNet feature pyramid in Pytorch | Curiosity</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="ResNet feature pyramid in Pytorch" />
+<meta name="author" content="Zeeshan Khan Suri" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Tutorial on how to get feature pyramids from Pytorch’s ResNet models" />
+<meta property="og:description" content="Tutorial on how to get feature pyramids from Pytorch’s ResNet models" />
+<link rel="canonical" href="https://zshn25.github.io/ResNet-feature-pyramid-in-Pytorch/" />
+<meta property="og:url" content="https://zshn25.github.io/ResNet-feature-pyramid-in-Pytorch/" />
+<meta property="og:site_name" content="Curiosity" />
+<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Image_pyramid.svg/1200px-Image_pyramid.svg.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-02-09T16:21:23-06:00" />
+<script type="application/ld+json">
+{"url":"https://zshn25.github.io/ResNet-feature-pyramid-in-Pytorch/","@type":"BlogPosting","headline":"ResNet feature pyramid in Pytorch","dateModified":"2021-02-09T16:21:23-06:00","datePublished":"2021-02-09T16:21:23-06:00","image":"https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Image_pyramid.svg/1200px-Image_pyramid.svg.png","mainEntityOfPage":{"@type":"WebPage","@id":"https://zshn25.github.io/ResNet-feature-pyramid-in-Pytorch/"},"author":{"@type":"Person","name":"Zeeshan Khan Suri"},"description":"Tutorial on how to get feature pyramids from Pytorch’s ResNet models","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons/css/academicons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.js" integrity="sha384-YNHdsYkH6gMx9y3mRkmcJ2mFUjTd0qNQQvY9VYZgQd7DcN7env35GzlmFaZ23JGp" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+            // customised options
+            // • auto-render specific keys, e.g.:
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '$', right: '$', display: false},
+                {left: '\\(', right: '\\)', display: false},
+                {left: '\\[', right: '\\]', display: true}
+            ],
+            // • rendering keys, e.g.:
+            throwOnError : false
+            });
+        });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+
+<script src="/assets/js/applytheme.js"></script>
+<script src="/assets/js/main.js"></script>
+
+<!-- <link id="dark-css" href="/assets/css/dark.scss" rel="stylesheet" media="(prefers-color-scheme: dark)"> -->
+<link id="dark-css" href="/assets/css/dark.scss" rel="stylesheet" media="(prefers-color-scheme: dark)"></head>
+<body><header class="site-header fixed-top">
+
+  <div class="wrapper"><a class="site-title no-underline hover-grow" rel="author" href="/"> <img src="/images/logo.png" style="max-width:40px;" alt="Curiosity logo"> Curiosity</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+            <a class="page-link" href="/about/">About</a>
+            <a class="page-link" href="/categories/">Tags</a>
+          <span id="nav-switch-theme" class="nav-anchor">
+            <span class="nav-theme-icon fas fa-fw" aria-hidden="true" title="Theme"></span>
+            <span class="sr-only">Toggle Theme</span>
+          </span>
+        </div>
+      </nav></div>
+</header>
+    
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting"><header class="post-header">
+      <h1 class="post-title p-name" itemprop="name headline">
+        
+        
+          
+      
+        ResNet feature pyramid in Pytorch
+      
+        
+        
+      </h1>
+    <p class="page-description">Tutorial on how to get feature pyramids from Pytorch's ResNet models</p><p class="post-meta post-meta-title">
+      <i class="far fa-calendar-alt"></i><time class="dt-published" datetime="2021-02-09T16:21:23-06:00" itemprop="datePublished">
+        Feb 9, 2021
+      </time>• <i class="far fa-user"></i> 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Zeeshan Khan Suri</span></span>
+       • <i class="far fa-clock"></i> <span class="read-time" title="Estimated read time">
+    
+    
+      10 mins read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link label label-default" href="/categories/#deep-learning">#deep-learning</a>
+        &nbsp;
+      
+        <a class="category-tags-link label label-default" href="/categories/#computer-vision">#computer-vision</a>
+        &nbsp;
+      
+        <a class="category-tags-link label label-default" href="/categories/#pytorch">#pytorch</a>
+        
+      
+      </p>
+    
+
+    
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/zshn25/zshn25.github.io/tree/master/_notebooks/2021-02-01-ResNet-feature-pyramid-in-Pytorch.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/zshn25/zshn25.github.io/master?filepath=_notebooks%2F2021-02-01-ResNet-feature-pyramid-in-Pytorch.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/zshn25/zshn25.github.io/blob/master/_notebooks/2021-02-01-ResNet-feature-pyramid-in-Pytorch.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div>
+      </header>
+
+  
+  
+
+  <div class="post-content e-content" itemprop="articleBody">
+    
+    <!--
+#################################################
+### THIS FILE WAS AUTOGENERATED! DO NOT EDIT! ###
+#################################################
+# file to edit: _notebooks/2021-02-01-ResNet-feature-pyramid-in-Pytorch.ipynb
+-->
+
+<div class="container" id="notebook-container">
+        
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p><a href="https://commons.wikimedia.org/wiki/File:Image_pyramid.svg#/media/File:Image_pyramid.svg"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Image_pyramid.svg/1200px-Image_pyramid.svg.png" alt="image pyramid" title="Image Pyramid. By Cmglee, CC BY-SA 3.0" /></a></p>
+<p>Feature Pyramids are features at different resolutions. Since Neural Networks compute features at various levels, (for e.g. the earliest layers of a CNN produce low level features such as Edges and later layers produce higher level features) it would be great to use not only the higher level features but also the previous ones for further processing.</p>
+<p>One of the application of such feature pyramid is to be used in an autoencoder architecture with skip connections from encoder to decoder like U-Net.</p>
+<p><a href="https://en.wikipedia.org/wiki/U-Net#/media/File:Example_architecture_of_U-Net_for_producing_k_256-by-256_image_masks_for_a_256-by-256_RGB_image.png"><img src="https://upload.wikimedia.org/wikipedia/commons/2/2b/Example_architecture_of_U-Net_for_producing_k_256-by-256_image_masks_for_a_256-by-256_RGB_image.png" alt="u-net" title="U-Net uses its encoder feature pyramid as skip connections to the decoder. Image by Mehrdad Yazdani, CC BY-SA 4.0" /></a></p>
+<p>In this example, we look at <a href="https://github.com/pytorch/vision/blob/master/torchvision/models/resnet.py">ResNet</a> from <a href="https://pytorch.org/">Pytorch</a>. ResNet is one of the earliest but also one of the best performing network architectures for various tasks. We inherit the ResNet class and write our own forward method to output a pyramid of feature maps instead.</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">class</span> <span class="nc">ResNetFeatures</span><span class="p">(</span><span class="n">ResNet</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ResNetFeatures</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        
+    <span class="k">def</span> <span class="nf">_forward_impl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]:</span>
+        <span class="c1"># See note [TorchScript super()]</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bn1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxpool</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
+
+        <span class="n">x1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer2</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span>
+        <span class="n">x3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer3</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span>
+        <span class="n">x4</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer4</span><span class="p">(</span><span class="n">x3</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="p">[</span><span class="n">x0</span><span class="p">,</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">,</span><span class="n">x3</span><span class="p">,</span><span class="n">x4</span><span class="p">]</span> <span class="c1"># returns features with channels [64,64,128,256,512]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>That's it. Now, to use it, add it to the source of ResNet. I have made a Gist on how to do this <a href="https://gist.github.com/zshn25/09683dadb6b4e60e8382a380020d144e/">here</a>. Now you can give an argument <code>features_only</code> and it will return the feature pyramid as defined above.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+      <h2 id="Test-code">
+        
+        
+          <a href="#Test-code" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Test code<a class="anchor-link" href="#Test-code"> </a>
+        
+        
+      </h2>
+    
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<details class="description">
+      <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
+        <p><div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1">## This file is a modified version of [Pytorch&#39;s ResNet](https://github.com/pytorch/vision/blob/master/torchvision/models/resnet.py) and inherits it&#39;s licence.</span>
+<span class="c1">## License: Copyright Zeeshan Khan Suri, CC BY-NC 4.0</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">torch.hub</span> <span class="kn">import</span> <span class="n">load_state_dict_from_url</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">torch.utils.model_zoo</span> <span class="kn">import</span> <span class="n">load_url</span> <span class="k">as</span> <span class="n">load_state_dict_from_url</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Type</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ResNet&#39;</span><span class="p">,</span> <span class="s1">&#39;ResNetFeatures&#39;</span><span class="p">,</span> <span class="s1">&#39;resnet18&#39;</span><span class="p">,</span> <span class="s1">&#39;resnet34&#39;</span><span class="p">,</span> <span class="s1">&#39;resnet50&#39;</span><span class="p">,</span> <span class="s1">&#39;resnet101&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;resnet152&#39;</span><span class="p">,</span> <span class="s1">&#39;resnext50_32x4d&#39;</span><span class="p">,</span> <span class="s1">&#39;resnext101_32x8d&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;wide_resnet50_2&#39;</span><span class="p">,</span> <span class="s1">&#39;wide_resnet101_2&#39;</span><span class="p">]</span>
+
+<span class="n">model_urls</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;resnet18&#39;</span><span class="p">:</span> <span class="s1">&#39;https://download.pytorch.org/models/resnet18-5c106cde.pth&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;resnet34&#39;</span><span class="p">:</span> <span class="s1">&#39;https://download.pytorch.org/models/resnet34-333f7ec4.pth&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;resnet50&#39;</span><span class="p">:</span> <span class="s1">&#39;https://download.pytorch.org/models/resnet50-19c8e357.pth&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;resnet101&#39;</span><span class="p">:</span> <span class="s1">&#39;https://download.pytorch.org/models/resnet101-5d3b4d8f.pth&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;resnet152&#39;</span><span class="p">:</span> <span class="s1">&#39;https://download.pytorch.org/models/resnet152-b121ed2d.pth&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;resnext50_32x4d&#39;</span><span class="p">:</span> <span class="s1">&#39;https://download.pytorch.org/models/resnext50_32x4d-7cdf4587.pth&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;resnext101_32x8d&#39;</span><span class="p">:</span> <span class="s1">&#39;https://download.pytorch.org/models/resnext101_32x8d-8ba56ff5.pth&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;wide_resnet50_2&#39;</span><span class="p">:</span> <span class="s1">&#39;https://download.pytorch.org/models/wide_resnet50_2-95faca4d.pth&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;wide_resnet101_2&#39;</span><span class="p">:</span> <span class="s1">&#39;https://download.pytorch.org/models/wide_resnet101_2-32ee1156.pth&#39;</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">conv3x3</span><span class="p">(</span><span class="n">in_planes</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">out_planes</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">stride</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">groups</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dilation</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;3x3 convolution with padding&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">in_planes</span><span class="p">,</span> <span class="n">out_planes</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="n">stride</span><span class="p">,</span>
+                     <span class="n">padding</span><span class="o">=</span><span class="n">dilation</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="n">groups</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dilation</span><span class="o">=</span><span class="n">dilation</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">conv1x1</span><span class="p">(</span><span class="n">in_planes</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">out_planes</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">stride</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;1x1 convolution&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">in_planes</span><span class="p">,</span> <span class="n">out_planes</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="n">stride</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">BasicBlock</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="n">expansion</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">inplanes</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">planes</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">stride</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">downsample</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">groups</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">base_width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">64</span><span class="p">,</span>
+        <span class="n">dilation</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">norm_layer</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">BasicBlock</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">norm_layer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">norm_layer</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm2d</span>
+        <span class="k">if</span> <span class="n">groups</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">base_width</span> <span class="o">!=</span> <span class="mi">64</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;BasicBlock only supports groups=1 and base_width=64&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dilation</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Dilation &gt; 1 not supported in BasicBlock&quot;</span><span class="p">)</span>
+        <span class="c1"># Both self.conv1 and self.downsample layers downsample the input when stride != 1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">conv3x3</span><span class="p">(</span><span class="n">inplanes</span><span class="p">,</span> <span class="n">planes</span><span class="p">,</span> <span class="n">stride</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bn1</span> <span class="o">=</span> <span class="n">norm_layer</span><span class="p">(</span><span class="n">planes</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">relu</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span> <span class="o">=</span> <span class="n">conv3x3</span><span class="p">(</span><span class="n">planes</span><span class="p">,</span> <span class="n">planes</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bn2</span> <span class="o">=</span> <span class="n">norm_layer</span><span class="p">(</span><span class="n">planes</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span> <span class="o">=</span> <span class="n">downsample</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stride</span> <span class="o">=</span> <span class="n">stride</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="n">identity</span> <span class="o">=</span> <span class="n">x</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bn1</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bn2</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">identity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="n">out</span> <span class="o">+=</span> <span class="n">identity</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">out</span>
+
+
+<span class="k">class</span> <span class="nc">Bottleneck</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="c1"># Bottleneck in torchvision places the stride for downsampling at 3x3 convolution(self.conv2)</span>
+    <span class="c1"># while original implementation places the stride at the first 1x1 convolution(self.conv1)</span>
+    <span class="c1"># according to &quot;Deep residual learning for image recognition&quot;https://arxiv.org/abs/1512.03385.</span>
+    <span class="c1"># This variant is also known as ResNet V1.5 and improves accuracy according to</span>
+    <span class="c1"># https://ngc.nvidia.com/catalog/model-scripts/nvidia:resnet_50_v1_5_for_pytorch.</span>
+
+    <span class="n">expansion</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">inplanes</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">planes</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">stride</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">downsample</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">groups</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">base_width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">64</span><span class="p">,</span>
+        <span class="n">dilation</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">norm_layer</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Bottleneck</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">norm_layer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">norm_layer</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm2d</span>
+        <span class="n">width</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">planes</span> <span class="o">*</span> <span class="p">(</span><span class="n">base_width</span> <span class="o">/</span> <span class="mf">64.</span><span class="p">))</span> <span class="o">*</span> <span class="n">groups</span>
+        <span class="c1"># Both self.conv2 and self.downsample layers downsample the input when stride != 1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">conv1x1</span><span class="p">(</span><span class="n">inplanes</span><span class="p">,</span> <span class="n">width</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bn1</span> <span class="o">=</span> <span class="n">norm_layer</span><span class="p">(</span><span class="n">width</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span> <span class="o">=</span> <span class="n">conv3x3</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">stride</span><span class="p">,</span> <span class="n">groups</span><span class="p">,</span> <span class="n">dilation</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bn2</span> <span class="o">=</span> <span class="n">norm_layer</span><span class="p">(</span><span class="n">width</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv3</span> <span class="o">=</span> <span class="n">conv1x1</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">planes</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">expansion</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bn3</span> <span class="o">=</span> <span class="n">norm_layer</span><span class="p">(</span><span class="n">planes</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">expansion</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">relu</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span> <span class="o">=</span> <span class="n">downsample</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stride</span> <span class="o">=</span> <span class="n">stride</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="n">identity</span> <span class="o">=</span> <span class="n">x</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bn1</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bn2</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv3</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bn3</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">identity</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">downsample</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="n">out</span> <span class="o">+=</span> <span class="n">identity</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">out</span>
+
+
+<span class="k">class</span> <span class="nc">ResNet</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">block</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">BasicBlock</span><span class="p">,</span> <span class="n">Bottleneck</span><span class="p">]],</span>
+        <span class="n">layers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+        <span class="n">num_classes</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span>
+        <span class="n">zero_init_residual</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">groups</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">width_per_group</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">64</span><span class="p">,</span>
+        <span class="n">replace_stride_with_dilation</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">norm_layer</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ResNet</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">norm_layer</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">norm_layer</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm2d</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_norm_layer</span> <span class="o">=</span> <span class="n">norm_layer</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">inplanes</span> <span class="o">=</span> <span class="mi">64</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dilation</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">replace_stride_with_dilation</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># each element in the tuple indicates if we should replace</span>
+            <span class="c1"># the 2x2 stride with a dilated convolution instead</span>
+            <span class="n">replace_stride_with_dilation</span> <span class="o">=</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">replace_stride_with_dilation</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;replace_stride_with_dilation should be None &quot;</span>
+                             <span class="s2">&quot;or a 3-element tuple, got </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">replace_stride_with_dilation</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">groups</span> <span class="o">=</span> <span class="n">groups</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_width</span> <span class="o">=</span> <span class="n">width_per_group</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">inplanes</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                               <span class="n">bias</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bn1</span> <span class="o">=</span> <span class="n">norm_layer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inplanes</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">relu</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ReLU</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maxpool</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">MaxPool2d</span><span class="p">(</span><span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layer1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_layer</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">layers</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layer2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_layer</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="n">layers</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                                       <span class="n">dilate</span><span class="o">=</span><span class="n">replace_stride_with_dilation</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layer3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_layer</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="mi">256</span><span class="p">,</span> <span class="n">layers</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                                       <span class="n">dilate</span><span class="o">=</span><span class="n">replace_stride_with_dilation</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">layer4</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_make_layer</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="n">layers</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                                       <span class="n">dilate</span><span class="o">=</span><span class="n">replace_stride_with_dilation</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">avgpool</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">AdaptiveAvgPool2d</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fc</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">512</span> <span class="o">*</span> <span class="n">block</span><span class="o">.</span><span class="n">expansion</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">modules</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">):</span>
+                <span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">kaiming_normal_</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;fan_out&#39;</span><span class="p">,</span> <span class="n">nonlinearity</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">BatchNorm2d</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">GroupNorm</span><span class="p">)):</span>
+                <span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">constant_</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">constant_</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">bias</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="c1"># Zero-initialize the last BN in each residual branch,</span>
+        <span class="c1"># so that the residual branch starts with zeros, and each residual block behaves like an identity.</span>
+        <span class="c1"># This improves the model by 0.2~0.3% according to https://arxiv.org/abs/1706.02677</span>
+        <span class="k">if</span> <span class="n">zero_init_residual</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">modules</span><span class="p">():</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">Bottleneck</span><span class="p">):</span>
+                    <span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">constant_</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">bn3</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># type: ignore[arg-type]</span>
+                <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">BasicBlock</span><span class="p">):</span>
+                    <span class="n">nn</span><span class="o">.</span><span class="n">init</span><span class="o">.</span><span class="n">constant_</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">bn2</span><span class="o">.</span><span class="n">weight</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  <span class="c1"># type: ignore[arg-type]</span>
+
+    <span class="k">def</span> <span class="nf">_make_layer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">block</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">BasicBlock</span><span class="p">,</span> <span class="n">Bottleneck</span><span class="p">]],</span> <span class="n">planes</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">blocks</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+                    <span class="n">stride</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dilate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">:</span>
+        <span class="n">norm_layer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_norm_layer</span>
+        <span class="n">downsample</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">previous_dilation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dilation</span>
+        <span class="k">if</span> <span class="n">dilate</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dilation</span> <span class="o">*=</span> <span class="n">stride</span>
+            <span class="n">stride</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">stride</span> <span class="o">!=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">inplanes</span> <span class="o">!=</span> <span class="n">planes</span> <span class="o">*</span> <span class="n">block</span><span class="o">.</span><span class="n">expansion</span><span class="p">:</span>
+            <span class="n">downsample</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span>
+                <span class="n">conv1x1</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inplanes</span><span class="p">,</span> <span class="n">planes</span> <span class="o">*</span> <span class="n">block</span><span class="o">.</span><span class="n">expansion</span><span class="p">,</span> <span class="n">stride</span><span class="p">),</span>
+                <span class="n">norm_layer</span><span class="p">(</span><span class="n">planes</span> <span class="o">*</span> <span class="n">block</span><span class="o">.</span><span class="n">expansion</span><span class="p">),</span>
+            <span class="p">)</span>
+
+        <span class="n">layers</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">block</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inplanes</span><span class="p">,</span> <span class="n">planes</span><span class="p">,</span> <span class="n">stride</span><span class="p">,</span> <span class="n">downsample</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">groups</span><span class="p">,</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">base_width</span><span class="p">,</span> <span class="n">previous_dilation</span><span class="p">,</span> <span class="n">norm_layer</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inplanes</span> <span class="o">=</span> <span class="n">planes</span> <span class="o">*</span> <span class="n">block</span><span class="o">.</span><span class="n">expansion</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">blocks</span><span class="p">):</span>
+            <span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">block</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inplanes</span><span class="p">,</span> <span class="n">planes</span><span class="p">,</span> <span class="n">groups</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">groups</span><span class="p">,</span>
+                                <span class="n">base_width</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">base_width</span><span class="p">,</span> <span class="n">dilation</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dilation</span><span class="p">,</span>
+                                <span class="n">norm_layer</span><span class="o">=</span><span class="n">norm_layer</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">(</span><span class="o">*</span><span class="n">layers</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_forward_impl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="c1"># See note [TorchScript super()]</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bn1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxpool</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer3</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer4</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">avgpool</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fc</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">x</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward_impl</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">ResNetFeatures</span><span class="p">(</span><span class="n">ResNet</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ResNetFeatures</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        
+    <span class="k">def</span> <span class="nf">_forward_impl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+        <span class="c1"># See note [TorchScript super()]</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bn1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">maxpool</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
+
+        <span class="n">x1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">x2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer2</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span>
+        <span class="n">x3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer3</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span>
+        <span class="n">x4</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">layer4</span><span class="p">(</span><span class="n">x3</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="p">[</span><span class="n">x0</span><span class="p">,</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">,</span><span class="n">x3</span><span class="p">,</span><span class="n">x4</span><span class="p">]</span> <span class="c1"># returns features with channels [64,64,128,256,512]</span>
+
+<span class="k">def</span> <span class="nf">_resnet</span><span class="p">(</span>
+    <span class="n">arch</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">block</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">BasicBlock</span><span class="p">,</span> <span class="n">Bottleneck</span><span class="p">]],</span>
+    <span class="n">layers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+    <span class="n">pretrained</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="n">progress</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+    <span class="n">features_only</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span>
+<span class="p">):</span>
+    <span class="k">if</span> <span class="n">features_only</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">ResNetFeatures</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="n">block</span><span class="p">,</span> <span class="n">layers</span><span class="o">=</span><span class="n">layers</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">ResNet</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">layers</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">pretrained</span><span class="p">:</span>
+        <span class="n">state_dict</span> <span class="o">=</span> <span class="n">load_state_dict_from_url</span><span class="p">(</span><span class="n">model_urls</span><span class="p">[</span><span class="n">arch</span><span class="p">],</span>
+                                              <span class="n">progress</span><span class="o">=</span><span class="n">progress</span><span class="p">)</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">state_dict</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">model</span>
+
+
+<span class="k">def</span> <span class="nf">resnet18</span><span class="p">(</span><span class="n">pretrained</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">progress</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResNet</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;ResNet-18 model from</span>
+<span class="sd">    `&quot;Deep Residual Learning for Image Recognition&quot; &lt;https://arxiv.org/pdf/1512.03385.pdf&gt;`_.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        pretrained (bool): If True, returns a model pre-trained on ImageNet</span>
+<span class="sd">        progress (bool): If True, displays a progress bar of the download to stderr</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_resnet</span><span class="p">(</span><span class="s1">&#39;resnet18&#39;</span><span class="p">,</span> <span class="n">BasicBlock</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">pretrained</span><span class="p">,</span> <span class="n">progress</span><span class="p">,</span>
+                   <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">resnet34</span><span class="p">(</span><span class="n">pretrained</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">progress</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResNet</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;ResNet-34 model from</span>
+<span class="sd">    `&quot;Deep Residual Learning for Image Recognition&quot; &lt;https://arxiv.org/pdf/1512.03385.pdf&gt;`_.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        pretrained (bool): If True, returns a model pre-trained on ImageNet</span>
+<span class="sd">        progress (bool): If True, displays a progress bar of the download to stderr</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_resnet</span><span class="p">(</span><span class="s1">&#39;resnet34&#39;</span><span class="p">,</span> <span class="n">BasicBlock</span><span class="p">,</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">pretrained</span><span class="p">,</span> <span class="n">progress</span><span class="p">,</span>
+                   <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">resnet50</span><span class="p">(</span><span class="n">pretrained</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">progress</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResNet</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;ResNet-50 model from</span>
+<span class="sd">    `&quot;Deep Residual Learning for Image Recognition&quot; &lt;https://arxiv.org/pdf/1512.03385.pdf&gt;`_.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        pretrained (bool): If True, returns a model pre-trained on ImageNet</span>
+<span class="sd">        progress (bool): If True, displays a progress bar of the download to stderr</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_resnet</span><span class="p">(</span><span class="s1">&#39;resnet50&#39;</span><span class="p">,</span> <span class="n">Bottleneck</span><span class="p">,</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">pretrained</span><span class="p">,</span> <span class="n">progress</span><span class="p">,</span>
+                   <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">resnet101</span><span class="p">(</span><span class="n">pretrained</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">progress</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResNet</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;ResNet-101 model from</span>
+<span class="sd">    `&quot;Deep Residual Learning for Image Recognition&quot; &lt;https://arxiv.org/pdf/1512.03385.pdf&gt;`_.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        pretrained (bool): If True, returns a model pre-trained on ImageNet</span>
+<span class="sd">        progress (bool): If True, displays a progress bar of the download to stderr</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_resnet</span><span class="p">(</span><span class="s1">&#39;resnet101&#39;</span><span class="p">,</span> <span class="n">Bottleneck</span><span class="p">,</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">pretrained</span><span class="p">,</span> <span class="n">progress</span><span class="p">,</span>
+                   <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">resnet152</span><span class="p">(</span><span class="n">pretrained</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">progress</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResNet</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;ResNet-152 model from</span>
+<span class="sd">    `&quot;Deep Residual Learning for Image Recognition&quot; &lt;https://arxiv.org/pdf/1512.03385.pdf&gt;`_.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        pretrained (bool): If True, returns a model pre-trained on ImageNet</span>
+<span class="sd">        progress (bool): If True, displays a progress bar of the download to stderr</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_resnet</span><span class="p">(</span><span class="s1">&#39;resnet152&#39;</span><span class="p">,</span> <span class="n">Bottleneck</span><span class="p">,</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">36</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">pretrained</span><span class="p">,</span> <span class="n">progress</span><span class="p">,</span>
+                   <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">resnext50_32x4d</span><span class="p">(</span><span class="n">pretrained</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">progress</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResNet</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;ResNeXt-50 32x4d model from</span>
+<span class="sd">    `&quot;Aggregated Residual Transformation for Deep Neural Networks&quot; &lt;https://arxiv.org/pdf/1611.05431.pdf&gt;`_.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        pretrained (bool): If True, returns a model pre-trained on ImageNet</span>
+<span class="sd">        progress (bool): If True, displays a progress bar of the download to stderr</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;groups&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">32</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;width_per_group&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="k">return</span> <span class="n">_resnet</span><span class="p">(</span><span class="s1">&#39;resnext50_32x4d&#39;</span><span class="p">,</span> <span class="n">Bottleneck</span><span class="p">,</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+                   <span class="n">pretrained</span><span class="p">,</span> <span class="n">progress</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">resnext101_32x8d</span><span class="p">(</span><span class="n">pretrained</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">progress</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResNet</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;ResNeXt-101 32x8d model from</span>
+<span class="sd">    `&quot;Aggregated Residual Transformation for Deep Neural Networks&quot; &lt;https://arxiv.org/pdf/1611.05431.pdf&gt;`_.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        pretrained (bool): If True, returns a model pre-trained on ImageNet</span>
+<span class="sd">        progress (bool): If True, displays a progress bar of the download to stderr</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;groups&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">32</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;width_per_group&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">8</span>
+    <span class="k">return</span> <span class="n">_resnet</span><span class="p">(</span><span class="s1">&#39;resnext101_32x8d&#39;</span><span class="p">,</span> <span class="n">Bottleneck</span><span class="p">,</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+                   <span class="n">pretrained</span><span class="p">,</span> <span class="n">progress</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">wide_resnet50_2</span><span class="p">(</span><span class="n">pretrained</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">progress</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResNet</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Wide ResNet-50-2 model from</span>
+<span class="sd">    `&quot;Wide Residual Networks&quot; &lt;https://arxiv.org/pdf/1605.07146.pdf&gt;`_.</span>
+<span class="sd">    The model is the same as ResNet except for the bottleneck number of channels</span>
+<span class="sd">    which is twice larger in every block. The number of channels in outer 1x1</span>
+<span class="sd">    convolutions is the same, e.g. last block in ResNet-50 has 2048-512-2048</span>
+<span class="sd">    channels, and in Wide ResNet-50-2 has 2048-1024-2048.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        pretrained (bool): If True, returns a model pre-trained on ImageNet</span>
+<span class="sd">        progress (bool): If True, displays a progress bar of the download to stderr</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;width_per_group&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">64</span> <span class="o">*</span> <span class="mi">2</span>
+    <span class="k">return</span> <span class="n">_resnet</span><span class="p">(</span><span class="s1">&#39;wide_resnet50_2&#39;</span><span class="p">,</span> <span class="n">Bottleneck</span><span class="p">,</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+                   <span class="n">pretrained</span><span class="p">,</span> <span class="n">progress</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">wide_resnet101_2</span><span class="p">(</span><span class="n">pretrained</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">progress</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResNet</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Wide ResNet-101-2 model from</span>
+<span class="sd">    `&quot;Wide Residual Networks&quot; &lt;https://arxiv.org/pdf/1605.07146.pdf&gt;`_.</span>
+<span class="sd">    The model is the same as ResNet except for the bottleneck number of channels</span>
+<span class="sd">    which is twice larger in every block. The number of channels in outer 1x1</span>
+<span class="sd">    convolutions is the same, e.g. last block in ResNet-50 has 2048-512-2048</span>
+<span class="sd">    channels, and in Wide ResNet-50-2 has 2048-1024-2048.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        pretrained (bool): If True, returns a model pre-trained on ImageNet</span>
+<span class="sd">        progress (bool): If True, displays a progress bar of the download to stderr</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;width_per_group&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">64</span> <span class="o">*</span> <span class="mi">2</span>
+    <span class="k">return</span> <span class="n">_resnet</span><span class="p">(</span><span class="s1">&#39;wide_resnet101_2&#39;</span><span class="p">,</span> <span class="n">Bottleneck</span><span class="p">,</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+                   <span class="n">pretrained</span><span class="p">,</span> <span class="n">progress</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+</p>
+    </details>
+</div>
+    
+
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">resnet18</span><span class="p">(</span><span class="n">pretrained</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">features_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">features</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">265</span><span class="p">,</span><span class="mi">265</span><span class="p">)))</span>
+
+<span class="p">[</span><span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">features</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+<div class="output_area">
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>torch.Size([1, 64, 133, 133])
+torch.Size([1, 64, 67, 67])
+torch.Size([1, 128, 34, 34])
+torch.Size([1, 256, 17, 17])
+torch.Size([1, 512, 9, 9])
+</pre>
+</div>
+</div>
+
+<div class="output_area">
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[None, None, None, None, None]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+    
+
+<div class="cell border-box-sizing text_cell rendered"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>© Zeeshan Khan Suri, <a href="http://creativecommons.org/licenses/by-nc/4.0/"><i class="fab fa-creative-commons"></i> <i class="fab fa-creative-commons-by"></i> <i class="fab fa-creative-commons-nc"></i></a></p>
+<p>If this article was helpful to you, consider citing</p>
+
+</div>
+</div>
+</div>
+    
+    
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nd">@misc</span><span class="p">{</span><span class="n">suri_ResNet</span><span class="o">-</span><span class="n">feature</span><span class="o">-</span><span class="n">pyramid</span><span class="o">-</span><span class="ow">in</span><span class="o">-</span><span class="n">Pytorch_2021</span><span class="p">,</span>
+      <span class="n">title</span><span class="o">=</span><span class="p">{</span><span class="n">ResNet</span> <span class="n">feature</span> <span class="n">pyramid</span> <span class="ow">in</span> <span class="n">Pytorch</span><span class="p">},</span>
+      <span class="n">url</span><span class="o">=</span><span class="p">{</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">zshn25</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">io</span><span class="o">/</span><span class="n">ResNet</span><span class="o">-</span><span class="n">feature</span><span class="o">-</span><span class="n">Pyramid</span><span class="o">-</span><span class="ow">in</span><span class="o">-</span><span class="n">Pytorch</span><span class="o">/</span><span class="p">},</span> 
+      <span class="n">journal</span><span class="o">=</span><span class="p">{</span><span class="n">Curiosity</span><span class="p">},</span> 
+      <span class="n">author</span><span class="o">=</span><span class="p">{</span><span class="n">Suri</span><span class="p">,</span> <span class="n">Zeeshan</span> <span class="n">Khan</span><span class="p">},</span> 
+      <span class="n">year</span><span class="o">=</span><span class="p">{</span><span class="mi">2021</span><span class="p">},</span> 
+      <span class="n">month</span><span class="o">=</span><span class="p">{</span><span class="n">Mar</span><span class="p">}}</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+    
+
+</div>
+
+
+
+  </div>
+
+  
+  
+      
+        <div class="pb-5 d-flex flex-wrap flex-justify-end">
+          <div class="px-2">
+
+    <a href="https://github.com/zshn25/zshn25.github.io/tree/master/_notebooks/2021-02-01-ResNet-feature-pyramid-in-Pytorch.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/zshn25/zshn25.github.io/master?filepath=_notebooks%2F2021-02-01-ResNet-feature-pyramid-in-Pytorch.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+          <div class="px-2">
+    <a href="https://colab.research.google.com/github/zshn25/zshn25.github.io/blob/master/_notebooks/2021-02-01-ResNet-feature-pyramid-in-Pytorch.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+        </div><hr>
+  <!-- This code is taken from Jekyll-Codex (jekyllcodex.org). MIT License
+Copyright (c) 2020 Usecue BV -->
+
+
+
+
+<div style="text-align: center;">
+    <span style="color: rgb(134, 134, 134);">Share on : </span>
+    <div id="share-buttons">
+        <div class="facebook" title="Share this on Facebook" onclick="window.open('http://www.facebook.com/share.php?u=https://zshn25.github.io/ResNet-feature-pyramid-in-Pytorch/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
+        <div class="twitter" title="Share this on Twitter" onclick="window.open('https://twitter.com/intent/tweet?text=ResNet feature pyramid in Pytorch&url=https://zshn25.github.io/ResNet-feature-pyramid-in-Pytorch/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></div>
+        <div class="linkedin" title="Share this on Linkedin" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=https://zshn25.github.io/ResNet-feature-pyramid-in-Pytorch/&title=&summary=&source=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></div>
+        <!-- <div class="pinterest" title="Share this on Pinterest" onclick="window.open('https://pinterest.com/pin/create/button/?url=&media=https://zshn25.github.iohttps://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Image_pyramid.svg/1200px-Image_pyramid.svg.png&description=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M256 597q0-108 37.5-203.5t103.5-166.5 152-123 185-78 202-26q158 0 294 66.5t221 193.5 85 287q0 96-19 188t-60 177-100 149.5-145 103-189 38.5q-68 0-135-32t-96-88q-10 39-28 112.5t-23.5 95-20.5 71-26 71-32 62.5-46 77.5-62 86.5l-14 5-9-10q-15-157-15-188 0-92 21.5-206.5t66.5-287.5 52-203q-32-65-32-169 0-83 52-156t132-73q61 0 95 40.5t34 102.5q0 66-44 191t-44 187q0 63 45 104.5t109 41.5q55 0 102-25t78.5-68 56-95 38-110.5 20-111 6.5-99.5q0-173-109.5-269.5t-285.5-96.5q-200 0-334 129.5t-134 328.5q0 44 12.5 85t27 65 27 45.5 12.5 30.5q0 28-15 73t-37 45q-2 0-17-3-51-15-90.5-56t-61-94.5-32.5-108-11-106.5z"/></svg></div> -->
+        <div class="mail" title="Share this through Email" onclick="window.open('mailto:?&body=https://zshn25.github.io/ResNet-feature-pyramid-in-Pytorch/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1792 710v794q0 66-47 113t-113 47h-1472q-66 0-113-47t-47-113v-794q44 49 101 87 362 246 497 345 57 42 92.5 65.5t94.5 48 110 24.5h2q51 0 110-24.5t94.5-48 92.5-65.5q170-123 498-345 57-39 100-87zm0-294q0 79-49 151t-122 123q-376 261-468 325-10 7-42.5 30.5t-54 38-52 32.5-57.5 27-50 9h-2q-23 0-50-9t-57.5-27-52-32.5-54-38-42.5-30.5q-91-64-262-182.5t-205-142.5q-62-42-117-115.5t-55-136.5q0-78 41.5-130t118.5-52h1472q65 0 112.5 47t47.5 113z"/></svg></div>
+    </div>
+</div>
+  
+  <!-- Source: https://stackoverflow.com/questions/25348389/jekyll-and-liquid-show-related-posts-by-amount-of-equal-tags-2 
+License: https://creativecommons.org/licenses/by-sa/3.0/-->
+<div class="relatedPosts">
+      <h3>
+        
+        
+          You might also like
+        
+        
+      </h3>
+    
+
+    
+    
+
+    
+    
+
+    
+        
+
+            
+            
+
+            
+
+            
+                <article class="archive-item">
+                    <p class="post-meta"><a class="post-meta-title" href="/self-supervision-for-foundation-models/">Self-supervised learning for vision foundation models</a>  •  
+                        <i class="far fa-calendar-alt"></i> May 11, 2023  •  
+                        <i class="far fa-clock"></i> 
+       17 mins read   •  
+                        <i class="fas fa-tags category-tags-icon"></i>
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#computer-vision">#computer-vision</a>
+                                &nbsp;
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#large-neural-networks">#large-neural-networks</a>
+                                &nbsp;
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#foundation-models">#foundation-models</a>
+                                &nbsp;
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#self-supervision">#self-supervision</a>
+                                
+                            
+                    </p>
+                </article>
+                
+                
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+                <article class="archive-item">
+                    <p class="post-meta"><a class="post-meta-title" href="/pc4consistentdepth/">Pose Constraints for Self-supervised Monocular Depth and Ego-Motion</a>  •  
+                        <i class="far fa-calendar-alt"></i> Apr 17, 2023  •  
+                        <i class="far fa-clock"></i> 
+       1 min read   •  
+                        <i class="fas fa-tags category-tags-icon"></i>
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#deep-learning">#deep-learning</a>
+                                &nbsp;
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#self-supervision">#self-supervision</a>
+                                &nbsp;
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#3d-reconstruction">#3d-reconstruction</a>
+                                &nbsp;
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#structure-from-motion">#structure-from-motion</a>
+                                &nbsp;
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#visual-odometry">#visual-odometry</a>
+                                &nbsp;
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#depth-estimation">#depth-estimation</a>
+                                
+                            
+                    </p>
+                </article>
+                
+                
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+                <article class="archive-item">
+                    <p class="post-meta"><a class="post-meta-title" href="/CNNs-vs-Transformers/">Convolution vs. Attention</a>  •  
+                        <i class="far fa-calendar-alt"></i> Mar 9, 2023  •  
+                        <i class="far fa-clock"></i> 
+       6 mins read   •  
+                        <i class="fas fa-tags category-tags-icon"></i>
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#deep-learning">#deep-learning</a>
+                                &nbsp;
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#convolution">#convolution</a>
+                                &nbsp;
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#attention">#attention</a>
+                                
+                            
+                    </p>
+                </article>
+                
+                
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+                <article class="archive-item">
+                    <p class="post-meta"><a class="post-meta-title" href="/Software-2/">Software 2.0 2.0</a>  •  
+                        <i class="far fa-calendar-alt"></i> Dec 4, 2022  •  
+                        <i class="far fa-clock"></i> 
+       4 mins read   •  
+                        <i class="fas fa-tags category-tags-icon"></i>
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#deep-learning">#deep-learning</a>
+                                &nbsp;
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#mlops">#mlops</a>
+                                
+                            
+                    </p>
+                </article>
+                
+                
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+                <article class="archive-item">
+                    <p class="post-meta"><a class="post-meta-title" href="/How-Monocular-Depth-Estimation-works/">Self-supervised monocular depth estimation</a>  •  
+                        <i class="far fa-calendar-alt"></i> Oct 30, 2022  •  
+                        <i class="far fa-clock"></i> 
+       9 mins read   •  
+                        <i class="fas fa-tags category-tags-icon"></i>
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#deep-learning">#deep-learning</a>
+                                &nbsp;
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#computer-vision">#computer-vision</a>
+                                &nbsp;
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#3d-reconstruction">#3d-reconstruction</a>
+                                &nbsp;
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#structure-from-motion">#structure-from-motion</a>
+                                &nbsp;
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#visual-odometry">#visual-odometry</a>
+                                
+                            
+                    </p>
+                </article>
+                
+                
+                    
+    
+    
+</div>
+  
+
+<nav class="paginate-container"  aria-label="Pagination"></nav>
+  <div class="pagination" style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+      
+        
+          <a class="previous_page" style="flex: 1 1 0; width: 45%; padding-right: 0.5em; text-align: right; background-color: transparent;" rel="previous" aria-label="Previous Page" href="/gme-stock/"><b>Previous:</b> $GME short squeeze
+</a>
+        
+      
+      
+        
+          <a class="next_page" style="flex: 1 1 0; width: 45%; padding-left: 0.5em; text-align: left; background-color: transparent;" rel="next" aria-label="Next Page" href="/is-convolution-linear/"><b>Next:</b> Is convolution linear?
+</a>
+        
+      
+  </div>
+</nav><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="zshn25/zshn25.github.io"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/ResNet-feature-pyramid-in-Pytorch/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="https://feedrabbit.com/?url=https://zshn25.github.io/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">© Zeeshan Khan Suri </li>
+          <div xmlns:cc="http://creativecommons.org/ns#" > Text under  <a href="http://creativecommons.org/licenses/by-nc/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1"></a> unless stated otherwise. Images and other media have their own copyright. </div>
+          <li><a class="u-email" href="mailto:zshn25[at]gmail[dot]com">zshn25[at]gmail[dot]com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>I am curious. Therefore I am.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul></div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

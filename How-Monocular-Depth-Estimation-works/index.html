@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" />
+  
+  <meta name="referrer" content="no-referrer"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Self-supervised monocular depth estimation | Curiosity</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="Self-supervised monocular depth estimation" />
+<meta name="author" content="Zeeshan Khan Suri" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="How to estimate depth and ego-motion from videos: Neural Networks" />
+<meta property="og:description" content="How to estimate depth and ego-motion from videos: Neural Networks" />
+<link rel="canonical" href="https://zshn25.github.io/How-Monocular-Depth-Estimation-works/" />
+<meta property="og:url" content="https://zshn25.github.io/How-Monocular-Depth-Estimation-works/" />
+<meta property="og:site_name" content="Curiosity" />
+<meta property="og:image" content="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/2551b04d-fd4e-4ec9-9869-3e8c9ac5e7bf/d93a0lc-e4ecbd7d-6120-4925-be1d-1e250d7e0830.png/v1/fill/w_1024,h_576,q_80,strp/cyclops_greek_mythology_by_nilesdino_d93a0lc-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NTc2IiwicGF0aCI6IlwvZlwvMjU1MWIwNGQtZmQ0ZS00ZWM5LTk4NjktM2U4YzlhYzVlN2JmXC9kOTNhMGxjLWU0ZWNiZDdkLTYxMjAtNDkyNS1iZTFkLTFlMjUwZDdlMDgzMC5wbmciLCJ3aWR0aCI6Ijw9MTAyNCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.kEfvRjpv5KXW_HtOAtsBltiTNTF7DswBz8TwLvRVwyo" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-10-30T21:21:23-05:00" />
+<script type="application/ld+json">
+{"url":"https://zshn25.github.io/How-Monocular-Depth-Estimation-works/","@type":"BlogPosting","headline":"Self-supervised monocular depth estimation","dateModified":"2022-10-30T21:21:23-05:00","datePublished":"2022-10-30T21:21:23-05:00","image":"https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/2551b04d-fd4e-4ec9-9869-3e8c9ac5e7bf/d93a0lc-e4ecbd7d-6120-4925-be1d-1e250d7e0830.png/v1/fill/w_1024,h_576,q_80,strp/cyclops_greek_mythology_by_nilesdino_d93a0lc-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NTc2IiwicGF0aCI6IlwvZlwvMjU1MWIwNGQtZmQ0ZS00ZWM5LTk4NjktM2U4YzlhYzVlN2JmXC9kOTNhMGxjLWU0ZWNiZDdkLTYxMjAtNDkyNS1iZTFkLTFlMjUwZDdlMDgzMC5wbmciLCJ3aWR0aCI6Ijw9MTAyNCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.kEfvRjpv5KXW_HtOAtsBltiTNTF7DswBz8TwLvRVwyo","mainEntityOfPage":{"@type":"WebPage","@id":"https://zshn25.github.io/How-Monocular-Depth-Estimation-works/"},"author":{"@type":"Person","name":"Zeeshan Khan Suri"},"description":"How to estimate depth and ego-motion from videos: Neural Networks","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons/css/academicons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.js" integrity="sha384-YNHdsYkH6gMx9y3mRkmcJ2mFUjTd0qNQQvY9VYZgQd7DcN7env35GzlmFaZ23JGp" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+            // customised options
+            // • auto-render specific keys, e.g.:
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '$', right: '$', display: false},
+                {left: '\\(', right: '\\)', display: false},
+                {left: '\\[', right: '\\]', display: true}
+            ],
+            // • rendering keys, e.g.:
+            throwOnError : false
+            });
+        });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+
+<script src="/assets/js/applytheme.js"></script>
+<script src="/assets/js/main.js"></script>
+
+<!-- <link id="dark-css" href="/assets/css/dark.scss" rel="stylesheet" media="(prefers-color-scheme: dark)"> -->
+<link id="dark-css" href="/assets/css/dark.scss" rel="stylesheet" media="(prefers-color-scheme: dark)"></head>
+<body><header class="site-header fixed-top">
+
+  <div class="wrapper"><a class="site-title no-underline hover-grow" rel="author" href="/"> <img src="/images/logo.png" style="max-width:40px;" alt="Curiosity logo"> Curiosity</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+            <a class="page-link" href="/about/">About</a>
+            <a class="page-link" href="/categories/">Tags</a>
+          <span id="nav-switch-theme" class="nav-anchor">
+            <span class="nav-theme-icon fas fa-fw" aria-hidden="true" title="Theme"></span>
+            <span class="sr-only">Toggle Theme</span>
+          </span>
+        </div>
+      </nav></div>
+</header>
+    
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting"><header class="post-header">
+      <h1 class="post-title p-name" itemprop="name headline">
+        
+        
+          
+      
+        Self-supervised monocular depth estimation
+      
+        
+        
+      </h1>
+    <p class="page-description">How to estimate depth and ego-motion from videos: Neural Networks</p><p class="post-meta post-meta-title">
+      <i class="far fa-calendar-alt"></i><time class="dt-published" datetime="2022-10-30T21:21:23-05:00" itemprop="datePublished">
+        Oct 30, 2022
+      </time>• <i class="far fa-user"></i> 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Zeeshan Khan Suri</span></span>
+       • <i class="far fa-clock"></i> <span class="read-time" title="Estimated read time">
+    
+    
+      8 mins read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link label label-default" href="/categories/#deep-learning">#deep-learning</a>
+        &nbsp;
+      
+        <a class="category-tags-link label label-default" href="/categories/#computer-vision">#computer-vision</a>
+        &nbsp;
+      
+        <a class="category-tags-link label label-default" href="/categories/#3d-reconstruction">#3d-reconstruction</a>
+        &nbsp;
+      
+        <a class="category-tags-link label label-default" href="/categories/#structure-from-motion">#structure-from-motion</a>
+        &nbsp;
+      
+        <a class="category-tags-link label label-default" href="/categories/#visual-odometry">#visual-odometry</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  
+  
+
+  <div class="post-content e-content" itemprop="articleBody">
+    
+    <p>Animals (and in extension, humans) are unable to directly perceive the 3D surroundings around us. Each of our eyes projects the 3D world onto 2D, losing the depth dimension. Instead, we rely on our brain to reconstruct these 2D projections to perceive depth. Having more than one eye allows us to geometrically reconstruct depth via triangulation<sup id="fnref:3" role="doc-noteref"><a href="#fn:3" class="footnote">1</a></sup>, but how are creatures with a single eye (for e.g., due to a defective eye, or due to a birth disorder<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote">2</a></sup>) still able to perceive it?</p>
+
+<p style="text-align: center;"><a href="https://en.wikipedia.org/wiki/File:Odontodactylus_scyllarus_eyes.jpg"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Odontodactylus_scyllarus_eyes.jpg/640px-Odontodactylus_scyllarus_eyes.jpg" alt="Odontodactylus scyllarus eyes" width="50%" class="shadow" /></a></p>
+<p style="text-align: center;"><sub><sup><em>Each eye of <a href="https://en.wikipedia.org/wiki/Mantis_shrimp#Eyes">Mantis Shrimp</a> possesses trinocular vision. <a href="https://commons.wikimedia.org/wiki/File:Odontodactylus_scyllarus_eyes.jpg">Cédric Peneau</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>, via Wikimedia Commons</em>
+</sup></sub></p>
+
+<p>We rely on monocular cues for perceiving 3D even with a single eye. These monocular cues include those from the static image such as perspective, relative sizes of familiar objects, shading, occlusion, etc.; and those from motion, such as parallax, depth from motion, etc.<sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote">3</a></sup></p>
+      <h3 id="can-we-teach-machines-to-estimate-depth-from-a-single-image">
+        
+        
+          <a href="#can-we-teach-machines-to-estimate-depth-from-a-single-image" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Can we teach machines to estimate depth from a single image?
+        
+        
+      </h3>
+    
+
+<p>If animals are able to use these cues to reason about the relative 3D structure, the question arises, is there a way to make machines do the same? A famous paper from 2009 called <a href="http://make3d.cs.cornell.edu/">Make3D</a><sup id="fnref:4" role="doc-noteref"><a href="#fn:4" class="footnote">4</a></sup> says “yes!”.</p>
+
+<center width="70%" class="shadow">
+<div class="container">
+    <iframe src="https://www.youtube-nocookie.com/embed/GWWIn29ZV4Q" frameborder="0" allowfullscreen="" class="video"></iframe>
+</div>
+</center>
+
+<p>But this post is not about that. We will be looking at more recent neural network based approaches. After all, neural networks can be thought as function approximators and with enough data, should be able to approximate the function $\mathcal{f}$ that maps an RGB pixel $i \in \mathbb{R}^3$ to its depth $d$</p>
+      <h1 style="text-align: center;" id="d--mathcalfi">
+        
+        
+          <a href="#d--mathcalfi" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> $d = \mathcal{f}(i)$
+        
+        
+      </h1>
+    
+
+<p>In-fact we are looking at methods that do not rely on the availability ground-truth (<abbr title="ground-truth">GT</abbr>) depths. Why? Because it is expensive and tedious to gather such ground truth and difficult to calibrate and align different sensor ouputs, making it difficult to scale. But, how can we teach a neural network to estimate the underlying depth without having ground truth? Thanks for asking that! Geometry comes to the rescue. The idea is to synthesize different views of the same scene and compare these synthesized views with the real ones for supervision. It underlies on <strong>the brightness constantcy assumption</strong><sup id="fnref:5" role="doc-noteref"><a href="#fn:5" class="footnote">5</a></sup>, where parts of the same scene are assumed to be observed in multiple views. A similar assumption is used in binocular vision, where the content of what a left eye/camera sees is very similar to that of what the right one sees; and in motion/optical-flow estimation, where the motion is the vector $u_{xy}, v_{xy}$ defined by the change in pixel locations as</p>
+      <h2 style="text-align: center;" id="ix-y-t--ix--u_xy-y--v_xy-t--1">
+        
+        
+          <a href="#ix-y-t--ix--u_xy-y--v_xy-t--1" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> $I(x, y, t) = I(x + u_{xy}, y + v_{xy}, t + 1)$
+        
+        
+      </h2>
+    
+      <h2 id="stereo-supervision">
+        
+        
+          <a href="#stereo-supervision" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Stereo supervision
+        
+        
+      </h2>
+    
+<p>Garg et.al., propose a method called monodepth<sup id="fnref:6" role="doc-noteref"><a href="#fn:6" class="footnote">6</a></sup>, to estimate depth from a single image, trained on stereo image pairs (without the need for depth <abbr title="ground-truth">GT</abbr>). The idea is similar: synthesize the right view from the left one and compare the synthesized and the real right views as supervision.</p>
+
+<p style="text-align: center;"><img src="/images/3dreco/input_right.png" style="float: left; width: 49.5%" /></p>
+<p style="text-align: center;"><img src="/images/3dreco/input_left.png" style="float: right; width: 49.5%" /></p>
+<p style="text-align: center;"><sub><sup><em>Left and right images of the same scene from the <a href="https://www.cvlibs.net/datasets/kitti/index.php">KITTI dataset</a><sup id="fnref:7" role="doc-noteref"><a href="#fn:7" class="footnote">7</a></sup></em>
+</sup></sub></p>
+
+<p>But, how will this help learn depth? This is because view synthesis is a function of depth. In a rectified stereo setting, the optical flow is unidirectional (horizontal) and so only its magnitude a.k.a. disparity is to be found. The problem then boils down to finding a per-pixel disparity that when applied to the left image, gives the right image.</p>
+      <h2 style="text-align: center;" id="i_lx-y-stackrel-i_rx--d_xy-y">
+        
+        
+          <a href="#i_lx-y-stackrel-i_rx--d_xy-y" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> $I_{l}(x, y) \stackrel{!}{=} I_r(x + d_{xy}, y)$
+        
+        
+      </h2>
+    
+
+<p>The depth from disparity can be calculated by $\text{depth} = \frac{\text{focal length}\times\text{baseline}}{\text{disparity}}$.</p>
+
+<p style="text-align: center;"><img src="https://upload.wikimedia.org/wikipedia/commons/c/cd/Triangulation.svg" alt="triangulation" /></p>
+<p style="text-align: center;"><sub><sup><em>Depth as a function of disparity via triangulation<sup id="fnref:3:1" role="doc-noteref"><a href="#fn:3" class="footnote">1</a></sup>. By <a href="https://commons.wikimedia.org/wiki/File:Triangulation.svg">fr:Utilisateur:COLETTE</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0">CC BY-SA 3.0</a>, via Wikimedia Commons</em>
+</sup></sub></p>
+
+<!-- https://camo.githubusercontent.com/347a28083896fc6b18f12e29933fb7adc3ebfa485ee383897c59fe4a0983f97e/687474703a2f2f76697375616c2e63732e75636c2e61632e756b2f707562732f6d6f6e6f44657074682f6d6f6e6f64657074685f7465617365722e676966 -->
+
+<p>The pipeline goes as follows:</p>
+<ol>
+  <li>A network predicts the dense disparity map of the left image.
+  <img src="/images/3dreco/0_hug.png" alt="s" class="shadow" />
+  <!-- {:refdef: style="text-align: center;"}
+  <sub><sup>*Depth as a function of disparity via triangulation[^3]. By [fr:Utilisateur:COLETTE](https://commons.wikimedia.org/wiki/File:Triangulation.svg), [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0), via Wikimedia Commons*
+  </sup></sub>
+  {: refdef} --></li>
+  <li>Relative camera pose (Ego-motion) is known, which in this case of recitfied stereo is just a scalar, representing the horizontal shift of 5.4 cm in X-direction.
+  <img src="/images/3dreco/1_hug.png" alt="s" class="shadow" /></li>
+  <li>Using the estimated disparity, a per-pixel flow in the left image’s coordinates is calculated based on the known relative rigid camera pose.
+  <img src="/images/3dreco/2.png" alt="s" class="shadow" /></li>
+  <li>The right input image is warped using the flow, into the view of the left image.
+  <img src="/images/3dreco/3.png" alt="s" class="shadow" /></li>
+  <li>The warped right image onto the left’s view needs to be consistent with the original left image if the estimated depth from the network is correct. A loss is thus calculated between the two and is propogated through the depth network, thereby, making it learn to predict monocular depth.
+  <img src="/images/3dreco/4.png" alt="s" class="shadow" /></li>
+</ol>
+      <h2 id="the-monocular-case">
+        
+        
+          <a href="#the-monocular-case" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> The Monocular case
+        
+        
+      </h2>
+    
+
+<p>While the stereo case is analogous to animals using binocular vision to perceive 3D, what about the monocular case, where creatures are still able to reconstruct the underlying 3D structure of the scene using a single eye? Can the above method be extended for monocular case?</p>
+
+<p style="text-align: center;"><a href="https://www.deviantart.com/nilesdino/art/Cyclops-greek-mythology-549701760"><img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/2551b04d-fd4e-4ec9-9869-3e8c9ac5e7bf/d93a0lc-e4ecbd7d-6120-4925-be1d-1e250d7e0830.png/v1/fill/w_1024,h_576,q_80,strp/cyclops_greek_mythology_by_nilesdino_d93a0lc-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NTc2IiwicGF0aCI6IlwvZlwvMjU1MWIwNGQtZmQ0ZS00ZWM5LTk4NjktM2U4YzlhYzVlN2JmXC9kOTNhMGxjLWU0ZWNiZDdkLTYxMjAtNDkyNS1iZTFkLTFlMjUwZDdlMDgzMC5wbmciLCJ3aWR0aCI6Ijw9MTAyNCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.kEfvRjpv5KXW_HtOAtsBltiTNTF7DswBz8TwLvRVwyo" alt="s" width="50%" class="shadow" /></a></p>
+<p style="text-align: center;"><sub><sup><em>Cyclops by <a href="https://www.deviantart.com/nilesdino">Nilesdino</a>, <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a></em>
+</sup></sub></p>
+
+<p>The answer is not straightforward. Even if we think about exploiting motion, the relative ego-motion of the camera from one frame at time $t$ to the next $t+1$ is not known, unlike in stereo case where the pose between the left and right cameras is known (and uni-directional for calibrated cases). Not only is the camera pose not known between two timesteps, it is also changing and not constant as in stereo case. So, in order to extend the stereo approach to monocular case, relative camera pose or camera ego-motion has to also be predicted between any 2 consecutive frames.</p>
+
+<p style="text-align: center;"><img src="/images/3dreco/5mono.png" alt="s" width="75%" class="shadow" /></p>
+<p style="text-align: center;"><sub><sup><em>SfMLearner: Unsupervised Learning of Depth and Ego-Motion from Video<sup id="fnref:8" role="doc-noteref"><a href="#fn:8" class="footnote">8</a></sup></em>
+</sup></sub></p>
+
+<p>Zhou et.al’s SfMLearner: Unsupervised Learning of Depth and Ego-Motion from Video<sup id="fnref:8:1" role="doc-noteref"><a href="#fn:8" class="footnote">8</a></sup> does exactly that. They introduce an additional network which estimates the 6 <abbr title="degrees of freedom">DOF</abbr> rigid ego-motion/pose $T \in \text{SE}(3)$, between the cameras of the two consecutive frames with pixel locations $[x_t, y_t, 1]^T$ and $[x_{t+1}, y_{t+1}, 1]^T$ resp.. The working principle is similar to before but the warping of one frame onto the other is done by</p>
+      <h2 style="text-align: center;" id="leftbeginarraycx_t1--y_t1--1-endarray-right-stackrel-ktk-1d_xy-leftbeginarraycx_t--y_t--1-endarray-right">
+        
+        
+          <a href="#leftbeginarraycx_t1--y_t1--1-endarray-right-stackrel-ktk-1d_xy-leftbeginarraycx_t--y_t--1-endarray-right" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> $\left(\begin{array}{c}x_{t+1} \\ y_{t+1} \\ 1 \end{array} \right) \stackrel{!}{=} KTK^{-1}d_{xy} \left(\begin{array}{c}x_t \\ y_t \\ 1 \end{array} \right)$,
+        
+        
+      </h2>
+    
+
+<p>where the camera intrinsics matrix $K = \Bigl[\begin{smallmatrix}k_x&amp;0&amp;p_x \\ 0&amp;k_y&amp;p_y \\ 0&amp;0&amp;1\end{smallmatrix} \Bigr]$, with focal lengths $f_x, f_y$ and principal point $p_x, p_y$ is assumed to be known. Next, we will see how this makes sense</p>
+
+<p style="text-align: center;"><img src="/images/3dreco/2011_09_26_drive_0022_sync 226_cam_t.png" alt="s" width="90%" class="shadow" /></p>
+<p style="text-align: center;">$K^{-1}d_{xy} \left(\begin{array}{c}x_t \\ y_t \\ 1 \end{array} \right)$</p>
+
+<p>Intiutively, given the depth $D$, one could unproject the image coordinates using the depth and the inverse camera intrinsics onto 3D.</p>
+
+<p style="text-align: center;"><img src="/images/3dreco/2011_09_26_drive_0022_sync 226_both_cams.png" alt="s" width="90%" class="shadow" /></p>
+<p style="text-align: center;">$TK^{-1}d_{xy} \left(\begin{array}{c}x_t \\ y_t \\ 1 \end{array} \right)$</p>
+
+<p>Then, the camera is transformed to that at time $t+1$.</p>
+
+<p style="text-align: center;"><img src="/images/3dreco/2011_09_26_drive_0022_sync 226_cam_tplus1.png" alt="s" width="90%" class="shadow" /></p>
+<p style="text-align: center;">$TK^{-1}d_{xy} \left(\begin{array}{c}x_t \\ y_t \\ 1 \end{array} \right)$</p>
+
+<p>And, the points are projected back onto this transformed camera using the same camera intrinsics, to synthesize the image at time $t+1$</p>
+
+<p style="text-align: center;"><img src="/images/3dreco/warped_tplus1.png" alt="s" width="75%" class="shadow" /></p>
+<p style="text-align: center;">$I_{t} \, \Big\langle KTK^{-1}d_{xy} \left(\begin{array}{c}x_t \\ y_t \\ 1 \end{array} \right) \Big\rangle $</p>
+
+<p>, where $\Big\langle \Big\rangle $ is the sampling operator. This projection of $I_t$ onto the coordinate at time $t+1$ geometrically synthesizes the image $\hat{I}_{t+1}$ and can now be compared to the original frame from time $t+1$ and the loss is backpropogated to both the depth and the pose networks.</p>
+      <h3 id="note">
+        
+        
+          <a href="#note" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Note
+        
+        
+      </h3>
+    
+<p>This is not exactly correct. The pose $T$ is used, not to transform the camera, but to transform the point cloud (in the reverse direction to that of the camera pose), and the image $I_{t+1}$ is warped onto $t$, but the underlying concept remains the same. I will now explain how this idea is executed.</p>
+      <h2 id="flow-field-due-to-rigid-camera-motion">
+        
+        
+          <a href="#flow-field-due-to-rigid-camera-motion" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Flow field due to rigid camera motion
+        
+        
+      </h2>
+    
+
+<p>The resulting 2D rigid flow (flow due to rigid camera motion) that transforms each pixel at time $t+1$ to that at time $t$ can be visualized as follows.</p>
+
+<p style="text-align: center;"><img src="/images/3dreco/flow_t_tplus1.png" alt="s" /></p>
+<p style="text-align: center;">$KTK^{-1}d_{xy} \left(\begin{array}{c}x_t \\ y_t \\ 1 \end{array} \right)$</p>
+
+<p>Note that this flow is a function of depth and 6 <abbr title="degrees of freedom">DOF</abbr> transformation, i.e. the rigif flow field depends not only on the rigid 6 <abbr title="degrees of freedom">DOF</abbr> transformation of the camera, but also on the distance of each point to the camera. Intuitively, this makes sense since objects fat away seem to move less in the image plane than those far away. This is known as motion parallax</p>
+
+<p style="text-align: center;"><a href="https://en.wikipedia.org/wiki/File:Parallax.gif"><img src="https://upload.wikimedia.org/wikipedia/commons/a/ab/Parallax.gif" alt="Odontodactylus scyllarus eyes" /></a></p>
+<p style="text-align: center;"><sub><sup><em>Motion Parallax: Objects farther away appear to move lesser than those close-by. <a href="https://commons.wikimedia.org/wiki/File:Parallax.gif">Nathaniel Domek</a>, <a href="https://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>, via Wikimedia Commons</em>
+</sup></sub></p>
+
+<!-- Because of the lack of differentiable colored point cloud renderers, the point cloud in transformed and projected back onto the camera at timt $t$, such that this has to be  -->
+
+<!-- ## Realtime Demo
+
+{:refdef: style="text-align: center;"}
+<iframe src="https://hf.space/embed/gisep81646/afcsaqws/+" frameBorder="0" width="100%" height="450" title="Gradio app" class="container p-0 flex-grow space-iframe"></iframe>
+{: refdef}
+{:refdef: style="text-align: center;"}
+<sub><sup>*Gradio Demo: Use the Example image as input or upload your own driving image. [MIT License](https://huggingface.co/spaces/gisep81646/afcsaqws/blob/main/LICENSE)*
+</sup></sub>
+{: refdef} --><hr />
+
+<p>© Zeeshan Khan Suri, <a href="http://creativecommons.org/licenses/by-nc/4.0/"><i class="fab fa-creative-commons"></i> <i class="fab fa-creative-commons-by"></i> <i class="fab fa-creative-commons-nc"></i></a></p>
+
+<p>If this article was helpful to you, consider citing</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@misc{suri_how_monocular_depth_estimation_2022,
+      title={Self-supervised monocular depth estimation},
+      url={https://zshn25.github.io/How-Monocular-Depth-Estimation-works/}, 
+      journal={Curiosity}, 
+      author={Suri, Zeeshan Khan}, 
+      year={2022}, 
+      month={Oct}}
+</code></pre></div></div>
+      <h1 id="references">
+        
+        
+          <a href="#references" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> References:
+        
+        
+      </h1>
+    
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:3" role="doc-endnote">
+      <p><a href="https://en.wikipedia.org/wiki/Triangulation">Triangulation</a> <a href="#fnref:3" class="reversefootnote" role="doc-backlink">&#8617;</a> <a href="#fnref:3:1" class="reversefootnote" role="doc-backlink">&#8617;<sup>2</sup></a></p>
+    </li>
+    <li id="fn:1" role="doc-endnote">
+      <p><a href="https://en.wikipedia.org/wiki/Cyclopia">Cyclopia</a> <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:2" role="doc-endnote">
+      <p><a href="https://en.wikipedia.org/wiki/Depth_perception#Monocular_cues">Monocular cues for depth perception</a> <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:4" role="doc-endnote">
+      <p>A. Saxena, M. Sun and A. Y. Ng, “<a href="https://ieeexplore.ieee.org/document/4531745">Make3D: Learning 3D Scene Structure from a Single Still Image</a>,” in IEEE Transactions on Pattern Analysis and Machine Intelligence, vol. 31, no. 5, pp. 824-840, May 2009, doi: 10.1109/TPAMI.2008.132. <a href="#fnref:4" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:5" role="doc-endnote">
+      <p><a href="https://www.cs.cmu.edu/~16385/s17/Slides/14.1_Brightness_Constancy.pdf">Brightness Constancy</a> <a href="#fnref:5" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:6" role="doc-endnote">
+      <p>Garg, R., B.G., V.K., Carneiro, G., Reid, I. (2016). <a href="https://doi.org/10.1007/978-3-319-46484-8_45">Unsupervised CNN for Single View Depth Estimation: Geometry to the Rescue</a>. In: Leibe, B., Matas, J., Sebe, N., Welling, M. (eds) Computer Vision – ECCV 2016. ECCV 2016. Lecture Notes in Computer Science(), vol 9912. Springer, Cham. <a href="#fnref:6" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:7" role="doc-endnote">
+      <p>A Geiger, P Lenz, C Stiller, and R Urtasun. 2013. Vision meets robotics: The KITTI dataset. Int. J. Rob. Res. 32, 11 (September 2013), 1231–1237. https://doi.org/10.1177/0278364913491297 <a href="#fnref:7" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:8" role="doc-endnote">
+      <p>T. Zhou, M. Brown, N. Snavely and D. G. Lowe, “<a href="https://github.com/tinghuiz/SfMLearner">Unsupervised Learning of Depth and Ego-Motion from Video</a>,” 2017 IEEE Conference on Computer Vision and Pattern Recognition (CVPR), 2017, pp. 6612-6619, doi: 10.1109/CVPR.2017.700. <a href="#fnref:8" class="reversefootnote" role="doc-backlink">&#8617;</a> <a href="#fnref:8:1" class="reversefootnote" role="doc-backlink">&#8617;<sup>2</sup></a></p>
+    </li>
+  </ol>
+</div>
+
+  </div><hr>
+  <!-- This code is taken from Jekyll-Codex (jekyllcodex.org). MIT License
+Copyright (c) 2020 Usecue BV -->
+
+
+
+
+<div style="text-align: center;">
+    <span style="color: rgb(134, 134, 134);">Share on : </span>
+    <div id="share-buttons">
+        <div class="facebook" title="Share this on Facebook" onclick="window.open('http://www.facebook.com/share.php?u=https://zshn25.github.io/How-Monocular-Depth-Estimation-works/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
+        <div class="twitter" title="Share this on Twitter" onclick="window.open('https://twitter.com/intent/tweet?text=Self-supervised monocular depth estimation&url=https://zshn25.github.io/How-Monocular-Depth-Estimation-works/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></div>
+        <div class="linkedin" title="Share this on Linkedin" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=https://zshn25.github.io/How-Monocular-Depth-Estimation-works/&title=&summary=&source=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></div>
+        <!-- <div class="pinterest" title="Share this on Pinterest" onclick="window.open('https://pinterest.com/pin/create/button/?url=&media=https://zshn25.github.iohttps://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/2551b04d-fd4e-4ec9-9869-3e8c9ac5e7bf/d93a0lc-e4ecbd7d-6120-4925-be1d-1e250d7e0830.png/v1/fill/w_1024,h_576,q_80,strp/cyclops_greek_mythology_by_nilesdino_d93a0lc-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NTc2IiwicGF0aCI6IlwvZlwvMjU1MWIwNGQtZmQ0ZS00ZWM5LTk4NjktM2U4YzlhYzVlN2JmXC9kOTNhMGxjLWU0ZWNiZDdkLTYxMjAtNDkyNS1iZTFkLTFlMjUwZDdlMDgzMC5wbmciLCJ3aWR0aCI6Ijw9MTAyNCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.kEfvRjpv5KXW_HtOAtsBltiTNTF7DswBz8TwLvRVwyo&description=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M256 597q0-108 37.5-203.5t103.5-166.5 152-123 185-78 202-26q158 0 294 66.5t221 193.5 85 287q0 96-19 188t-60 177-100 149.5-145 103-189 38.5q-68 0-135-32t-96-88q-10 39-28 112.5t-23.5 95-20.5 71-26 71-32 62.5-46 77.5-62 86.5l-14 5-9-10q-15-157-15-188 0-92 21.5-206.5t66.5-287.5 52-203q-32-65-32-169 0-83 52-156t132-73q61 0 95 40.5t34 102.5q0 66-44 191t-44 187q0 63 45 104.5t109 41.5q55 0 102-25t78.5-68 56-95 38-110.5 20-111 6.5-99.5q0-173-109.5-269.5t-285.5-96.5q-200 0-334 129.5t-134 328.5q0 44 12.5 85t27 65 27 45.5 12.5 30.5q0 28-15 73t-37 45q-2 0-17-3-51-15-90.5-56t-61-94.5-32.5-108-11-106.5z"/></svg></div> -->
+        <div class="mail" title="Share this through Email" onclick="window.open('mailto:?&body=https://zshn25.github.io/How-Monocular-Depth-Estimation-works/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1792 710v794q0 66-47 113t-113 47h-1472q-66 0-113-47t-47-113v-794q44 49 101 87 362 246 497 345 57 42 92.5 65.5t94.5 48 110 24.5h2q51 0 110-24.5t94.5-48 92.5-65.5q170-123 498-345 57-39 100-87zm0-294q0 79-49 151t-122 123q-376 261-468 325-10 7-42.5 30.5t-54 38-52 32.5-57.5 27-50 9h-2q-23 0-50-9t-57.5-27-52-32.5-54-38-42.5-30.5q-91-64-262-182.5t-205-142.5q-62-42-117-115.5t-55-136.5q0-78 41.5-130t118.5-52h1472q65 0 112.5 47t47.5 113z"/></svg></div>
+    </div>
+</div>
+  
+  <!-- Source: https://stackoverflow.com/questions/25348389/jekyll-and-liquid-show-related-posts-by-amount-of-equal-tags-2 
+License: https://creativecommons.org/licenses/by-sa/3.0/-->
+<div class="relatedPosts">
+      <h3>
+        
+        
+          You might also like
+        
+        
+      </h3>
+    
+
+    
+    
+
+    
+    
+
+    
+        
+
+            
+            
+
+            
+
+            
+                <article class="archive-item">
+                    <p class="post-meta"><a class="post-meta-title" href="/self-supervision-for-foundation-models/">Self-supervised learning for vision foundation models</a>  •  
+                        <i class="far fa-calendar-alt"></i> May 11, 2023  •  
+                        <i class="far fa-clock"></i> 
+       17 mins read   •  
+                        <i class="fas fa-tags category-tags-icon"></i>
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#computer-vision">#computer-vision</a>
+                                &nbsp;
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#large-neural-networks">#large-neural-networks</a>
+                                &nbsp;
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#foundation-models">#foundation-models</a>
+                                &nbsp;
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#self-supervision">#self-supervision</a>
+                                
+                            
+                    </p>
+                </article>
+                
+                
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+                <article class="archive-item">
+                    <p class="post-meta"><a class="post-meta-title" href="/pc4consistentdepth/">Pose Constraints for Self-supervised Monocular Depth and Ego-Motion</a>  •  
+                        <i class="far fa-calendar-alt"></i> Apr 17, 2023  •  
+                        <i class="far fa-clock"></i> 
+       1 min read   •  
+                        <i class="fas fa-tags category-tags-icon"></i>
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#deep-learning">#deep-learning</a>
+                                &nbsp;
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#self-supervision">#self-supervision</a>
+                                &nbsp;
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#3d-reconstruction">#3d-reconstruction</a>
+                                &nbsp;
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#structure-from-motion">#structure-from-motion</a>
+                                &nbsp;
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#visual-odometry">#visual-odometry</a>
+                                &nbsp;
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#depth-estimation">#depth-estimation</a>
+                                
+                            
+                    </p>
+                </article>
+                
+                
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+                <article class="archive-item">
+                    <p class="post-meta"><a class="post-meta-title" href="/CNNs-vs-Transformers/">Convolution vs. Attention</a>  •  
+                        <i class="far fa-calendar-alt"></i> Mar 9, 2023  •  
+                        <i class="far fa-clock"></i> 
+       6 mins read   •  
+                        <i class="fas fa-tags category-tags-icon"></i>
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#deep-learning">#deep-learning</a>
+                                &nbsp;
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#convolution">#convolution</a>
+                                &nbsp;
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#attention">#attention</a>
+                                
+                            
+                    </p>
+                </article>
+                
+                
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+                <article class="archive-item">
+                    <p class="post-meta"><a class="post-meta-title" href="/Software-2/">Software 2.0 2.0</a>  •  
+                        <i class="far fa-calendar-alt"></i> Dec 4, 2022  •  
+                        <i class="far fa-clock"></i> 
+       4 mins read   •  
+                        <i class="fas fa-tags category-tags-icon"></i>
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#deep-learning">#deep-learning</a>
+                                &nbsp;
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#mlops">#mlops</a>
+                                
+                            
+                    </p>
+                </article>
+                
+                
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+                <article class="archive-item">
+                    <p class="post-meta"><a class="post-meta-title" href="/Layers-fusion-for-faster-inference/">Layers fusion for faster neural network inference</a>  •  
+                        <i class="far fa-calendar-alt"></i> Apr 27, 2021  •  
+                        <i class="far fa-clock"></i> 
+       3 mins read   •  
+                        <i class="fas fa-tags category-tags-icon"></i>
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#deep-learning">#deep-learning</a>
+                                &nbsp;
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#pytorch">#pytorch</a>
+                                &nbsp;
+                            
+                                <a class="category-tags-link label label-default" href="/categories/#fast-inference">#fast-inference</a>
+                                
+                            
+                    </p>
+                </article>
+                
+                
+                    
+    
+    
+</div>
+  
+
+<nav class="paginate-container"  aria-label="Pagination"></nav>
+  <div class="pagination" style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+      
+        
+          <a class="previous_page" style="flex: 1 1 0; width: 45%; padding-right: 0.5em; text-align: right; background-color: transparent;" rel="previous" aria-label="Previous Page" href="/Aristotle-definitions/"><b>Previous:</b> Aristotle’s regime, the good citizen and justice
+</a>
+        
+      
+      
+        
+          <a class="next_page" style="flex: 1 1 0; width: 45%; padding-left: 0.5em; text-align: left; background-color: transparent;" rel="next" aria-label="Next Page" href="/Software-2/"><b>Next:</b> Software 2.0 2.0
+</a>
+        
+      
+  </div>
+</nav><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="zshn25/zshn25.github.io"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/How-Monocular-Depth-Estimation-works/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="https://feedrabbit.com/?url=https://zshn25.github.io/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">© Zeeshan Khan Suri </li>
+          <div xmlns:cc="http://creativecommons.org/ns#" > Text under  <a href="http://creativecommons.org/licenses/by-nc/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1"></a> unless stated otherwise. Images and other media have their own copyright. </div>
+          <li><a class="u-email" href="mailto:zshn25[at]gmail[dot]com">zshn25[at]gmail[dot]com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>I am curious. Therefore I am.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul></div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

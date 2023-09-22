@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:card" content="summary_large_image" />
+  
+  <meta name="referrer" content="no-referrer"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>$GME short squeeze | Curiosity</title>
+<meta name="generator" content="Jekyll v4.1.1" />
+<meta property="og:title" content="$GME short squeeze" />
+<meta name="author" content="Zeeshan Khan Suri" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Short squeeze and Gamma squeeze of the GameStop stock" />
+<meta property="og:description" content="Short squeeze and Gamma squeeze of the GameStop stock" />
+<link rel="canonical" href="https://zshn25.github.io/gme-stock/" />
+<meta property="og:url" content="https://zshn25.github.io/gme-stock/" />
+<meta property="og:site_name" content="Curiosity" />
+<meta property="og:image" content="https://zshn25.github.io/images/tomoon.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-01-25T17:21:23-06:00" />
+<script type="application/ld+json">
+{"url":"https://zshn25.github.io/gme-stock/","@type":"BlogPosting","headline":"$GME short squeeze","dateModified":"2021-01-25T17:21:23-06:00","datePublished":"2021-01-25T17:21:23-06:00","image":"https://zshn25.github.io/images/tomoon.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://zshn25.github.io/gme-stock/"},"author":{"@type":"Person","name":"Zeeshan Khan Suri"},"description":"Short squeeze and Gamma squeeze of the GameStop stock","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons/css/academicons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.js" integrity="sha384-YNHdsYkH6gMx9y3mRkmcJ2mFUjTd0qNQQvY9VYZgQd7DcN7env35GzlmFaZ23JGp" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+            // customised options
+            // • auto-render specific keys, e.g.:
+            delimiters: [
+                {left: '$$', right: '$$', display: true},
+                {left: '$', right: '$', display: false},
+                {left: '\\(', right: '\\)', display: false},
+                {left: '\\[', right: '\\]', display: true}
+            ],
+            // • rendering keys, e.g.:
+            throwOnError : false
+            });
+        });
+    </script>
+
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+
+<script src="/assets/js/applytheme.js"></script>
+<script src="/assets/js/main.js"></script>
+
+<!-- <link id="dark-css" href="/assets/css/dark.scss" rel="stylesheet" media="(prefers-color-scheme: dark)"> -->
+<link id="dark-css" href="/assets/css/dark.scss" rel="stylesheet" media="(prefers-color-scheme: dark)"></head>
+<body><header class="site-header fixed-top">
+
+  <div class="wrapper"><a class="site-title no-underline hover-grow" rel="author" href="/"> <img src="/images/logo.png" style="max-width:40px;" alt="Curiosity logo"> Curiosity</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger">
+            <a class="page-link" href="/about/">About</a>
+            <a class="page-link" href="/categories/">Tags</a>
+          <span id="nav-switch-theme" class="nav-anchor">
+            <span class="nav-theme-icon fas fa-fw" aria-hidden="true" title="Theme"></span>
+            <span class="sr-only">Toggle Theme</span>
+          </span>
+        </div>
+      </nav></div>
+</header>
+    
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting"><header class="post-header">
+      <h1 class="post-title p-name" itemprop="name headline">
+        
+        
+          
+      
+        $GME short squeeze
+      
+        
+        
+      </h1>
+    <p class="page-description">Short squeeze and Gamma squeeze of the GameStop stock</p><p class="post-meta post-meta-title">
+      <i class="far fa-calendar-alt"></i><time class="dt-published" datetime="2021-01-25T17:21:23-06:00" itemprop="datePublished">
+        Jan 25, 2021
+      </time>• <i class="far fa-user"></i> 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Zeeshan Khan Suri</span></span>
+       • <i class="far fa-clock"></i> <span class="read-time" title="Estimated read time">
+    
+    
+      4 mins read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link label label-default" href="/categories/#investing">#investing</a>
+        &nbsp;
+      
+        <a class="category-tags-link label label-default" href="/categories/#finance">#finance</a>
+        &nbsp;
+      
+        <a class="category-tags-link label label-default" href="/categories/#stocks">#stocks</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  
+  
+
+  <div class="post-content e-content" itemprop="articleBody">
+    
+    <p><img src="https://www.tradingview.com/x/KiBV1r8g/" alt="gme" /></p>
+
+<p>This week (starting 25/01/2021) is an exciting event in the history of stocks, where rare events happening to the <abbr title="GameStop">GME</abbr> stock. Although, this might be a definite opportunity to make/lose money, I am in it for the knowledge of how the stock market works. As I am trying to figure out this event and learn more about options trading, I came across this comment which explains things so clearly that I decided to share it here, for my future reference on options knowledge and also to give my readers an insight.</p>
+
+<p>On the question, what is going on with <abbr title="GameStop">GME</abbr>, this following comment explains the situation in <abbr title="Explain Like I am 5">ELI5</abbr> terms</p>
+
+<div class="reddit-embed" data-embed-media="www.redditmedia.com" data-embed-parent="false" data-embed-live="true" data-embed-uuid="9fc89a2b-1e99-4992-907f-a96b164b7fe4" data-embed-created="2021-01-24T13:31:25.375Z"><a href="https://old.reddit.com/r/investing/comments/l3otq5/all_right_wtf_is_going_on_with_gme/gkhhcd7/">Comment</a> from discussion <a href="https://old.reddit.com/r/investing/comments/l3otq5/all_right_wtf_is_going_on_with_gme/">All right WTF is going on with <abbr title="GameStop">GME</abbr></a>.</div>
+<script async="" src="https://www.redditstatic.com/comment-embed.js"></script>
+
+<p>Many people shorted. To hedge their shorts (since <abbr title="GameStop">GME</abbr> is sky-rocketing already), they will need to buy shares. But, since there are only limited shares available, this will drive the price more up, adding more pressure on other short sellers. This cycle repeats and is called the short squeeze.</p>
+      <h3 id="some-keywords-to-understand">
+        
+        
+          <a href="#some-keywords-to-understand" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Some keywords to understand
+        
+        
+      </h3>
+    
+
+<p><strong>Shorting</strong> or short selling is when you bet your money on the stock declining. You sell shares at the current market price and you believe the share’s value decreases, you’ve sold high. Now, what if you don’t already own any shares? You can borrow shares (from the market), by making the market buy it from you in some future date. Where will you have it in the future? You buy it from the market’s future price (which you believe to be lower than current price) and hence have made money.</p>
+
+<p>Many short sellers have borrowed <abbr title="GameStop">GME</abbr> shares, speculating it to crash and sold these borrowed shares to the market. Now, there are only limited shares available and due to heavy short selling, the (borrowed) shares are not actually available.</p>
+
+<p>Companies which have already shorted, (predicted that the stock will go down) but since the opposite is happening (<abbr title="GameStop">GME</abbr> has sky rocketed to <abbr title="All time high">ATH</abbr> since people have shorted), the short sellers will buy <abbr title="GameStop">GME</abbr> stock to reduce their future losses (or, reduce risk). This is called <strong>hedging</strong>.</p>
+
+<p>The same user further explains with an example why the <a href="https://www.nyse.com/markets/nyse/membership">market makers</a> (<abbr title="Market makers">MM</abbr>) would buy</p>
+
+<div class="reddit-embed" data-embed-media="www.redditmedia.com" data-embed-parent="true" data-embed-live="true" data-embed-uuid="523c47ad-6b90-468f-90b6-4d39ec3060cd" data-embed-created="2021-01-24T14:03:17.593Z"><a href="https://old.reddit.com/r/investing/comments/l3otq5/all_right_wtf_is_going_on_with_gme/gkhvkun/">Comment</a> from discussion <a href="https://old.reddit.com/r/investing/comments/l3otq5/all_right_wtf_is_going_on_with_gme/">All right WTF is going on with <abbr title="GameStop">GME</abbr></a>.</div>
+<script async="" src="https://www.redditstatic.com/comment-embed.js"></script>
+      <h2 id="what-to-do">
+        
+        
+          <a href="#what-to-do" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> What to do?
+        
+        
+      </h2>
+    
+
+<p>This is a rare event where normal people like us can coordinate and take money for <abbr title="Market makers">MM</abbr>. I do not advice to do anything. Do your own <abbr title="Due Diligence">DD</abbr>, but I have bought some position today at open and hoping the squeeze to happen. Note that short squeeze could take days to happen. And the next question is, when to sell? Very good question. Nobody knows. Depending on your apatite for loss, you can wait for it to truly rocket or take whatever gains without FOMO on future gains.</p>
+      <h3 id="edit-1-26012021">
+        
+        
+          <a href="#edit-1-26012021" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Edit 1 26/01/2021
+        
+        
+      </h3>
+    
+
+<p>Today we have seen another gamma squeeze where <abbr title="GameStop">GME</abbr> rose till $155 (over 100%) but at the end of the day, <abbr title="GameStop">GME</abbr> came down, closing at +20%. What drove the price down was believed to be a <strong>short ladder attack</strong>, where a short seller sells to another short seller and within a short time, the other short seller sells it back. What this does is make people think that other shareholders are selling at lower price, thus creating a havoc and making some of the investors sell at lower price.</p>
+
+<blockquote class="reddit-card" data-dnt="true"><a href="https://www.reddit.com/r/wallstreetbets/comments/l1tg88/gme_how_shorts_manipulated_you_and_how_you_can_be/?ref=share&amp;ref_source=embed"><abbr title="GameStop">GME</abbr> - How shorts manipulated you, and how you can be better</a> from <a href="http://www.reddit.com/r/wallstreetbets">r/wallstreetbets</a></blockquote>
+<script async="" src="//embed.redditmedia.com/widgets/platform.js" charset="UTF-8"></script>
+      <h3 id="edit-27012021">
+        
+        
+          <a href="#edit-27012021" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Edit 27/01/2021
+        
+        
+      </h3>
+    
+
+<p><img src="https://www.tradingview.com/x/cAN5zZlP/" alt="GME stock today" /></p>
+
+<p>Yesterday we have seen yet another gamma squeeze but this time it did not drop back. It was amazing to see <abbr title="GameStop">GME</abbr> rise by so much after hours. Maybe it was due to Elon Musk’s tweet?</p>
+
+<blockquote class="twitter-tweet tw-align-center" data-dnt="true"><p lang="en" dir="ltr">Gamestonk!! <a href="https://t.co/RZtkDzAewJ">https://t.co/RZtkDzAewJ</a></p>&mdash; Elon Musk (@elonmusk) <a href="https://twitter.com/elonmusk/status/1354174279894642703?ref_src=twsrc%5Etfw">January 26, 2021</a></blockquote>
+<script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>The Endgame strategy?</p>
+
+<blockquote class="reddit-card"><a href="https://www.reddit.com/r/wallstreetbets/comments/l5x0fc/gme_endgame/"><abbr title="GameStop">GME</abbr> Endgame</a> from <a href="http://www.reddit.com/r/wallstreetbets">r/wallstreetbets</a></blockquote>
+<script async="" src="//embed.redditmedia.com/widgets/platform.js" charset="UTF-8"></script>
+      <h3 id="final-edit">
+        
+        
+          <a href="#final-edit" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Final Edit:
+        
+        
+      </h3>
+    
+
+<p><abbr title="GameStop">GME</abbr> peaked at $450 as the result of the squeeze. Many brokers including the famous Robinhood in the US <strong>halted</strong> trading on <abbr title="GameStop">GME</abbr>. That means, no one was allowed to buy <abbr title="GameStop">GME</abbr> shares anymore. Only selling was allowed. As a result, the price fell from there. Many analysts later said that it <abbr title="GameStop">GME</abbr> wouldn’t be halted, it would indeed reach $1000.</p><hr />
+
+<blockquote>
+  <p>I use <a href="https://live.trading212.com/">Trading212</a> for buying stocks, which does not charge any commission or any order fee. We both can get a free stock share worth up to €100 if you use the following link to sign up. Do not forget to deposit at least 1€ after signing up. Create a Trading 212 Invest account using this link <a href="https://www.trading212.com/invite/FzPJYhiT">https://www.trading212.com/invite/FzPJYhiT</a> and we both get a free share! If you already have an account, you can try my Promo Code <code class="language-plaintext highlighter-rouge">FzPJYhiT</code> to get a free share.</p>
+</blockquote>
+      <h5 id="disclaimer-this-is-not-a-financial-advice-do-your-own-dd-before-investing">
+        
+        
+          <a href="#disclaimer-this-is-not-a-financial-advice-do-your-own-dd-before-investing" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Disclaimer: This is not a financial advice. Do your own <abbr title="Due Diligence">DD</abbr> before investing.
+        
+        
+      </h5>
+    
+
+
+  </div><hr>
+  <!-- This code is taken from Jekyll-Codex (jekyllcodex.org). MIT License
+Copyright (c) 2020 Usecue BV -->
+
+
+
+
+<div style="text-align: center;">
+    <span style="color: rgb(134, 134, 134);">Share on : </span>
+    <div id="share-buttons">
+        <div class="facebook" title="Share this on Facebook" onclick="window.open('http://www.facebook.com/share.php?u=https://zshn25.github.io/gme-stock/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
+        <div class="twitter" title="Share this on Twitter" onclick="window.open('https://twitter.com/intent/tweet?text=$GME short squeeze&url=https://zshn25.github.io/gme-stock/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></div>
+        <div class="linkedin" title="Share this on Linkedin" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=https://zshn25.github.io/gme-stock/&title=&summary=&source=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></div>
+        <!-- <div class="pinterest" title="Share this on Pinterest" onclick="window.open('https://pinterest.com/pin/create/button/?url=&media=https://zshn25.github.ioimages/tomoon.jpg&description=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M256 597q0-108 37.5-203.5t103.5-166.5 152-123 185-78 202-26q158 0 294 66.5t221 193.5 85 287q0 96-19 188t-60 177-100 149.5-145 103-189 38.5q-68 0-135-32t-96-88q-10 39-28 112.5t-23.5 95-20.5 71-26 71-32 62.5-46 77.5-62 86.5l-14 5-9-10q-15-157-15-188 0-92 21.5-206.5t66.5-287.5 52-203q-32-65-32-169 0-83 52-156t132-73q61 0 95 40.5t34 102.5q0 66-44 191t-44 187q0 63 45 104.5t109 41.5q55 0 102-25t78.5-68 56-95 38-110.5 20-111 6.5-99.5q0-173-109.5-269.5t-285.5-96.5q-200 0-334 129.5t-134 328.5q0 44 12.5 85t27 65 27 45.5 12.5 30.5q0 28-15 73t-37 45q-2 0-17-3-51-15-90.5-56t-61-94.5-32.5-108-11-106.5z"/></svg></div> -->
+        <div class="mail" title="Share this through Email" onclick="window.open('mailto:?&body=https://zshn25.github.io/gme-stock/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1792 710v794q0 66-47 113t-113 47h-1472q-66 0-113-47t-47-113v-794q44 49 101 87 362 246 497 345 57 42 92.5 65.5t94.5 48 110 24.5h2q51 0 110-24.5t94.5-48 92.5-65.5q170-123 498-345 57-39 100-87zm0-294q0 79-49 151t-122 123q-376 261-468 325-10 7-42.5 30.5t-54 38-52 32.5-57.5 27-50 9h-2q-23 0-50-9t-57.5-27-52-32.5-54-38-42.5-30.5q-91-64-262-182.5t-205-142.5q-62-42-117-115.5t-55-136.5q0-78 41.5-130t118.5-52h1472q65 0 112.5 47t47.5 113z"/></svg></div>
+    </div>
+</div>
+  
+  <!-- Source: https://stackoverflow.com/questions/25348389/jekyll-and-liquid-show-related-posts-by-amount-of-equal-tags-2 
+License: https://creativecommons.org/licenses/by-sa/3.0/-->
+<div class="relatedPosts">
+      <h3>
+        
+        
+          You might also like
+        
+        
+      </h3>
+    
+
+    
+    
+
+    
+    
+
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
+
+        
+    
+    
+    
+</div>
+  
+
+<nav class="paginate-container"  aria-label="Pagination"></nav>
+  <div class="pagination" style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+      
+        
+          <a class="previous_page" style="flex: 1 1 0; width: 45%; padding-right: 0.5em; text-align: right; background-color: transparent;" rel="previous" aria-label="Previous Page" href="/hot-chocolate/"><b>Previous:</b> Hot chocolate
+</a>
+        
+      
+      
+        
+          <a class="next_page" style="flex: 1 1 0; width: 45%; padding-left: 0.5em; text-align: left; background-color: transparent;" rel="next" aria-label="Next Page" href="/ResNet-feature-pyramid-in-Pytorch/"><b>Next:</b> ResNet feature pyramid in Pytorch
+</a>
+        
+      
+  </div>
+</nav><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="zshn25/zshn25.github.io"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/gme-stock/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="https://feedrabbit.com/?url=https://zshn25.github.io/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">© Zeeshan Khan Suri </li>
+          <div xmlns:cc="http://creativecommons.org/ns#" > Text under  <a href="http://creativecommons.org/licenses/by-nc/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1"></a> unless stated otherwise. Images and other media have their own copyright. </div>
+          <li><a class="u-email" href="mailto:zshn25[at]gmail[dot]com">zshn25[at]gmail[dot]com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>I am curious. Therefore I am.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"></ul></div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
