@@ -4,11 +4,11 @@ title:      "Product recommendations"
 description: "Products I use/buy and recommend to you"
 comments: true
 date:       2024-01-12 15:21:23 -0700
-# categories: cryptocurrency ethereum 
+categories: recommendations 
 author:     Zeeshan Khan Suri
 hidden:    true
 hide: true
-search_exclude: true
+search_exclude: false
 ---
 
 
@@ -37,7 +37,7 @@ ___
 
 - [Solid wood shoe rack (paid link)](https://amzn.to/3ZzZvBX)
 
-- 
+- [kitchen rack (paid link)](https://amzn.to/40k9ITd)
 
 
 
