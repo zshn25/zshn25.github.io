@@ -11,6 +11,10 @@ hide: true
 search_exclude: false
 ---
 
+## Books
+
+- [![](https://thamesandhudson-965c.kxcdn.com/media/catalog/product/cache/b0707f5ff6c7a6207254d9aeb5b9fcec/9/7/9780500252659_a-history-of-the-world-in-500-maps_packshot4.jpg) A History of the World in 500 Maps (paid link)](https://www.amazon.de/dp/0500252653/ref=cm_sw_r_as_gl_api_gl_i_3V13CW1568EJCGJPHRMW?linkCode=ml2&tag=hivgbil08h-21)
+
 
 ___
 
