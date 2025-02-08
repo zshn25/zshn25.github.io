@@ -18,7 +18,7 @@ Preventing disease is the first step to long-term health and well-being. By foll
 
 <!-- {::options parse_block_html="true" /} -->
 
-{% include alert.html text="Nutrition is not a solved problem. We still don’t know for sure which foods to eat and which ones to avoid but there is a decades of consistent science and research, which I want to bring to you. Take it with a grain of salt"%}
+{% include alert.html content="Nutrition is not a solved problem. We still don’t know for sure which foods to eat and which ones to avoid but there is a decades of consistent science and research, which I want to bring to you. Take it with a grain of salt"%}
 
 <!-- ***Disclaimer***: *Nutrition is not a solved problem. We still don’t know for sure which foods to eat and which ones to avoid but there is a decades of consistent science and research, which I want to bring to you. Take it with a grain of salt*
 {: .note} -->

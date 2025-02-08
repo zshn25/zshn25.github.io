@@ -132,3 +132,10 @@ In early layers of a neural network for images, spatial relations can be capture
 [^3]: Dai, Z., Liu, H., Le, Q. V., & Tan, M. (2021). [Coatnet: Marrying convolution and attention for all data sizes](https://papers.nips.cc/paper/2021/hash/20568692db622456cc42a2e853ca21f8-Abstract.html). Advances in Neural Information Processing Systems, 34, 3965-3977.
 [^4]: Z. Liu, H. Mao, C. -Y. Wu, C. Feichtenhofer, T. Darrell and S. Xie, "[A ConvNet for the 2020s](https://arxiv.org/abs/2201.03545)," 2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), New Orleans, LA, USA, 2022, pp. 11966-11976, doi: 10.1109/CVPR52688.2022.01167.
 [^5]: Xiao, T., Singh, M., Mintun, E., Darrell, T., Dollár, P., & Girshick, R.B. (2021). [Early Convolutions Help Transformers See Better](https://proceedings.neurips.cc/paper/2021/file/ff1418e8cc993fe8abcfe3ce2003e5c5-Paper.pdf). Neural Information Processing Systems.
+
+
+## Further Readings and Videos
+
+- [The Transformer Family Version 2.0](https://lilianweng.github.io/posts/2023-01-27-the-transformer-family-v2/)
+- [https://aman.ai/primers/ai/transformers/](https://aman.ai/primers/ai/transformers/)
+- https://www.youtube.com/watch?v=KmAISyVvE1Y&list=PLIXJ-Sacf8u60G1TwcznBmK6rEL3gmZmV&index=1

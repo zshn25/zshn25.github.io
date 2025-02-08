@@ -138,13 +138,31 @@ These methods involve artificially manipulating the input and teaching the netwo
 </sup></sub>
 {: refdef}
 
+<!--
 > **Note:** Tasks such as Jigsaw puzzle and transformations of the image are not exactly generative. But, I still like to generalize them as generative. Only that the generation is parameterized to a low dimension, for e.g. classification on hash table for Jigsaw puzzle and regression of angles for rotation.
+-->
+
+
+{% include note.html content="Tasks such as Jigsaw puzzle and transformations of the image are not exactly generative. But, I still like to generalize them as generative. Only that the generation is parameterized to a low dimension, for e.g. classification on hash table for Jigsaw puzzle and regression of angles for rotation."%}
 
 The difficulty in these methods is the parameterization of degradation is dependent on the exact degradation method, making it hard to combine with other manipulations. For example, the parameters of adding gaussian noise are the mean and standard deviation of the gaussian noise function, which can be estimated by the network to subtract and recover the original image. For rotation, this would be the angle, which means there should now be another head to predict the angle if these both are to be combined.
 
 <!-- A large variety of pretext tasks have been proposed to learn neural representations of the data's underlying structure. For example, Noroozi et al.propose to find a reordering of tiles from a 3x3 grid of a square region cropped from an image as the pretext task; \cite{9879206} propose masked autoencoders, which masks random patches of the input image and reconstructs the missing patches as the pretext task; \cite{pmlr-v139-radford21a}'s CLIP: given an image, predict which out of a set of 32,768 randomly sampled text snippets, was actually paired with it in their dataset as the pretext task. 
 
 Since the main objective in this tasks is to rely on existing unlabeled data for pre-training, one of the main similarities in these tasks is to degrade the input and define a task for the network to reconstruct the original input. For example, \cite{8579073} shuffle and \cite{9879206} remove patches from the image, \cite{rombach2021highresolution} successively apply Gaussian noise to the image -->
+
+Recent notable generative text-to-image models based on denoising diffusion have also been shown to understand and learn feature representations of the objects. 
+
+![](https://sd-complements-dino.github.io/sd_dino_files/sd_features.png)
+[A Tale of Two Features: Stable Diffusion Complements DINO for Zero-Shot Semantic Correspondence](https://sd-complements-dino.github.io/)
+
+Concurrently, several impressive studies also leverage diffusion features for semantic correspondence:
+
+Emergent Correspondence from Image Diffusion extracts diffusion features for semantic, geometric, and temporal correspondences.
+
+Unsupervised Semantic Correspondence Using Stable Diffusion optimizes the prompt embedding to highlight regions of interest, and then utilizes it for semantic correspondence.
+
+Diffusion Hyperfeatures: Searching Through Time and Space for Semantic Correspondence employs a trained aggregation network to consolidate multi-scale and multi-timestep diffusion features for semantic correspondence.
 
 ### Feature similarity as a pretext task
 
@@ -168,6 +186,8 @@ Data sampling of the positives and the negatives becomes the key here and differ
 
 One could also sample other images as positives based on methods such as clustering in the feature space or if some kind of labels or GT is known.
 
+Different approaches within the contrastive framework include [iBOT](https://arxiv.org/pdf/2111.07832.pdf) DINO, SEER, MoCo [22], SimCLR [8], BYOL [20] and SwAV [7], [flow equivariance](https://arxiv.org/pdf/2101.06553.pdf)
+
 ### Feature similarity vs. Generative pretext tasks
 
 The advantage of feature similarity based methods is that there is no need for exact pixel to pixel mapping of the input and output, as opposed to generative pretext tasks, where the restored output is a one-to-one mapping of the manipulated/distorted input. One could use non-exact data (for example neighboring frames of a video) for sampling feature learning. One could also combine various augmentation methods mentioned in generaive pretext tasks. Feature similarity would essentially be a way to automatically incorporate various handcrafted ad-hoc heuristics via augmentations and positive-negative sampling.
@@ -178,10 +198,15 @@ Recent work titled "What Do Self-Supervised Vision Transformers Learn?" compares
 
 2. MIM utilizes high-frequency signals of the representations and mainly focuses on the early layers of the ViTs and is more texture-oriented.
 
+There have also been efforts to unify different approaches.
+
+[Contrastive and Non-Contrastive Self-Supervised Learning Recover Global and Local Spectral Embedding Methods](https://papers.nips.cc/paper_files/paper/2022/file/aa56c74513a5e35768a11f4e82dd7ffb-Paper-Conference.pdf), for e.g. proposes to unify many self-supervised learning approaches under the helm of spectral manifold learning.
 
 ### Other pretext tasks
 
 The generative pretext tasks can be combined with contrastive pretext tasks. For e.g., [Learning to See by Looking at Noise](https://mbaradad.github.io/learning_with_noise/) combines the generative and feature similarity by generating synthetic images from random processes and having a contrastive loss between crops of synthetic images and real ones.
+
+Other modalities: Contrastive Multiview Coding
 
 # Applications
 
@@ -220,6 +245,8 @@ Socretic models https://socraticmodels.github.io/
 
 - Large amounts of quality data will enable better performance and generalizability to downstream tasks. Different modalities can be used to mine such data, including synthetic data. For filtering high quality data, methods such as active learning need to be incorporated.
 
+TODO: check https://arxiv.org/pdf/2305.15614.pdf
+
 > ## [Continuous improvement (Active learning) pipeline for scaling with data]({{ site.baseurl }}{% post_url 2022-12-1-Software-2 %})
 {:.no_toc}
 
@@ -243,12 +270,14 @@ In this post, I focus on vision foundation models. But, there are plenty of reso
 - [FSDL 2022 Course](https://fullstackdeeplearning.com/course/2022/)'s Lecture on Language [Foundation Models](https://fullstackdeeplearning.com/course/2022/lecture-7-foundation-models/)
 - [MIT FUTURE OF AI: Self-Supervised Learning and Foundation Models](https://futureofai.mit.edu/)
 - Self-Supervised Learning: Self-Prediction and Contrastive Learning, [NIPS 21 Tutorial Video](https://www.facebook.com/epflcampus/videos/1960325127394608), [[Slides]](https://nips.cc/media/neurips-2021/Slides/21895.pdf)
+- DeepMind, UCL's [Unsupervised Representation Learning lecture](https://www.youtube.com/watch?v=f0s-uvvXvWg)
+- SSL for Autonomous Driving https://www.youtube.com/watch?v=RhNZUyOubfE
 
 ## Libraries
 
 - [![](https://github.com/facebookresearch/vissl/raw/main/.github/logo/Logo_Color_Light_BG.png){: style="height: 2.5em; text-align: left;" }](https://github.com/facebookresearch/vissl)
-- [![](https://docs.lightly.ai/self-supervised-learning/_static/lightly_logo_crop_white_text.png){: style="height: 2.5em; text-align: left;" }](https://docs.lightly.ai/self-supervised-learning/index.html)
-- [![](https://github.com/vturrisi/solo-learn/raw/main/logo.png){: style="height: 2.5em; text-align: left;" }](https://github.com/vturrisi/solo-learn)
+- [![](https://docs.lightly.ai/self-supervised-learning/_images/lightly_SSL_logo_crop.png){: style="height: 2.5em; text-align: left;" }](https://docs.lightly.ai/self-supervised-learning/index.html)
+- [![](https://github.com/vturrisi/solo-learn/raw/main/logo.png){: style="height: 2.5em; text-align: start;" }](https://github.com/vturrisi/solo-learn)
 
 
 ## Read

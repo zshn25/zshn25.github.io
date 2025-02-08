@@ -1,4 +1,22 @@
-<div class="flash">
-    {% octicon info %}
-    <strong>Note: </strong>{{ include.content }}
+<!-- <div class="flash">
+    {% octicon info height:24 %}
+    <div markdown="span" style="margin-left: 0.7em;">
+        {{ include.content | strip }}
+    </div>
+    <strong>Note: </strong>\n{{ include.content }}
+</div> -->
+
+<div markdown="span" class="flash" role="alert">
+    {% octicon info height:24 %} <b>Note:</b> {{ include.content | strip }}
 </div>
+
+<!-- 
+<div markdown="span" class="Toast Toast--warning googoo"  role="alert">
+    <span aria-hidden="true" class="Toast-icon octicon octicon-alert">{% octicon alert %}</span>
+    <span class="Toast-content">{{include.content}}</span>
+ </div>
+ 
+ <div class="alert alert-danger d-flex" role="alert">
+    <i class="bi bi-exclamation-triangle-fill"></i>
+    
+</div> -->

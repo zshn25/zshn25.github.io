@@ -11,3 +11,11 @@ https://zshn25.github.io/
 
 _powered by [fastpages](https://github.com/fastai/fastpages)_
 
+
+# Install
+
+- Install [Ruby](https://jekyllrb.com/docs/installation/)
+- Install NodeJS
+
+  `sudo apt-get install nodejs`
+- `gem install jekyll bundler`
