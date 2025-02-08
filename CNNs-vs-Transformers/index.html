@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="twitter:card" content="summary_large_image" />
   
-  <meta name="referrer" content="no-referrer"><!-- Begin Jekyll SEO tag v2.6.1 -->
+  <meta name="referrer" content="no-referrer"><!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Convolution vs. Attention | Curiosity</title>
-<meta name="generator" content="Jekyll v4.1.1" />
+<meta name="generator" content="Jekyll v4.3.1" />
 <meta property="og:title" content="Convolution vs. Attention" />
 <meta name="author" content="Zeeshan Khan Suri" />
 <meta property="og:locale" content="en_US" />
@@ -19,8 +19,11 @@
 <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Vision_Transformer.gif/320px-Vision_Transformer.gif" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2023-03-09T20:21:23-06:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Vision_Transformer.gif/320px-Vision_Transformer.gif" />
+<meta property="twitter:title" content="Convolution vs. Attention" />
 <script type="application/ld+json">
-{"url":"https://zshn25.github.io/CNNs-vs-Transformers/","@type":"BlogPosting","headline":"Convolution vs. Attention","dateModified":"2023-03-09T20:21:23-06:00","datePublished":"2023-03-09T20:21:23-06:00","image":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Vision_Transformer.gif/320px-Vision_Transformer.gif","mainEntityOfPage":{"@type":"WebPage","@id":"https://zshn25.github.io/CNNs-vs-Transformers/"},"author":{"@type":"Person","name":"Zeeshan Khan Suri"},"description":"Similarities and differences between convolutions and attention module of Transformers","@context":"https://schema.org"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Zeeshan Khan Suri"},"dateModified":"2023-03-09T20:21:23-06:00","datePublished":"2023-03-09T20:21:23-06:00","description":"Similarities and differences between convolutions and attention module of Transformers","headline":"Convolution vs. Attention","image":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Vision_Transformer.gif/320px-Vision_Transformer.gif","mainEntityOfPage":{"@type":"WebPage","@id":"https://zshn25.github.io/CNNs-vs-Transformers/"},"url":"https://zshn25.github.io/CNNs-vs-Transformers/"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
@@ -226,7 +229,7 @@ window.onload = wrap_img;
 </sup></sub></p>
 
 <div class="Toast Toast--warning googoo" role="alert">
-   <span aria-hidden="true" class="Toast-icon octicon octicon-alert"><svg class="octicon octicon-alert octicon octicon-alert octicon octicon-alert octicon octicon-alert octicon octicon-alert" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.22 1.754a.25.25 0 00-.44 0L1.698 13.132a.25.25 0 00.22.368h12.164a.25.25 0 00.22-.368L8.22 1.754zm-1.763-.707c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0114.082 15H1.918a1.75 1.75 0 01-1.543-2.575L6.457 1.047zM9 11a1 1 0 11-2 0 1 1 0 012 0zm-.25-5.25a.75.75 0 00-1.5 0v2.5a.75.75 0 001.5 0v-2.5z"></path></svg></span>
+   <span aria-hidden="true" class="Toast-icon octicon octicon-alert"><svg class="octicon octicon-alert" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.22 1.754a.25.25 0 00-.44 0L1.698 13.132a.25.25 0 00.22.368h12.164a.25.25 0 00.22-.368L8.22 1.754zm-1.763-.707c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0114.082 15H1.918a1.75 1.75 0 01-1.543-2.575L6.457 1.047zM9 11a1 1 0 11-2 0 1 1 0 012 0zm-.25-5.25a.75.75 0 00-1.5 0v2.5a.75.75 0 001.5 0v-2.5z"></path></svg></span>
    <span class="Toast-content">Input $\textcolor{2EC27E}{\textbf{x}^T}$ and its transforms are usually multi-dimensional. Vector notation is used for illustration</span>
 </div>
       <h3 id="self-attention">
@@ -238,7 +241,7 @@ window.onload = wrap_img;
       </h3>
     
 
-<p>Note that the basic version of self-attention does not include any learnable parameters. For this reason, the “Attention is all you need”<sup>[</sup><sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote">1</a></sup><sup>]</sup> variation of the self-attention includes 3 learnable weight matrices (key $\textcolor{9966FF}{W_K}$, query $\textcolor{9966FF}{W_Q}$ and value $\textcolor{9966FF}{W_V}$). But, the basic principle remains the same. The key $\textcolor{9966FF}{W_K}$ and query $\textcolor{9966FF}{W_Q}$ matrices are used to transform the input into key $\textcolor{2EC27E}{\textbf{k}} = \textcolor{9966FF}{W_K} \textcolor{2EC27E}{\textbf{x}}$, and query $\textcolor{2EC27E}{\textbf{q}} = \textcolor{9966FF}{W_Q} \textcolor{2EC27E}{\textbf{x}}$, whose similarity $\textcolor{2EC27E}{\textbf{q}} \textcolor{2EC27E}{\textbf{k}^\mathrm{T}}$,  weighs the output (value), $\textcolor{FF7800}{\textbf{v}} =  \textcolor{9966FF}{W_V} \textcolor{2EC27E}{\textbf{x}} $.<sup>[</sup><sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote">2</a></sup><sup>]</sup></p>
+<p>Note that the basic version of self-attention does not include any learnable parameters. For this reason, the “Attention is all you need”<sup>[</sup><sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup><sup>]</sup> variation of the self-attention includes 3 learnable weight matrices (key $\textcolor{9966FF}{W_K}$, query $\textcolor{9966FF}{W_Q}$ and value $\textcolor{9966FF}{W_V}$). But, the basic principle remains the same. The key $\textcolor{9966FF}{W_K}$ and query $\textcolor{9966FF}{W_Q}$ matrices are used to transform the input into key $\textcolor{2EC27E}{\textbf{k}} = \textcolor{9966FF}{W_K} \textcolor{2EC27E}{\textbf{x}}$, and query $\textcolor{2EC27E}{\textbf{q}} = \textcolor{9966FF}{W_Q} \textcolor{2EC27E}{\textbf{x}}$, whose similarity $\textcolor{2EC27E}{\textbf{q}} \textcolor{2EC27E}{\textbf{k}^\mathrm{T}}$,  weighs the output (value), $\textcolor{FF7800}{\textbf{v}} =  \textcolor{9966FF}{W_V} \textcolor{2EC27E}{\textbf{x}} $.<sup>[</sup><sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup><sup>]</sup></p>
 
 <p style="text-align: center;">$\textcolor{FF7800}{\textbf{y}} = \text{softmax}\left(\frac{\textcolor{2EC27E}{\textbf{q}} \textcolor{2EC27E}{\textbf{k}^\mathrm{T}}}{\sqrt{d_k}}\right)\textcolor{FF7800}{\textbf{v}}$</p>
 
@@ -252,9 +255,9 @@ window.onload = wrap_img;
       </h2>
     
 
-<p>Although attention based models such as vision transformers have shown to outperform CNN based methods, a careful analysis of the two shows comparible performance.<sup id="fnref:4" role="doc-noteref"><a href="#fn:4" class="footnote">3</a></sup></p>
+<p>Although attention based models such as vision transformers have shown to outperform CNN based methods, a careful analysis of the two shows comparible performance.<sup id="fnref:4" role="doc-noteref"><a href="#fn:4" class="footnote" rel="footnote">3</a></sup></p>
 
-<p>In early layers of a neural network for images, spatial relations can be captured by convolutions and the later layers could benifit from long-range receptive fields offered by attention. Hence, both can be combined.<sup id="fnref:5" role="doc-noteref"><a href="#fn:5" class="footnote">4</a></sup></p>
+<p>In early layers of a neural network for images, spatial relations can be captured by convolutions and the later layers could benifit from long-range receptive fields offered by attention. Hence, both can be combined.<sup id="fnref:5" role="doc-noteref"><a href="#fn:5" class="footnote" rel="footnote">4</a></sup></p>
 
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Am I going to argue that &quot;Conv is all you need&quot;?<br />No!<br />My favorite architecture is DETR-like: ConvNet (or ConvNeXt) for the first layers, then something more memory-based and permutation invariant like transformer blocks for object-based reasoning on top.<a href="https://t.co/LA2J72N93A">https://t.co/LA2J72N93A</a></p>&mdash; Yann LeCun (@ylecun) <a href="https://twitter.com/ylecun/status/1481198016266739715?ref_src=twsrc%5Etfw">January 12, 2022</a></blockquote>
 <script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -278,7 +281,7 @@ window.onload = wrap_img;
     <p>A self-attention layer assigns importance to inputs based on their similarity. For e.g., in the sentence “Alice is adventurous and she is in wonderland.” the word “she” refers to “Alice” and ideally, their embeddings should be similar, which can be used by the self-attention layer to determine contexts. Similar to fully-connected, far away connections can be established if the input features or embeddings are similar. However, not having enough data may lead to overfitting the inputs.</p>
   </li>
   <li>
-    <p>In early layers of a neural network for images, spatial relations can be captured by convolutions and the later layers could benifit from long-range receptive fields offered by attention. Hence, both can be combined. Works such as CoAtNet<sup>[</sup><sup id="fnref:3" role="doc-noteref"><a href="#fn:3" class="footnote">5</a></sup><sup>]</sup> offer layers combining the two.</p>
+    <p>In early layers of a neural network for images, spatial relations can be captured by convolutions and the later layers could benifit from long-range receptive fields offered by attention. Hence, both can be combined. Works such as CoAtNet<sup>[</sup><sup id="fnref:3" role="doc-noteref"><a href="#fn:3" class="footnote" rel="footnote">5</a></sup><sup>]</sup> offer layers combining the two.</p>
   </li>
 </ul>
       <h2 id="references">
@@ -289,7 +292,20 @@ window.onload = wrap_img;
         
       </h2>
     
+      <h2 id="further-readings-and-videos">
+        
+        
+          <a href="#further-readings-and-videos" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Further Readings and Videos
+        
+        
+      </h2>
+    
 
+<ul>
+  <li><a href="https://lilianweng.github.io/posts/2023-01-27-the-transformer-family-v2/">The Transformer Family Version 2.0</a></li>
+  <li><a href="https://aman.ai/primers/ai/transformers/">https://aman.ai/primers/ai/transformers/</a></li>
+  <li>https://www.youtube.com/watch?v=KmAISyVvE1Y&amp;list=PLIXJ-Sacf8u60G1TwcznBmK6rEL3gmZmV&amp;index=1</li>
+</ul>
 <div class="footnotes" role="doc-endnotes">
   <ol>
     <li id="fn:1" role="doc-endnote">
@@ -346,17 +362,6 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
     
     
 
-    
-        
-
-            
-            
-
-            
-
-            
-
-        
     
         
     
@@ -486,6 +491,17 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
                 </article>
                 
                 
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
             
 
         

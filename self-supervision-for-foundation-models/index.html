@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="twitter:card" content="summary_large_image" />
   
-  <meta name="referrer" content="no-referrer"><!-- Begin Jekyll SEO tag v2.6.1 -->
+  <meta name="referrer" content="no-referrer"><!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Self-supervised learning for vision foundation models | Curiosity</title>
-<meta name="generator" content="Jekyll v4.1.1" />
+<meta name="generator" content="Jekyll v4.3.1" />
 <meta property="og:title" content="Self-supervised learning for vision foundation models" />
 <meta name="author" content="Zeeshan Khan Suri" />
 <meta property="og:locale" content="en_US" />
@@ -19,8 +19,11 @@
 <meta property="og:image" content="https://zshn25.github.io/images/foundation.jpeg" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2023-05-11T22:21:23-05:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://zshn25.github.io/images/foundation.jpeg" />
+<meta property="twitter:title" content="Self-supervised learning for vision foundation models" />
 <script type="application/ld+json">
-{"url":"https://zshn25.github.io/self-supervision-for-foundation-models/","@type":"BlogPosting","headline":"Self-supervised learning for vision foundation models","dateModified":"2023-05-11T22:21:23-05:00","datePublished":"2023-05-11T22:21:23-05:00","image":"https://zshn25.github.io/images/foundation.jpeg","mainEntityOfPage":{"@type":"WebPage","@id":"https://zshn25.github.io/self-supervision-for-foundation-models/"},"author":{"@type":"Person","name":"Zeeshan Khan Suri"},"description":"Performance of deep neural networks scales with data and model size","@context":"https://schema.org"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Zeeshan Khan Suri"},"dateModified":"2023-05-11T22:21:23-05:00","datePublished":"2023-05-11T22:21:23-05:00","description":"Performance of deep neural networks scales with data and model size","headline":"Self-supervised learning for vision foundation models","image":"https://zshn25.github.io/images/foundation.jpeg","mainEntityOfPage":{"@type":"WebPage","@id":"https://zshn25.github.io/self-supervision-for-foundation-models/"},"url":"https://zshn25.github.io/self-supervision-for-foundation-models/"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
@@ -119,7 +122,7 @@ window.onload = wrap_img;
        • <i class="far fa-clock"></i> <span class="read-time" title="Estimated read time">
     
     
-      15 mins read
+      16 mins read
     
 </span></p>
 
@@ -169,7 +172,7 @@ window.onload = wrap_img;
 <p style="text-align: center;"><sub><sup><em>As the training data increases, the performance of a DL model increases but traditional methods do not depend on the training data</em>
 </sup></sub></p>
 
-<p>But, collecting such massive amounts of carefully labeled data costs enormous time, effort and money; and are error prone. For e.g. Northcutt et al.<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote">1</a></sup>, and https://labelerrors.com/ outline errors in the labels of widely used datasets. What if there was a way to use massively available but <strong>unlabled</strong> data?</p>
+<p>But, collecting such massive amounts of carefully labeled data costs enormous time, effort and money; and are error prone. For e.g. Northcutt et al.<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>, and https://labelerrors.com/ outline errors in the labels of widely used datasets. What if there was a way to use massively available but <strong>unlabled</strong> data?</p>
 
 <p>In this post, I motivate the necessity for large, general-purpose data representation models, known as foundation models, and in what ways self-supervised learning enables this achievement. Stay tuned!</p>
       <h2 id="what-are-foundation-models">
@@ -181,15 +184,15 @@ window.onload = wrap_img;
       </h2>
     
 
-<p>Behind the fancy wording<sup id="fnref:12" role="doc-noteref"><a href="#fn:12" class="footnote">2</a></sup>, the idea is to learn a generic model that produces good input representations, is robust to variety of inputs, and can be directly used for multiple other tasks without the need for re-training. Any model that is capable of doing so can be named a foundation model.</p>
+<p>Behind the fancy wording<sup id="fnref:12" role="doc-noteref"><a href="#fn:12" class="footnote" rel="footnote">2</a></sup>, the idea is to learn a generic model that produces good input representations, is robust to variety of inputs, and can be directly used for multiple other tasks without the need for re-training. Any model that is capable of doing so can be named a foundation model.</p>
 
 <blockquote>
   <p>“A foundation model is any model that is trained on broad data (generally using self-supervision at scale) that can be adapted (e.g., fine-tuned) to a wide range of downstream tasks”</p>
 
-  <p>Bommasani, Rishi, et al.<sup id="fnref:19" role="doc-noteref"><a href="#fn:19" class="footnote">3</a></sup></p>
+  <p>Bommasani, Rishi, et al.<sup id="fnref:19" role="doc-noteref"><a href="#fn:19" class="footnote" rel="footnote">3</a></sup></p>
 </blockquote>
 
-<p>The way to realize such a model is to use vast quantities of data and the way to do so is by self-supervised learning. <mark>The scale and diversity of training data is what makes a model foundational.</mark> Also, training on more data leads to generalization and robustness to distribution shifts and adversarial samples<sup id="fnref:12:1" role="doc-noteref"><a href="#fn:12" class="footnote">2</a></sup></p>
+<p>The way to realize such a model is to use vast quantities of data and the way to do so is by self-supervised learning. <mark>The scale and diversity of training data is what makes a model foundational.</mark> Also, training on more data leads to generalization and robustness to distribution shifts and adversarial samples<sup id="fnref:12:1" role="doc-noteref"><a href="#fn:12" class="footnote" rel="footnote">2</a></sup></p>
       <h2 id="history-feature-representations-of-images">
         
         
@@ -245,7 +248,7 @@ window.onload = wrap_img;
 
 <p>If you’re thinking, if existing models already extract features, why is there a need for foundation models?</p>
 
-<p>You are absolutely right. Existing models such as YOLO<sup id="fnref:3" role="doc-noteref"><a href="#fn:3" class="footnote">4</a></sup> object detection, extract features, which are further passed to the object-detection head. But, there are two reasons where foundation models come into play.</p>
+<p>You are absolutely right. Existing models such as YOLO<sup id="fnref:3" role="doc-noteref"><a href="#fn:3" class="footnote" rel="footnote">4</a></sup> object detection, extract features, which are further passed to the object-detection head. But, there are two reasons where foundation models come into play.</p>
 
 <ol>
   <li>The features extracted from Yolo are <strong>task-specific</strong>. Features that are useful for object-detection, might not be useful or optimal for other tasks, for example, for depth estimation. We want our ideal features to be <strong>task-agnostic</strong>. The reasoning behind this is the underlying assumption that there exist features that are useful for all kinds of tasks, just as we saw in the traditional feature detectors and descriptors like <abbr title="Scale-invariant feature transform">SIFT</abbr>.</li>
@@ -321,21 +324,57 @@ window.onload = wrap_img;
       </h3>
     
 
-<p>These methods involve artificially manipulating the input and teaching the network to undo the manipulation. The hope is that in order to restore large a variety of training data, the network learns robust image representations. Examples of such input manipulations include masking out image regions<sup id="fnref:6" role="doc-noteref"><a href="#fn:6" class="footnote">5</a></sup>, adding Gaussian noise<sup id="fnref:9" role="doc-noteref"><a href="#fn:9" class="footnote">6</a></sup>, reordering/permuting patches as a Jigsaw puzzle<sup id="fnref:5" role="doc-noteref"><a href="#fn:5" class="footnote">7</a></sup>, transformations of the image, such as rotation, and viewpoint change<sup id="fnref:7" role="doc-noteref"><a href="#fn:7" class="footnote">8</a></sup>, removing color<sup id="fnref:8" role="doc-noteref"><a href="#fn:8" class="footnote">9</a></sup>, etc. There is no explicit need to manipulate the original image, for e.g. a <abbr title="Generative adversarial network">GAN</abbr> was used to regenerate the input image from compressed latent features<sup id="fnref:21" role="doc-noteref"><a href="#fn:21" class="footnote">10</a></sup>.</p>
+<p>These methods involve artificially manipulating the input and teaching the network to undo the manipulation. The hope is that in order to restore large a variety of training data, the network learns robust image representations. Examples of such input manipulations include masking out image regions<sup id="fnref:6" role="doc-noteref"><a href="#fn:6" class="footnote" rel="footnote">5</a></sup>, adding Gaussian noise<sup id="fnref:9" role="doc-noteref"><a href="#fn:9" class="footnote" rel="footnote">6</a></sup>, reordering/permuting patches as a Jigsaw puzzle<sup id="fnref:5" role="doc-noteref"><a href="#fn:5" class="footnote" rel="footnote">7</a></sup>, transformations of the image, such as rotation, and viewpoint change<sup id="fnref:7" role="doc-noteref"><a href="#fn:7" class="footnote" rel="footnote">8</a></sup>, removing color<sup id="fnref:8" role="doc-noteref"><a href="#fn:8" class="footnote" rel="footnote">9</a></sup>, etc. There is no explicit need to manipulate the original image, for e.g. a <abbr title="Generative adversarial network">GAN</abbr> was used to regenerate the input image from compressed latent features<sup id="fnref:21" role="doc-noteref"><a href="#fn:21" class="footnote" rel="footnote">10</a></sup>.</p>
 
 <p style="text-align: center;"><img src="/images/generative_cat.png" alt="multi-task" /></p>
 <p style="text-align: center;"><sub><sup>Examples of image degradations: masking, noising, permuting, rotating, grey-scaling. The pretext task is to recover the original image.
 </sup></sub></p>
 
-<blockquote>
-  <p><strong>Note:</strong> Tasks such as Jigsaw puzzle and transformations of the image are not exactly generative. But, I still like to generalize them as generative. Only that the generation is parameterized to a low dimension, for e.g. classification on hash table for Jigsaw puzzle and regression of angles for rotation.</p>
-</blockquote>
+<!--
+> **Note:** Tasks such as Jigsaw puzzle and transformations of the image are not exactly generative. But, I still like to generalize them as generative. Only that the generation is parameterized to a low dimension, for e.g. classification on hash table for Jigsaw puzzle and regression of angles for rotation.
+-->
+
+<!-- <div class="flash">
+    <svg height="24" class="octicon octicon-info" viewBox="0 0 24 24" version="1.1" width="24" aria-hidden="true"><path d="M13 7.5a1 1 0 11-2 0 1 1 0 012 0zm-3 3.75a.75.75 0 01.75-.75h1.5a.75.75 0 01.75.75v4.25h.75a.75.75 0 010 1.5h-3a.75.75 0 010-1.5h.75V12h-.75a.75.75 0 01-.75-.75z"></path><path fill-rule="evenodd" d="M12 1C5.925 1 1 5.925 1 12s4.925 11 11 11 11-4.925 11-11S18.075 1 12 1zM2.5 12a9.5 9.5 0 1119 0 9.5 9.5 0 01-19 0z"></path></svg>
+    <div markdown="span" style="margin-left: 0.7em;">
+        Tasks such as Jigsaw puzzle and transformations of the image are not exactly generative. But, I still like to generalize them as generative. Only that the generation is parameterized to a low dimension, for e.g. classification on hash table for Jigsaw puzzle and regression of angles for rotation.
+    </div>
+    <strong>Note: </strong>\nTasks such as Jigsaw puzzle and transformations of the image are not exactly generative. But, I still like to generalize them as generative. Only that the generation is parameterized to a low dimension, for e.g. classification on hash table for Jigsaw puzzle and regression of angles for rotation.
+</div> -->
+
+<div class="flash" role="alert">
+    <svg height="24" class="octicon octicon-info" viewBox="0 0 24 24" version="1.1" width="24" aria-hidden="true"><path d="M13 7.5a1 1 0 11-2 0 1 1 0 012 0zm-3 3.75a.75.75 0 01.75-.75h1.5a.75.75 0 01.75.75v4.25h.75a.75.75 0 010 1.5h-3a.75.75 0 010-1.5h.75V12h-.75a.75.75 0 01-.75-.75z"></path><path fill-rule="evenodd" d="M12 1C5.925 1 1 5.925 1 12s4.925 11 11 11 11-4.925 11-11S18.075 1 12 1zM2.5 12a9.5 9.5 0 1119 0 9.5 9.5 0 01-19 0z"></path></svg> <b>Note:</b> Tasks such as Jigsaw puzzle and transformations of the image are not exactly generative. But, I still like to generalize them as generative. Only that the generation is parameterized to a low dimension, for e.g. classification on hash table for Jigsaw puzzle and regression of angles for rotation.
+</div>
+
+<!-- 
+<div markdown="span" class="Toast Toast--warning googoo"  role="alert">
+    <span aria-hidden="true" class="Toast-icon octicon octicon-alert"><svg class="octicon octicon-alert" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.22 1.754a.25.25 0 00-.44 0L1.698 13.132a.25.25 0 00.22.368h12.164a.25.25 0 00.22-.368L8.22 1.754zm-1.763-.707c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0114.082 15H1.918a1.75 1.75 0 01-1.543-2.575L6.457 1.047zM9 11a1 1 0 11-2 0 1 1 0 012 0zm-.25-5.25a.75.75 0 00-1.5 0v2.5a.75.75 0 001.5 0v-2.5z"></path></svg></span>
+    <span class="Toast-content">Tasks such as Jigsaw puzzle and transformations of the image are not exactly generative. But, I still like to generalize them as generative. Only that the generation is parameterized to a low dimension, for e.g. classification on hash table for Jigsaw puzzle and regression of angles for rotation.</span>
+ </div>
+ 
+ <div class="alert alert-danger d-flex" role="alert">
+    <i class="bi bi-exclamation-triangle-fill"></i>
+    
+</div> -->
 
 <p>The difficulty in these methods is the parameterization of degradation is dependent on the exact degradation method, making it hard to combine with other manipulations. For example, the parameters of adding gaussian noise are the mean and standard deviation of the gaussian noise function, which can be estimated by the network to subtract and recover the original image. For rotation, this would be the angle, which means there should now be another head to predict the angle if these both are to be combined.</p>
 
 <!-- A large variety of pretext tasks have been proposed to learn neural representations of the data's underlying structure. For example, Noroozi et al.propose to find a reordering of tiles from a 3x3 grid of a square region cropped from an image as the pretext task; \cite{9879206} propose masked autoencoders, which masks random patches of the input image and reconstructs the missing patches as the pretext task; \cite{pmlr-v139-radford21a}'s CLIP: given an image, predict which out of a set of 32,768 randomly sampled text snippets, was actually paired with it in their dataset as the pretext task. 
 
 Since the main objective in this tasks is to rely on existing unlabeled data for pre-training, one of the main similarities in these tasks is to degrade the input and define a task for the network to reconstruct the original input. For example, \cite{8579073} shuffle and \cite{9879206} remove patches from the image, \cite{rombach2021highresolution} successively apply Gaussian noise to the image -->
+
+<p>Recent notable generative text-to-image models based on denoising diffusion have also been shown to understand and learn feature representations of the objects.</p>
+
+<p><img src="https://sd-complements-dino.github.io/sd_dino_files/sd_features.png" alt="" />
+<a href="https://sd-complements-dino.github.io/">A Tale of Two Features: Stable Diffusion Complements DINO for Zero-Shot Semantic Correspondence</a></p>
+
+<p>Concurrently, several impressive studies also leverage diffusion features for semantic correspondence:</p>
+
+<p>Emergent Correspondence from Image Diffusion extracts diffusion features for semantic, geometric, and temporal correspondences.</p>
+
+<p>Unsupervised Semantic Correspondence Using Stable Diffusion optimizes the prompt embedding to highlight regions of interest, and then utilizes it for semantic correspondence.</p>
+
+<p>Diffusion Hyperfeatures: Searching Through Time and Space for Semantic Correspondence employs a trained aggregation network to consolidate multi-scale and multi-timestep diffusion features for semantic correspondence.</p>
       <h3 id="feature-similarity-as-a-pretext-task">
         
         
@@ -363,9 +402,11 @@ Since the main objective in this tasks is to rely on existing unlabeled data for
 
 <p>One of the most influential self-supervised techniques is contrastive learning which, as the name implies, uses not only positive samples but also contrasts them with negative samples. The figure above outlines an example of contrastive learning. The positive examples are shown by green arrows are images sampled from an image with different augmentations, such as rotation, cropping, color, etc. Another image (Colosseum) is chosen at random which acts as the negative sample. The fundamental assumption of contrastive learning is that features of the positive samples lie closer to each other (<strong>positive samples attract</strong>) than to those of a negative sample (<strong>positive-negative samples repel</strong>). This is realized by minimizing the distance between positive samples while maximizing the distance between negative samples in feature space.</p>
 
-<p>Data sampling of the positives and the negatives becomes the key here and different ways to sample them could be incorporated. Multi-modal information or pseudo-labels, such as associated text, audio, other sensor information, could be used to sample negatives and positives. SimCLR<sup id="fnref:17" role="doc-noteref"><a href="#fn:17" class="footnote">11</a></sup>, for example uses various augmentations of the same image and CMC uses various sensor information of the underlying scene for sampling positives.</p>
+<p>Data sampling of the positives and the negatives becomes the key here and different ways to sample them could be incorporated. Multi-modal information or pseudo-labels, such as associated text, audio, other sensor information, could be used to sample negatives and positives. SimCLR<sup id="fnref:17" role="doc-noteref"><a href="#fn:17" class="footnote" rel="footnote">11</a></sup>, for example uses various augmentations of the same image and CMC uses various sensor information of the underlying scene for sampling positives.</p>
 
 <p>One could also sample other images as positives based on methods such as clustering in the feature space or if some kind of labels or GT is known.</p>
+
+<p>Different approaches within the contrastive framework include <a href="https://arxiv.org/pdf/2111.07832.pdf">iBOT</a> DINO, SEER, MoCo [22], SimCLR [8], BYOL [20] and SwAV [7], <a href="https://arxiv.org/pdf/2101.06553.pdf">flow equivariance</a></p>
       <h3 id="feature-similarity-vs-generative-pretext-tasks">
         
         
@@ -377,7 +418,7 @@ Since the main objective in this tasks is to rely on existing unlabeled data for
 
 <p>The advantage of feature similarity based methods is that there is no need for exact pixel to pixel mapping of the input and output, as opposed to generative pretext tasks, where the restored output is a one-to-one mapping of the manipulated/distorted input. One could use non-exact data (for example neighboring frames of a video) for sampling feature learning. One could also combine various augmentation methods mentioned in generaive pretext tasks. Feature similarity would essentially be a way to automatically incorporate various handcrafted ad-hoc heuristics via augmentations and positive-negative sampling.</p>
 
-<p>Recent work titled “What Do Self-Supervised Vision Transformers Learn?” compares contrastive learning with a prominant generative pretext task called Masked Image Modeling (<abbr title="Masked image modeling">MIM</abbr>)<sup id="fnref:6:1" role="doc-noteref"><a href="#fn:6" class="footnote">5</a></sup> and finds:</p>
+<p>Recent work titled “What Do Self-Supervised Vision Transformers Learn?” compares contrastive learning with a prominant generative pretext task called Masked Image Modeling (<abbr title="Masked image modeling">MIM</abbr>)<sup id="fnref:6:1" role="doc-noteref"><a href="#fn:6" class="footnote" rel="footnote">5</a></sup> and finds:</p>
 
 <ol>
   <li>
@@ -387,6 +428,10 @@ Since the main objective in this tasks is to rely on existing unlabeled data for
     <p><abbr title="Masked image modeling">MIM</abbr> utilizes high-frequency signals of the representations and mainly focuses on the early layers of the ViTs and is more texture-oriented.</p>
   </li>
 </ol>
+
+<p>There have also been efforts to unify different approaches.</p>
+
+<p><a href="https://papers.nips.cc/paper_files/paper/2022/file/aa56c74513a5e35768a11f4e82dd7ffb-Paper-Conference.pdf">Contrastive and Non-Contrastive Self-Supervised Learning Recover Global and Local Spectral Embedding Methods</a>, for e.g. proposes to unify many self-supervised learning approaches under the helm of spectral manifold learning.</p>
       <h3 id="other-pretext-tasks">
         
         
@@ -397,6 +442,8 @@ Since the main objective in this tasks is to rely on existing unlabeled data for
     
 
 <p>The generative pretext tasks can be combined with contrastive pretext tasks. For e.g., <a href="https://mbaradad.github.io/learning_with_noise/">Learning to See by Looking at Noise</a> combines the generative and feature similarity by generating synthetic images from random processes and having a contrastive loss between crops of synthetic images and real ones.</p>
+
+<p>Other modalities: Contrastive Multiview Coding</p>
       <h1 id="applications">
         
         
@@ -415,10 +462,10 @@ Since the main objective in this tasks is to rely on existing unlabeled data for
 -->
 
 <p style="text-align: center;"><img src="https://contrastive-learning.github.io/intriguing/assets/img/multi/img_methods_bi.jpeg" alt="multi-task" /></p>
-<p style="text-align: center;"><sub><sup> Local regions grouped together after applying K-means on contrastively learnt features. Source: <a href="https://contrastive-learning.github.io/intriguing/">Intriguing Properties of Contrastive Losses</a><sup id="fnref:14" role="doc-noteref"><a href="#fn:14" class="footnote">12</a></sup>
+<p style="text-align: center;"><sub><sup> Local regions grouped together after applying K-means on contrastively learnt features. Source: <a href="https://contrastive-learning.github.io/intriguing/">Intriguing Properties of Contrastive Losses</a><sup id="fnref:14" role="doc-noteref"><a href="#fn:14" class="footnote" rel="footnote">12</a></sup>
 </sup></sub></p>
 
-<p>Semantic Similarity <a href="The Unreasonable Effectiveness of Deep Features as a Perceptual Metric">Deep Features as a Perceptual Metric</a><sup id="fnref:11" role="doc-noteref"><a href="#fn:11" class="footnote">13</a></sup></p>
+<p>Semantic Similarity <a href="The Unreasonable Effectiveness of Deep Features as a Perceptual Metric">Deep Features as a Perceptual Metric</a><sup id="fnref:11" role="doc-noteref"><a href="#fn:11" class="footnote" rel="footnote">13</a></sup></p>
 
 <p>Socretic models https://socraticmodels.github.io/</p>
 
@@ -440,7 +487,7 @@ Since the main objective in this tasks is to rely on existing unlabeled data for
     <p>Modelling pretext tasks involves manual selection of data augmentation techniques which is based on our expert heuristics and introduces human biases into the model. Best would be to design methods that just take a bunch of data and decide for themselves which ones are similar, which ones are not. Like real unsupervised learning. But, that is difficult to design.</p>
   </li>
   <li>
-    <p>Most research is done on curated object-centric datasets, where the whole image consists of a single object instance. While there is some evidence that it also works for multiple objects<sup id="fnref:14:1" role="doc-noteref"><a href="#fn:14" class="footnote">12</a></sup>, further investigation is needed to check how good the techniques work for generic scenes. Works such as DetCon<sup id="fnref:15" role="doc-noteref"><a href="#fn:15" class="footnote">14</a></sup> and it’s follow-up: ODIN<sup id="fnref:16" role="doc-noteref"><a href="#fn:16" class="footnote">15</a></sup>, work towards this goal by relying on pre-processing the whole image into object centric ones.</p>
+    <p>Most research is done on curated object-centric datasets, where the whole image consists of a single object instance. While there is some evidence that it also works for multiple objects<sup id="fnref:14:1" role="doc-noteref"><a href="#fn:14" class="footnote" rel="footnote">12</a></sup>, further investigation is needed to check how good the techniques work for generic scenes. Works such as DetCon<sup id="fnref:15" role="doc-noteref"><a href="#fn:15" class="footnote" rel="footnote">14</a></sup> and it’s follow-up: ODIN<sup id="fnref:16" role="doc-noteref"><a href="#fn:16" class="footnote" rel="footnote">15</a></sup>, work towards this goal by relying on pre-processing the whole image into object centric ones.</p>
   </li>
   <li>
     <p>Mining positive and negative samples for contrastive learning is crucial for its performance.</p>
@@ -449,6 +496,8 @@ Since the main objective in this tasks is to rely on existing unlabeled data for
     <p>Large amounts of quality data will enable better performance and generalizability to downstream tasks. Different modalities can be used to mine such data, including synthetic data. For filtering high quality data, methods such as active learning need to be incorporated.</p>
   </li>
 </ul>
+
+<p>TODO: check https://arxiv.org/pdf/2305.15614.pdf</p>
 
 <blockquote class="no_toc">
       <h2 id="continuous-improvement-active-learning-pipeline-for-scaling-with-data">
@@ -506,6 +555,8 @@ Since the main objective in this tasks is to rely on existing unlabeled data for
   <li><a href="https://fullstackdeeplearning.com/course/2022/">FSDL 2022 Course</a>’s Lecture on Language <a href="https://fullstackdeeplearning.com/course/2022/lecture-7-foundation-models/">Foundation Models</a></li>
   <li><a href="https://futureofai.mit.edu/">MIT FUTURE OF AI: Self-Supervised Learning and Foundation Models</a></li>
   <li>Self-Supervised Learning: Self-Prediction and Contrastive Learning, <a href="https://www.facebook.com/epflcampus/videos/1960325127394608">NIPS 21 Tutorial Video</a>, <a href="https://nips.cc/media/neurips-2021/Slides/21895.pdf">[Slides]</a></li>
+  <li>DeepMind, UCL’s <a href="https://www.youtube.com/watch?v=f0s-uvvXvWg">Unsupervised Representation Learning lecture</a></li>
+  <li>SSL for Autonomous Driving https://www.youtube.com/watch?v=RhNZUyOubfE</li>
 </ul>
       <h2 id="libraries">
         
@@ -518,8 +569,8 @@ Since the main objective in this tasks is to rely on existing unlabeled data for
 
 <ul>
   <li><a href="https://github.com/facebookresearch/vissl"><img src="https://github.com/facebookresearch/vissl/raw/main/.github/logo/Logo_Color_Light_BG.png" alt="" style="height: 2.5em; text-align: left;" /></a></li>
-  <li><a href="https://docs.lightly.ai/self-supervised-learning/index.html"><img src="https://docs.lightly.ai/self-supervised-learning/_static/lightly_logo_crop_white_text.png" alt="" style="height: 2.5em; text-align: left;" /></a></li>
-  <li><a href="https://github.com/vturrisi/solo-learn"><img src="https://github.com/vturrisi/solo-learn/raw/main/logo.png" alt="" style="height: 2.5em; text-align: left;" /></a></li>
+  <li><a href="https://docs.lightly.ai/self-supervised-learning/index.html"><img src="https://docs.lightly.ai/self-supervised-learning/_images/lightly_SSL_logo_crop.png" alt="" style="height: 2.5em; text-align: left;" /></a></li>
+  <li><a href="https://github.com/vturrisi/solo-learn"><img src="https://github.com/vturrisi/solo-learn/raw/main/logo.png" alt="" style="height: 2.5em; text-align: start;" /></a></li>
 </ul>
       <h2 id="read">
         
@@ -659,17 +710,6 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
 
     
         
-
-            
-            
-
-            
-
-            
-
-        
-    
-        
     
         
 
@@ -779,6 +819,17 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
                 </article>
                 
                 
+            
+
+        
+    
+        
+
+            
+            
+
+            
+
             
 
         

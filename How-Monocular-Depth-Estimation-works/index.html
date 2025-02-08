@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="twitter:card" content="summary_large_image" />
   
-  <meta name="referrer" content="no-referrer"><!-- Begin Jekyll SEO tag v2.6.1 -->
+  <meta name="referrer" content="no-referrer"><!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Self-supervised monocular depth estimation | Curiosity</title>
-<meta name="generator" content="Jekyll v4.1.1" />
+<meta name="generator" content="Jekyll v4.3.1" />
 <meta property="og:title" content="Self-supervised monocular depth estimation" />
 <meta name="author" content="Zeeshan Khan Suri" />
 <meta property="og:locale" content="en_US" />
@@ -19,8 +19,11 @@
 <meta property="og:image" content="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/2551b04d-fd4e-4ec9-9869-3e8c9ac5e7bf/d93a0lc-e4ecbd7d-6120-4925-be1d-1e250d7e0830.png/v1/fill/w_1024,h_576,q_80,strp/cyclops_greek_mythology_by_nilesdino_d93a0lc-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NTc2IiwicGF0aCI6IlwvZlwvMjU1MWIwNGQtZmQ0ZS00ZWM5LTk4NjktM2U4YzlhYzVlN2JmXC9kOTNhMGxjLWU0ZWNiZDdkLTYxMjAtNDkyNS1iZTFkLTFlMjUwZDdlMDgzMC5wbmciLCJ3aWR0aCI6Ijw9MTAyNCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.kEfvRjpv5KXW_HtOAtsBltiTNTF7DswBz8TwLvRVwyo" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2022-10-30T21:21:23-05:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/2551b04d-fd4e-4ec9-9869-3e8c9ac5e7bf/d93a0lc-e4ecbd7d-6120-4925-be1d-1e250d7e0830.png/v1/fill/w_1024,h_576,q_80,strp/cyclops_greek_mythology_by_nilesdino_d93a0lc-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NTc2IiwicGF0aCI6IlwvZlwvMjU1MWIwNGQtZmQ0ZS00ZWM5LTk4NjktM2U4YzlhYzVlN2JmXC9kOTNhMGxjLWU0ZWNiZDdkLTYxMjAtNDkyNS1iZTFkLTFlMjUwZDdlMDgzMC5wbmciLCJ3aWR0aCI6Ijw9MTAyNCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.kEfvRjpv5KXW_HtOAtsBltiTNTF7DswBz8TwLvRVwyo" />
+<meta property="twitter:title" content="Self-supervised monocular depth estimation" />
 <script type="application/ld+json">
-{"url":"https://zshn25.github.io/How-Monocular-Depth-Estimation-works/","@type":"BlogPosting","headline":"Self-supervised monocular depth estimation","dateModified":"2022-10-30T21:21:23-05:00","datePublished":"2022-10-30T21:21:23-05:00","image":"https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/2551b04d-fd4e-4ec9-9869-3e8c9ac5e7bf/d93a0lc-e4ecbd7d-6120-4925-be1d-1e250d7e0830.png/v1/fill/w_1024,h_576,q_80,strp/cyclops_greek_mythology_by_nilesdino_d93a0lc-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NTc2IiwicGF0aCI6IlwvZlwvMjU1MWIwNGQtZmQ0ZS00ZWM5LTk4NjktM2U4YzlhYzVlN2JmXC9kOTNhMGxjLWU0ZWNiZDdkLTYxMjAtNDkyNS1iZTFkLTFlMjUwZDdlMDgzMC5wbmciLCJ3aWR0aCI6Ijw9MTAyNCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.kEfvRjpv5KXW_HtOAtsBltiTNTF7DswBz8TwLvRVwyo","mainEntityOfPage":{"@type":"WebPage","@id":"https://zshn25.github.io/How-Monocular-Depth-Estimation-works/"},"author":{"@type":"Person","name":"Zeeshan Khan Suri"},"description":"How to estimate depth and ego-motion from videos: Neural Networks","@context":"https://schema.org"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Zeeshan Khan Suri"},"dateModified":"2022-10-30T21:21:23-05:00","datePublished":"2022-10-30T21:21:23-05:00","description":"How to estimate depth and ego-motion from videos: Neural Networks","headline":"Self-supervised monocular depth estimation","image":"https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/2551b04d-fd4e-4ec9-9869-3e8c9ac5e7bf/d93a0lc-e4ecbd7d-6120-4925-be1d-1e250d7e0830.png/v1/fill/w_1024,h_576,q_80,strp/cyclops_greek_mythology_by_nilesdino_d93a0lc-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NTc2IiwicGF0aCI6IlwvZlwvMjU1MWIwNGQtZmQ0ZS00ZWM5LTk4NjktM2U4YzlhYzVlN2JmXC9kOTNhMGxjLWU0ZWNiZDdkLTYxMjAtNDkyNS1iZTFkLTFlMjUwZDdlMDgzMC5wbmciLCJ3aWR0aCI6Ijw9MTAyNCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.kEfvRjpv5KXW_HtOAtsBltiTNTF7DswBz8TwLvRVwyo","mainEntityOfPage":{"@type":"WebPage","@id":"https://zshn25.github.io/How-Monocular-Depth-Estimation-works/"},"url":"https://zshn25.github.io/How-Monocular-Depth-Estimation-works/"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
@@ -151,13 +154,13 @@ window.onload = wrap_img;
 
   <div class="post-content e-content" itemprop="articleBody">
     
-    <p>Animals (and in extension, humans) are unable to directly perceive the 3D surroundings around us. Each of our eyes projects the 3D world onto 2D, losing the depth dimension. Instead, we rely on our brain to reconstruct these 2D projections to perceive depth. Having more than one eye allows us to geometrically reconstruct depth via triangulation<sup id="fnref:3" role="doc-noteref"><a href="#fn:3" class="footnote">1</a></sup>, but how are creatures with a single eye (for e.g., due to a defective eye, or due to a birth disorder<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote">2</a></sup>) still able to perceive it?</p>
+    <p>Animals (and in extension, humans) are unable to directly perceive the 3D surroundings around us. Each of our eyes projects the 3D world onto 2D, losing the depth dimension. Instead, we rely on our brain to reconstruct these 2D projections to perceive depth. Having more than one eye allows us to geometrically reconstruct depth via triangulation<sup id="fnref:3" role="doc-noteref"><a href="#fn:3" class="footnote" rel="footnote">1</a></sup>, but how are creatures with a single eye (for e.g., due to a defective eye, or due to a birth disorder<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">2</a></sup>) still able to perceive it?</p>
 
 <p style="text-align: center;"><a href="https://en.wikipedia.org/wiki/File:Odontodactylus_scyllarus_eyes.jpg"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Odontodactylus_scyllarus_eyes.jpg/640px-Odontodactylus_scyllarus_eyes.jpg" alt="Odontodactylus scyllarus eyes" width="50%" class="shadow" /></a></p>
 <p style="text-align: center;"><sub><sup><em>Each eye of <a href="https://en.wikipedia.org/wiki/Mantis_shrimp#Eyes">Mantis Shrimp</a> possesses trinocular vision. <a href="https://commons.wikimedia.org/wiki/File:Odontodactylus_scyllarus_eyes.jpg">Cédric Peneau</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>, via Wikimedia Commons</em>
 </sup></sub></p>
 
-<p>We rely on monocular cues for perceiving 3D even with a single eye. These monocular cues include those from the static image such as perspective, relative sizes of familiar objects, shading, occlusion, etc.; and those from motion, such as parallax, depth from motion, etc.<sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote">3</a></sup></p>
+<p>We rely on monocular cues for perceiving 3D even with a single eye. These monocular cues include those from the static image such as perspective, relative sizes of familiar objects, shading, occlusion, etc.; and those from motion, such as parallax, depth from motion, etc.<sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">3</a></sup></p>
       <h3 id="can-we-teach-machines-to-estimate-depth-from-a-single-image">
         
         
@@ -167,7 +170,7 @@ window.onload = wrap_img;
       </h3>
     
 
-<p>If animals are able to use these cues to reason about the relative 3D structure, the question arises, is there a way to make machines do the same? A famous paper from 2009 called <a href="http://make3d.cs.cornell.edu/">Make3D</a><sup id="fnref:4" role="doc-noteref"><a href="#fn:4" class="footnote">4</a></sup> says “yes!”.</p>
+<p>If animals are able to use these cues to reason about the relative 3D structure, the question arises, is there a way to make machines do the same? A famous paper from 2009 called <a href="http://make3d.cs.cornell.edu/">Make3D</a><sup id="fnref:4" role="doc-noteref"><a href="#fn:4" class="footnote" rel="footnote">4</a></sup> says “yes!”.</p>
 
 <center width="70%" class="shadow">
 <div class="container">
@@ -185,7 +188,7 @@ window.onload = wrap_img;
       </h1>
     
 
-<p>In-fact we are looking at methods that do not rely on the availability ground-truth (<abbr title="ground-truth">GT</abbr>) depths. Why? Because it is expensive and tedious to gather such ground truth and difficult to calibrate and align different sensor ouputs, making it difficult to scale. But, how can we teach a neural network to estimate the underlying depth without having ground truth? Thanks for asking that! Geometry comes to the rescue. The idea is to synthesize different views of the same scene and compare these synthesized views with the real ones for supervision. It underlies on <strong>the brightness constantcy assumption</strong><sup id="fnref:5" role="doc-noteref"><a href="#fn:5" class="footnote">5</a></sup>, where parts of the same scene are assumed to be observed in multiple views. A similar assumption is used in binocular vision, where the content of what a left eye/camera sees is very similar to that of what the right one sees; and in motion/optical-flow estimation, where the motion is the vector $u_{xy}, v_{xy}$ defined by the change in pixel locations as</p>
+<p>In-fact we are looking at methods that do not rely on the availability ground-truth (<abbr title="ground-truth">GT</abbr>) depths. Why? Because it is expensive and tedious to gather such ground truth and difficult to calibrate and align different sensor ouputs, making it difficult to scale. But, how can we teach a neural network to estimate the underlying depth without having ground truth? Thanks for asking that! Geometry comes to the rescue. The idea is to synthesize different views of the same scene and compare these synthesized views with the real ones for supervision. It underlies on <strong>the brightness constantcy assumption</strong><sup id="fnref:5" role="doc-noteref"><a href="#fn:5" class="footnote" rel="footnote">5</a></sup>, where parts of the same scene are assumed to be observed in multiple views. A similar assumption is used in binocular vision, where the content of what a left eye/camera sees is very similar to that of what the right one sees; and in motion/optical-flow estimation, where the motion is the vector $u_{xy}, v_{xy}$ defined by the change in pixel locations as</p>
       <h2 style="text-align: center;" id="ix-y-t--ix--u_xy-y--v_xy-t--1">
         
         
@@ -202,11 +205,11 @@ window.onload = wrap_img;
         
       </h2>
     
-<p>Garg et.al., propose a method called monodepth<sup id="fnref:6" role="doc-noteref"><a href="#fn:6" class="footnote">6</a></sup>, to estimate depth from a single image, trained on stereo image pairs (without the need for depth <abbr title="ground-truth">GT</abbr>). The idea is similar: synthesize the right view from the left one and compare the synthesized and the real right views as supervision.</p>
+<p>Garg et.al., propose a method called monodepth<sup id="fnref:6" role="doc-noteref"><a href="#fn:6" class="footnote" rel="footnote">6</a></sup>, to estimate depth from a single image, trained on stereo image pairs (without the need for depth <abbr title="ground-truth">GT</abbr>). The idea is similar: synthesize the right view from the left one and compare the synthesized and the real right views as supervision.</p>
 
 <p style="text-align: center;"><img src="/images/3dreco/input_right.png" style="float: left; width: 49.5%" /></p>
 <p style="text-align: center;"><img src="/images/3dreco/input_left.png" style="float: right; width: 49.5%" /></p>
-<p style="text-align: center;"><sub><sup><em>Left and right images of the same scene from the <a href="https://www.cvlibs.net/datasets/kitti/index.php">KITTI dataset</a><sup id="fnref:7" role="doc-noteref"><a href="#fn:7" class="footnote">7</a></sup></em>
+<p style="text-align: center;"><sub><sup><em>Left and right images of the same scene from the <a href="https://www.cvlibs.net/datasets/kitti/index.php">KITTI dataset</a><sup id="fnref:7" role="doc-noteref"><a href="#fn:7" class="footnote" rel="footnote">7</a></sup></em>
 </sup></sub></p>
 
 <p>But, how will this help learn depth? This is because view synthesis is a function of depth. In a rectified stereo setting, the optical flow is unidirectional (horizontal) and so only its magnitude a.k.a. disparity is to be found. The problem then boils down to finding a per-pixel disparity that when applied to the left image, gives the right image.</p>
@@ -222,7 +225,7 @@ window.onload = wrap_img;
 <p>The depth from disparity can be calculated by $\text{depth} = \frac{\text{focal length}\times\text{baseline}}{\text{disparity}}$.</p>
 
 <p style="text-align: center;"><img src="https://upload.wikimedia.org/wikipedia/commons/c/cd/Triangulation.svg" alt="triangulation" /></p>
-<p style="text-align: center;"><sub><sup><em>Depth as a function of disparity via triangulation<sup id="fnref:3:1" role="doc-noteref"><a href="#fn:3" class="footnote">1</a></sup>. By <a href="https://commons.wikimedia.org/wiki/File:Triangulation.svg">fr:Utilisateur:COLETTE</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0">CC BY-SA 3.0</a>, via Wikimedia Commons</em>
+<p style="text-align: center;"><sub><sup><em>Depth as a function of disparity via triangulation<sup id="fnref:3:1" role="doc-noteref"><a href="#fn:3" class="footnote" rel="footnote">1</a></sup>. By <a href="https://commons.wikimedia.org/wiki/File:Triangulation.svg">fr:Utilisateur:COLETTE</a>, <a href="https://creativecommons.org/licenses/by-sa/3.0">CC BY-SA 3.0</a>, via Wikimedia Commons</em>
 </sup></sub></p>
 
 <!-- https://camo.githubusercontent.com/347a28083896fc6b18f12e29933fb7adc3ebfa485ee383897c59fe4a0983f97e/687474703a2f2f76697375616c2e63732e75636c2e61632e756b2f707562732f6d6f6e6f44657074682f6d6f6e6f64657074685f7465617365722e676966 -->
@@ -262,10 +265,10 @@ window.onload = wrap_img;
 <p>The answer is not straightforward. Even if we think about exploiting motion, the relative ego-motion of the camera from one frame at time $t$ to the next $t+1$ is not known, unlike in stereo case where the pose between the left and right cameras is known (and uni-directional for calibrated cases). Not only is the camera pose not known between two timesteps, it is also changing and not constant as in stereo case. So, in order to extend the stereo approach to monocular case, relative camera pose or camera ego-motion has to also be predicted between any 2 consecutive frames.</p>
 
 <p style="text-align: center;"><img src="/images/3dreco/5mono.png" alt="s" width="75%" class="shadow" /></p>
-<p style="text-align: center;"><sub><sup><em>SfMLearner: Unsupervised Learning of Depth and Ego-Motion from Video<sup id="fnref:8" role="doc-noteref"><a href="#fn:8" class="footnote">8</a></sup></em>
+<p style="text-align: center;"><sub><sup><em>SfMLearner: Unsupervised Learning of Depth and Ego-Motion from Video<sup id="fnref:8" role="doc-noteref"><a href="#fn:8" class="footnote" rel="footnote">8</a></sup></em>
 </sup></sub></p>
 
-<p>Zhou et.al’s SfMLearner: Unsupervised Learning of Depth and Ego-Motion from Video<sup id="fnref:8:1" role="doc-noteref"><a href="#fn:8" class="footnote">8</a></sup> does exactly that. They introduce an additional network which estimates the 6 <abbr title="degrees of freedom">DOF</abbr> rigid ego-motion/pose $T \in \text{SE}(3)$, between the cameras of the two consecutive frames with pixel locations $[x_t, y_t, 1]^T$ and $[x_{t+1}, y_{t+1}, 1]^T$ resp.. The working principle is similar to before but the warping of one frame onto the other is done by</p>
+<p>Zhou et.al’s SfMLearner: Unsupervised Learning of Depth and Ego-Motion from Video<sup id="fnref:8:1" role="doc-noteref"><a href="#fn:8" class="footnote" rel="footnote">8</a></sup> does exactly that. They introduce an additional network which estimates the 6 <abbr title="degrees of freedom">DOF</abbr> rigid ego-motion/pose $T \in \text{SE}(3)$, between the cameras of the two consecutive frames with pixel locations $[x_t, y_t, 1]^T$ and $[x_{t+1}, y_{t+1}, 1]^T$ resp.. The working principle is similar to before but the warping of one frame onto the other is done by</p>
       <h2 style="text-align: center;" id="leftbeginarraycx_t1--y_t1--1-endarray-right-stackrel-ktk-1d_xy-leftbeginarraycx_t--y_t--1-endarray-right">
         
         
@@ -425,17 +428,6 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
 
     
         
-
-            
-            
-
-            
-
-            
-
-        
-    
-        
     
         
 
@@ -449,7 +441,7 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
                     <p class="post-meta"><a class="post-meta-title" href="/self-supervision-for-foundation-models/">Self-supervised learning for vision foundation models</a>  •  
                         <i class="far fa-calendar-alt"></i> May 11, 2023  •  
                         <i class="far fa-clock"></i> 
-       17 mins read   •  
+       18 mins read   •  
                         <i class="fas fa-tags category-tags-icon"></i>
                             
                                 <a class="category-tags-link label label-default" href="/categories/#computer-vision">#computer-vision</a>
@@ -659,6 +651,17 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
             
 
             
+
+        
+    
+        
+
+            
+            
+
+            
+
+            
                 <article class="archive-item">
                     <p class="post-meta"><a class="post-meta-title" href="/Layers-fusion-for-faster-inference/">Layers fusion for faster neural network inference</a>  •  
                         <i class="far fa-calendar-alt"></i> Apr 27, 2021  •  
@@ -689,7 +692,7 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
   <div class="pagination" style="display: flex; justify-content: space-between; flex-wrap: wrap;">
       
         
-          <a class="previous_page" style="flex: 1 1 0; width: 45%; padding-right: 0.5em; text-align: right; background-color: transparent;" rel="previous" aria-label="Previous Page" href="/Aristotle-definitions/"><b>Previous:</b> Aristotle’s regime, the good citizen and justice
+          <a class="previous_page" style="flex: 1 1 0; width: 45%; padding-right: 0.5em; text-align: right; background-color: transparent;" rel="previous" aria-label="Previous Page" href="/the-necessity-of-the-state/"><b>Previous:</b> Trading Freedom for Peace: The necessity of the state
 </a>
         
       
