@@ -4,7 +4,7 @@ title:  "Notes on Justice from Plato's Republic"
 description: "What is justice? Is a just person good? Even when the consequences of  being unjust are taken away? Even when the advantages of having the reputation of being just are taken away?"
 date:   2022-02-09 22:21:23 -0700
 comments: true
-image: https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/The_Death_of_Socrates_MET_DP-13139-001.jpg/1081px-The_Death_of_Socrates_MET_DP-13139-001.jpg
+image: https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/David_-_The_Death_of_Socrates_-_detail2.jpg/330px-David_-_The_Death_of_Socrates_-_detail2.jpg
 categories: politics philosophy justice
 author: Zeeshan Khan Suri
 ---
@@ -44,7 +44,7 @@ Remember the idea of each class performing it’s own function and nothing else,
 Justice is the combination and harmonious interaction of the moderate, the courageous and the wise. Justice is to the soul as health is to the body. And just as the philosopher king should be in control of the city, the reason should be in control of appetites and spiritedness.
 
 > “One who is just doesn’t allow any part of himself to do the work of another part or allow the various classes within him to meddle with each other. He regulates well what is his own and rules himself. He puts himself in order, in his own friend, and harmonizes the three parts of himself like three limiting notes in a musical scale — high, low and middle. He binds together those parts and any other that may be in between, and from having been many things he becomes entirely one, moderate and harmonious. Only then does he act. And when he does anything, whether acquiring wealth, taking care of his body, engaging in politics, or in private contracts — in all of these, he believes that the action is just and fine that preserves this inner harmony and helps achieve it, and calls it so, and regards as wisdom the knowledge that oversees such actions. And he believes that the action that destroys this harmony is unjust, and calls it so, and regards the belief that oversees it as ignorance.”
-> 443 d,e
+> *443 d,e*
 
 <!-- %
 ### Is it better to act just, be just, or to be unjust?

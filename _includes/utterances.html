@@ -1,9 +1,45 @@
-<!-- from https://github.com/utterance/utterances -->
-<script src="https://utteranc.es/client.js"
-        repo="{{ site.github_username }}/{{ site.github_repo | default: site.baseurl | remove: "/" }}"
-        issue-term="title"
-        label="blogpost-comment"
-        theme="github-light"
-        crossorigin="anonymous"
-        async>
+<!-- Privacy-respecting lazy-loaded comments (connects to GitHub via utteranc.es only when requested) -->
+<div id="utterances-container">
+    <div id="comments-placeholder" class="consent-placeholder">
+        <p><i class="fas fa-comments"></i> <strong>Comments</strong></p>
+        <p class="consent-detail">Loading comments connects to GitHub via utteranc.es and may set cookies.</p>
+        <button id="load-comments" class="button is-rounded">
+            <i class="fas fa-comment-dots"></i> Load Comments
+        </button>
+    </div>
+</div>
+<script>
+document.getElementById('load-comments').addEventListener('click', function() {
+    var placeholder = document.getElementById('comments-placeholder');
+    placeholder.innerHTML = '<p><i class="fas fa-spinner fa-spin"></i> Loading comments...</p>';
+
+    // Detect dark mode
+    var darkCSS = document.getElementById('dark-css');
+    var isDark = (darkCSS && darkCSS.media !== 'invalid' && darkCSS.media !== '(prefers-color-scheme: dark)')
+              || window.matchMedia('(prefers-color-scheme: dark)').matches;
+    // If applytheme.js forced dark (removed media attr), darkCSS.media is empty string
+    if (darkCSS && darkCSS.media === '') isDark = true;
+
+    var theme = isDark ? 'github-dark' : 'github-light';
+
+    var script = document.createElement('script');
+    script.src = 'https://utteranc.es/client.js';
+    script.setAttribute('repo', '{{ site.github_username }}/{{ site.github_repo | default: site.baseurl | remove: "/" }}');
+    script.setAttribute('issue-term', 'title');
+    script.setAttribute('label', 'blogpost-comment');
+    script.setAttribute('theme', theme);
+    script.setAttribute('crossorigin', 'anonymous');
+    script.async = true;
+
+    var container = document.getElementById('utterances-container');
+    container.appendChild(script);
+
+    // Remove placeholder when utterances iframe loads
+    window.addEventListener('message', function handler(event) {
+        if (event.origin === 'https://utteranc.es') {
+            placeholder.remove();
+            window.removeEventListener('message', handler);
+        }
+    });
+});
 </script>

@@ -1,0 +1,26 @@
+<!-- Privacy-respecting consent wrapper for third-party embeds -->
+<!-- Usage: {% include consent-embed.html provider="YouTube" url="https://..." title="Video title" %} -->
+{% assign provider = include.provider | default: "a third party" %}
+{% assign embed_id = include.url | slugify | truncate: 20, "" %}
+<div class="consent-embed" id="consent-{{ embed_id }}" data-src="{{ include.url }}" data-provider="{{ provider }}">
+    <div class="consent-placeholder">
+        <p><i class="fas fa-shield-alt"></i> <strong>{{ provider }}</strong> embed</p>
+        <p class="consent-detail">Loading this content connects to {{ provider }} servers and may set cookies.</p>
+        <button onclick="loadEmbed('consent-{{ embed_id }}')" class="button is-rounded">
+            <i class="fas fa-play"></i> Load content
+        </button>
+        <a href="{{ include.url }}" target="_blank" rel="noopener noreferrer" class="button is-rounded">
+            <i class="fas fa-external-link-alt"></i> Open externally
+        </a>
+    </div>
+</div>
+<script>
+if (typeof loadEmbed === 'undefined') {
+    function loadEmbed(containerId) {
+        var container = document.getElementById(containerId);
+        if (!container) return;
+        var src = container.getAttribute('data-src');
+        container.innerHTML = '<div class="video-container"><iframe src="' + src + '" frameborder="0" allowfullscreen class="video" loading="lazy"></iframe></div>';
+    }
+}
+</script>

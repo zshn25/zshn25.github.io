@@ -76,8 +76,8 @@ comments: true
 </sup></sub>
 {: refdef}
 
-> ## Very well written and clearly structured paper, well done.
-> ## - Reviewer 4 
+> Very well written and clearly structured paper, well done.
+> *Reviewer 4*
 
 ## Abstract
 
@@ -104,7 +104,7 @@ While disambiguating scale during training is not possible without some kind of 
 
 ## Introduction
 
-For an introduction to self-supervised monocular depth estimation, checkout my previous blog post on [Self-supervised Monocular Depth Estimation]({{ site.baseurl }}{% post_url 2022-10-31-How-Monocular-Depth-Estimation-works %})
+> For an introduction to self-supervised monocular depth estimation, checkout my previous blog post on [Self-supervised Monocular Depth Estimation]({{ site.baseurl }}{% post_url 2022-10-31-How-Monocular-Depth-Estimation-works %})
 
 {% include youtube.html content="AN1AGR85N2A" %}{: width="100%" .shadow}
 ___

@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "Self-supervised learning for vision foundation models"
+description: "How self-supervised learning enables large-scale vision foundation models by learning from unlabeled data through pretext tasks like contrastive learning and masked image modeling."
 image: images/foundation.jpeg
 date: 2023-05-11 20:21:23 -0700
 categories: computer-vision large-neural-networks foundation-models self-supervision
@@ -9,9 +10,7 @@ published: true
 comments: true
 ---
 
-> ## [Performance of deep neural networks scales with data and model size]({{ site.baseurl }}{% post_url 2022-12-1-Software-2 %})
-{:title="The blockquote title"}
-{:.no_toc}
+
 
 <iframe src="https://ourworldindata.org/grapher/artificial-intelligence-training-computation" loading="lazy" style="width: 100%; height: 600px; border: 0px none;"></iframe>
 {:refdef: style="text-align: center;"}
@@ -33,13 +32,17 @@ But, collecting such massive amounts of carefully labeled data costs enormous ti
 
 In this post, I motivate the necessity for large, general-purpose data representation models, known as foundation models, and in what ways self-supervised learning enables this achievement. Stay tuned!
 
+> Checkout my blogpost on [How the performance of deep neural networks scales with data and model size]({{ site.baseurl }}{% post_url 2022-12-1-Software-2 %})
+{:title="The blockquote title"}
+{:.no_toc}
+
 ## What are foundation models?
 
 Behind the fancy wording[^12], the idea is to learn a generic model that produces good input representations, is robust to variety of inputs, and can be directly used for multiple other tasks without the need for re-training. Any model that is capable of doing so can be named a foundation model.
 
 > "A foundation model is any model that is trained on broad data (generally using self-supervision at scale) that can be adapted (e.g., fine-tuned) to a wide range of downstream tasks"
 >
-> Bommasani, Rishi, et al.[^19]
+> *Bommasani, Rishi, et al.[^19]*
 
 The way to realize such a model is to use vast quantities of data and the way to do so is by self-supervised learning. <mark>The scale and diversity of training data is what makes a model foundational.</mark> Also, training on more data leads to generalization and robustness to distribution shifts and adversarial samples[^12]
 
@@ -63,7 +66,7 @@ To work robustly in real world scenarios, these feature descriptors must be inva
 
 With the rise of deep learning, features and their descriptors are no longer hand-engineered, but learnt from the underlying data. Vision models such as CNNs and transformers process input images to extract high-dimensional latent representations, which could be thought as features. Unlike pixel-level features such as SIFT, ORB, latents are **not local** (do not correspond to pixel locations) but **based on the semantics** of the global image contents.
 
-> Checkout my blog post on [how to extract feature pyramids from torchvison models]({{ site.baseurl }}{% post_url 2021-02-01-ResNet-feature-pyramid-in-Pytorch %})
+> Checkout my blog post on [How to extract Feature Pyramids from torchvison models]({{ site.baseurl }}/ResNet-feature-pyramid-in-Pytorch/)
 {:.no_toc}
 
 {:refdef: style="text-align: center;"}
@@ -122,7 +125,7 @@ If we are able formulate **pretext tasks**, we can use <mark>self-supervised lea
 
 Any task that doesn't require explitcit labels can be used as a pretext task. The goal is to be able to make use of as much data as possible. This task is not actually the task what the model would finally be required to do, but this task would allow to use much more data via self-supervised learning.
 
-> ## For a more comprehensive list of self-supervised pretext tasks, checkout [this page from Papers with Code](https://paperswithcode.com/methods/category/self-supervised-learning), and [this curated list](https://github.com/jason718/awesome-self-supervised-learning) of research in self-supervised learning
+{% include info.html content="For a more comprehensive list of self-supervised pretext tasks, checkout [this page from Papers with Code](https://paperswithcode.com/methods/category/self-supervised-learning), and [this curated list](https://github.com/jason718/awesome-self-supervised-learning) of research in self-supervised learning"%}
 
 Prediction/Generation and Similarity are the two main concepts that can be exploited to design self-supervised pretext tasks. 
 
@@ -143,7 +146,7 @@ These methods involve artificially manipulating the input and teaching the netwo
 -->
 
 
-{% include note.html content="Tasks such as Jigsaw puzzle and transformations of the image are not exactly generative. But, I still like to generalize them as generative. Only that the generation is parameterized to a low dimension, for e.g. classification on hash table for Jigsaw puzzle and regression of angles for rotation."%}
+> Tasks such as Jigsaw puzzle and transformations of the image are not exactly generative. But, I still like to generalize them as generative. Only that the generation is parameterized to a low dimension, for e.g. classification on hash table for Jigsaw puzzle and regression of angles for rotation.
 
 The difficulty in these methods is the parameterization of degradation is dependent on the exact degradation method, making it hard to combine with other manipulations. For example, the parameters of adding gaussian noise are the mean and standard deviation of the gaussian noise function, which can be estimated by the network to subtract and recover the original image. For rotation, this would be the angle, which means there should now be another head to predict the angle if these both are to be combined.
 
@@ -247,7 +250,7 @@ Socretic models https://socraticmodels.github.io/
 
 TODO: check https://arxiv.org/pdf/2305.15614.pdf
 
-> ## [Continuous improvement (Active learning) pipeline for scaling with data]({{ site.baseurl }}{% post_url 2022-12-1-Software-2 %})
+> Checkout my blog post on [Continuous improvement (Active learning) pipeline for scaling with data]({{ site.baseurl }}{% post_url 2022-12-1-Software-2 %})
 {:.no_toc}
 
 # tldr; Conclusion

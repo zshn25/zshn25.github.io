@@ -2,11 +2,11 @@
 layout: categories
 permalink: /categories/
 title: Tags
+description: Browse all posts by topic
 search_exclude: true
 ---
 
 {% if site.categories.size > 0 %}
-<h2>Contents</h2>
 
   {% assign categories = "" | split:"" %}
   {% for c in site.categories %}
@@ -14,11 +14,24 @@ search_exclude: true
   {% endfor %}
   {% assign categories = categories | sort_natural %}
 
-  <ul>
+  <div class="tag-cloud">
   {% for category in categories %}
-    <li><a href="#{{ category }}">{{ category }}</a></li>
+    {% assign count = site.categories[category].size %}
+    {% if count >= 8 %}
+      <a class="tag-5" href="#{{ category }}">{{ category }}&nbsp;({{ count }})</a>
+    {% elsif count >= 5 %}
+      <a class="tag-4" href="#{{ category }}">{{ category }}&nbsp;({{ count }})</a>
+    {% elsif count >= 3 %}
+      <a class="tag-3" href="#{{ category }}">{{ category }}&nbsp;({{ count }})</a>
+    {% elsif count >= 2 %}
+      <a class="tag-2" href="#{{ category }}">{{ category }}&nbsp;({{ count }})</a>
+    {% else %}
+      <a class="tag-1" href="#{{ category }}">{{ category }}&nbsp;({{ count }})</a>
+    {% endif %}
   {% endfor %}
-  </ul>
+  </div>
+
+  <hr>
 
   {% for category in categories %}
       <h3 id ="{{ category }}"><i class="fas fa-tags category-tags-icon"></i></i> {{ category }}</h3>

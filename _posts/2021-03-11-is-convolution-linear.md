@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Is convolution linear?"
-description: "Proof of 1D convolution being a linear opetator"
+description: "Proof of 1D convolution being a linear operator"
 image: https://upload.wikimedia.org/wikipedia/commons/6/6a/Convolution_of_box_signal_with_itself2.gif
 date:   2021-03-11 15:21:23 -0700
 categories: mathematics computer-vision  
@@ -70,30 +70,13 @@ ___
 
 So, if convolutions are linear, we should be able to express the discrete convolution as a matrix multiplication. In fact, one of the input function is converted to a [Toeplitz matrix](https://en.wikipedia.org/wiki/Toeplitz_matrix), enabling a discrete convolution to be characterized by a convolution.
 
-> $$
-        y = h \ast x =
-            \begin{bmatrix}
-                h_1 & 0 & \cdots & 0 & 0 \\
-                h_2 & h_1 &      & \vdots & \vdots \\
-                h_3 & h_2 & \cdots & 0 & 0 \\
-                \vdots & h_3 & \cdots & h_1 & 0 \\
-                h_{m-1} & \vdots & \ddots & h_2 & h_1 \\
-                h_m & h_{m-1} &      & \vdots & h_2 \\
-                0 & h_m & \ddots & h_{m-2} & \vdots \\
-                0 & 0 & \cdots & h_{m-1} & h_{m-2} \\
-                \vdots & \vdots &        & h_m & h_{m-1} \\
-                0 & 0 & 0 & \cdots & h_m
-            \end{bmatrix}
-            \begin{bmatrix}
-                x_1 \\
-                x_2 \\
-                x_3 \\
-                \vdots \\
-                x_n
-            \end{bmatrix}
-  $$  
->   
-> -- <cite>[Discrete convoliton using Toeplitz matrix](https://en.wikipedia.org/wiki/Toeplitz_matrix#Discrete_convolution)</cite> 
+{::nomarkdown}
+<div>
+$$y = h \ast x = \begin{bmatrix} h_1 & 0 & \cdots & 0 & 0 \\ h_2 & h_1 & & \vdots & \vdots \\ h_3 & h_2 & \cdots & 0 & 0 \\ \vdots & h_3 & \cdots & h_1 & 0 \\ h_{m-1} & \vdots & \ddots & h_2 & h_1 \\ h_m & h_{m-1} & & \vdots & h_2 \\ 0 & h_m & \ddots & h_{m-2} & \vdots \\ 0 & 0 & \cdots & h_{m-1} & h_{m-2} \\ \vdots & \vdots & & h_m & h_{m-1} \\ 0 & 0 & 0 & \cdots & h_m \end{bmatrix} \begin{bmatrix} x_1 \\ x_2 \\ x_3 \\ \vdots \\ x_n \end{bmatrix}$$
+</div>
+{:/nomarkdown}
+
+<sub>-- [Discrete convolution using Toeplitz matrix](https://en.wikipedia.org/wiki/Toeplitz_matrix#Discrete_convolution)</sub>
 
 If this article was helpful to you, consider citing
 

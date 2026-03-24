@@ -9,7 +9,7 @@ categories: politics philosophy social-contract
 author: Thomas Hobbes
 ---
 
-{% include alert.html content="The whole post is a rephrasing of excerpts from Thomas Hobbes's Leviathan Chapter 13"%}
+{% include info.html content="The whole post is a rephrasing of excerpts from Thomas Hobbes's Leviathan Chapter 13"%}
 
 
 Nature made people so equal in physical and mental abilities that, while there might be some differences, overall, no one can claim a significant advantage. Even the (physically) weakest can pose a threat to the strongest through cunningness or through alliance. In terms of mental faculties, prudence is simply experience; and men will get an equal amount of that in an equal period of time spent on things that they equally apply themselves to.
@@ -31,8 +31,8 @@ Competition, distrust and glory lead men to a state of anarchy: every man agains
 
 
 > Hereby it is manifest that during the time men live without a common Power to keep them all in awe, they are in that condition which is called War*; and such a war as is of every man against every man. In such condition there is no place for Industry, because the fruit thereof is uncertain: and consequently no Culture of the Earth; no Navigation, nor use of the commodities that may be imported by Sea; no commodious Building; no Instruments of moving and removing such things as require much force; no Knowledge of the face of the Earth; no account of Time; no Arts; no Letters; no Society; and which is worst of all, continual Fear, and danger of violent death; And the life of man solitary, poor, nasty, brutish, and short.
-> Chapter 13
-> https://www.bartleby.com/lit-hub/hc/of-man-being-the-first-part-of-leviathan/chapter-xiii-10/
+>
+> *[Chapter 13](https://www.bartleby.com/lit-hub/hc/of-man-being-the-first-part-of-leviathan/chapter-xiii-10/)*
 
 Before we judge such men, we must think of current day actions, like locking doors at night, or carrying a safety weapon on journeys. They reveal a fundamental distrust we have in others. 
 
@@ -53,10 +53,11 @@ Hobbes's justification for the state, emerging as a necessary response to natura
 - the natural condition of humans is war of every man against another, but this is not always the case. Natural contiditon of humans also includes community, peace, based on consensus without escalating to conflict.
 - to be governed by the state is better than anarchy, but the creation of state brings its own disadvantages, such as heirarchies, inequality, etc. In fact, many anarchists believe the opposite
   > we must not hastily conclude that the mischiefs of anarchy are worse than those which government is qualified to produce.
-  > (Godwin 1793: bk VII, chap. V, p. 736)
-  
+  > *(Godwin 1793: bk VII, chap. V, p. 736)*
+
+  <br>
   > The government of man by man (under whatever name it be disguised) is oppression. Society finds its highest perfection in the union of order with anarchy. 
-  > (Proudhon 1840 [1876: 286])  
+  > *(Proudhon 1840 [1876: 286])*
 - every person in a society 
 Hobbes argues that one would never submit to a sovereign state power unless one sees an advantage over the way of life that one would lead in conditions of natural liberty, namely the state of anarchy where every person is against every other. The holders of power have a number of specific obligations: 
 > “in such a way as to produce the peace and the security of the people and to do so by way of conducting government in a manner agreeable to the common good”

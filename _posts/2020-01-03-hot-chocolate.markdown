@@ -47,25 +47,25 @@ Fig. 1: 100% chocolates I found on Amazon but the [Sevenhills Cacao Mass](https:
 3. Stir with a spoon (preferably wooden to not destroy the non-stick bowl) until it looks like this. At this point you have very thick Keto hot chocolate (more like a pudding) and you can already consume it this way.
 
     {:refdef: style="text-align: center;"}
-    ![]({{site.baseurl}}/images/recipes/hotchocolate//3.jpg){: width="50%" .shadow}
+    ![]({{site.baseurl}}/images/recipes/hotchocolate/3.jpg){: width="50%" .shadow}
     {:refdef }
 
 4. For the drink, add milk while continuing to stir
 
     {:refdef: style="text-align: center;"}
-    ![]({{site.baseurl}}/images/recipes/hotchocolate//4.jpg){: width="50%" .shadow}
+    ![]({{site.baseurl}}/images/recipes/hotchocolate/4.jpg){: width="50%" .shadow}
     {:refdef }
 
 5. Add a pinch of Chilli, 3 pinches of Cinnamon powder or one stick, 2 pinches of Cardamom or 2 pods and 3 Cloves. You can also add Orange Zest for a true mulled chocolate feeling. You can also optionally add sugar or any other sweeteners, depending on your taste.
 
     {:refdef: style="text-align: center;"}
-    ![]({{site.baseurl}}/images/recipes/hotchocolate//spices.jpg){: width="50%" .shadow}
+    ![]({{site.baseurl}}/images/recipes/hotchocolate/spices.jpg){: width="50%" .shadow}
     {:refdef }
 
 6. Let it simmer on low heat while stirring once in a while. The longer you leave it simmer, the thicker the hot chocolate becomes. 
 
     {:refdef: style="text-align: center;"}
-    ![]({{site.baseurl}}/images/recipes/hotchocolate//6.jpg){: width="50%" .shadow}
+    ![]({{site.baseurl}}/images/recipes/hotchocolate/6.jpg){: width="50%" .shadow}
     {:refdef }
 
 7. Enjoy!!

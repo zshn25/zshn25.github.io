@@ -9,74 +9,332 @@ layout: default
 
   {{ content | markdownify }}
 
+  {%- comment -%}
+  ═══════════════════════════════════════════════════════════════
+   Category-to-collection mapping (same as topics.html)
+  ═══════════════════════════════════════════════════════════════
+  {%- endcomment -%}
+  {% assign tech_cats = "deep-learning,computer-vision,pytorch,fast-inference,convolution,attention,mlops,c++,vector,tutorial,mathematics,3d-mesh,datasets,3d-reconstruction,structure-from-motion,visual-odometry,depth-estimation,large-neural-networks,foundation-models,self-supervision,github,tags,releases,python,tech,cryptocurrency,ethereum,privacy" | split: "," %}
+  {% assign philosophy_cats = "philosophy,politics,meaning,justice,regime,greed,wealth,social-contract,religion,Islam" | split: "," %}
+  {% assign life_cats = "food,cooking,recipe,health,nutrition,investing,finance,stocks,gratitude,external-link,dhmo-conspiracy,recommendations" | split: "," %}
 
-  {% if site.paginate %}
-    {% assign rawposts = paginator.posts %}
-  {% else %}
-    {% assign rawposts = site.posts %}
-  {% endif %}
-
-  <!-- Hide posts if front matter flag hide:true -->
-  {% assign posts = ''|split:'' %}
-  {% for post in rawposts %}
-    {% if post.hide != true %}
-      {% assign posts = posts|push:post%}
+  {%- comment -%} Build posts per collection (exclude hidden) {%- endcomment -%}
+  {% assign tech_posts = '' | split: '' %}
+  {% assign philosophy_posts = '' | split: '' %}
+  {% assign life_posts = '' | split: '' %}
+  {% for post in site.posts %}
+    {% if post.hide != true and post.hidden != true %}
+      {% for cat in post.categories %}
+        {% if tech_cats contains cat %}
+          {% assign tech_posts = tech_posts | push: post %}
+          {% break %}
+        {% endif %}
+        {% if philosophy_cats contains cat %}
+          {% assign philosophy_posts = philosophy_posts | push: post %}
+          {% break %}
+        {% endif %}
+        {% if life_cats contains cat %}
+          {% assign life_posts = life_posts | push: post %}
+          {% break %}
+        {% endif %}
+      {% endfor %}
     {% endif %}
   {% endfor %}
+  {% assign tech_posts = tech_posts | uniq %}
+  {% assign philosophy_posts = philosophy_posts | uniq %}
+  {% assign life_posts = life_posts | uniq %}
 
-  <!-- Sort posts by rank, then date -->
-  {% assign grouped_posts = posts | group_by: "sticky_rank" | sort: "name", "last" %}
-  {% assign sticky_posts = ''|split:'' %}
-  {% assign non_sticky_posts = '' | split:'' %}
+  {%- comment -%} Collect all tags per collection for filter chips {%- endcomment -%}
+  {% assign tech_tags = '' | split: '' %}
+  {% for p in tech_posts %}{% for c in p.categories %}{% unless tech_tags contains c %}{% assign tech_tags = tech_tags | push: c %}{% endunless %}{% endfor %}{% endfor %}
+  {% assign tech_tags = tech_tags | sort_natural %}
 
- 
-  {% for gp in grouped_posts %}
-    {%- if gp.name == "" -%}
-      {% assign non_sticky_posts = gp.items | sort: "date" | reverse %}
-    {%- else %}
-      {% assign sticky_posts = sticky_posts | concat: gp.items %}
-    {%- endif -%}
-  {% endfor %}
+  {% assign philosophy_tags = '' | split: '' %}
+  {% for p in philosophy_posts %}{% for c in p.categories %}{% unless philosophy_tags contains c %}{% assign philosophy_tags = philosophy_tags | push: c %}{% endunless %}{% endfor %}{% endfor %}
+  {% assign philosophy_tags = philosophy_tags | sort_natural %}
 
-   <!-- Assemble final sorted posts array -->
-  {% assign sticky_posts = sticky_posts | sort: "sticky_rank", "last" %}
-  {% assign posts = sticky_posts | concat: non_sticky_posts %}
+  {% assign life_tags = '' | split: '' %}
+  {% for p in life_posts %}{% for c in p.categories %}{% unless life_tags contains c %}{% assign life_tags = life_tags | push: c %}{% endunless %}{% endfor %}{% endfor %}
+  {% assign life_tags = life_tags | sort_natural %}
 
-  {%- if posts.size > 0 -%}
-    {%- if page.list_title -%}
-      <h2 class="post-list-heading">{{ page.list_title }}</h2>
-    {%- endif -%}
-    <ul class="post-list">
-      {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
-      {%- for post in posts -%}
-      <li>
-        {%- if site.show_image -%}
-            {%- include post_list_image_card.html -%}
-        {% else %}
-            {%- include post_list.html -%}
-        {%- endif -%}
+  {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+  {%- assign posts_per_section = 6 -%}
+
+  {%- comment -%}
+  ═══════════════════════════════════════════════════════════════
+   TECH SECTION
+  ═══════════════════════════════════════════════════════════════
+  {%- endcomment -%}
+  {% if tech_posts.size > 0 %}
+  <section class="topic-section" data-collection="tech">
+    <div class="topic-section-header">
+      <h2 id="tech"><i class="fas fa-microchip"></i> Tech</h2>
+      <p class="topic-description">AI, ML, Computer Vision, Deep Learning, Programming</p>
+    </div>
+    <div class="category-nav">
+      {% for tag in tech_tags %}
+        <a href="#" class="category-chip" data-tag="{{ tag | downcase }}">{{ tag }}</a>
+      {% endfor %}
+    </div>
+    <ul class="post-list" data-section="tech">
+      {% for post in tech_posts %}
+      <li data-categories="{{ post.categories | join: ',' | downcase }}"{% if forloop.index > posts_per_section %} class="section-hidden"{% endif %}>
+        {%- include post_list_image_card.html -%}
       </li>
-      {%- endfor -%}
+      {% endfor %}
     </ul>
+    {% if tech_posts.size > posts_per_section %}
+    <div class="section-toggle-wrap">
+      <button class="section-toggle button is-rounded" data-section="tech" data-total="{{ tech_posts.size }}">
+        Show all {{ tech_posts.size }} posts
+      </button>
+    </div>
+    {% endif %}
+  </section>
+  {% endif %}
 
-    {% if site.paginate and site.posts.size > site.paginate %}
-      <div class="pager">
-        <ul class="pagination">
-        {%- if paginator.previous_page %}
-          <li><a href="{{ paginator.previous_page_path | relative_url }}" class="previous-page">{{ paginator.previous_page }}</a></li>
-        {%- else %}
-          <li><div class="pager-edge">•</div></li>
-        {%- endif %}
-          <li><div class="current-page">{{ paginator.page }}</div></li>
-        {%- if paginator.next_page %}
-          <li><a href="{{ paginator.next_page_path | relative_url }}" class="next-page">{{ paginator.next_page }}</a></li>
-        {%- else %}
-          <li><div class="pager-edge">•</div></li>
-        {%- endif %}
-        </ul>
-      </div>
-    {%- endif %}
+  {%- comment -%}
+  ═══════════════════════════════════════════════════════════════
+   PHILOSOPHY SECTION
+  ═══════════════════════════════════════════════════════════════
+  {%- endcomment -%}
+  {% if philosophy_posts.size > 0 %}
+  <section class="topic-section" data-collection="philosophy">
+    <div class="topic-section-header">
+      <h2 id="philosophy"><i class="fas fa-brain"></i> Philosophy</h2>
+      <p class="topic-description">Politics, Ethics, Justice, Meaning of Life</p>
+    </div>
+    <div class="category-nav">
+      {% for tag in philosophy_tags %}
+        <a href="#" class="category-chip" data-tag="{{ tag | downcase }}">{{ tag }}</a>
+      {% endfor %}
+    </div>
+    <ul class="post-list" data-section="philosophy">
+      {% for post in philosophy_posts %}
+      <li data-categories="{{ post.categories | join: ',' | downcase }}"{% if forloop.index > posts_per_section %} class="section-hidden"{% endif %}>
+        {%- include post_list_image_card.html -%}
+      </li>
+      {% endfor %}
+    </ul>
+    {% if philosophy_posts.size > posts_per_section %}
+    <div class="section-toggle-wrap">
+      <button class="section-toggle button is-rounded" data-section="philosophy" data-total="{{ philosophy_posts.size }}">
+        Show all {{ philosophy_posts.size }} posts
+      </button>
+    </div>
+    {% endif %}
+  </section>
+  {% endif %}
 
-  {%- endif -%}
+  {%- comment -%}
+  ═══════════════════════════════════════════════════════════════
+   LIFE SECTION
+  ═══════════════════════════════════════════════════════════════
+  {%- endcomment -%}
+  {% if life_posts.size > 0 %}
+  <section class="topic-section" data-collection="life">
+    <div class="topic-section-header">
+      <h2 id="life"><i class="fas fa-seedling"></i> Life</h2>
+      <p class="topic-description">Health, Food, Finance, Miscellaneous</p>
+    </div>
+    <div class="category-nav">
+      {% for tag in life_tags %}
+        <a href="#" class="category-chip" data-tag="{{ tag | downcase }}">{{ tag }}</a>
+      {% endfor %}
+    </div>
+    <ul class="post-list" data-section="life">
+      {% for post in life_posts %}
+      <li data-categories="{{ post.categories | join: ',' | downcase }}"{% if forloop.index > posts_per_section %} class="section-hidden"{% endif %}>
+        {%- include post_list_image_card.html -%}
+      </li>
+      {% endfor %}
+    </ul>
+    {% if life_posts.size > posts_per_section %}
+    <div class="section-toggle-wrap">
+      <button class="section-toggle button is-rounded" data-section="life" data-total="{{ life_posts.size }}">
+        Show all {{ life_posts.size }} posts
+      </button>
+    </div>
+    {% endif %}
+  </section>
+  {% endif %}
+
+  {%- comment -%}
+  ═══════════════════════════════════════════════════════════════
+   WORD CLOUD — all tags, colored by collection
+  ═══════════════════════════════════════════════════════════════
+  {%- endcomment -%}
+  {% assign all_tags = '' | split: '' %}
+  {% for p in site.posts %}
+    {% if p.hide != true and p.hidden != true %}
+      {% for c in p.categories %}
+        {% unless all_tags contains c %}{% assign all_tags = all_tags | push: c %}{% endunless %}
+      {% endfor %}
+    {% endif %}
+  {% endfor %}
+  {% assign all_tags = all_tags | sort_natural %}
+
+  {% if all_tags.size > 0 %}
+  <section class="wordcloud-section">
+    <h2 id="tags"><i class="fas fa-tags"></i> Browse by Tag</h2>
+    <div class="tag-cloud">
+      {% for tag in all_tags %}
+        {% assign count = site.categories[tag].size %}
+        {% assign tag_lower = tag | downcase %}
+        {% assign tag_color = "life" %}
+        {% if tech_cats contains tag_lower %}{% assign tag_color = "tech" %}
+        {% elsif philosophy_cats contains tag_lower %}{% assign tag_color = "philosophy" %}
+        {% endif %}
+        {% if count >= 8 %}{% assign tag_size = "tag-5" %}
+        {% elsif count >= 5 %}{% assign tag_size = "tag-4" %}
+        {% elsif count >= 3 %}{% assign tag_size = "tag-3" %}
+        {% elsif count >= 2 %}{% assign tag_size = "tag-2" %}
+        {% else %}{% assign tag_size = "tag-1" %}
+        {% endif %}
+        <a class="{{ tag_size }} tag-color-{{ tag_color }}" href="#" data-wc-tag="{{ tag_lower }}">{{ tag }}&nbsp;({{ count }})</a>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
 
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  'use strict';
+
+  // ── Tag filter: multi-select toggle within each section ──
+  document.querySelectorAll('.category-chip[data-tag]').forEach(function(chip) {
+    chip.addEventListener('click', function(e) {
+      e.preventDefault();
+      this.classList.toggle('active');
+      applyFilters(this.closest('.topic-section'));
+    });
+  });
+
+  function applyFilters(section) {
+    var activeTags = [];
+    section.querySelectorAll('.category-chip.active').forEach(function(c) {
+      activeTags.push(c.getAttribute('data-tag'));
+    });
+    var items = section.querySelectorAll('.post-list > li');
+    var toggleBtn = section.querySelector('.section-toggle');
+    if (activeTags.length === 0) {
+      // No filter — restore default collapsed state
+      items.forEach(function(item) { item.classList.remove('tag-hidden'); });
+      if (toggleBtn && !toggleBtn.dataset.expanded) {
+        items.forEach(function(item, i) {
+          if (i >= 6) item.classList.add('section-hidden');
+        });
+      }
+    } else {
+      // Filter active — show matching, hide rest, ignore section-hidden
+      items.forEach(function(item) {
+        var cats = (item.getAttribute('data-categories') || '').split(',');
+        var match = activeTags.some(function(t) { return cats.indexOf(t) !== -1; });
+        if (match) {
+          item.classList.remove('tag-hidden');
+          item.classList.remove('section-hidden');
+        } else {
+          item.classList.add('tag-hidden');
+        }
+      });
+    }
+  }
+
+  // ── Show more / Show less toggle per section ──
+  document.querySelectorAll('.section-toggle').forEach(function(btn) {
+    btn.dataset.expanded = '';
+    btn.addEventListener('click', function() {
+      var section = this.closest('.topic-section');
+      var allItems = section.querySelectorAll('.post-list > li');
+      var activeChips = section.querySelectorAll('.category-chip.active');
+
+      // If filters are active, clear them first
+      if (activeChips.length > 0) {
+        activeChips.forEach(function(c) { c.classList.remove('active'); });
+        allItems.forEach(function(li) { li.classList.remove('tag-hidden'); });
+        // Restore collapsed state
+        if (!this.dataset.expanded) {
+          allItems.forEach(function(li, i) {
+            if (i >= 6) li.classList.add('section-hidden');
+          });
+        }
+        return;
+      }
+
+      if (!this.dataset.expanded) {
+        // Expand
+        allItems.forEach(function(li) { li.classList.remove('section-hidden'); });
+        this.dataset.expanded = '1';
+        this.textContent = 'Show less';
+      } else {
+        // Collapse back
+        allItems.forEach(function(li, i) {
+          if (i >= 6) li.classList.add('section-hidden');
+        });
+        this.dataset.expanded = '';
+        this.textContent = 'Show all ' + this.getAttribute('data-total') + ' posts';
+      }
+    });
+  });
+
+  // ── Tag links in post cards: act as filters ──
+  document.querySelectorAll('.post-list .category-tags-link').forEach(function(tagLink) {
+    tagLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      var tag = this.textContent.replace('#', '').trim().toLowerCase();
+      var section = this.closest('.topic-section');
+      if (!section) return;
+      var chip = section.querySelector('.category-chip[data-tag="' + tag + '"]');
+      if (chip) chip.click();
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  // ── Word cloud tag clicks: activate section filter + scroll ──
+  document.querySelectorAll('.tag-cloud a[data-wc-tag]').forEach(function(wcTag) {
+    wcTag.addEventListener('click', function(e) {
+      e.preventDefault();
+      var tag = this.getAttribute('data-wc-tag');
+      // Find chip in any section and click it
+      var chip = document.querySelector('.category-chip[data-tag="' + tag + '"]');
+      if (chip) {
+        // Clear other filters in that section first
+        var section = chip.closest('.topic-section');
+        if (section) {
+          section.querySelectorAll('.category-chip.active').forEach(function(c) { c.classList.remove('active'); });
+        }
+        chip.click();
+        // Expand the section if collapsed
+        if (section) {
+          var toggle = section.querySelector('.section-toggle');
+          if (toggle && !toggle.dataset.expanded) toggle.click();
+          section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    });
+  });
+
+  // ── Handle ?tag= URL parameter (from post page tag links) ──
+  var params = new URLSearchParams(window.location.search);
+  var tagParam = params.get('tag');
+  if (tagParam) {
+    tagParam = tagParam.toLowerCase();
+    var scrolled = false;
+    document.querySelectorAll('.category-chip[data-tag="' + tagParam + '"]').forEach(function(chip) {
+      chip.click();
+      if (!scrolled) {
+        var section = chip.closest('.topic-section');
+        if (section) {
+          // Expand the section
+          var toggle = section.querySelector('.section-toggle');
+          if (toggle && !toggle.dataset.expanded) toggle.click();
+          section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          scrolled = true;
+        }
+      }
+    });
+  }
+});
+</script>

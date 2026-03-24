@@ -1,5 +1,9 @@
 <span class="read-time" title="Estimated read time">
-    {% assign words = content | strip_html | number_of_words %}
+    {% if include.post_content %}
+        {% assign words = include.post_content | strip_html | number_of_words %}
+    {% else %}
+        {% assign words = content | strip_html | number_of_words %}
+    {% endif %}
     {% if words < 360 %}
       1 min read
     {% else %}

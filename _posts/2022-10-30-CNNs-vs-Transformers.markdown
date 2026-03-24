@@ -2,7 +2,7 @@
 layout: post
 title:  "Convolution vs. Attention"
 description: "Similarities and differences between convolutions and attention module of Transformers"
-image: https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Vision_Transformer.gif/320px-Vision_Transformer.gif
+image: https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Vision_Transformer.gif/330px-Vision_Transformer.gif
 date:   2023-03-09 19:21:23 -0700
 categories: deep-learning convolution attention
 author: Zeeshan Khan Suri
@@ -125,6 +125,15 @@ In early layers of a neural network for images, spatial relations can be capture
 - In early layers of a neural network for images, spatial relations can be captured by convolutions and the later layers could benifit from long-range receptive fields offered by attention. Hence, both can be combined. Works such as CoAtNet<sup>\[</sup>[^3]<sup>\]</sup> offer layers combining the two. 
 
 
+## Further Readings and Videos
+
+- [The Transformer Family Version 2.0](https://lilianweng.github.io/posts/2023-01-27-the-transformer-family-v2/)
+- [https://aman.ai/primers/ai/transformers/](https://aman.ai/primers/ai/transformers/)
+- Stanford CS25 — Transformers United (playlist):
+
+{% include youtube.html content="https://www.youtube.com/watch?v=KmAISyVvE1Y&list=PLIXJ-Sacf8u60G1TwcznBmK6rEL3gmZmV" %}
+
+
 ## References
 
 [^1]: Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., ... & Polosukhin, I. (2017). [Attention is all you need](https://dl.acm.org/doi/10.5555/3295222.3295349). Advances in neural information processing systems, 30.
@@ -134,8 +143,3 @@ In early layers of a neural network for images, spatial relations can be capture
 [^5]: Xiao, T., Singh, M., Mintun, E., Darrell, T., Dollár, P., & Girshick, R.B. (2021). [Early Convolutions Help Transformers See Better](https://proceedings.neurips.cc/paper/2021/file/ff1418e8cc993fe8abcfe3ce2003e5c5-Paper.pdf). Neural Information Processing Systems.
 
 
-## Further Readings and Videos
-
-- [The Transformer Family Version 2.0](https://lilianweng.github.io/posts/2023-01-27-the-transformer-family-v2/)
-- [https://aman.ai/primers/ai/transformers/](https://aman.ai/primers/ai/transformers/)
-- https://www.youtube.com/watch?v=KmAISyVvE1Y&list=PLIXJ-Sacf8u60G1TwcznBmK6rEL3gmZmV&index=1

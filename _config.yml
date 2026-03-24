@@ -47,6 +47,7 @@ minima:
     - { platform: github,  user_url: "https://github.com/zshn25" }
     - { platform: twitter,  user_url: "https://twitter.com/zshn25" }
     - { platform: linkedin,  user_url: "https://www.linkedin.com/in/zshn25" }
+    - { platform: google_scholar, user_url: "https://scholar.google.com/citations?user=DSLVuBgAAAAJ" }
 
 # Set this to true to get LaTeX math equation support
 use_math: true
@@ -65,6 +66,26 @@ show_tags: true
 
 # Add your Google Analytics ID here if you have one and want to use it
 google_analytics: false
+
+# SEO settings
+lang: en
+
+# Post categories for navigation
+post_categories:
+  - name: Tech
+    description: "AI, ML, CV, Deep Learning, Programming"
+    icon: "fas fa-microchip"
+  - name: Philosophy
+    description: "Politics, Ethics, Meaning of Life"
+    icon: "fas fa-brain"
+  - name: Life
+    description: "Health, Food, Finance, Miscellaneous"
+    icon: "fas fa-seedling"
+
+# Pages to show in the header navigation (in order)
+# Search is inline in the header; Tags word cloud is at the bottom of the homepage
+header_pages:
+  - _pages/about.md
 
 exclude:
   - docker-compose.yml
@@ -94,13 +115,14 @@ plugins:
   - jekyll-gist
   - jekyll-octicons
   # - jekyll-toc
-  - jekyll-twitter-plugin
+  # - jekyll-twitter-plugin  # Twitter embeds handled by consent-gate.js instead
   - jekyll-relative-links
   - jekyll-seo-tag
   - jekyll-remote-theme
   - jekyll-paginate
   - jekyll-sitemap
-  - jemoji
+  # jemoji removed: loads emoji images from github.githubassets.com CDN (privacy leak)
+  # Use native Unicode emoji instead of :shortcodes:
 
 # See https://jekyllrb.com/docs/pagination/
 # For pagination to work, you cannot have index.md at the root of your repo, instead you must rename this file to index.html
@@ -122,6 +144,10 @@ kramdown:
   auto_ids: true
   hard_wrap: false
   syntax_highlighter: rouge
+
+# Silence Sass deprecation warnings from the minima remote theme
+sass:
+  quiet_deps: true
 
 # to limit size of xml as it can grow quite large.
 feed:

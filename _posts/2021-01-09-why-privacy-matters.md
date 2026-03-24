@@ -20,10 +20,7 @@ It is often important and helpful to formally define what we are talking about f
 
 This post is mostly about "digital privacy" and is used interchangeably. It is privacy in the digital age. Where technology and internet have made it extremely easy to infringe the our privacy. I will argue why we should care about our privacy, how (and by whom) it is being infringed, and what can you do about it. 
 
-<div markdown="span" class="alert alert-info" role="alert">
-<i class="fas fa-ad"></i>
-Diving in topics such as this are like going down a never ending rabbit hole. I will be customarily expanding this post with new ideas and methods(of protecting oneself from being exploited) in the future but takes considerable amount time. I feel myself responsible to educate myself and in the process, share it with you here. While it is not obligatory, your support might definitely be helpful.
-</div>
+{% include info.html content="Many posts on this blog are living documents that are regularly expanded with new ideas and research. See <a href='/about/#living-posts'>About</a> for more." %}
 
 
 ## The Why! Why should you care?
@@ -82,9 +79,7 @@ Services like WhatsApp recently realized that people started to care about priva
 
 We rely on various social media and other applications for our everyday life. But do you know that these applications are tracking every single activity you do not only when the application is running but all the time? Most of these applications such as Facebook are free to users. But then how come the company is worth billions of dollars? What do they actually sell?
 
-<blockquote class="twitter-tweet tw-align-center" data-dnt="true"><p lang="en" dir="ltr">All 533,000,000 Facebook records were just leaked for free.<br><br>This means that if you have a Facebook account, it is extremely likely the phone number used for the account was leaked.<br><br>I have yet to see Facebook acknowledging this absolute negligence of your data. <a href="https://t.co/ysGCPZm5U3">https://t.co/ysGCPZm5U3</a> <a href="https://t.co/nM0Fu4GDY8">pic.twitter.com/nM0Fu4GDY8</a></p>&mdash; Alon Gal (Under the Breach) (@UnderTheBreach) <a href="https://twitter.com/UnderTheBreach/status/1378314424239460352?ref_src=twsrc%5Etfw">April 3, 2021</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-A recent leak of Facebook's database allows the private data to be misused by malicious indented actors [^3].
+In April 2021, personal data of 533 million Facebook users from 106 countries was [leaked for free on a hacking forum](https://www.securityweek.com/facebook-says-hackers-scraped-data-533-million-users-2019-leak/){:target="_blank"}. Phone numbers, full names, locations, email addresses, and biographical information were all exposed. Facebook confirmed the data had been scraped through a vulnerability in their contact import feature before September 2019[^3].
 
 ### Political propaganda
 
@@ -152,7 +147,7 @@ What can you do?
 - Encourage your friends and family to join the privacy preserving social media
 
 Extreme:
-- Use [Qubes OS](https://www.qubes-os.org/) with [Whonix](https://www.whonix.org/) virtual machine (VM) which routes all your network traffic through [Tor](). Qubes can also sandbox applications in their own VM so that the application does not affect anything else outside their own sandbox VM. If you don't want to install the complete OS, you can also use Whonix VM seperately.
+- Use [Qubes OS](https://www.qubes-os.org/) with [Whonix](https://www.whonix.org/) virtual machine (VM) which routes all your network traffic through [Tor](https://www.torproject.org/). Qubes can also sandbox applications in their own VM so that the application does not affect anything else outside their own sandbox VM. If you don't want to install the complete OS, you can also use Whonix VM seperately.
 - Setup matrix network on your own server for secure, decentralized communication . Follow [this guide](https://matrix.org/docs/guides/free-small-matrix-server)
 - 
 https://chrome.google.com/webstore/detail/google-analytics-opt-out/fllaojicojecljbmefodhfapmkghcbnh/related?hl=en

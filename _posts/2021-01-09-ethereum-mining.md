@@ -15,7 +15,7 @@ search_exclude: true
 
 ___
 
-A very simple and straightforward way to earn money while lending your computing power is to use [![NiceHash](https://www.nicehash.com/static/logos/logo_big_light.png){:height="36px"}](https://www.nicehash.com/?refby=88408201-970f-4256-9837-796807b14ba4). If you are just starting to mine and looking for an easy way in, then this is it.  This does not primarily mine cryptocurrency for you but this will lend your computer for others to mine cryptocurrencies. You will be paid in Bitcoins for lending your computer. [NiceHash](https://www.nicehash.com/?refby=88408201-970f-4256-9837-796807b14ba4) allows you to lend your computing hash power to other users. Other users pay you for your hash power but since [NiceHash]((https://www.nicehash.com/?refby=88408201-970f-4256-9837-796807b14ba4)) is the intermediatory, it charges fees for it's service, which is mentioned [here](https://www.nicehash.com/support/general-help/nicehash-service/fees). [[*<sub><sup>Disclaimer</sup></sub>*]](#disclaimer-this-is-a-referral-link-where-i-benefit-if-you-spend-money-on-their-website)
+A very simple and straightforward way to earn money while lending your computing power is to use [![NiceHash](https://www.nicehash.com/static/logos/logo_big_light.png){:height="36px"}](https://www.nicehash.com/?refby=88408201-970f-4256-9837-796807b14ba4). If you are just starting to mine and looking for an easy way in, then this is it.  This does not primarily mine cryptocurrency for you but this will lend your computer for others to mine cryptocurrencies. You will be paid in Bitcoins for lending your computer. [NiceHash](https://www.nicehash.com/?refby=88408201-970f-4256-9837-796807b14ba4) allows you to lend your computing hash power to other users. Other users pay you for your hash power but since [NiceHash](https://www.nicehash.com/?refby=88408201-970f-4256-9837-796807b14ba4) is the intermediatory, it charges fees for it's service, which is mentioned [here](https://www.nicehash.com/support/general-help/nicehash-service/fees). [[*<sub><sup>Disclaimer</sup></sub>*]](#disclaimer-this-is-a-referral-link-where-i-benefit-if-you-spend-money-on-their-website)
 
 [![](https://www.nicehash.com/img/mining_overview.db925858.gif)](https://www.nicehash.com/?refby=88408201-970f-4256-9837-796807b14ba4)
 {:refdef: style="text-align: center;"}
@@ -53,7 +53,7 @@ Except Ethminer, all other softwares charge a 1% dev fee. That means, 1% of all 
 
 Mining ETH alone is almost impossible at this moment. That it why, it is advised to mine with other miners in a pool. The profit at the end will be shared among the participants of the pool. For a list of currently active pools, visit [Poolwatch](https://www.poolwatch.io/coin/ethereum). In general choose the pool with the highest hash rate but also keep in mind [the payout method](https://en.wikipedia.org/wiki/Mining_pool#Mining_pool_methods), and minimum payouts and pool fees. For example, [Ethermine](https://www.ethermine.org/) has a min payout of 0.05 ETH while others have 0.1 ETH. It could take you twice the amount of mining time to get your hard earned ETH onto your wallet if you chose the latter.
 
-![poolwatch.io](/assets/miningpools.PNG)
+![poolwatch.io](https://www.poolwatch.io/coin/ethereum)
 {:refdef: style="text-align: center;"}
 *Fig.2: Metric in paranthesis () is the dev fee. [Source: Poolwatch](https://www.poolwatch.io/coin/ethereum)*
 {: refdef}
@@ -96,8 +96,3 @@ Tip: After starting mining, head to your pool website and enter your Wallet addr
 
 
 ###### *Disclaimer: This is a referral link where I benefit if you spend money on their website*
-
-
-:::info
-This is a alert area.
-:::

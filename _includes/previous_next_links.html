@@ -1,23 +1,33 @@
 {% comment %}
 Adapted from https://github.com/jekyll/minima/pull/557
-ToDo: For hidden posts, loop over previous/next posts and find the first non hidden one
+Loops through visible (non-hidden) posts to find true neighbors
 {% endcomment %}
 
-<nav class="paginate-container"  aria-label="Pagination"></nav>
-  <div class="pagination" style="display: flex; justify-content: space-between; flex-wrap: wrap;">
-      {% if page.previous.url %}
-        {% unless page.previous.hidden %}
-          <a class="previous_page" style="flex: 1 1 0; width: 45%; padding-right: 0.5em; text-align: right; background-color: transparent;" rel="previous" aria-label="Previous Page" href="{{page.previous.url | relative_url}}"><b>Previous:</b> {{page.previous.title | markdownify | strip_html }}</a>
-        {% endunless %}
+{% assign visible = site.posts | where_exp: "p", "p.hidden != true and p.hide != true" %}
+{% assign prev_post = nil %}
+{% assign next_post = nil %}
+{% for p in visible %}
+  {% if p.url == page.url %}
+    {% assign prev_post = visible[forloop.index] %}
+    {% if forloop.index0 > 0 %}
+      {% assign ni = forloop.index0 | minus: 1 %}
+      {% assign next_post = visible[ni] %}
+    {% endif %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+
+<nav class="paginate-container" aria-label="Pagination">
+  <div class="pagination">
+      {% if prev_post %}
+        <a class="previous_page" rel="previous" aria-label="Previous Page" href="{{ prev_post.url | relative_url }}"><b>&larr; Previous:</b><br>{{ prev_post.title | markdownify | strip_html }}</a>
       {% else %}
-        <span class="previous_page" aria-disabled="true">Previous</span>
+        <span class="previous_page" aria-disabled="true"></span>
       {% endif %}
-      {% if page.next.url %}
-        {% unless page.next.hidden %}
-          <a class="next_page" style="flex: 1 1 0; width: 45%; padding-left: 0.5em; text-align: left; background-color: transparent;" rel="next" aria-label="Next Page" href="{{page.next.url | relative_url}}"><b>Next:</b> {{page.next.title | markdownify | strip_html }}</a>
-        {% endunless %}
+      {% if next_post %}
+        <a class="next_page" rel="next" aria-label="Next Page" href="{{ next_post.url | relative_url }}"><b>Next: &rarr;</b><br>{{ next_post.title | markdownify | strip_html }}</a>
       {% else %}
-        <span class="next_page" aria-disabled="true">Next</span>
+        <span class="next_page" aria-disabled="true"></span>
       {% endif %}
   </div>
 </nav>

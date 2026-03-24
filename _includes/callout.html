@@ -1,0 +1,20 @@
+{% comment %}
+Unified callout block. Usage: {% include callout.html type="note" content="..." %}
+Types: note (default), info, alert, warning, tip, important
+{% endcomment %}
+{% assign t = include.type | default: "note" %}
+{% case t %}
+  {% when "alert" or "warning" %}
+    {% assign cls = "flash flash-error" %}{% assign ico = "alert" %}{% assign lbl = "Warning" %}
+  {% when "tip" %}
+    {% assign cls = "flash flash-success" %}{% assign ico = "checklist" %}{% assign lbl = "Tip" %}
+  {% when "important" %}
+    {% assign cls = "flash flash-warn" %}{% assign ico = "zap" %}{% assign lbl = "Important" %}
+  {% when "info" %}
+    {% assign cls = "flash" %}{% assign ico = "info" %}{% assign lbl = "Info" %}
+  {% else %}
+    {% assign cls = "flash" %}{% assign ico = "info" %}{% assign lbl = "Note" %}
+{% endcase %}
+<div markdown="span" class="{{ cls }}" role="alert">
+    {% octicon {{ ico }} height:24 %} <b>{{ lbl }}:</b> {{ include.content | strip }}
+</div>

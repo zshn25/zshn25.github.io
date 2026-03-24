@@ -3,10 +3,60 @@ layout: default
 ---
 <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
+  {% comment %}JSON-LD structured data for SEO{% endcomment %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": {{ page.title | jsonify }},
+    "description": {{ page.description | default: page.excerpt | strip_html | truncate: 160 | jsonify }},
+    "datePublished": "{{ page.date | date_to_xmlschema }}",
+    {% if page.modified_date %}"dateModified": "{{ page.modified_date | date_to_xmlschema }}",{% endif %}
+    "author": {
+      "@type": "Person",
+      "name": "{{ page.author | default: site.author.name }}"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "{{ site.title }}",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "{{ site.url }}/images/logo.png"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "{{ page.url | absolute_url }}"
+    }{% if page.image %},
+    "image": "{% if page.image contains '://' %}{{ page.image }}{% else %}{{ page.image | absolute_url }}{% endif %}"{% endif %}{% if page.categories.size > 0 %},
+    "keywords": {{ page.categories | jsonify }}{% endif %}
+  }
+  </script>
+  {% if page.categories.size > 0 %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "{{ site.url }}" },
+      { "@type": "ListItem", "position": 2, "name": "{{ page.categories[0] }}", "item": "{{ site.url }}/categories/#{{ page.categories[0] }}" },
+      { "@type": "ListItem", "position": 3, "name": {{ page.title | jsonify }} }
+    ]
+  }
+  </script>
+  {% endif %}
+
   <header class="post-header">
+    {% if page.categories.size > 0 %}
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="{{ '/' | relative_url }}">Home</a> &rsaquo;
+      <a href="{{ '/?tag=' | append: page.categories[0] | downcase | relative_url }}">{{ page.categories[0] }}</a> &rsaquo;
+      <span>{{ page.title | truncate: 50 }}</span>
+    </nav>
+    {% endif %}
     <h1 class="post-title p-name" itemprop="name headline">{% comment %} For external link posts {% endcomment %}
       {% if page.link %}
-      <a  href="{{ post.link }}" target="_blank">
+      <a  href="{{ page.link }}" target="_blank">
         {{ page.title | escape }}
         <sup><i class="fas fa-external-link-alt" style="font-size: 50%"></i></sup> </a>
       {% else %}
@@ -43,9 +93,9 @@ layout: default
     </p>
 
     {% if page.categories.size > 0 and site.show_tags %}
-      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
       {% for category in  page.categories  %}
-        <a class="category-tags-link label label-default" href="{{site.baseurl}}/categories/#{{category|slugize}}">#{{category}}</a>
+        <a class="category-tags-link label label-default" href="{{ '/?tag=' | append: category | downcase | relative_url }}">#{{category}}</a>
         {% unless forloop.last %}&nbsp;{% endunless %}
       {% endfor %}
       </p>

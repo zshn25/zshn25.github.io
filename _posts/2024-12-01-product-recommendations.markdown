@@ -2,6 +2,7 @@
 layout:     post
 title:      "Product recommendations"
 description: "Products I use/buy and recommend to you"
+image: images/recommendations.jpg
 comments: true
 date:       2024-01-12 15:21:23 -0700
 categories: recommendations 
@@ -30,9 +31,6 @@ ___
 
 - Prebiotic Fibre is one of the most useful supplements
   [I use this one from Amazon (paid link)](https://amzn.to/3ZeAQ4k)
-- 
-
-- 
 
 # Home
 

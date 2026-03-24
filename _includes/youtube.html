@@ -1,11 +1,76 @@
-{% if include.content contains  "<code>" %}
-    {% assign base_url = include.content | remove: "<code>" | remove: "</code>" |  split: "/" | last %}
+{% comment %}
+  YouTube consent-gated embed. Supports single videos and playlists.
+  Usage:
+    {% include youtube.html content="<a href='https://www.youtube.com/watch?v=ID'>...</a>" %}
+    {% include youtube.html content="https://www.youtube.com/watch?v=ID&list=PLAYLIST_ID" %}
+{% endcomment %}
+{% if include.content contains "<code>" %}
+    {% assign _yt_raw = include.content | remove: "<code>" | remove: "</code>" | strip %}
 {% else %}
-    {% assign url = include.content | remove: "</a>" | split: ">" | last %}
-    {% assign base_url = url |  split: "/" | last %}
+    {% assign _yt_raw = include.content | remove: "</a>" | split: ">" | last | strip %}
 {% endif %}
-<center>
-<div class="container">
-    <iframe src="https://www.youtube-nocookie.com/embed/{{base_url}}" frameborder="0" allowfullscreen class="video"></iframe>
+{% comment %} Extract video ID from v= parameter {% endcomment %}
+{% assign _yt_vid = "" %}
+{% if _yt_raw contains "v=" %}
+    {% assign _yt_vid = _yt_raw | split: "v=" | last | split: "&" | first %}
+{% endif %}
+{% comment %} Extract playlist ID from list= parameter {% endcomment %}
+{% assign _yt_list = "" %}
+{% if _yt_raw contains "list=" %}
+    {% assign _yt_list = _yt_raw | split: "list=" | last | split: "&" | first %}
+{% endif %}
+{% comment %} Build embed path and external URL {% endcomment %}
+{% if _yt_vid != "" and _yt_list != "" %}
+    {% assign _yt_embed = _yt_vid | prepend: "/" | append: "?list=" | append: _yt_list %}
+    {% assign _yt_ext = "https://www.youtube.com/watch?v=" | append: _yt_vid | append: "&list=" | append: _yt_list %}
+    {% assign _yt_label = "playlist" %}
+{% elsif _yt_list != "" %}
+    {% assign _yt_embed = "videoseries?list=" | append: _yt_list %}
+    {% assign _yt_ext = "https://www.youtube.com/playlist?list=" | append: _yt_list %}
+    {% assign _yt_label = "playlist" %}
+{% elsif _yt_vid != "" %}
+    {% assign _yt_embed = _yt_vid %}
+    {% assign _yt_ext = "https://www.youtube.com/watch?v=" | append: _yt_vid %}
+    {% assign _yt_label = "video" %}
+{% else %}
+    {% assign _yt_embed = _yt_raw | split: "/" | last %}
+    {% assign _yt_ext = "https://www.youtube.com/watch?v=" | append: _yt_embed %}
+    {% assign _yt_label = "video" %}
+{% endif %}
+{% assign embed_id = _yt_embed | slugify %}
+<div class="consent-embed" id="yt-{{ embed_id }}">
+    <div class="consent-placeholder">
+        <p><i class="fab fa-youtube" style="color:#c00;"></i> <strong>YouTube</strong> {{ _yt_label }}</p>
+        <p class="consent-detail">This connects to <strong>YouTube</strong> (privacy-enhanced mode) and may set cookies. Your choice is remembered for future visits.</p>
+        <button onclick="loadYouTube('{{ embed_id }}', '{{ _yt_embed }}')" class="button is-rounded">
+            <i class="fas fa-play"></i> Watch {{ _yt_label }}
+        </button>
+        <a href="{{ _yt_ext }}" target="_blank" rel="noopener noreferrer" class="button is-rounded">
+            <i class="fas fa-external-link-alt"></i> Open on YouTube
+        </a>
+    </div>
 </div>
-</center>
+<script>
+if (typeof loadYouTube === 'undefined') {
+    function loadYouTube(embedId, embedPath) {
+        if (typeof window._consentYouTube === 'function') window._consentYouTube();
+        var el = document.getElementById('yt-' + embedId);
+        if (!el) return;
+        var iframe = document.createElement('iframe');
+        iframe.className = 'video';
+        iframe.width = '560';
+        iframe.height = '315';
+        iframe.title = 'YouTube video player';
+        iframe.setAttribute('frameborder', '0');
+        iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+        iframe.setAttribute('allowfullscreen', '');
+        iframe.referrerPolicy = 'origin';
+        var container = document.createElement('div');
+        container.className = 'video-container';
+        container.appendChild(iframe);
+        el.innerHTML = '';
+        el.appendChild(container);
+        iframe.src = 'https://www.youtube-nocookie.com/embed/' + embedPath;
+    }
+}
+</script>

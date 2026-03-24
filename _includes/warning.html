@@ -1,4 +1,1 @@
-<div class="flash flash-error">
-    {% octicon alert %}
-    <strong>Warning: </strong>{{ include.content }}
-</div>
+{% include callout.html type="warning" content=include.content %}

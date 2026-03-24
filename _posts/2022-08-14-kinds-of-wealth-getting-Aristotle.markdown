@@ -9,7 +9,7 @@ categories: politics philosophy greed wealth
 author: Aristotle
 ---
 
-{% include alert.html content="The whole post is a collection of excerpts from [Aristotle’s Politics](https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.01.0058%3Abook%3D1%3Asection%3D1256a), Book 1."%}
+{% include info.html content="The whole post is a collection of excerpts from [Aristotle’s Politics](https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.01.0058%3Abook%3D1%3Asection%3D1256a), Book 1."%}
 
 Art of household management must either find ready to hand, or itself provide, such things necessary to life, and useful for the community of the family or state, as can be stored. They are the elements of true riches; for the amount of **the property which is needed for a good life is not unlimited**. There is a boundary fixed, just as there is in other arts; for the instruments of any art are never unlimited, either in number or size, and riches may be defined as a number of instruments to be used in a household or in a state.
 
@@ -34,7 +34,7 @@ Hence some persons are led to believe that getting wealth is the object of house
 
 Thus, then, we have considered the art of wealth-getting which is unnecessary, and why men want it; and also the necessary art of wealth-getting, which we have seen to be different from the other, and to be a natural part of the art of managing a household, concerned with the provision of food, not, however, like the former kind, unlimited, but having a limit.
 
-Further Reading
+## Further Reading
 
 - [Philosophy of Money and Finance](https://plato.stanford.edu/entries/money-finance/), The Stanford Encyclopedia of Philosophy (SEP) 
 - [Aristotle's Politics](https://www.perseus.tufts.edu/hopper/text?doc=Perseus%3Atext%3A1999.01.0058%3Abook%3D1%3Asection%3D1256a)

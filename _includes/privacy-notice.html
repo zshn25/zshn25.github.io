@@ -1,0 +1,14 @@
+<!-- Informational privacy notice (not a cookie consent - this site does not use cookies) -->
+<div id="privacy-notice" style="display:none">
+    This site does not use cookies or track you. Some posts contain embedded content that connects to third parties only when you click.
+    <a href="{{ '/about/#privacy' | relative_url }}">Learn more</a>
+    <button class="privacy-ok-btn" onclick="localStorage.setItem('privacyOK','1');document.getElementById('privacy-notice').style.display='none'">OK</button>
+</div>
+<script>
+(function(){
+  if(!localStorage.getItem('privacyOK')){
+    var el=document.getElementById('privacy-notice');
+    if(el) el.style.display='flex';
+  }
+})();
+</script>

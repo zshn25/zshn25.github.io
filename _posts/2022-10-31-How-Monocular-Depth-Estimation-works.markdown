@@ -13,7 +13,7 @@ comments: true
 Animals (and in extension, humans) are unable to directly perceive the 3D surroundings around us. Each of our eyes projects the 3D world onto 2D, losing the depth dimension. Instead, we rely on our brain to reconstruct these 2D projections to perceive depth. Having more than one eye allows us to geometrically reconstruct depth via triangulation[^3], but how are creatures with a single eye (for e.g., due to a defective eye, or due to a birth disorder[^1]) still able to perceive it? 
 
 {:refdef: style="text-align: center;"}
-[![Odontodactylus scyllarus eyes](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Odontodactylus_scyllarus_eyes.jpg/640px-Odontodactylus_scyllarus_eyes.jpg){: width="50%" .shadow}](https://en.wikipedia.org/wiki/File:Odontodactylus_scyllarus_eyes.jpg)
+[![Odontodactylus scyllarus eyes](https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Odontodactylus_scyllarus_eyes.jpg/960px-Odontodactylus_scyllarus_eyes.jpg){: width="50%" .shadow}](https://en.wikipedia.org/wiki/File:Odontodactylus_scyllarus_eyes.jpg)
 {: refdef}
 {:refdef: style="text-align: center;"}
 <sub><sup>*Each eye of [Mantis Shrimp](https://en.wikipedia.org/wiki/Mantis_shrimp#Eyes) possesses trinocular vision. [Cédric Peneau](https://commons.wikimedia.org/wiki/File:Odontodactylus_scyllarus_eyes.jpg), [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons*

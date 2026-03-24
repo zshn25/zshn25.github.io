@@ -1,20 +1,20 @@
 {
-    "name": "fastpages-codespaces",
-    "dockerComposeFile": "docker-compose.yml",
-    "service": "watcher",
-    "mounts": [ "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind" ],
-    "forwardPorts": [4000, 8080],
-    "appPort": [4000, 8080],
-    "extensions": ["ms-python.python",
-                   "ms-azuretools.vscode-docker"],
-    "runServices": ["converter", "notebook", "jekyll", "watcher"],
+    "name": "Jekyll Blog",
+    "image": "mcr.microsoft.com/devcontainers/ruby:3.2",
+    "forwardPorts": [4000],
+    "postCreateCommand": "bundle install",
     "customizations": {
+        "vscode": {
+            "extensions": [
+                "shopify.ruby-lsp"
+            ]
+        },
         "codespaces": {
-          "repositories": {
-            "zshn25/compilation-of-3d-mesh-model-resources": {
-              "permissions": "write-all"
+            "repositories": {
+                "zshn25/compilation-of-3d-mesh-model-resources": {
+                    "permissions": "write-all"
+                }
             }
-          }
         }
-      }
+    }
 }

@@ -19,3 +19,8 @@ _powered by [fastpages](https://github.com/fastai/fastpages)_
 
   `sudo apt-get install nodejs`
 - `gem install jekyll bundler`
+- `bundle exec jekyll serve`
+
+# Licences
+
+The blog depends on many existing works with [licences](assets/vendor/LICENSES.md)

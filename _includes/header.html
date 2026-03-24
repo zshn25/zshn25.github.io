@@ -4,7 +4,7 @@
     {%- assign default_paths = site.pages | map: "path" -%}
     {%- assign page_paths = site.header_pages | default: default_paths -%}
     {%- assign titles_size = site.pages | map: 'title' | join: '' | size -%}
-      <a class="site-title no-underline hover-grow" rel="author" href="{{ "/" | relative_url }}"> <img src="{{site.baseurl}}/images/logo.png" style="max-width:40px;" alt="Curiosity logo"> {{ site.title | escape }}</a>
+      <a class="site-title no-underline hover-grow" rel="author" href="{{ "/" | relative_url }}"> <img src="{{site.baseurl}}/images/logo.png" style="max-width:40px;" alt="Curiosity logo" width="40" height="40"> {{ site.title | escape }}</a>
     {%- if titles_size > 0 -%}
       <nav class="site-nav">
         <input type="checkbox" id="nav-trigger" class="nav-trigger" />
@@ -20,16 +20,21 @@
           {%- for path in page_paths -%}
             {%- assign my_page = site.pages | where: "path", path | first -%}
             {%- if my_page.title -%}
-            {% comment %}
-            <!-- add different calass if want to highlight current tab
-            <a {% if my_page.url == page.url %} class="active"{% endif %} href="{{ my_page.url | relative_url }}">{{ my_page.title | escape }}</a> -->
-            {% endcomment %}
             <a class="page-link" href="{{ my_page.url | relative_url }}">{{ my_page.title | escape }}</a>
             {%- endif -%}
           {%- endfor -%}
+          {%- comment -%}Inline search field{%- endcomment -%}
+          <div class="header-search">
+            <i class="fas fa-search header-search-icon"></i>
+            <input type="text" class="header-search-input js-search-input" placeholder="Search..." aria-label="Search {{ site.title }}" autocomplete="off">
+            <div class="search-results-dropdown js-search-results"></div>
+          </div>
           {%comment%}
           For day night thingy
           {%endcomment%}
+          <a href="{{ '/feed.xml' | relative_url }}" class="nav-anchor no-underline no_icon" title="RSS Feed" aria-label="Subscribe via RSS">
+            <span class="fas fa-rss fa-fw" aria-hidden="true" style="color:#ee802f;"></span>
+          </a>
           <span id="nav-switch-theme" class="nav-anchor">
             <span class="nav-theme-icon fas fa-fw" aria-hidden="true" title="Theme"></span>
             <span class="sr-only">Toggle Theme</span>

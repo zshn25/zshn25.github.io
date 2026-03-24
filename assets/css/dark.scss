@@ -1,291 +1,252 @@
-// ---
-// ---
-// @import '_vars';
+---
+---
+// Dark mode theme — neutral dark palette based on minima dark skin
+// Loaded via <link media="(prefers-color-scheme: dark)"> in custom-head.html
+// Toggled via assets/js/applytheme.js (localStorage override)
 
-// $dark-900: #181b21;
-// $dark-800: #22262e;
-// $dark-700: #343a46;
-// $dark-600: #464f60;
-// $light: #d8d8d8;
-// $primary: #345e8e;
-// $danger: #b63f4a;
-// $secondary: $dark-600;
-// $success: #2c7f40;
-// $warning: #c6a339;
-// $info: #218899;
+// Color palette (aligned with minima skins/auto.scss dark mode values)
+$dm-bg:          #181818;  // page background
+$dm-surface:     #1e1e1e;  // cards, overlays, post list items
+$dm-surface-up:  #222222;  // elevated: code blocks, table headers
+$dm-border:      #363636;  // borders, dividers
+$dm-border-light:#444444;  // lighter borders (scrollbar, nav)
 
+$high-emph: rgba(white, 0.87); // headings, primary text
+$med-emph:  rgba(white, 0.70); // body text
+$low-emph:  rgba(white, 0.38); // secondary text, post-meta
 
-// /*
-//  * HTML
-//  */
+$dm-link:         #5691cd;  // link color (minima dark)
+$dm-link-visited: #80bbff;  // visited links
 
-// body {
-//   background: $dark-900;
-//   color: $light;
-// }
-// a {
-//   color: lighten($primary, 25%);
-// }
-// a:hover {
-//   color: lighten($primary, 10%);
-// }
-// img {
-//   filter: saturate(80%);
-// }
-
-
-// /*
-//  * Bootstrap
-//  */
-
-// .alert a {
-//   color: lighten($primary, 30%);
-// }
-
-// .bg-secondary, .btn-secondary, .badge-secondary { background-color: $secondary !important; }
-// .btn-secondary, .card-secondary .card-header { border-color: $secondary !important; }
-// .alert-secondary, .btn-secondary:hover {
-//   color: $light;
-//   background-color: darken($secondary, 10%);
-//   border-color: darken($secondary, 10%);
-// }
-
-// .bg-primary, .btn-primary, .badge-primary { background-color: $primary !important; }
-// .btn-primary, .card-primary .card-header { border-color: $primary !important; }
-// .text-primary { color: $primary !important; }
-// .alert-primary, .btn-primary:hover {
-//   color: $light;
-//   background-color: darken($primary, 10%);
-//   border-color: darken($primary, 10%);
-// }
-
-// .bg-warning, .btn-warning, .badge-warning { background-color: $warning !important; }
-// .btn-warning, .card-warning .card-header { border-color: $warning !important; }
-// .btn-warning:hover { color: $dark-700 !important }
-// .text-warning { color: $warning !important; }
-// .card-warning > .text-dark { color: $dark-900 !important; }
-// .alert-warning a { color: darken($primary, 6%); }
-// .badge-warning a { color: $primary; }
-// .alert-warning, .btn-warning:hover {
-//   color: $dark-900;
-//   background-color: darken($warning, 8%);
-//   border-color: darken($warning, 8%);
-// }
-
-// .bg-info, .btn-info, .badge-info { background-color: $info !important; }
-// .btn-info, .card-info .card-header { border-color: $info !important; }
-// .text-info { color: $info !important; }
-// .alert-info, .btn-info:hover {
-//   color: $light;
-//   background-color: darken($info, 10%);
-//   border-color: darken($info, 10%);
-// }
-
-// .bg-success, .btn-success, .badge-success { background-color: $success !important; }
-// .btn-success, .card-success .card-header { border-color: $success !important; }
-// .text-success { color: $success !important; }
-// .alert-success, .btn-success {
-//   color: $light;
-//   background-color: darken($success, 10%);
-//   border-color: darken($success, 10%);
-// }
-
-// .bg-danger, .btn-danger, .badge-danger { background-color: $danger !important; }
-// .btn-danger, .card-danger .card-header { border-color: $danger !important; }
-// .text-danger { color: $danger !important; }
-// .alert-danger, .btn-danger:hover {
-//   color: $light;
-//   background-color: darken($danger, 10%);
-//   border-color: darken($danger, 10%);
-// }
-
-// .btn-tor { background: desaturate($tor, 10%); }
-// .btn-tor:hover { background: darken($tor, 5%); }
-
-// .card {
-//   box-shadow: none !important;
-// }
-
-// .dropdown-item:hover {
-//   color: $light;
-//   background-color: $dark-800;
-// }
-
-// .form-control,
-// .form-control:focus {
-//   color: $light;
-//   background: $dark-800;
-//   border-color: $dark-800;
-// }
-
-// .form-control[readonly],
-// .form-control:disabled {
-//   background: $dark-800;
-// }
-
-// .card,
-// .jumbotron,
-// .list-group-item,
-// ol.breadcrumb {
-//   background: $dark-800;
-// }
-
-// .blockquote {
-//   border-color: $dark-800;
-// }
-
-// .bg-dark {
-//   background-color: $dark-800 !important;
-// }
-
-// .dropdown-item {
-//   color: $light;
-// }
-
-// .list-group-item {
-//   border-color: $dark-700;
-// }
-
-// .text-dark {
-//   color: $light !important;
-// }
-
-// table[data-sortable].sortable-theme-bootstrap {
-//   color: $light;
-//   background-color: $dark-800;
-// }
-// table[data-sortable].sortable-theme-bootstrap th,
-// table[data-sortable].sortable-theme-bootstrap td {
-//   border-color: $dark-600 !important;
-// }
-// table[data-sortable].sortable-theme-bootstrap th[data-sorted="true"] {
-//   color: $light;
-//   background: $dark-700;
-// }
-// table[data-sortable].sortable-theme-bootstrap th[data-sorted="true"][data-sorted-direction="ascending"]::after, {
-//   border-bottom-color: $light;
-// }
-// table[data-sortable].sortable-theme-bootstrap th[data-sorted="true"][data-sorted-direction="descending"]::after {
-//   border-top-color: $light;
-// }
-
-
-// /*
-//  * Other
-//  */
-
-// .nav-dropdown {
-//   color: $light;
-//   background-color: $dark-900;
-//   border-color: $dark-800;
-// }
-
-// .nav-theme-icon:before {
-//   color: $warning;
-//   font-size: 1em;
-//   content: "\f185";
-// }
-
-// .twitter { background: desaturate($twitter, 25%); }
-// .mastodon { background: desaturate($mastodon, 25%); }
-// .facebook { background: desaturate($facebook, 25%); }
-// .mix { background: desaturate($mix, 25%); }
-// .reddit { background: desaturate($reddit, 25%); }
-// .linkedin { background: desaturate($linkedin, 25%); }
-// .email { background: desaturate($email, 25%); }
-// .diaspora { background: desaturate($diaspora, 25%); }
-
-
-// From https://prudhvirampey.com/blog/colours/jekyll/css/fastpages/2020/10/30/hello-dark-mode.html
-// https://gist.github.com/prampey/aac8f8436827ea09f53a67873142706c
-$high-emph: rgba(white, 0.87); // Colour 1 -> White
-$med-emph: rgba(white, 0.69); //Noice
-$low-emph: rgba(white, 0.38);
-$dark-grey : #36245a; // Colour 2
-$overlay: mix($dark-grey, white, 95%);
-$overlay-light: mix($dark-grey, white, 86%);
-
-html, body, input, textarea, select, button {   
+// ── Base elements ──
+html, body, input, textarea, select, button {
   color: $high-emph !important;
-  background-color: $dark-grey !important;
+  background-color: $dm-bg !important;
 }
 
-a {
-    color: rgb(75, 186, 255) !important;
+// ── Typography ──
+h1, h2, h3, h4, h5, h6,
+.post-title, .post-link {
+  color: $high-emph !important;
 }
 
-a:hover {
-    color:$high-emph !important;
-}
+a { color: $dm-link !important; }
+a:visited { color: $dm-link-visited !important; }
+a:hover { color: $high-emph !important; }
 
-.site-title, .site-title:visited, .site-nav, .page-link {
-    color: $high-emph !important;
+.page-description { color: $med-emph; }
+.post-meta { color: $low-emph; }
+.post-content p, .post-content li { color: $med-emph; }
+li .post-meta-description { color: $med-emph !important; }
+img + em, figcaption { color: $low-emph; }
+blockquote {
+  border-left-color: #5691cd !important;
+  background: $dm-surface !important;
+  color: $med-emph !important;
+  cite, .bq-attribution { color: $low-emph !important; }
 }
+hr { border-color: $dm-border; }
+::selection { background: #5691cd; color: white; }
 
+// ── Layout: header, footer, nav, wrapper ──
+.site-header {
+  background-color: rgba($dm-bg, 0.92) !important;
+  border-bottom-color: $dm-border !important;
+  backdrop-filter: blur(8px);
+}
+.fixed-top {
+  background: rgba($dm-bg, 0.92) !important;
+  border-bottom-color: $dm-border !important;
+}
+.site-footer {
+  background-color: $dm-bg !important;
+  border-top-color: $dm-border !important;
+  color: $med-emph;
+}
+.footer-col { color: $med-emph; }
+.site-title, .site-title:visited { color: $high-emph !important; }
 .site-nav {
-    background-color: $dark-grey;
-    border-color: $overlay-light;
+  background-color: $dm-bg !important;
+  border-color: $dm-border-light;
+  .page-link { color: $high-emph !important; }
+  .trigger { background-color: $dm-bg !important; }
 }
+.page-content, .wrapper { background-color: $dm-bg !important; }
 
-* {
-    scrollbar-color: $dark-grey $overlay-light;
-}
+// ── Scrollbar ──
+* { scrollbar-color: $dm-border-light $dm-bg; }
 
+// ── Code — override Dracula blue-tinted backgrounds with neutral dark ──
 pre, code {
-    // BVas a lighter colour to better highlight short code words
-    border-color: $overlay-light;
-    background-color: $overlay;
+  border-color: $dm-border;
+  background-color: $dm-surface-up !important;
+}
+.highlight { background-color: $dm-surface-up !important; }
+[class^="language-"]:not(.language-plaintext) pre,
+[class^="language-"]:not(.language-plaintext) code {
+  background-color: $dm-surface-up !important;
+}
+.language-python + .language-plaintext pre,
+.language-python + .language-plaintext code {
+  background-color: $dm-surface !important;
+}
+.input_area pre, .input_area div {
+  background-color: $dm-surface-up !important;
 }
 
-.page-description {
-    color: $med-emph;
+// ── Tables ──
+table th {
+  background-color: $dm-surface-up;
+  border-color: $dm-border;
+  color: $high-emph;
+}
+table td {
+  background-color: $dm-bg;
+  border-color: $dm-border;
+  color: $med-emph;
 }
 
-.post-meta {
-    color: $low-emph;
-}
-
-.post-content p, .post-content li {
-    color: $med-emph;
-}
-
+// ── Buttons ──
 .btn {
-    background-color: $overlay !important;
-    color: $high-emph !important;
-    border-color: $overlay-light !important;
+  background-color: $dm-surface !important;
+  color: $high-emph !important;
+  border-color: $dm-border !important;
+  &:hover { background-color: $dm-bg !important; }
+}
+.button {
+  background-color: $dm-surface !important;
+  color: $high-emph !important;
+  border-color: $dm-border !important;
 }
 
-.btn:hover {
-    background-color: $dark-grey !important;
+// ── Post list cards ──
+.post-list > li > div,
+.post-list .Box {
+  box-shadow: none !important;
+  background-color: $dm-surface !important;
+  border-color: $dm-border !important;
+  &:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.3) !important; }
 }
 
-table th{
-    background-color: $overlay;
-    border-color: $overlay-light;
-    color: $high-emph;
-}
+// ── Post link — consistent white color (no blue visited state) ──
+.post-link, .post-link:visited { color: $high-emph !important; }
+.post-link:hover { color: $dm-link !important; }
 
-table td{
-    background-color: $dark-grey;
-    border-color: $overlay-light;
-    color: $med-emph;
-}
-
+// ── Callout flash blocks ──
 .flash {
-    color: $dark-grey !important;
-    filter: brightness(80%);
+  color: $dm-bg !important;
+  filter: brightness(85%);
 }
 
-canvas {
-    filter: invert(100%);
+// ── Canvas (charts) ──
+canvas { filter: invert(100%); }
+
+// ── Category tags ──
+.category-tags-link, .category-tags-link:visited, .label {
+  color: $low-emph !important;
+  border-color: $dm-border !important;
 }
 
-.post-list > li > div {
-    box-shadow: none !important;
-    background-color: $overlay;
-    border: none !important;
+// ── Privacy notice bar ──
+#privacy-notice {
+  background: rgba($dm-bg, 0.97) !important;
+  border-top: 1px solid $dm-border;
 }
 
-li .post-meta-description {
-    color: $med-emph !important;
+// ── Consent placeholders (YouTube, comments, third-party) ──
+.consent-placeholder {
+  background: $dm-surface !important;
+  border-color: $dm-border !important;
+  color: $med-emph;
+  .consent-detail { color: $low-emph; }
 }
+
+// ── Previous/next pagination ──
+.paginate-container .pagination {
+  .previous_page, .next_page {
+    border-color: $dm-border;
+    &:hover { border-color: $dm-link; }
+  }
+}
+
+// ── Breadcrumbs ──
+.breadcrumbs { color: $low-emph; a { color: $dm-link !important; } }
+
+// ── Tag cloud ──
+.tag-cloud {
+  .tag-color-tech { color: #b366ff !important; }       // lighter purple
+  .tag-color-philosophy { color: #ffb366 !important; }  // lighter orange
+  .tag-color-life { color: #33ddb8 !important; }         // lighter teal
+}
+
+// ── Word cloud section ──
+.wordcloud-section { border-top-color: $dm-border; }
+
+// ── Category chips ──
+.category-chip {
+  background-color: $dm-surface !important;
+  color: $med-emph !important;
+  border-color: $dm-border !important;
+  &:hover { border-color: $dm-link !important; color: $high-emph !important; }
+  &.active {
+    background-color: #5691cd !important;
+    color: white !important;
+    border-color: #5691cd !important;
+  }
+}
+
+// ── HR ──
+hr { border-color: $dm-border !important; }
+
+// ── Search ──
+#myInput,
+.header-search-input {
+  background-color: $dm-surface !important;
+  color: $high-emph !important;
+  border-color: $dm-border !important;
+  &:focus { background-color: $dm-surface-up !important; }
+}
+.header-search-input::placeholder { color: $low-emph; }
+.search-results-dropdown {
+  background-color: $dm-surface-up !important;
+  border-color: $dm-border !important;
+  a { border-bottom-color: $dm-border !important; }
+}
+.search-results-dropdown a { color: $med-emph !important; }
+.search-results-dropdown a:hover,
+.search-results-dropdown .search-result.active { background-color: $dm-surface !important; }
+.search-result-title { color: $dm-link !important; }
+.search-result-preview { color: $low-emph !important; }
+.search-result-highlight { color: $dm-link !important; }
+
+// ── Search page (full-page results) ──
+.search-results-list-item .search-result-title { color: $dm-link !important; }
+.search-results-list-item a { color: $med-emph !important; }
+.search-result-rel-url { color: $low-emph !important; }
+.search-result-rel-date { color: $low-emph !important; }
+
+// ── Social media ──
+.social-media-list a:hover { background-color: $dm-surface-up !important; }
+
+// ── Breadcrumbs ──
+.breadcrumbs { color: $low-emph; a { color: $dm-link !important; } span { color: $low-emph !important; } }
+
+// ── Anchor link stroke ──
+.anchor-link { -webkit-text-stroke-color: $dm-bg !important; }
+
+// ── Topic sections ──
+.topic-section { border-color: $dm-border !important; }
+.topic-section-header { border-bottom-color: $dm-border !important; }
+.topic-description { color: $low-emph !important; }
+
+// ── Inline post callout ──
+.inline-post-callout {
+  border-color: $dm-border !important;
+}
+.inline-post-callout-link {
+  background: $dm-surface !important;
+}
+.inline-post-callout-prefix { color: $low-emph !important; }
+.inline-post-callout-title { color: $dm-link !important; }
+.inline-post-callout-arrow { color: $dm-border !important; }
+.inline-post-callout:hover .inline-post-callout-arrow { color: $dm-link !important; }

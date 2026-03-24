@@ -1,6 +1,7 @@
 ---
 layout: post
 title:  "The astonishing hypothesis"
+description: "The astonishing hypothesis that your consciousness, joy, sorrow, memory and free will are all a product of your physical body"
 date:   2020-10-29 22:21:23 -0700
 categories: psychology 
 redirect_from:
