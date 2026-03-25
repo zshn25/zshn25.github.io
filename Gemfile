@@ -27,11 +27,12 @@ end
 
 gem "kramdown-math-katex"
 
-# Pin racc to default gem version to avoid native extension build issues on Windows
-gem "racc", "~> 1.6.0"
-# Pin json to avoid native extension build issues on Windows (Ruby 3.2 bundles json 2.6.x)
-gem "json", "~> 2.6.0"
-# Pin bigdecimal to default gem version (no native recompilation needed)
+# Pin native-extension gems to Ruby 3.2 bundled versions.
+# On Windows, the C toolchain may not compile newer versions.
+# On Linux CI (Ruby 3.2 from setup-ruby), these compile fine but the pin
+# ensures consistency. CI uses BUNDLE_BUILD__BIGDECIMAL="--use-system-libraries".
+gem "json", "2.6.3"
+gem "racc", "1.6.2"
 gem "bigdecimal", "3.1.3"
 
 # Windows and JRuby does not include zoneinfo files, so bundle the tzinfo-data gem
