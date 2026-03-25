@@ -3,16 +3,17 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="twitter:card" content="summary_large_image" />
-  
-  <meta name="referrer" content="no-referrer"><!-- Begin Jekyll SEO tag v2.8.0 -->
+  <meta name="twitter:site" content="@zshn25" />
+  <meta name="twitter:creator" content="@zshn25" />
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"><!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Tags | Curiosity</title>
-<meta name="generator" content="Jekyll v4.3.1" />
+<meta name="generator" content="Jekyll v4.4.1" />
 <meta property="og:title" content="Tags" />
 <meta name="author" content="Zeeshan Khan Suri" />
-<meta property="og:locale" content="en_US" />
-<meta name="description" content="I am curious. Therefore I am." />
-<meta property="og:description" content="I am curious. Therefore I am." />
+<meta property="og:locale" content="en" />
+<meta name="description" content="Browse all posts by topic" />
+<meta property="og:description" content="Browse all posts by topic" />
 <link rel="canonical" href="https://zshn25.github.io/categories/" />
 <meta property="og:url" content="https://zshn25.github.io/categories/" />
 <meta property="og:site_name" content="Curiosity" />
@@ -20,29 +21,39 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Tags" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Zeeshan Khan Suri"},"description":"I am curious. Therefore I am.","headline":"Tags","url":"https://zshn25.github.io/categories/"}</script>
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Zeeshan Khan Suri"},"description":"Browse all posts by topic","headline":"Tags","url":"https://zshn25.github.io/categories/"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons/css/academicons.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.js" integrity="sha384-YNHdsYkH6gMx9y3mRkmcJ2mFUjTd0qNQQvY9VYZgQd7DcN7env35GzlmFaZ23JGp" crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><!-- Self-hosted vendor CSS (no cross-origin requests for privacy) -->
+<link rel="stylesheet" href="/assets/vendor/primer/primer.css">
+<link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="/assets/vendor/academicons/css/academicons.min.css" media="print" onload="this.media='all'">
+    <!-- KaTeX: only on content pages (skipped on homepage for performance) -->
+    <link rel="stylesheet" href="/assets/vendor/katex/katex.min.css">
+    <script defer src="/assets/vendor/katex/katex.min.js"></script>
+    <script defer src="/assets/vendor/katex/contrib/auto-render.min.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            renderMathInElement(document.body, {
-            // customised options
-            // • auto-render specific keys, e.g.:
-            delimiters: [
-                {left: '$$', right: '$$', display: true},
-                {left: '$', right: '$', display: false},
-                {left: '\\(', right: '\\)', display: false},
-                {left: '\\[', right: '\\]', display: true}
-            ],
-            // • rendering keys, e.g.:
-            throwOnError : false
-            });
-        });
+        function tryRenderMath() {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false},
+                        {left: '\\(', right: '\\)', display: false},
+                        {left: '\\[', right: '\\]', display: true}
+                    ],
+                    throwOnError: false,
+                    trust: true
+                });
+            } else {
+                // Retry once after a short delay (deferred scripts may not have loaded yet)
+                setTimeout(tryRenderMath, 100);
+            }
+        }
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', tryRenderMath);
+        } else {
+            tryRenderMath();
+        }
     </script>
 
 
@@ -51,6 +62,8 @@ function wrap_img(fn) {
     if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
         var elements = document.querySelectorAll(".post img");
         Array.prototype.forEach.call(elements, function(el, i) {
+            // Add lazy loading to all post images
+            if (!el.getAttribute("loading")) el.setAttribute("loading", "lazy");
             if (el.getAttribute("title") && (el.className != "emoji")) {
                 const caption = document.createElement('figcaption');
                 var node = document.createTextNode(el.getAttribute("title"));
@@ -70,13 +83,15 @@ window.onload = wrap_img;
 
 
 <script src="/assets/js/applytheme.js"></script>
-<script src="/assets/js/main.js"></script>
+<script src="/assets/js/consent-gate.js"></script>
+<script src="/assets/js/vendor/lunr.min.js" defer></script>
+<script src="/assets/js/main.js" defer></script>
 
-<!-- <link id="dark-css" href="/assets/css/dark.scss" rel="stylesheet" media="(prefers-color-scheme: dark)"> -->
-<link id="dark-css" href="/assets/css/dark.scss" rel="stylesheet" media="(prefers-color-scheme: dark)"></head>
+<link id="dark-css" href="/assets/css/dark.css" rel="stylesheet" media="(prefers-color-scheme: dark)">
+</head>
 <body><header class="site-header fixed-top">
 
-  <div class="wrapper"><a class="site-title no-underline hover-grow" rel="author" href="/"> <img src="/images/logo.png" style="max-width:40px;" alt="Curiosity logo"> Curiosity</a><nav class="site-nav">
+  <div class="wrapper"><a class="site-title no-underline hover-grow" rel="author" href="/"> <img src="/images/logo.png" style="max-width:40px;" alt="Curiosity logo" width="40" height="40"> Curiosity</a><nav class="site-nav">
         <input type="checkbox" id="nav-trigger" class="nav-trigger" />
         <label for="nav-trigger">
           <span class="menu-icon">
@@ -86,9 +101,15 @@ window.onload = wrap_img;
           </span>
         </label>
 
-        <div class="trigger">
-            <a class="page-link" href="/about/">About</a>
-            <a class="page-link" href="/categories/">Tags</a>
+        <div class="trigger"><a class="page-link" href="/about/">About</a><div class="header-search">
+            <i class="fas fa-search header-search-icon"></i>
+            <input type="text" class="header-search-input js-search-input" placeholder="Search..." aria-label="Search Curiosity" autocomplete="off">
+            <div class="search-results-dropdown js-search-results"></div>
+          </div>
+          
+          <a href="/feed.xml" class="nav-anchor no-underline no_icon" title="RSS Feed" aria-label="Subscribe via RSS">
+            <span class="fas fa-rss fa-fw" aria-hidden="true" style="color:#ee802f;"></span>
+          </a>
           <span id="nav-switch-theme" class="nav-anchor">
             <span class="nav-theme-icon fas fa-fw" aria-hidden="true" title="Theme"></span>
             <span class="sr-only">Toggle Theme</span>
@@ -96,118 +117,241 @@ window.onload = wrap_img;
         </div>
       </nav></div>
 </header>
+
     
     <main class="page-content" aria-label="Content">
       <div class="wrapper">
         <div class="home">
-      <h2>
-        
-        
-          Contents
-        
-        
-      </h2>
+
+
+
+  
+  
+  
+
+  <div class="tag-cloud">
+  
     
-
+    
+      <a class="tag-1" href="#3d-mesh">3d-mesh&nbsp;(1)</a>
+    
   
+    
+    
+      <a class="tag-2" href="#3d-reconstruction">3d-reconstruction&nbsp;(2)</a>
+    
   
+    
+    
+      <a class="tag-1" href="#attention">attention&nbsp;(1)</a>
+    
   
-
-  <ul>
+    
+    
+      <a class="tag-1" href="#c++">c++&nbsp;(1)</a>
+    
   
-    <li><a href="#3d-mesh">3d-mesh</a></li>
+    
+    
+      <a class="tag-3" href="#computer-vision">computer-vision&nbsp;(4)</a>
+    
   
-    <li><a href="#3d-reconstruction">3d-reconstruction</a></li>
+    
+    
+      <a class="tag-1" href="#convolution">convolution&nbsp;(1)</a>
+    
   
-    <li><a href="#attention">attention</a></li>
+    
+    
+      <a class="tag-2" href="#cooking">cooking&nbsp;(2)</a>
+    
   
-    <li><a href="#c++">c++</a></li>
+    
+    
+      <a class="tag-1" href="#datasets">datasets&nbsp;(1)</a>
+    
   
-    <li><a href="#computer-vision">computer-vision</a></li>
+    
+    
+      <a class="tag-3" href="#deep-learning">deep-learning&nbsp;(4)</a>
+    
   
-    <li><a href="#convolution">convolution</a></li>
+    
+    
+      <a class="tag-1" href="#depth-estimation">depth-estimation&nbsp;(1)</a>
+    
   
-    <li><a href="#cooking">cooking</a></li>
+    
+    
+      <a class="tag-1" href="#dhmo-conspiracy">dhmo-conspiracy&nbsp;(1)</a>
+    
   
-    <li><a href="#datasets">datasets</a></li>
+    
+    
+      <a class="tag-1" href="#external-link">external-link&nbsp;(1)</a>
+    
   
-    <li><a href="#deep-learning">deep-learning</a></li>
+    
+    
+      <a class="tag-1" href="#finance">finance&nbsp;(1)</a>
+    
   
-    <li><a href="#depth-estimation">depth-estimation</a></li>
+    
+    
+      <a class="tag-1" href="#food">food&nbsp;(1)</a>
+    
   
-    <li><a href="#dhmo-conspiracy">dhmo-conspiracy</a></li>
+    
+    
+      <a class="tag-1" href="#foundation-models">foundation-models&nbsp;(1)</a>
+    
   
-    <li><a href="#external-link">external-link</a></li>
+    
+    
+      <a class="tag-1" href="#github">github&nbsp;(1)</a>
+    
   
-    <li><a href="#fast-inference">fast-inference</a></li>
+    
+    
+      <a class="tag-1" href="#gratitude">gratitude&nbsp;(1)</a>
+    
   
-    <li><a href="#finance">finance</a></li>
+    
+    
+      <a class="tag-1" href="#greed">greed&nbsp;(1)</a>
+    
   
-    <li><a href="#food">food</a></li>
+    
+    
+      <a class="tag-1" href="#health">health&nbsp;(1)</a>
+    
   
-    <li><a href="#foundation-models">foundation-models</a></li>
+    
+    
+      <a class="tag-1" href="#investing">investing&nbsp;(1)</a>
+    
   
-    <li><a href="#github">github</a></li>
+    
+    
+      <a class="tag-1" href="#Islam">Islam&nbsp;(1)</a>
+    
   
-    <li><a href="#gratitude">gratitude</a></li>
+    
+    
+      <a class="tag-2" href="#justice">justice&nbsp;(2)</a>
+    
   
-    <li><a href="#greed">greed</a></li>
+    
+    
+      <a class="tag-1" href="#large-neural-networks">large-neural-networks&nbsp;(1)</a>
+    
   
-    <li><a href="#health">health</a></li>
+    
+    
+      <a class="tag-1" href="#mathematics">mathematics&nbsp;(1)</a>
+    
   
-    <li><a href="#investing">investing</a></li>
+    
+    
+      <a class="tag-1" href="#meaning">meaning&nbsp;(1)</a>
+    
   
-    <li><a href="#Islam">Islam</a></li>
+    
+    
+      <a class="tag-1" href="#mlops">mlops&nbsp;(1)</a>
+    
   
-    <li><a href="#justice">justice</a></li>
+    
+    
+      <a class="tag-1" href="#nutrition">nutrition&nbsp;(1)</a>
+    
   
-    <li><a href="#large-neural-networks">large-neural-networks</a></li>
+    
+    
+      <a class="tag-4" href="#philosophy">philosophy&nbsp;(7)</a>
+    
   
-    <li><a href="#mathematics">mathematics</a></li>
+    
+    
+      <a class="tag-3" href="#politics">politics&nbsp;(4)</a>
+    
   
-    <li><a href="#meaning">meaning</a></li>
+    
+    
+      <a class="tag-1" href="#privacy">privacy&nbsp;(1)</a>
+    
   
-    <li><a href="#mlops">mlops</a></li>
+    
+    
+      <a class="tag-1" href="#recipe">recipe&nbsp;(1)</a>
+    
   
-    <li><a href="#nutrition">nutrition</a></li>
+    
+    
+      <a class="tag-1" href="#recommendations">recommendations&nbsp;(1)</a>
+    
   
-    <li><a href="#philosophy">philosophy</a></li>
+    
+    
+      <a class="tag-1" href="#regime">regime&nbsp;(1)</a>
+    
   
-    <li><a href="#politics">politics</a></li>
+    
+    
+      <a class="tag-1" href="#releases">releases&nbsp;(1)</a>
+    
   
-    <li><a href="#privacy">privacy</a></li>
+    
+    
+      <a class="tag-1" href="#religion">religion&nbsp;(1)</a>
+    
   
-    <li><a href="#pytorch">pytorch</a></li>
+    
+    
+      <a class="tag-2" href="#self-supervision">self-supervision&nbsp;(2)</a>
+    
   
-    <li><a href="#recipe">recipe</a></li>
+    
+    
+      <a class="tag-1" href="#social-contract">social-contract&nbsp;(1)</a>
+    
   
-    <li><a href="#recommendations">recommendations</a></li>
+    
+    
+      <a class="tag-1" href="#stocks">stocks&nbsp;(1)</a>
+    
   
-    <li><a href="#regime">regime</a></li>
+    
+    
+      <a class="tag-2" href="#structure-from-motion">structure-from-motion&nbsp;(2)</a>
+    
   
-    <li><a href="#releases">releases</a></li>
+    
+    
+      <a class="tag-1" href="#tags">tags&nbsp;(1)</a>
+    
   
-    <li><a href="#religion">religion</a></li>
+    
+    
+      <a class="tag-1" href="#tutorial">tutorial&nbsp;(1)</a>
+    
   
-    <li><a href="#self-supervision">self-supervision</a></li>
+    
+    
+      <a class="tag-1" href="#vector">vector&nbsp;(1)</a>
+    
   
-    <li><a href="#social-contract">social-contract</a></li>
+    
+    
+      <a class="tag-2" href="#visual-odometry">visual-odometry&nbsp;(2)</a>
+    
   
-    <li><a href="#stocks">stocks</a></li>
+    
+    
+      <a class="tag-1" href="#wealth">wealth&nbsp;(1)</a>
+    
   
-    <li><a href="#structure-from-motion">structure-from-motion</a></li>
-  
-    <li><a href="#tags">tags</a></li>
-  
-    <li><a href="#tutorial">tutorial</a></li>
-  
-    <li><a href="#vector">vector</a></li>
-  
-    <li><a href="#visual-odometry">visual-odometry</a></li>
-  
-    <li><a href="#wealth">wealth</a></li>
-  
-  </ul>
+  </div><hr>
       <h3 id ="3d-mesh">
         
         
@@ -232,12 +376,12 @@ window.onload = wrap_img;
       <a name="3d-reconstruction"></a>
       
         <article class="archive-item">
-          <p class="post-meta post-meta-title"><a class="page-meta" href="/pc4consistentdepth/">Pose Constraints for Self-supervised Monocular Depth and Ego-Motion</a>  • Apr 17, 2023</p>
+          <p class="post-meta post-meta-title"><a class="page-meta" href="/pc4consistentdepth/">Pose Constraints for Self-supervised Monocular Depth and Ego-Motion</a>  • Apr 18, 2023</p>
         </article>
         
       
         <article class="archive-item">
-          <p class="post-meta post-meta-title"><a class="page-meta" href="/How-Monocular-Depth-Estimation-works/">Self-supervised monocular depth estimation</a>  • Oct 30, 2022</p>
+          <p class="post-meta post-meta-title"><a class="page-meta" href="/How-Monocular-Depth-Estimation-works/">Self-supervised monocular depth estimation</a>  • Oct 31, 2022</p>
         </article>
       <h3 id ="attention">
         
@@ -250,7 +394,7 @@ window.onload = wrap_img;
       <a name="attention"></a>
       
         <article class="archive-item">
-          <p class="post-meta post-meta-title"><a class="page-meta" href="/CNNs-vs-Transformers/">Convolution vs. Attention</a>  • Mar 9, 2023</p>
+          <p class="post-meta post-meta-title"><a class="page-meta" href="/CNNs-vs-Transformers/">Convolution vs. Attention</a>  • Mar 10, 2023</p>
         </article>
       <h3 id ="c++">
         
@@ -276,12 +420,12 @@ window.onload = wrap_img;
       <a name="computer-vision"></a>
       
         <article class="archive-item">
-          <p class="post-meta post-meta-title"><a class="page-meta" href="/self-supervision-for-foundation-models/">Self-supervised learning for vision foundation models</a>  • May 11, 2023</p>
+          <p class="post-meta post-meta-title"><a class="page-meta" href="/self-supervision-for-foundation-models/">Self-supervised learning for vision foundation models</a>  • May 12, 2023</p>
         </article>
         
       
         <article class="archive-item">
-          <p class="post-meta post-meta-title"><a class="page-meta" href="/How-Monocular-Depth-Estimation-works/">Self-supervised monocular depth estimation</a>  • Oct 30, 2022</p>
+          <p class="post-meta post-meta-title"><a class="page-meta" href="/How-Monocular-Depth-Estimation-works/">Self-supervised monocular depth estimation</a>  • Oct 31, 2022</p>
         </article>
         
       
@@ -292,11 +436,6 @@ window.onload = wrap_img;
       
         <article class="archive-item">
           <p class="post-meta post-meta-title"><a class="page-meta" href="/is-convolution-linear/">Is convolution linear?</a>  • Mar 11, 2021</p>
-        </article>
-        
-      
-        <article class="archive-item">
-          <p class="post-meta post-meta-title"><a class="page-meta" href="/ResNet-feature-pyramid-in-Pytorch/">ResNet feature pyramid in Pytorch</a>  • Feb 9, 2021</p>
         </article>
       <h3 id ="convolution">
         
@@ -309,7 +448,7 @@ window.onload = wrap_img;
       <a name="convolution"></a>
       
         <article class="archive-item">
-          <p class="post-meta post-meta-title"><a class="page-meta" href="/CNNs-vs-Transformers/">Convolution vs. Attention</a>  • Mar 9, 2023</p>
+          <p class="post-meta post-meta-title"><a class="page-meta" href="/CNNs-vs-Transformers/">Convolution vs. Attention</a>  • Mar 10, 2023</p>
         </article>
       <h3 id ="cooking">
         
@@ -353,32 +492,22 @@ window.onload = wrap_img;
       <a name="deep-learning"></a>
       
         <article class="archive-item">
-          <p class="post-meta post-meta-title"><a class="page-meta" href="/pc4consistentdepth/">Pose Constraints for Self-supervised Monocular Depth and Ego-Motion</a>  • Apr 17, 2023</p>
+          <p class="post-meta post-meta-title"><a class="page-meta" href="/pc4consistentdepth/">Pose Constraints for Self-supervised Monocular Depth and Ego-Motion</a>  • Apr 18, 2023</p>
         </article>
         
       
         <article class="archive-item">
-          <p class="post-meta post-meta-title"><a class="page-meta" href="/CNNs-vs-Transformers/">Convolution vs. Attention</a>  • Mar 9, 2023</p>
+          <p class="post-meta post-meta-title"><a class="page-meta" href="/CNNs-vs-Transformers/">Convolution vs. Attention</a>  • Mar 10, 2023</p>
         </article>
         
       
         <article class="archive-item">
-          <p class="post-meta post-meta-title"><a class="page-meta" href="/Software-2/">Software 2.0 2.0</a>  • Dec 4, 2022</p>
+          <p class="post-meta post-meta-title"><a class="page-meta" href="/Software-2/">Software 2.0 2.0</a>  • Dec 5, 2022</p>
         </article>
         
       
         <article class="archive-item">
-          <p class="post-meta post-meta-title"><a class="page-meta" href="/How-Monocular-Depth-Estimation-works/">Self-supervised monocular depth estimation</a>  • Oct 30, 2022</p>
-        </article>
-        
-      
-        <article class="archive-item">
-          <p class="post-meta post-meta-title"><a class="page-meta" href="/Layers-fusion-for-faster-inference/">Layers fusion for faster neural network inference</a>  • Apr 27, 2021</p>
-        </article>
-        
-      
-        <article class="archive-item">
-          <p class="post-meta post-meta-title"><a class="page-meta" href="/ResNet-feature-pyramid-in-Pytorch/">ResNet feature pyramid in Pytorch</a>  • Feb 9, 2021</p>
+          <p class="post-meta post-meta-title"><a class="page-meta" href="/How-Monocular-Depth-Estimation-works/">Self-supervised monocular depth estimation</a>  • Oct 31, 2022</p>
         </article>
       <h3 id ="depth-estimation">
         
@@ -391,7 +520,7 @@ window.onload = wrap_img;
       <a name="depth-estimation"></a>
       
         <article class="archive-item">
-          <p class="post-meta post-meta-title"><a class="page-meta" href="/pc4consistentdepth/">Pose Constraints for Self-supervised Monocular Depth and Ego-Motion</a>  • Apr 17, 2023</p>
+          <p class="post-meta post-meta-title"><a class="page-meta" href="/pc4consistentdepth/">Pose Constraints for Self-supervised Monocular Depth and Ego-Motion</a>  • Apr 18, 2023</p>
         </article>
       <h3 id ="dhmo-conspiracy">
         
@@ -418,19 +547,6 @@ window.onload = wrap_img;
       
         <article class="archive-item">
           <p class="post-meta post-meta-title"><a class="page-meta" href="/dihydrogen-monoxide/">Dihydrogen Monoxide - The Truth</a>  • Apr 1, 2021</p>
-        </article>
-      <h3 id ="fast-inference">
-        
-        
-          <i class="fas fa-tags category-tags-icon"></i></i> fast-inference
-        
-        
-      </h3>
-    
-      <a name="fast-inference"></a>
-      
-        <article class="archive-item">
-          <p class="post-meta post-meta-title"><a class="page-meta" href="/Layers-fusion-for-faster-inference/">Layers fusion for faster neural network inference</a>  • Apr 27, 2021</p>
         </article>
       <h3 id ="finance">
         
@@ -469,7 +585,7 @@ window.onload = wrap_img;
       <a name="foundation-models"></a>
       
         <article class="archive-item">
-          <p class="post-meta post-meta-title"><a class="page-meta" href="/self-supervision-for-foundation-models/">Self-supervised learning for vision foundation models</a>  • May 11, 2023</p>
+          <p class="post-meta post-meta-title"><a class="page-meta" href="/self-supervision-for-foundation-models/">Self-supervised learning for vision foundation models</a>  • May 12, 2023</p>
         </article>
       <h3 id ="github">
         
@@ -565,7 +681,7 @@ window.onload = wrap_img;
         
       
         <article class="archive-item">
-          <p class="post-meta post-meta-title"><a class="page-meta" href="/plato-republic/">Notes on Justice from Plato's Republic</a>  • Feb 9, 2022</p>
+          <p class="post-meta post-meta-title"><a class="page-meta" href="/plato-republic/">Notes on Justice from Plato's Republic</a>  • Feb 10, 2022</p>
         </article>
       <h3 id ="large-neural-networks">
         
@@ -578,7 +694,7 @@ window.onload = wrap_img;
       <a name="large-neural-networks"></a>
       
         <article class="archive-item">
-          <p class="post-meta post-meta-title"><a class="page-meta" href="/self-supervision-for-foundation-models/">Self-supervised learning for vision foundation models</a>  • May 11, 2023</p>
+          <p class="post-meta post-meta-title"><a class="page-meta" href="/self-supervision-for-foundation-models/">Self-supervised learning for vision foundation models</a>  • May 12, 2023</p>
         </article>
       <h3 id ="mathematics">
         
@@ -617,7 +733,7 @@ window.onload = wrap_img;
       <a name="mlops"></a>
       
         <article class="archive-item">
-          <p class="post-meta post-meta-title"><a class="page-meta" href="/Software-2/">Software 2.0 2.0</a>  • Dec 4, 2022</p>
+          <p class="post-meta post-meta-title"><a class="page-meta" href="/Software-2/">Software 2.0 2.0</a>  • Dec 5, 2022</p>
         </article>
       <h3 id ="nutrition">
         
@@ -643,7 +759,7 @@ window.onload = wrap_img;
       <a name="philosophy"></a>
       
         <article class="archive-item">
-          <p class="post-meta post-meta-title"><a class="page-meta" href="/the-necessity-of-the-state/">Trading Freedom for Peace: The necessity of the state</a>  • Oct 22, 2022</p>
+          <p class="post-meta post-meta-title"><a class="page-meta" href="/the-necessity-of-the-state/">Trading Freedom for Peace: The necessity of the state</a>  • Oct 23, 2022</p>
         </article>
         
       
@@ -658,7 +774,7 @@ window.onload = wrap_img;
         
       
         <article class="archive-item">
-          <p class="post-meta post-meta-title"><a class="page-meta" href="/plato-republic/">Notes on Justice from Plato's Republic</a>  • Feb 9, 2022</p>
+          <p class="post-meta post-meta-title"><a class="page-meta" href="/plato-republic/">Notes on Justice from Plato's Republic</a>  • Feb 10, 2022</p>
         </article>
         
       
@@ -686,7 +802,7 @@ window.onload = wrap_img;
       <a name="politics"></a>
       
         <article class="archive-item">
-          <p class="post-meta post-meta-title"><a class="page-meta" href="/the-necessity-of-the-state/">Trading Freedom for Peace: The necessity of the state</a>  • Oct 22, 2022</p>
+          <p class="post-meta post-meta-title"><a class="page-meta" href="/the-necessity-of-the-state/">Trading Freedom for Peace: The necessity of the state</a>  • Oct 23, 2022</p>
         </article>
         
       
@@ -701,7 +817,7 @@ window.onload = wrap_img;
         
       
         <article class="archive-item">
-          <p class="post-meta post-meta-title"><a class="page-meta" href="/plato-republic/">Notes on Justice from Plato's Republic</a>  • Feb 9, 2022</p>
+          <p class="post-meta post-meta-title"><a class="page-meta" href="/plato-republic/">Notes on Justice from Plato's Republic</a>  • Feb 10, 2022</p>
         </article>
       <h3 id ="privacy">
         
@@ -715,24 +831,6 @@ window.onload = wrap_img;
       
         <article class="archive-item">
           <p class="post-meta post-meta-title"><a class="page-meta" href="/why-privacy-matters/">Privacy</a>  • May 13, 2021</p>
-        </article>
-      <h3 id ="pytorch">
-        
-        
-          <i class="fas fa-tags category-tags-icon"></i></i> pytorch
-        
-        
-      </h3>
-    
-      <a name="pytorch"></a>
-      
-        <article class="archive-item">
-          <p class="post-meta post-meta-title"><a class="page-meta" href="/Layers-fusion-for-faster-inference/">Layers fusion for faster neural network inference</a>  • Apr 27, 2021</p>
-        </article>
-        
-      
-        <article class="archive-item">
-          <p class="post-meta post-meta-title"><a class="page-meta" href="/ResNet-feature-pyramid-in-Pytorch/">ResNet feature pyramid in Pytorch</a>  • Feb 9, 2021</p>
         </article>
       <h3 id ="recipe">
         
@@ -806,12 +904,12 @@ window.onload = wrap_img;
       <a name="self-supervision"></a>
       
         <article class="archive-item">
-          <p class="post-meta post-meta-title"><a class="page-meta" href="/self-supervision-for-foundation-models/">Self-supervised learning for vision foundation models</a>  • May 11, 2023</p>
+          <p class="post-meta post-meta-title"><a class="page-meta" href="/self-supervision-for-foundation-models/">Self-supervised learning for vision foundation models</a>  • May 12, 2023</p>
         </article>
         
       
         <article class="archive-item">
-          <p class="post-meta post-meta-title"><a class="page-meta" href="/pc4consistentdepth/">Pose Constraints for Self-supervised Monocular Depth and Ego-Motion</a>  • Apr 17, 2023</p>
+          <p class="post-meta post-meta-title"><a class="page-meta" href="/pc4consistentdepth/">Pose Constraints for Self-supervised Monocular Depth and Ego-Motion</a>  • Apr 18, 2023</p>
         </article>
       <h3 id ="social-contract">
         
@@ -824,7 +922,7 @@ window.onload = wrap_img;
       <a name="social-contract"></a>
       
         <article class="archive-item">
-          <p class="post-meta post-meta-title"><a class="page-meta" href="/the-necessity-of-the-state/">Trading Freedom for Peace: The necessity of the state</a>  • Oct 22, 2022</p>
+          <p class="post-meta post-meta-title"><a class="page-meta" href="/the-necessity-of-the-state/">Trading Freedom for Peace: The necessity of the state</a>  • Oct 23, 2022</p>
         </article>
       <h3 id ="stocks">
         
@@ -850,12 +948,12 @@ window.onload = wrap_img;
       <a name="structure-from-motion"></a>
       
         <article class="archive-item">
-          <p class="post-meta post-meta-title"><a class="page-meta" href="/pc4consistentdepth/">Pose Constraints for Self-supervised Monocular Depth and Ego-Motion</a>  • Apr 17, 2023</p>
+          <p class="post-meta post-meta-title"><a class="page-meta" href="/pc4consistentdepth/">Pose Constraints for Self-supervised Monocular Depth and Ego-Motion</a>  • Apr 18, 2023</p>
         </article>
         
       
         <article class="archive-item">
-          <p class="post-meta post-meta-title"><a class="page-meta" href="/How-Monocular-Depth-Estimation-works/">Self-supervised monocular depth estimation</a>  • Oct 30, 2022</p>
+          <p class="post-meta post-meta-title"><a class="page-meta" href="/How-Monocular-Depth-Estimation-works/">Self-supervised monocular depth estimation</a>  • Oct 31, 2022</p>
         </article>
       <h3 id ="tags">
         
@@ -907,12 +1005,12 @@ window.onload = wrap_img;
       <a name="visual-odometry"></a>
       
         <article class="archive-item">
-          <p class="post-meta post-meta-title"><a class="page-meta" href="/pc4consistentdepth/">Pose Constraints for Self-supervised Monocular Depth and Ego-Motion</a>  • Apr 17, 2023</p>
+          <p class="post-meta post-meta-title"><a class="page-meta" href="/pc4consistentdepth/">Pose Constraints for Self-supervised Monocular Depth and Ego-Motion</a>  • Apr 18, 2023</p>
         </article>
         
       
         <article class="archive-item">
-          <p class="post-meta post-meta-title"><a class="page-meta" href="/How-Monocular-Depth-Estimation-works/">Self-supervised monocular depth estimation</a>  • Oct 30, 2022</p>
+          <p class="post-meta post-meta-title"><a class="page-meta" href="/How-Monocular-Depth-Estimation-works/">Self-supervised monocular depth estimation</a>  • Oct 31, 2022</p>
         </article>
       <h3 id ="wealth">
         
@@ -946,14 +1044,12 @@ window.onload = wrap_img;
       <div class="footer-col">
         <p class="feed-subscribe">
           <a href="https://feedrabbit.com/?url=https://zshn25.github.io/feed.xml">
-            <svg class="svg-icon orange">
-              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
-            </svg><span>Subscribe</span>
+            <i class="fas fa-rss" style="color:#ee802f;"></i><span> Subscribe</span>
           </a>
         </p>
         <ul class="contact-list">
           <li class="p-name">© Zeeshan Khan Suri </li>
-          <div xmlns:cc="http://creativecommons.org/ns#" > Text under  <a href="http://creativecommons.org/licenses/by-nc/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1"></a> unless stated otherwise. Images and other media have their own copyright. </div>
+          <li><div xmlns:cc="http://creativecommons.org/ns#" > Text under  <a href="http://creativecommons.org/licenses/by-nc/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/cc.svg" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/by.svg" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/nc.svg" alt="NC"></a> unless stated otherwise. Images and other media have their own copyright. </div></li>
           <li><a class="u-email" href="mailto:zshn25[at]gmail[dot]com">zshn25[at]gmail[dot]com</a></li>
         </ul>
       </div>
@@ -962,11 +1058,25 @@ window.onload = wrap_img;
       </div>
     </div>
 
-    <div class="social-links"><ul class="social-media-list"></ul></div>
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/zshn25" target="_blank" title="GitHub"><i class="fab fa-github grey" title="GitHub"></i></a></li><li><a rel="me" href="https://twitter.com/zshn25" target="_blank" title="Twitter"><i class="fab fa-twitter grey" title="Twitter"></i></a></li><li><a rel="me" href="https://www.linkedin.com/in/zshn25" target="_blank" title="LinkedIn"><i class="fab fa-linkedin grey" title="LinkedIn"></i></a></li><li><a rel="me" href="https://scholar.google.com/citations?user=DSLVuBgAAAAJ" target="_blank" title="Google Scholar"><i class="ai ai-google-scholar grey" title="Google Scholar"></i></a></li></ul></div>
 
   </div>
 
 </footer>
+<!-- Informational privacy notice (not a cookie consent - this site does not use cookies) -->
+<div id="privacy-notice" style="display:none">
+    This site does not use cookies or track you. Some posts contain embedded content that connects to third parties only when you click.
+    <a href="/about/#privacy">Learn more</a>
+    <button class="privacy-ok-btn" onclick="localStorage.setItem('privacyOK','1');document.getElementById('privacy-notice').style.display='none'">OK</button>
+</div>
+<script>
+(function(){
+  if(!localStorage.getItem('privacyOK')){
+    var el=document.getElementById('privacy-notice');
+    if(el) el.style.display='flex';
+  }
+})();
+</script>
 </body>
 
 </html>

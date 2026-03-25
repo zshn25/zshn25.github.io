@@ -3,49 +3,60 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="twitter:card" content="summary_large_image" />
-  
-  <meta name="referrer" content="no-referrer"><!-- Begin Jekyll SEO tag v2.8.0 -->
+  <meta name="twitter:site" content="@zshn25" />
+  <meta name="twitter:creator" content="@zshn25" />
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"><!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Self-supervised learning for vision foundation models | Curiosity</title>
-<meta name="generator" content="Jekyll v4.3.1" />
+<meta name="generator" content="Jekyll v4.4.1" />
 <meta property="og:title" content="Self-supervised learning for vision foundation models" />
 <meta name="author" content="Zeeshan Khan Suri" />
-<meta property="og:locale" content="en_US" />
-<meta name="description" content="Performance of deep neural networks scales with data and model size" />
-<meta property="og:description" content="Performance of deep neural networks scales with data and model size" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="How self-supervised learning enables large-scale vision foundation models by learning from unlabeled data through pretext tasks like contrastive learning and masked image modeling." />
+<meta property="og:description" content="How self-supervised learning enables large-scale vision foundation models by learning from unlabeled data through pretext tasks like contrastive learning and masked image modeling." />
 <link rel="canonical" href="https://zshn25.github.io/self-supervision-for-foundation-models/" />
 <meta property="og:url" content="https://zshn25.github.io/self-supervision-for-foundation-models/" />
 <meta property="og:site_name" content="Curiosity" />
 <meta property="og:image" content="https://zshn25.github.io/images/foundation.jpeg" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2023-05-11T22:21:23-05:00" />
+<meta property="article:published_time" content="2023-05-12T03:21:23+00:00" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta property="twitter:image" content="https://zshn25.github.io/images/foundation.jpeg" />
 <meta property="twitter:title" content="Self-supervised learning for vision foundation models" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Zeeshan Khan Suri"},"dateModified":"2023-05-11T22:21:23-05:00","datePublished":"2023-05-11T22:21:23-05:00","description":"Performance of deep neural networks scales with data and model size","headline":"Self-supervised learning for vision foundation models","image":"https://zshn25.github.io/images/foundation.jpeg","mainEntityOfPage":{"@type":"WebPage","@id":"https://zshn25.github.io/self-supervision-for-foundation-models/"},"url":"https://zshn25.github.io/self-supervision-for-foundation-models/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Zeeshan Khan Suri"},"dateModified":"2023-05-12T03:21:23+00:00","datePublished":"2023-05-12T03:21:23+00:00","description":"How self-supervised learning enables large-scale vision foundation models by learning from unlabeled data through pretext tasks like contrastive learning and masked image modeling.","headline":"Self-supervised learning for vision foundation models","image":"https://zshn25.github.io/images/foundation.jpeg","mainEntityOfPage":{"@type":"WebPage","@id":"https://zshn25.github.io/self-supervision-for-foundation-models/"},"url":"https://zshn25.github.io/self-supervision-for-foundation-models/"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Primer/15.2.0/primer.css" integrity="sha512-xTz2ys4coGAOz8vuV1NcQBkgVmKhsSEtjbqyMJbBHRplFuvKIUo6xhLHpAyPt9mfR6twHJgn9OgVLuqOvjeBhg==" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons/css/academicons.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.js" integrity="sha384-YNHdsYkH6gMx9y3mRkmcJ2mFUjTd0qNQQvY9VYZgQd7DcN7env35GzlmFaZ23JGp" crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><!-- Self-hosted vendor CSS (no cross-origin requests for privacy) -->
+<link rel="stylesheet" href="/assets/vendor/primer/primer.css">
+<link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css">
+<link rel="stylesheet" href="/assets/vendor/academicons/css/academicons.min.css" media="print" onload="this.media='all'">
+    <!-- KaTeX: only on content pages (skipped on homepage for performance) -->
+    <link rel="stylesheet" href="/assets/vendor/katex/katex.min.css">
+    <script defer src="/assets/vendor/katex/katex.min.js"></script>
+    <script defer src="/assets/vendor/katex/contrib/auto-render.min.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            renderMathInElement(document.body, {
-            // customised options
-            // • auto-render specific keys, e.g.:
-            delimiters: [
-                {left: '$$', right: '$$', display: true},
-                {left: '$', right: '$', display: false},
-                {left: '\\(', right: '\\)', display: false},
-                {left: '\\[', right: '\\]', display: true}
-            ],
-            // • rendering keys, e.g.:
-            throwOnError : false
-            });
-        });
+        function tryRenderMath() {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false},
+                        {left: '\\(', right: '\\)', display: false},
+                        {left: '\\[', right: '\\]', display: true}
+                    ],
+                    throwOnError: false,
+                    trust: true
+                });
+            } else {
+                // Retry once after a short delay (deferred scripts may not have loaded yet)
+                setTimeout(tryRenderMath, 100);
+            }
+        }
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', tryRenderMath);
+        } else {
+            tryRenderMath();
+        }
     </script>
 
 
@@ -54,6 +65,8 @@ function wrap_img(fn) {
     if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
         var elements = document.querySelectorAll(".post img");
         Array.prototype.forEach.call(elements, function(el, i) {
+            // Add lazy loading to all post images
+            if (!el.getAttribute("loading")) el.setAttribute("loading", "lazy");
             if (el.getAttribute("title") && (el.className != "emoji")) {
                 const caption = document.createElement('figcaption');
                 var node = document.createTextNode(el.getAttribute("title"));
@@ -73,13 +86,15 @@ window.onload = wrap_img;
 
 
 <script src="/assets/js/applytheme.js"></script>
-<script src="/assets/js/main.js"></script>
+<script src="/assets/js/consent-gate.js"></script>
+<script src="/assets/js/vendor/lunr.min.js" defer></script>
+<script src="/assets/js/main.js" defer></script>
 
-<!-- <link id="dark-css" href="/assets/css/dark.scss" rel="stylesheet" media="(prefers-color-scheme: dark)"> -->
-<link id="dark-css" href="/assets/css/dark.scss" rel="stylesheet" media="(prefers-color-scheme: dark)"></head>
+<link id="dark-css" href="/assets/css/dark.css" rel="stylesheet" media="(prefers-color-scheme: dark)">
+</head>
 <body><header class="site-header fixed-top">
 
-  <div class="wrapper"><a class="site-title no-underline hover-grow" rel="author" href="/"> <img src="/images/logo.png" style="max-width:40px;" alt="Curiosity logo"> Curiosity</a><nav class="site-nav">
+  <div class="wrapper"><a class="site-title no-underline hover-grow" rel="author" href="/"> <img src="/images/logo.png" style="max-width:40px;" alt="Curiosity logo" width="40" height="40"> Curiosity</a><nav class="site-nav">
         <input type="checkbox" id="nav-trigger" class="nav-trigger" />
         <label for="nav-trigger">
           <span class="menu-icon">
@@ -89,9 +104,15 @@ window.onload = wrap_img;
           </span>
         </label>
 
-        <div class="trigger">
-            <a class="page-link" href="/about/">About</a>
-            <a class="page-link" href="/categories/">Tags</a>
+        <div class="trigger"><a class="page-link" href="/about/">About</a><div class="header-search">
+            <i class="fas fa-search header-search-icon"></i>
+            <input type="text" class="header-search-input js-search-input" placeholder="Search..." aria-label="Search Curiosity" autocomplete="off">
+            <div class="search-results-dropdown js-search-results"></div>
+          </div>
+          
+          <a href="/feed.xml" class="nav-anchor no-underline no_icon" title="RSS Feed" aria-label="Subscribe via RSS">
+            <span class="fas fa-rss fa-fw" aria-hidden="true" style="color:#ee802f;"></span>
+          </a>
           <span id="nav-switch-theme" class="nav-anchor">
             <span class="nav-theme-icon fas fa-fw" aria-hidden="true" title="Theme"></span>
             <span class="sr-only">Toggle Theme</span>
@@ -99,10 +120,59 @@ window.onload = wrap_img;
         </div>
       </nav></div>
 </header>
+
     
     <main class="page-content" aria-label="Content">
       <div class="wrapper">
-        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting"><header class="post-header">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Self-supervised learning for vision foundation models",
+    "description": "How self-supervised learning enables large-scale vision foundation models by learning from unlabeled data through pretext tasks like contrastive learning and...",
+    "datePublished": "2023-05-12T03:21:23+00:00",
+    
+    "author": {
+      "@type": "Person",
+      "name": "Zeeshan Khan Suri"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Curiosity",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://zshn25.github.io/images/logo.png"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://zshn25.github.io/self-supervision-for-foundation-models/"
+    },
+    "image": "https://zshn25.github.io/images/foundation.jpeg",
+    "keywords": ["computer-vision","large-neural-networks","foundation-models","self-supervision"]
+  }
+  </script>
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://zshn25.github.io" },
+      { "@type": "ListItem", "position": 2, "name": "computer-vision", "item": "https://zshn25.github.io/categories/#computer-vision" },
+      { "@type": "ListItem", "position": 3, "name": "Self-supervised learning for vision foundation models" }
+    ]
+  }
+  </script><header class="post-header">
+    
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a> &rsaquo;
+      <a href="/?tag=computer-vision">computer-vision</a> &rsaquo;
+      <span>Self-supervised learning for vision foundation ...</span>
+    </nav>
       <h1 class="post-title p-name" itemprop="name headline">
         
         
@@ -113,9 +183,9 @@ window.onload = wrap_img;
         
         
       </h1>
-    <p class="post-meta post-meta-title">
-      <i class="far fa-calendar-alt"></i><time class="dt-published" datetime="2023-05-11T22:21:23-05:00" itemprop="datePublished">
-        May 11, 2023
+    <p class="page-description">How self-supervised learning enables large-scale vision foundation models by learning from unlabeled data through pretext tasks like contrastive learning and masked image modeling.</p><p class="post-meta post-meta-title">
+      <i class="far fa-calendar-alt"></i><time class="dt-published" datetime="2023-05-12T03:21:23+00:00" itemprop="datePublished">
+        May 12, 2023
       </time>• <i class="far fa-user"></i> 
           <span itemprop="author" itemscope itemtype="http://schema.org/Person">
             <span class="p-author h-card" itemprop="name">Zeeshan Khan Suri</span></span>
@@ -124,21 +194,22 @@ window.onload = wrap_img;
     
       16 mins read
     
-</span></p>
+</span>
+</p>
 
     
-      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
       
-        <a class="category-tags-link label label-default" href="/categories/#computer-vision">#computer-vision</a>
+        <a class="category-tags-link label label-default" href="/?tag=computer-vision">#computer-vision</a>
         &nbsp;
       
-        <a class="category-tags-link label label-default" href="/categories/#large-neural-networks">#large-neural-networks</a>
+        <a class="category-tags-link label label-default" href="/?tag=large-neural-networks">#large-neural-networks</a>
         &nbsp;
       
-        <a class="category-tags-link label label-default" href="/categories/#foundation-models">#foundation-models</a>
+        <a class="category-tags-link label label-default" href="/?tag=foundation-models">#foundation-models</a>
         &nbsp;
       
-        <a class="category-tags-link label label-default" href="/categories/#self-supervision">#self-supervision</a>
+        <a class="category-tags-link label label-default" href="/?tag=self-supervision">#self-supervision</a>
         
       
       </p>
@@ -151,18 +222,7 @@ window.onload = wrap_img;
 
   <div class="post-content e-content" itemprop="articleBody">
     
-    <blockquote title="The blockquote title" class="no_toc">
-      <h2 id="performance-of-deep-neural-networks-scales-with-data-and-model-size">
-        
-        
-          <a href="#performance-of-deep-neural-networks-scales-with-data-and-model-size" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> <a href="/Software-2/">Performance of deep neural networks scales with data and model size</a>
-        
-        
-      </h2>
-    
-</blockquote>
-
-<iframe src="https://ourworldindata.org/grapher/artificial-intelligence-training-computation" loading="lazy" style="width: 100%; height: 600px; border: 0px none;"></iframe>
+    <iframe src="https://ourworldindata.org/grapher/artificial-intelligence-training-computation" loading="lazy" style="width: 100%; height: 600px; border: 0px none;"></iframe>
 <p style="text-align: center;"><sub><sup><em>Model size of notable AI systems over time. Source: <a href="https://ourworldindata.org/grapher/artificial-intelligence-training-computation">Our World in Data</a></em>
 </sup></sub></p>
 
@@ -172,9 +232,13 @@ window.onload = wrap_img;
 <p style="text-align: center;"><sub><sup><em>As the training data increases, the performance of a DL model increases but traditional methods do not depend on the training data</em>
 </sup></sub></p>
 
-<p>But, collecting such massive amounts of carefully labeled data costs enormous time, effort and money; and are error prone. For e.g. Northcutt et al.<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>, and https://labelerrors.com/ outline errors in the labels of widely used datasets. What if there was a way to use massively available but <strong>unlabled</strong> data?</p>
+<p>But, collecting such massive amounts of carefully labeled data costs enormous time, effort and money; and are error prone. For e.g. Northcutt et al.<sup id="fnref:1"><a href="#fn:1" class="footnote" rel="footnote" role="doc-noteref">1</a></sup>, and https://labelerrors.com/ outline errors in the labels of widely used datasets. What if there was a way to use massively available but <strong>unlabled</strong> data?</p>
 
 <p>In this post, I motivate the necessity for large, general-purpose data representation models, known as foundation models, and in what ways self-supervised learning enables this achievement. Stay tuned!</p>
+
+<blockquote title="The blockquote title" class="no_toc">
+  <p>Checkout my blogpost on <a href="/Software-2/">How the performance of deep neural networks scales with data and model size</a></p>
+</blockquote>
       <h2 id="what-are-foundation-models">
         
         
@@ -184,15 +248,15 @@ window.onload = wrap_img;
       </h2>
     
 
-<p>Behind the fancy wording<sup id="fnref:12" role="doc-noteref"><a href="#fn:12" class="footnote" rel="footnote">2</a></sup>, the idea is to learn a generic model that produces good input representations, is robust to variety of inputs, and can be directly used for multiple other tasks without the need for re-training. Any model that is capable of doing so can be named a foundation model.</p>
+<p>Behind the fancy wording<sup id="fnref:12"><a href="#fn:12" class="footnote" rel="footnote" role="doc-noteref">2</a></sup>, the idea is to learn a generic model that produces good input representations, is robust to variety of inputs, and can be directly used for multiple other tasks without the need for re-training. Any model that is capable of doing so can be named a foundation model.</p>
 
 <blockquote>
   <p>“A foundation model is any model that is trained on broad data (generally using self-supervision at scale) that can be adapted (e.g., fine-tuned) to a wide range of downstream tasks”</p>
 
-  <p>Bommasani, Rishi, et al.<sup id="fnref:19" role="doc-noteref"><a href="#fn:19" class="footnote" rel="footnote">3</a></sup></p>
+  <p><em>Bommasani, Rishi, et al.<sup id="fnref:19"><a href="#fn:19" class="footnote" rel="footnote" role="doc-noteref">3</a></sup></em></p>
 </blockquote>
 
-<p>The way to realize such a model is to use vast quantities of data and the way to do so is by self-supervised learning. <mark>The scale and diversity of training data is what makes a model foundational.</mark> Also, training on more data leads to generalization and robustness to distribution shifts and adversarial samples<sup id="fnref:12:1" role="doc-noteref"><a href="#fn:12" class="footnote" rel="footnote">2</a></sup></p>
+<p>The way to realize such a model is to use vast quantities of data and the way to do so is by self-supervised learning. <mark>The scale and diversity of training data is what makes a model foundational.</mark> Also, training on more data leads to generalization and robustness to distribution shifts and adversarial samples<sup id="fnref:12:1"><a href="#fn:12" class="footnote" rel="footnote" role="doc-noteref">2</a></sup></p>
       <h2 id="history-feature-representations-of-images">
         
         
@@ -229,7 +293,7 @@ window.onload = wrap_img;
 <p>With the rise of deep learning, features and their descriptors are no longer hand-engineered, but learnt from the underlying data. Vision models such as CNNs and transformers process input images to extract high-dimensional latent representations, which could be thought as features. Unlike pixel-level features such as <abbr title="Scale-invariant feature transform">SIFT</abbr>, <abbr title="Oriented FAST and rotated BRIEF">ORB</abbr>, latents are <strong>not local</strong> (do not correspond to pixel locations) but <strong>based on the semantics</strong> of the global image contents.</p>
 
 <blockquote class="no_toc">
-  <p>Checkout my blog post on <a href="/ResNet-feature-pyramid-in-Pytorch/">how to extract feature pyramids from torchvison models</a></p>
+  <p>Checkout my blog post on <a href="/ResNet-feature-pyramid-in-Pytorch/">How to extract Feature Pyramids from torchvison models</a></p>
 </blockquote>
 
 <p style="text-align: center;"><a href="https://commons.wikimedia.org/wiki/File:Denoising-autoencoder.png"><img src="https://upload.wikimedia.org/wikipedia/commons/1/18/Denoising-autoencoder.png" alt="feature-learning" /></a></p>
@@ -248,7 +312,7 @@ window.onload = wrap_img;
 
 <p>If you’re thinking, if existing models already extract features, why is there a need for foundation models?</p>
 
-<p>You are absolutely right. Existing models such as YOLO<sup id="fnref:3" role="doc-noteref"><a href="#fn:3" class="footnote" rel="footnote">4</a></sup> object detection, extract features, which are further passed to the object-detection head. But, there are two reasons where foundation models come into play.</p>
+<p>You are absolutely right. Existing models such as YOLO<sup id="fnref:3"><a href="#fn:3" class="footnote" rel="footnote" role="doc-noteref">4</a></sup> object detection, extract features, which are further passed to the object-detection head. But, there are two reasons where foundation models come into play.</p>
 
 <ol>
   <li>The features extracted from Yolo are <strong>task-specific</strong>. Features that are useful for object-detection, might not be useful or optimal for other tasks, for example, for depth estimation. We want our ideal features to be <strong>task-agnostic</strong>. The reasoning behind this is the underlying assumption that there exist features that are useful for all kinds of tasks, just as we saw in the traditional feature detectors and descriptors like <abbr title="Scale-invariant feature transform">SIFT</abbr>.</li>
@@ -270,11 +334,52 @@ window.onload = wrap_img;
 <p>Animals, including humans, learn a many concepts such as object permanance, etc., without explicit supervision.</p>
 
 <!-- 
-<center>
-<div class="container">
-    <iframe src="https://www.youtube-nocookie.com/embed/OLrYzY3jVPY" frameborder="0" allowfullscreen class="video"></iframe>
+
+
+
+
+
+
+
+
+
+
+<div class="consent-embed" id="yt-olryzy3jvpy">
+    <div class="consent-placeholder">
+        <p><i class="fab fa-youtube" style="color:#c00;"></i> <strong>YouTube</strong> video</p>
+        <p class="consent-detail">This connects to <strong>YouTube</strong> (privacy-enhanced mode) and may set cookies. Your choice is remembered for future visits.</p>
+        <button onclick="loadYouTube('olryzy3jvpy', 'OLrYzY3jVPY')" class="button is-rounded">
+            <i class="fas fa-play"></i> Watch video
+        </button>
+        <a href="https://www.youtube.com/watch?v=OLrYzY3jVPY" target="_blank" rel="noopener noreferrer" class="button is-rounded">
+            <i class="fas fa-external-link-alt"></i> Open on YouTube
+        </a>
+    </div>
 </div>
-</center>
+<script>
+if (typeof loadYouTube === 'undefined') {
+    function loadYouTube(embedId, embedPath) {
+        if (typeof window._consentYouTube === 'function') window._consentYouTube();
+        var el = document.getElementById('yt-' + embedId);
+        if (!el) return;
+        var iframe = document.createElement('iframe');
+        iframe.className = 'video';
+        iframe.width = '560';
+        iframe.height = '315';
+        iframe.title = 'YouTube video player';
+        iframe.setAttribute('frameborder', '0');
+        iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+        iframe.setAttribute('allowfullscreen', '');
+        iframe.referrerPolicy = 'origin';
+        var container = document.createElement('div');
+        container.className = 'video-container';
+        container.appendChild(iframe);
+        el.innerHTML = '';
+        el.appendChild(container);
+        iframe.src = 'https://www.youtube-nocookie.com/embed/' + embedPath;
+    }
+}
+</script>
 {: width="100%" .shadow}
 {:refdef: style="text-align: center;"}
 <sub><sup>
@@ -303,16 +408,9 @@ window.onload = wrap_img;
 
 <p>Any task that doesn’t require explitcit labels can be used as a pretext task. The goal is to be able to make use of as much data as possible. This task is not actually the task what the model would finally be required to do, but this task would allow to use much more data via self-supervised learning.</p>
 
-<blockquote>
-      <h2 id="for-a-more-comprehensive-list-of-self-supervised-pretext-tasks-checkout-this-page-from-papers-with-code-and-this-curated-list-of-research-in-self-supervised-learning">
-        
-        
-          <a href="#for-a-more-comprehensive-list-of-self-supervised-pretext-tasks-checkout-this-page-from-papers-with-code-and-this-curated-list-of-research-in-self-supervised-learning" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> For a more comprehensive list of self-supervised pretext tasks, checkout <a href="https://paperswithcode.com/methods/category/self-supervised-learning">this page from Papers with Code</a>, and <a href="https://github.com/jason718/awesome-self-supervised-learning">this curated list</a> of research in self-supervised learning
-        
-        
-      </h2>
-    
-</blockquote>
+<div class="flash" role="alert">
+    <svg height="24" class="octicon octicon-info" viewBox="0 0 24 24" version="1.1" width="24" aria-hidden="true"><path d="M13 7.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0Zm-3 3.75a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75v4.25h.75a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1 0-1.5h.75V12h-.75a.75.75 0 0 1-.75-.75Z"></path><path d="M12 1c6.075 0 11 4.925 11 11s-4.925 11-11 11S1 18.075 1 12 5.925 1 12 1ZM2.5 12a9.5 9.5 0 0 0 9.5 9.5 9.5 9.5 0 0 0 9.5-9.5A9.5 9.5 0 0 0 12 2.5 9.5 9.5 0 0 0 2.5 12Z"></path></svg> <b>Info:</b> For a more comprehensive list of self-supervised pretext tasks, checkout <a href="https://paperswithcode.com/methods/category/self-supervised-learning">this page from Papers with Code</a>, and <a href="https://github.com/jason718/awesome-self-supervised-learning">this curated list</a> of research in self-supervised learning
+</div>
 
 <p>Prediction/Generation and Similarity are the two main concepts that can be exploited to design self-supervised pretext tasks.</p>
       <h3 id="generative-pretext-tasks-based-on-restoration">
@@ -324,7 +422,7 @@ window.onload = wrap_img;
       </h3>
     
 
-<p>These methods involve artificially manipulating the input and teaching the network to undo the manipulation. The hope is that in order to restore large a variety of training data, the network learns robust image representations. Examples of such input manipulations include masking out image regions<sup id="fnref:6" role="doc-noteref"><a href="#fn:6" class="footnote" rel="footnote">5</a></sup>, adding Gaussian noise<sup id="fnref:9" role="doc-noteref"><a href="#fn:9" class="footnote" rel="footnote">6</a></sup>, reordering/permuting patches as a Jigsaw puzzle<sup id="fnref:5" role="doc-noteref"><a href="#fn:5" class="footnote" rel="footnote">7</a></sup>, transformations of the image, such as rotation, and viewpoint change<sup id="fnref:7" role="doc-noteref"><a href="#fn:7" class="footnote" rel="footnote">8</a></sup>, removing color<sup id="fnref:8" role="doc-noteref"><a href="#fn:8" class="footnote" rel="footnote">9</a></sup>, etc. There is no explicit need to manipulate the original image, for e.g. a <abbr title="Generative adversarial network">GAN</abbr> was used to regenerate the input image from compressed latent features<sup id="fnref:21" role="doc-noteref"><a href="#fn:21" class="footnote" rel="footnote">10</a></sup>.</p>
+<p>These methods involve artificially manipulating the input and teaching the network to undo the manipulation. The hope is that in order to restore large a variety of training data, the network learns robust image representations. Examples of such input manipulations include masking out image regions<sup id="fnref:6"><a href="#fn:6" class="footnote" rel="footnote" role="doc-noteref">5</a></sup>, adding Gaussian noise<sup id="fnref:9"><a href="#fn:9" class="footnote" rel="footnote" role="doc-noteref">6</a></sup>, reordering/permuting patches as a Jigsaw puzzle<sup id="fnref:5"><a href="#fn:5" class="footnote" rel="footnote" role="doc-noteref">7</a></sup>, transformations of the image, such as rotation, and viewpoint change<sup id="fnref:7"><a href="#fn:7" class="footnote" rel="footnote" role="doc-noteref">8</a></sup>, removing color<sup id="fnref:8"><a href="#fn:8" class="footnote" rel="footnote" role="doc-noteref">9</a></sup>, etc. There is no explicit need to manipulate the original image, for e.g. a <abbr title="Generative adversarial network">GAN</abbr> was used to regenerate the input image from compressed latent features<sup id="fnref:21"><a href="#fn:21" class="footnote" rel="footnote" role="doc-noteref">10</a></sup>.</p>
 
 <p style="text-align: center;"><img src="/images/generative_cat.png" alt="multi-task" /></p>
 <p style="text-align: center;"><sub><sup>Examples of image degradations: masking, noising, permuting, rotating, grey-scaling. The pretext task is to recover the original image.
@@ -334,28 +432,9 @@ window.onload = wrap_img;
 > **Note:** Tasks such as Jigsaw puzzle and transformations of the image are not exactly generative. But, I still like to generalize them as generative. Only that the generation is parameterized to a low dimension, for e.g. classification on hash table for Jigsaw puzzle and regression of angles for rotation.
 -->
 
-<!-- <div class="flash">
-    <svg height="24" class="octicon octicon-info" viewBox="0 0 24 24" version="1.1" width="24" aria-hidden="true"><path d="M13 7.5a1 1 0 11-2 0 1 1 0 012 0zm-3 3.75a.75.75 0 01.75-.75h1.5a.75.75 0 01.75.75v4.25h.75a.75.75 0 010 1.5h-3a.75.75 0 010-1.5h.75V12h-.75a.75.75 0 01-.75-.75z"></path><path fill-rule="evenodd" d="M12 1C5.925 1 1 5.925 1 12s4.925 11 11 11 11-4.925 11-11S18.075 1 12 1zM2.5 12a9.5 9.5 0 1119 0 9.5 9.5 0 01-19 0z"></path></svg>
-    <div markdown="span" style="margin-left: 0.7em;">
-        Tasks such as Jigsaw puzzle and transformations of the image are not exactly generative. But, I still like to generalize them as generative. Only that the generation is parameterized to a low dimension, for e.g. classification on hash table for Jigsaw puzzle and regression of angles for rotation.
-    </div>
-    <strong>Note: </strong>\nTasks such as Jigsaw puzzle and transformations of the image are not exactly generative. But, I still like to generalize them as generative. Only that the generation is parameterized to a low dimension, for e.g. classification on hash table for Jigsaw puzzle and regression of angles for rotation.
-</div> -->
-
-<div class="flash" role="alert">
-    <svg height="24" class="octicon octicon-info" viewBox="0 0 24 24" version="1.1" width="24" aria-hidden="true"><path d="M13 7.5a1 1 0 11-2 0 1 1 0 012 0zm-3 3.75a.75.75 0 01.75-.75h1.5a.75.75 0 01.75.75v4.25h.75a.75.75 0 010 1.5h-3a.75.75 0 010-1.5h.75V12h-.75a.75.75 0 01-.75-.75z"></path><path fill-rule="evenodd" d="M12 1C5.925 1 1 5.925 1 12s4.925 11 11 11 11-4.925 11-11S18.075 1 12 1zM2.5 12a9.5 9.5 0 1119 0 9.5 9.5 0 01-19 0z"></path></svg> <b>Note:</b> Tasks such as Jigsaw puzzle and transformations of the image are not exactly generative. But, I still like to generalize them as generative. Only that the generation is parameterized to a low dimension, for e.g. classification on hash table for Jigsaw puzzle and regression of angles for rotation.
-</div>
-
-<!-- 
-<div markdown="span" class="Toast Toast--warning googoo"  role="alert">
-    <span aria-hidden="true" class="Toast-icon octicon octicon-alert"><svg class="octicon octicon-alert" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.22 1.754a.25.25 0 00-.44 0L1.698 13.132a.25.25 0 00.22.368h12.164a.25.25 0 00.22-.368L8.22 1.754zm-1.763-.707c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0114.082 15H1.918a1.75 1.75 0 01-1.543-2.575L6.457 1.047zM9 11a1 1 0 11-2 0 1 1 0 012 0zm-.25-5.25a.75.75 0 00-1.5 0v2.5a.75.75 0 001.5 0v-2.5z"></path></svg></span>
-    <span class="Toast-content">Tasks such as Jigsaw puzzle and transformations of the image are not exactly generative. But, I still like to generalize them as generative. Only that the generation is parameterized to a low dimension, for e.g. classification on hash table for Jigsaw puzzle and regression of angles for rotation.</span>
- </div>
- 
- <div class="alert alert-danger d-flex" role="alert">
-    <i class="bi bi-exclamation-triangle-fill"></i>
-    
-</div> -->
+<blockquote>
+  <p>Tasks such as Jigsaw puzzle and transformations of the image are not exactly generative. But, I still like to generalize them as generative. Only that the generation is parameterized to a low dimension, for e.g. classification on hash table for Jigsaw puzzle and regression of angles for rotation.</p>
+</blockquote>
 
 <p>The difficulty in these methods is the parameterization of degradation is dependent on the exact degradation method, making it hard to combine with other manipulations. For example, the parameters of adding gaussian noise are the mean and standard deviation of the gaussian noise function, which can be estimated by the network to subtract and recover the original image. For rotation, this would be the angle, which means there should now be another head to predict the angle if these both are to be combined.</p>
 
@@ -402,7 +481,7 @@ Since the main objective in this tasks is to rely on existing unlabeled data for
 
 <p>One of the most influential self-supervised techniques is contrastive learning which, as the name implies, uses not only positive samples but also contrasts them with negative samples. The figure above outlines an example of contrastive learning. The positive examples are shown by green arrows are images sampled from an image with different augmentations, such as rotation, cropping, color, etc. Another image (Colosseum) is chosen at random which acts as the negative sample. The fundamental assumption of contrastive learning is that features of the positive samples lie closer to each other (<strong>positive samples attract</strong>) than to those of a negative sample (<strong>positive-negative samples repel</strong>). This is realized by minimizing the distance between positive samples while maximizing the distance between negative samples in feature space.</p>
 
-<p>Data sampling of the positives and the negatives becomes the key here and different ways to sample them could be incorporated. Multi-modal information or pseudo-labels, such as associated text, audio, other sensor information, could be used to sample negatives and positives. SimCLR<sup id="fnref:17" role="doc-noteref"><a href="#fn:17" class="footnote" rel="footnote">11</a></sup>, for example uses various augmentations of the same image and CMC uses various sensor information of the underlying scene for sampling positives.</p>
+<p>Data sampling of the positives and the negatives becomes the key here and different ways to sample them could be incorporated. Multi-modal information or pseudo-labels, such as associated text, audio, other sensor information, could be used to sample negatives and positives. SimCLR<sup id="fnref:17"><a href="#fn:17" class="footnote" rel="footnote" role="doc-noteref">11</a></sup>, for example uses various augmentations of the same image and CMC uses various sensor information of the underlying scene for sampling positives.</p>
 
 <p>One could also sample other images as positives based on methods such as clustering in the feature space or if some kind of labels or GT is known.</p>
 
@@ -418,7 +497,7 @@ Since the main objective in this tasks is to rely on existing unlabeled data for
 
 <p>The advantage of feature similarity based methods is that there is no need for exact pixel to pixel mapping of the input and output, as opposed to generative pretext tasks, where the restored output is a one-to-one mapping of the manipulated/distorted input. One could use non-exact data (for example neighboring frames of a video) for sampling feature learning. One could also combine various augmentation methods mentioned in generaive pretext tasks. Feature similarity would essentially be a way to automatically incorporate various handcrafted ad-hoc heuristics via augmentations and positive-negative sampling.</p>
 
-<p>Recent work titled “What Do Self-Supervised Vision Transformers Learn?” compares contrastive learning with a prominant generative pretext task called Masked Image Modeling (<abbr title="Masked image modeling">MIM</abbr>)<sup id="fnref:6:1" role="doc-noteref"><a href="#fn:6" class="footnote" rel="footnote">5</a></sup> and finds:</p>
+<p>Recent work titled “What Do Self-Supervised Vision Transformers Learn?” compares contrastive learning with a prominant generative pretext task called Masked Image Modeling (<abbr title="Masked image modeling">MIM</abbr>)<sup id="fnref:6:1"><a href="#fn:6" class="footnote" rel="footnote" role="doc-noteref">5</a></sup> and finds:</p>
 
 <ol>
   <li>
@@ -462,10 +541,10 @@ Since the main objective in this tasks is to rely on existing unlabeled data for
 -->
 
 <p style="text-align: center;"><img src="https://contrastive-learning.github.io/intriguing/assets/img/multi/img_methods_bi.jpeg" alt="multi-task" /></p>
-<p style="text-align: center;"><sub><sup> Local regions grouped together after applying K-means on contrastively learnt features. Source: <a href="https://contrastive-learning.github.io/intriguing/">Intriguing Properties of Contrastive Losses</a><sup id="fnref:14" role="doc-noteref"><a href="#fn:14" class="footnote" rel="footnote">12</a></sup>
+<p style="text-align: center;"><sub><sup> Local regions grouped together after applying K-means on contrastively learnt features. Source: <a href="https://contrastive-learning.github.io/intriguing/">Intriguing Properties of Contrastive Losses</a><sup id="fnref:14"><a href="#fn:14" class="footnote" rel="footnote" role="doc-noteref">12</a></sup>
 </sup></sub></p>
 
-<p>Semantic Similarity <a href="The Unreasonable Effectiveness of Deep Features as a Perceptual Metric">Deep Features as a Perceptual Metric</a><sup id="fnref:11" role="doc-noteref"><a href="#fn:11" class="footnote" rel="footnote">13</a></sup></p>
+<p>Semantic Similarity <a href="The Unreasonable Effectiveness of Deep Features as a Perceptual Metric">Deep Features as a Perceptual Metric</a><sup id="fnref:11"><a href="#fn:11" class="footnote" rel="footnote" role="doc-noteref">13</a></sup></p>
 
 <p>Socretic models https://socraticmodels.github.io/</p>
 
@@ -487,7 +566,7 @@ Since the main objective in this tasks is to rely on existing unlabeled data for
     <p>Modelling pretext tasks involves manual selection of data augmentation techniques which is based on our expert heuristics and introduces human biases into the model. Best would be to design methods that just take a bunch of data and decide for themselves which ones are similar, which ones are not. Like real unsupervised learning. But, that is difficult to design.</p>
   </li>
   <li>
-    <p>Most research is done on curated object-centric datasets, where the whole image consists of a single object instance. While there is some evidence that it also works for multiple objects<sup id="fnref:14:1" role="doc-noteref"><a href="#fn:14" class="footnote" rel="footnote">12</a></sup>, further investigation is needed to check how good the techniques work for generic scenes. Works such as DetCon<sup id="fnref:15" role="doc-noteref"><a href="#fn:15" class="footnote" rel="footnote">14</a></sup> and it’s follow-up: ODIN<sup id="fnref:16" role="doc-noteref"><a href="#fn:16" class="footnote" rel="footnote">15</a></sup>, work towards this goal by relying on pre-processing the whole image into object centric ones.</p>
+    <p>Most research is done on curated object-centric datasets, where the whole image consists of a single object instance. While there is some evidence that it also works for multiple objects<sup id="fnref:14:1"><a href="#fn:14" class="footnote" rel="footnote" role="doc-noteref">12</a></sup>, further investigation is needed to check how good the techniques work for generic scenes. Works such as DetCon<sup id="fnref:15"><a href="#fn:15" class="footnote" rel="footnote" role="doc-noteref">14</a></sup> and it’s follow-up: ODIN<sup id="fnref:16"><a href="#fn:16" class="footnote" rel="footnote" role="doc-noteref">15</a></sup>, work towards this goal by relying on pre-processing the whole image into object centric ones.</p>
   </li>
   <li>
     <p>Mining positive and negative samples for contrastive learning is crucial for its performance.</p>
@@ -500,14 +579,7 @@ Since the main objective in this tasks is to rely on existing unlabeled data for
 <p>TODO: check https://arxiv.org/pdf/2305.15614.pdf</p>
 
 <blockquote class="no_toc">
-      <h2 id="continuous-improvement-active-learning-pipeline-for-scaling-with-data">
-        
-        
-          <a href="#continuous-improvement-active-learning-pipeline-for-scaling-with-data" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> <a href="/Software-2/">Continuous improvement (Active learning) pipeline for scaling with data</a>
-        
-        
-      </h2>
-    
+  <p>Checkout my blog post on <a href="/Software-2/">Continuous improvement (Active learning) pipeline for scaling with data</a></p>
 </blockquote>
       <h1 id="tldr-conclusion">
         
@@ -624,49 +696,49 @@ Since the main objective in this tasks is to rely on existing unlabeled data for
 
 <div class="footnotes" role="doc-endnotes">
   <ol>
-    <li id="fn:1" role="doc-endnote">
+    <li id="fn:1">
       <p>Northcutt, C. G., Athalye, A., &amp; Mueller, J. (2021). <a href="https://datasets-benchmarks-proceedings.neurips.cc/paper/2021/hash/f2217062e9a397a1dca429e7d70bc6ca-Abstract-round1.html">Pervasive label errors in test sets destabilize machine learning  enchmarks</a>. Proceedings of the 35th Conference on Neural Information Processing Systems Track on Datasets and Benchmarks <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:12" role="doc-endnote">
+    <li id="fn:12">
       <p>Schmidt, Ludwig, et al. “<a href="https://proceedings.neurips.cc/paper/2018/file/f708f064faaf32a43e4d3c784e6af9ea-Paper.pdf">Adversarially robust generalization requires more data.</a>” Advances in neural information processing systems 31 (2018). <a href="#fnref:12" class="reversefootnote" role="doc-backlink">&#8617;</a> <a href="#fnref:12:1" class="reversefootnote" role="doc-backlink">&#8617;<sup>2</sup></a></p>
     </li>
-    <li id="fn:19" role="doc-endnote">
+    <li id="fn:19">
       <p>Bommasani, Rishi, et al. <a href="https://crfm.stanford.edu/report.html">“On the opportunities and risks of foundation models.”</a> arXiv preprint arXiv:2108.07258 (2021). <a href="#fnref:19" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:3" role="doc-endnote">
+    <li id="fn:3">
       <p>Redmon, Joseph (2016). “You only look once: Unified, real-time object detection”. Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition. <a href="https://arxiv.org/abs/1506.02640">arXiv:1506.02640</a> <a href="#fnref:3" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:6" role="doc-endnote">
+    <li id="fn:6">
       <p>K. He, X. Chen, S. Xie, Y. Li, P. Dollár and R. Girshick, “<a href="https://openaccess.thecvf.com/content/CVPR2022/html/He_Masked_Autoencoders_Are_Scalable_Vision_Learners_CVPR_2022_paper.html">Masked Autoencoders Are Scalable Vision Learners</a>,” 2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), New Orleans, LA, USA, 2022, pp. 15979-15988, doi: 10.1109/CVPR52688.2022.01553. <a href="#fnref:6" class="reversefootnote" role="doc-backlink">&#8617;</a> <a href="#fnref:6:1" class="reversefootnote" role="doc-backlink">&#8617;<sup>2</sup></a></p>
     </li>
-    <li id="fn:9" role="doc-endnote">
+    <li id="fn:9">
       <p>Xiang, W., Yang, H., Huang, D., &amp; Wang, Y. (2023). <a href="https://arxiv.org/abs/2303.09769">Denoising Diffusion Autoencoders are Unified Self-supervised Learners</a>. ArXiv, abs/2303.09769. <a href="#fnref:9" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:5" role="doc-endnote">
+    <li id="fn:5">
       <p>M. Noroozi and P. Favaro. <a href="https://arxiv.org/pdf/1603.09246.pdf">Unsupervised learning of visual representations by solving jigsaw puzzles</a>. In ECCV, 2016. <a href="#fnref:5" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:7" role="doc-endnote">
+    <li id="fn:7">
       <p>Pulkit Agrawal, Joao Carreira, and Jitendra Malik. 2015. <a href="https://www.cv-foundation.org/openaccess/content_iccv_2015/papers/Agrawal_Learning_to_See_ICCV_2015_paper.pdf">Learning to See by Moving</a>. In Proceedings of the 2015 IEEE International Conference on Computer Vision (ICCV) (ICCV ‘15). IEEE Computer Society, USA, 37–45. https://doi.org/10.1109/ICCV.2015.13 <a href="#fnref:7" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:8" role="doc-endnote">
+    <li id="fn:8">
       <p>Zhang, Isola, Efros. <a href="https://arxiv.org/abs/1603.08511">Colorful Image Colorization</a>. In ECCV, 2016 <a href="#fnref:8" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:21" role="doc-endnote">
+    <li id="fn:21">
       <p>Radford, Alec, Luke Metz, and Soumith Chintala. “<a href="https://arxiv.org/abs/1511.06434">Unsupervised representation learning with deep convolutional generative adversarial networks.</a>” arXiv preprint arXiv:1511.06434 (2015). <a href="#fnref:21" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:17" role="doc-endnote">
+    <li id="fn:17">
       <p>Ting Chen, Simon Kornblith, Mohammad Norouzi, and Geoffrey Hinton. 2020. <a href="https://dl.acm.org/doi/pdf/10.5555/3524938.3525087">A simple framework for contrastive learning of visual representations.</a> In Proceedings of the 37th International Conference on Machine Learning (ICML’20), Vol. 119. JMLR.org, Article 149, 1597–1607. <a href="#fnref:17" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:14" role="doc-endnote">
+    <li id="fn:14">
       <p>Chen, Ting and Lala Li. “<a href="https://proceedings.neurips.cc/paper/2021/hash/628f16b29939d1b060af49f66ae0f7f8-Abstract.html">Intriguing Properties of Contrastive Losses.</a>” Neural Information Processing Systems (2020). <a href="#fnref:14" class="reversefootnote" role="doc-backlink">&#8617;</a> <a href="#fnref:14:1" class="reversefootnote" role="doc-backlink">&#8617;<sup>2</sup></a></p>
     </li>
-    <li id="fn:11" role="doc-endnote">
+    <li id="fn:11">
       <p><a href="https://arxiv.org/abs/1801.03924">The Unreasonable Effectiveness of Deep Features as a Perceptual Metric</a> Richard Zhang, Phillip Isola, Alexei A. Efros, Eli Shechtman, Oliver Wang CVPR 2018. <a href="#fnref:11" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:15" role="doc-endnote">
+    <li id="fn:15">
       <p>Hénaff, Olivier J., et al. “<a href="http://openaccess.thecvf.com/content/ICCV2021/html/Henaff_Efficient_Visual_Pretraining_With_Contrastive_Detection_ICCV_2021_paper.html">Efficient visual pretraining with contrastive detection.</a>” Proceedings of the IEEE/CVF International Conference on Computer Vision. 2021. <a href="#fnref:15" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
-    <li id="fn:16" role="doc-endnote">
+    <li id="fn:16">
       <p>Hénaff, Olivier J., et al. “<a href="https://arxiv.org/abs/2203.08777">Object discovery and representation networks.</a>” Computer Vision–ECCV 2022: 17th European Conference, Tel Aviv, Israel, October 23–27, 2022, Proceedings, Part XXVII. Cham: Springer Nature Switzerland, 2022. <a href="#fnref:16" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
   </ol>
@@ -690,7 +762,7 @@ Copyright (c) 2020 Usecue BV -->
     </div>
 </div>
   
-  <!-- Source: https://stackoverflow.com/questions/25348389/jekyll-and-liquid-show-related-posts-by-amount-of-equal-tags-2 
+  <!-- Source: https://stackoverflow.com/questions/25348389/jekyll-and-liquid-show-related-posts-by-amount-of-equal-tags-2
 License: https://creativecommons.org/licenses/by-sa/3.0/-->
 <div class="relatedPosts">
       <h3>
@@ -704,16 +776,10 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
 
     
     
-
-    
-    
-
-    
-        
+    <ul class="post-list related-grid">
     
         
 
-            
             
 
             
@@ -723,40 +789,78 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
         
     
         
+    
+        
 
             
-            
 
             
 
             
-                <article class="archive-item">
-                    <p class="post-meta"><a class="post-meta-title" href="/pc4consistentdepth/">Pose Constraints for Self-supervised Monocular Depth and Ego-Motion</a>  •  
-                        <i class="far fa-calendar-alt"></i> Apr 17, 2023  •  
-                        <i class="far fa-clock"></i> 
-       1 min read   •  
-                        <i class="fas fa-tags category-tags-icon"></i>
-                            
-                                <a class="category-tags-link label label-default" href="/categories/#deep-learning">#deep-learning</a>
-                                &nbsp;
-                            
-                                <a class="category-tags-link label label-default" href="/categories/#self-supervision">#self-supervision</a>
-                                &nbsp;
-                            
-                                <a class="category-tags-link label label-default" href="/categories/#3d-reconstruction">#3d-reconstruction</a>
-                                &nbsp;
-                            
-                                <a class="category-tags-link label label-default" href="/categories/#structure-from-motion">#structure-from-motion</a>
-                                &nbsp;
-                            
-                                <a class="category-tags-link label label-default" href="/categories/#visual-odometry">#visual-odometry</a>
-                                &nbsp;
-                            
-                                <a class="category-tags-link label label-default" href="/categories/#depth-estimation">#depth-estimation</a>
-                                
-                            
-                    </p>
-                </article>
+
+        
+    
+        
+
+            
+
+            
+
+            
+                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 card-compact"><div class="col-4 d-table-cell p-3 v-align-middle">
+    <a href="/pc4consistentdepth/">
+    <img class="image-preview " src="/images/3dreco/out.gif" loading="lazy" alt="Pose Constraints for Self-supervised Monocular Depth and Ego-Motion" /></a>
+  </div><div class="col-8 d-table-cell p-3">
+      <h3>
+        
+        
+          
+      
+      
+      <a class="post-link" href="/pc4consistentdepth/">
+        Pose Constraints for Self-supervised Monocular Depth and Ego-Motion
+      </a>
+      
+    
+        
+        
+      </h3>
+    
+    
+    <p class="post-meta"><i class="far fa-calendar-alt"></i>  Apr 18, 2023
+      • <i class="far fa-clock"></i> <span class="read-time" title="Estimated read time">
+    
+    
+      1 min read
+    
+</span>
+</p>
+
+        
+        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+          
+          <a class="category-tags-link label label-default" href="/?tag=deep-learning">#deep-learning</a>
+          &nbsp;
+          
+          <a class="category-tags-link label label-default" href="/?tag=self-supervision">#self-supervision</a>
+          &nbsp;
+          
+          <a class="category-tags-link label label-default" href="/?tag=3d-reconstruction">#3d-reconstruction</a>
+          &nbsp;
+          
+          <a class="category-tags-link label label-default" href="/?tag=structure-from-motion">#structure-from-motion</a>
+          &nbsp;
+          
+          <a class="category-tags-link label label-default" href="/?tag=visual-odometry">#visual-odometry</a>
+          &nbsp;
+          
+          <a class="category-tags-link label label-default" href="/?tag=depth-estimation">#depth-estimation</a>
+          
+          
+        </p>
+        
+  </div>
+</div></li>
                 
                 
             
@@ -766,6 +870,15 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
         
 
             
+
+            
+
+            
+
+        
+    
+        
+
             
 
             
@@ -777,46 +890,61 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
         
 
             
-            
 
             
 
             
-
+                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 card-compact"><div class="col-4 d-table-cell p-3 v-align-middle">
+    <a href="/How-Monocular-Depth-Estimation-works/">
+    <img class="image-preview " src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/2551b04d-fd4e-4ec9-9869-3e8c9ac5e7bf/d93a0lc-e4ecbd7d-6120-4925-be1d-1e250d7e0830.png/v1/fill/w_1024,h_576,q_80,strp/cyclops_greek_mythology_by_nilesdino_d93a0lc-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NTc2IiwicGF0aCI6IlwvZlwvMjU1MWIwNGQtZmQ0ZS00ZWM5LTk4NjktM2U4YzlhYzVlN2JmXC9kOTNhMGxjLWU0ZWNiZDdkLTYxMjAtNDkyNS1iZTFkLTFlMjUwZDdlMDgzMC5wbmciLCJ3aWR0aCI6Ijw9MTAyNCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.kEfvRjpv5KXW_HtOAtsBltiTNTF7DswBz8TwLvRVwyo" loading="lazy" alt="Self-supervised monocular depth estimation" /></a>
+  </div><div class="col-8 d-table-cell p-3">
+      <h3>
         
+        
+          
+      
+      
+      <a class="post-link" href="/How-Monocular-Depth-Estimation-works/">
+        Self-supervised monocular depth estimation
+      </a>
+      
     
         
+        
+      </h3>
+    
+    
+    <p class="post-meta"><i class="far fa-calendar-alt"></i>  Oct 31, 2022
+      • <i class="far fa-clock"></i> <span class="read-time" title="Estimated read time">
+    
+    
+      8 mins read
+    
+</span>
+</p>
 
-            
-            
-
-            
-
-            
-                <article class="archive-item">
-                    <p class="post-meta"><a class="post-meta-title" href="/How-Monocular-Depth-Estimation-works/">Self-supervised monocular depth estimation</a>  •  
-                        <i class="far fa-calendar-alt"></i> Oct 30, 2022  •  
-                        <i class="far fa-clock"></i> 
-       8 mins read   •  
-                        <i class="fas fa-tags category-tags-icon"></i>
-                            
-                                <a class="category-tags-link label label-default" href="/categories/#deep-learning">#deep-learning</a>
-                                &nbsp;
-                            
-                                <a class="category-tags-link label label-default" href="/categories/#computer-vision">#computer-vision</a>
-                                &nbsp;
-                            
-                                <a class="category-tags-link label label-default" href="/categories/#3d-reconstruction">#3d-reconstruction</a>
-                                &nbsp;
-                            
-                                <a class="category-tags-link label label-default" href="/categories/#structure-from-motion">#structure-from-motion</a>
-                                &nbsp;
-                            
-                                <a class="category-tags-link label label-default" href="/categories/#visual-odometry">#visual-odometry</a>
-                                
-                            
-                    </p>
-                </article>
+        
+        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+          
+          <a class="category-tags-link label label-default" href="/?tag=deep-learning">#deep-learning</a>
+          &nbsp;
+          
+          <a class="category-tags-link label label-default" href="/?tag=computer-vision">#computer-vision</a>
+          &nbsp;
+          
+          <a class="category-tags-link label label-default" href="/?tag=3d-reconstruction">#3d-reconstruction</a>
+          &nbsp;
+          
+          <a class="category-tags-link label label-default" href="/?tag=structure-from-motion">#structure-from-motion</a>
+          &nbsp;
+          
+          <a class="category-tags-link label label-default" href="/?tag=visual-odometry">#visual-odometry</a>
+          
+          
+        </p>
+        
+  </div>
+</div></li>
                 
                 
             
@@ -826,6 +954,15 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
         
 
             
+
+            
+
+            
+
+        
+    
+        
+
             
 
             
@@ -837,6 +974,15 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
         
 
             
+
+            
+
+            
+
+        
+    
+        
+
             
 
             
@@ -848,6 +994,15 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
         
 
             
+
+            
+
+            
+
+        
+    
+        
+
             
 
             
@@ -859,6 +1014,15 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
         
 
             
+
+            
+
+            
+
+        
+    
+        
+
             
 
             
@@ -870,7 +1034,6 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
         
 
             
-            
 
             
 
@@ -881,73 +1044,55 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
         
 
             
-            
 
             
 
             
-
+                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 card-compact"><div class="col-4 d-table-cell p-3 v-align-middle">
+    <a href="/compilation-3d-mesh-resources/">
+    <img class="image-preview " src="https://deep-geometry.github.io/abc-dataset/assets/images/header.png" loading="lazy" alt="Compilation of 3D mesh models" /></a>
+  </div><div class="col-8 d-table-cell p-3">
+      <h3>
         
+        
+          
+      
+      
+      <a class="post-link" href="/compilation-3d-mesh-resources/">
+        Compilation of 3D mesh models
+      </a>
+      
     
         
-
-            
-            
-
-            
-
-            
-
         
+      </h3>
     
-        
-
-            
-            
-
-            
-
-            
-
-        
     
-        
-
-            
-            
-
-            
-
-            
-
-        
+    <p class="post-meta"><i class="far fa-calendar-alt"></i>  Apr 14, 2021
+      • <i class="far fa-clock"></i> <span class="read-time" title="Estimated read time">
     
+    
+      2 mins read
+    
+</span>
+</p>
+
         
-
-            
-            
-
-            
-
-            
-                <article class="archive-item">
-                    <p class="post-meta"><a class="post-meta-title" href="/compilation-3d-mesh-resources/">Compilation of 3D mesh models</a>  •  
-                        <i class="far fa-calendar-alt"></i> Apr 14, 2021  •  
-                        <i class="far fa-clock"></i> 
-       2 mins read   •  
-                        <i class="fas fa-tags category-tags-icon"></i>
-                            
-                                <a class="category-tags-link label label-default" href="/categories/#3d-mesh">#3d-mesh</a>
-                                &nbsp;
-                            
-                                <a class="category-tags-link label label-default" href="/categories/#datasets">#datasets</a>
-                                &nbsp;
-                            
-                                <a class="category-tags-link label label-default" href="/categories/#computer-vision">#computer-vision</a>
-                                
-                            
-                    </p>
-                </article>
+        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+          
+          <a class="category-tags-link label label-default" href="/?tag=3d-mesh">#3d-mesh</a>
+          &nbsp;
+          
+          <a class="category-tags-link label label-default" href="/?tag=datasets">#datasets</a>
+          &nbsp;
+          
+          <a class="category-tags-link label label-default" href="/?tag=computer-vision">#computer-vision</a>
+          
+          
+        </p>
+        
+  </div>
+</div></li>
                 
                 
             
@@ -957,6 +1102,15 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
         
 
             
+
+            
+
+            
+
+        
+    
+        
+
             
 
             
@@ -968,98 +1122,129 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
         
 
             
-            
 
             
 
             
-
+                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 card-compact"><div class="col-4 d-table-cell p-3 v-align-middle">
+    <a href="/is-convolution-linear/">
+    <img class="image-preview " src="https://upload.wikimedia.org/wikipedia/commons/6/6a/Convolution_of_box_signal_with_itself2.gif" loading="lazy" alt="Is convolution linear?" /></a>
+  </div><div class="col-8 d-table-cell p-3">
+      <h3>
         
+        
+          
+      
+      
+      <a class="post-link" href="/is-convolution-linear/">
+        Is convolution linear?
+      </a>
+      
     
         
-
-            
-            
-
-            
-
-            
-                <article class="archive-item">
-                    <p class="post-meta"><a class="post-meta-title" href="/is-convolution-linear/">Is convolution linear?</a>  •  
-                        <i class="far fa-calendar-alt"></i> Mar 11, 2021  •  
-                        <i class="far fa-clock"></i> 
-       2 mins read   •  
-                        <i class="fas fa-tags category-tags-icon"></i>
-                            
-                                <a class="category-tags-link label label-default" href="/categories/#mathematics">#mathematics</a>
-                                &nbsp;
-                            
-                                <a class="category-tags-link label label-default" href="/categories/#computer-vision">#computer-vision</a>
-                                
-                            
-                    </p>
-                </article>
-                
-                
-            
-
         
+      </h3>
     
+    
+    <p class="post-meta"><i class="far fa-calendar-alt"></i>  Mar 11, 2021
+      • <i class="far fa-clock"></i> <span class="read-time" title="Estimated read time">
+    
+    
+      2 mins read
+    
+</span>
+</p>
+
         
-
-            
-            
-
-            
-
-            
-                <article class="archive-item">
-                    <p class="post-meta"><a class="post-meta-title" href="/ResNet-feature-pyramid-in-Pytorch/">ResNet feature pyramid in Pytorch</a>  •  
-                        <i class="far fa-calendar-alt"></i> Feb 9, 2021  •  
-                        <i class="far fa-clock"></i> 
-       10 mins read   •  
-                        <i class="fas fa-tags category-tags-icon"></i>
-                            
-                                <a class="category-tags-link label label-default" href="/categories/#deep-learning">#deep-learning</a>
-                                &nbsp;
-                            
-                                <a class="category-tags-link label label-default" href="/categories/#computer-vision">#computer-vision</a>
-                                &nbsp;
-                            
-                                <a class="category-tags-link label label-default" href="/categories/#pytorch">#pytorch</a>
-                                
-                            
-                    </p>
-                </article>
+        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+          
+          <a class="category-tags-link label label-default" href="/?tag=mathematics">#mathematics</a>
+          &nbsp;
+          
+          <a class="category-tags-link label label-default" href="/?tag=computer-vision">#computer-vision</a>
+          
+          
+        </p>
+        
+  </div>
+</div></li>
                 
                 
                     
-    
-    
+    </ul>
 </div>
+
   
 
-<nav class="paginate-container"  aria-label="Pagination"></nav>
-  <div class="pagination" style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+
+
+
+
+  
+
+  
+    
+    
+    
+
+<nav class="paginate-container" aria-label="Pagination">
+  <div class="pagination">
       
-        
-          <a class="previous_page" style="flex: 1 1 0; width: 45%; padding-right: 0.5em; text-align: right; background-color: transparent;" rel="previous" aria-label="Previous Page" href="/pc4consistentdepth/"><b>Previous:</b> Pose Constraints for Self-supervised Monocular Depth and Ego-Motion
+        <a class="previous_page" rel="previous" aria-label="Previous Page" href="/pc4consistentdepth/"><b>&larr; Previous:</b><br>Pose Constraints for Self-supervised Monocular Depth and Ego-Motion
 </a>
-        
       
       
-        
+        <a class="next_page" rel="next" aria-label="Next Page" href="/inference_optimizations_benchmark/"><b>Next: &rarr;</b><br>Inference_optimizations_benchmark
+</a>
       
   </div>
-</nav><!-- from https://github.com/utterance/utterances -->
-<script src="https://utteranc.es/client.js"
-        repo="zshn25/zshn25.github.io"
-        issue-term="title"
-        label="blogpost-comment"
-        theme="github-light"
-        crossorigin="anonymous"
-        async>
-</script><a class="u-url" href="/self-supervision-for-foundation-models/" hidden></a>
+</nav>
+<!-- Privacy-respecting lazy-loaded comments (connects to GitHub via utteranc.es only when requested) -->
+<div id="utterances-container">
+    <div id="comments-placeholder" class="consent-placeholder">
+        <p><i class="fas fa-comments"></i> <strong>Comments</strong></p>
+        <p class="consent-detail">Loading comments connects to GitHub via utteranc.es and may set cookies.</p>
+        <button id="load-comments" class="button is-rounded">
+            <i class="fas fa-comment-dots"></i> Load Comments
+        </button>
+    </div>
+</div>
+<script>
+document.getElementById('load-comments').addEventListener('click', function() {
+    var placeholder = document.getElementById('comments-placeholder');
+    placeholder.innerHTML = '<p><i class="fas fa-spinner fa-spin"></i> Loading comments...</p>';
+
+    // Detect dark mode
+    var darkCSS = document.getElementById('dark-css');
+    var isDark = (darkCSS && darkCSS.media !== 'invalid' && darkCSS.media !== '(prefers-color-scheme: dark)')
+              || window.matchMedia('(prefers-color-scheme: dark)').matches;
+    // If applytheme.js forced dark (removed media attr), darkCSS.media is empty string
+    if (darkCSS && darkCSS.media === '') isDark = true;
+
+    var theme = isDark ? 'github-dark' : 'github-light';
+
+    var script = document.createElement('script');
+    script.src = 'https://utteranc.es/client.js';
+    script.setAttribute('repo', 'zshn25/zshn25.github.io');
+    script.setAttribute('issue-term', 'title');
+    script.setAttribute('label', 'blogpost-comment');
+    script.setAttribute('theme', theme);
+    script.setAttribute('crossorigin', 'anonymous');
+    script.async = true;
+
+    var container = document.getElementById('utterances-container');
+    container.appendChild(script);
+
+    // Remove placeholder when utterances iframe loads
+    window.addEventListener('message', function handler(event) {
+        if (event.origin === 'https://utteranc.es') {
+            placeholder.remove();
+            window.removeEventListener('message', handler);
+        }
+    });
+});
+</script>
+<a class="u-url" href="/self-supervision-for-foundation-models/" hidden></a>
 </article>
 
       </div>
@@ -1072,14 +1257,12 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
       <div class="footer-col">
         <p class="feed-subscribe">
           <a href="https://feedrabbit.com/?url=https://zshn25.github.io/feed.xml">
-            <svg class="svg-icon orange">
-              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
-            </svg><span>Subscribe</span>
+            <i class="fas fa-rss" style="color:#ee802f;"></i><span> Subscribe</span>
           </a>
         </p>
         <ul class="contact-list">
           <li class="p-name">© Zeeshan Khan Suri </li>
-          <div xmlns:cc="http://creativecommons.org/ns#" > Text under  <a href="http://creativecommons.org/licenses/by-nc/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1"></a> unless stated otherwise. Images and other media have their own copyright. </div>
+          <li><div xmlns:cc="http://creativecommons.org/ns#" > Text under  <a href="http://creativecommons.org/licenses/by-nc/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/cc.svg" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/by.svg" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/nc.svg" alt="NC"></a> unless stated otherwise. Images and other media have their own copyright. </div></li>
           <li><a class="u-email" href="mailto:zshn25[at]gmail[dot]com">zshn25[at]gmail[dot]com</a></li>
         </ul>
       </div>
@@ -1088,11 +1271,25 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
       </div>
     </div>
 
-    <div class="social-links"><ul class="social-media-list"></ul></div>
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/zshn25" target="_blank" title="GitHub"><i class="fab fa-github grey" title="GitHub"></i></a></li><li><a rel="me" href="https://twitter.com/zshn25" target="_blank" title="Twitter"><i class="fab fa-twitter grey" title="Twitter"></i></a></li><li><a rel="me" href="https://www.linkedin.com/in/zshn25" target="_blank" title="LinkedIn"><i class="fab fa-linkedin grey" title="LinkedIn"></i></a></li><li><a rel="me" href="https://scholar.google.com/citations?user=DSLVuBgAAAAJ" target="_blank" title="Google Scholar"><i class="ai ai-google-scholar grey" title="Google Scholar"></i></a></li></ul></div>
 
   </div>
 
 </footer>
+<!-- Informational privacy notice (not a cookie consent - this site does not use cookies) -->
+<div id="privacy-notice" style="display:none">
+    This site does not use cookies or track you. Some posts contain embedded content that connects to third parties only when you click.
+    <a href="/about/#privacy">Learn more</a>
+    <button class="privacy-ok-btn" onclick="localStorage.setItem('privacyOK','1');document.getElementById('privacy-notice').style.display='none'">OK</button>
+</div>
+<script>
+(function(){
+  if(!localStorage.getItem('privacyOK')){
+    var el=document.getElementById('privacy-notice');
+    if(el) el.style.display='flex';
+  }
+})();
+</script>
 </body>
 
 </html>
