@@ -6,16 +6,8 @@ on:
   pull_request:
   workflow_dispatch:
 
-# Grant GITHUB_TOKEN permissions for Pages deployment
 permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-# Only one deploy at a time
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+  contents: write
 
 jobs:
   build-site:
@@ -80,20 +72,9 @@ jobs:
         chmod -R 777 _site/
         cp CNAME _site/ 2>/dev/null || :
 
-    - name: Upload Pages artifact
+    - name: Deploy to gh-pages branch
       if: github.event_name == 'push'
-      uses: actions/upload-pages-artifact@v3
+      uses: peaceiris/actions-gh-pages@v4
       with:
-        path: ./_site
-
-  deploy:
-    if: github.event_name == 'push'
-    needs: build-site
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-    - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v4
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./_site
