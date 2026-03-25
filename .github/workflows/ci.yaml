@@ -50,6 +50,8 @@ jobs:
             sed -i "s|${base}_files/|/images/${base}/|g" "_posts/${base}.md"
           fi
         done
+        # Inject Jekyll front matter from fastpages-style notebook metadata
+        python _scripts/nb2post.py _posts/*.md
 
     - name: Setup Ruby
       uses: ruby/setup-ruby@v1
