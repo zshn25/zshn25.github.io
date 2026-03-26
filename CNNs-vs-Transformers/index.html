@@ -27,8 +27,9 @@
 {"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Zeeshan Khan Suri"},"dateModified":"2023-03-10T02:21:23+00:00","datePublished":"2023-03-10T02:21:23+00:00","description":"Similarities and differences between convolutions and attention module of Transformers","headline":"Convolution vs. Attention","image":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Vision_Transformer.gif/330px-Vision_Transformer.gif","mainEntityOfPage":{"@type":"WebPage","@id":"https://zshn25.github.io/CNNs-vs-Transformers/"},"url":"https://zshn25.github.io/CNNs-vs-Transformers/"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><!-- Self-hosted vendor CSS (no cross-origin requests for privacy) -->
-<link rel="stylesheet" href="/assets/vendor/primer/primer.css">
-<link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css">
+<!-- Primer utility classes are now inlined via _sass/minima/_primer-utilities.scss -->
+<link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css"></noscript>
 <link rel="stylesheet" href="/assets/vendor/academicons/css/academicons.min.css" media="print" onload="this.media='all'">
     <!-- KaTeX: only on content pages (skipped on homepage for performance) -->
     <link rel="stylesheet" href="/assets/vendor/katex/katex.min.css">
@@ -93,32 +94,29 @@ window.onload = wrap_img;
 <link id="dark-css" href="/assets/css/dark.css" rel="stylesheet" media="(prefers-color-scheme: dark)">
 </head>
 <body><header class="site-header fixed-top">
+  <div class="wrapper header-wrapper">
+    <a class="site-title no-underline" rel="author" href="/">
+      <img src="/images/logo.png" style="max-width:40px;" alt="Curiosity logo" width="40" height="40">
+      Curiosity
+    </a><nav class="site-nav">
+      <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+      <label for="nav-trigger">
+        <span class="menu-icon"></span>
+      </label>
 
-  <div class="wrapper"><a class="site-title no-underline hover-grow" rel="author" href="/"> <img src="/images/logo.png" style="max-width:40px;" alt="Curiosity logo" width="40" height="40"> Curiosity</a><nav class="site-nav">
-        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
-        <label for="nav-trigger">
-          <span class="menu-icon">
-            <svg viewBox="0 0 18 15" width="18px" height="15px">
-              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
-            </svg>
-          </span>
-        </label>
-
-        <div class="trigger"><a class="page-link" href="/about/">About</a><div class="header-search">
-            <i class="fas fa-search header-search-icon"></i>
-            <input type="text" class="header-search-input js-search-input" placeholder="Search..." aria-label="Search Curiosity" autocomplete="off">
-            <div class="search-results-dropdown js-search-results"></div>
-          </div>
-          
-          <a href="/feed.xml" class="nav-anchor no-underline no_icon" title="RSS Feed" aria-label="Subscribe via RSS">
-            <span class="fas fa-rss fa-fw" aria-hidden="true" style="color:#ee802f;"></span>
-          </a>
-          <span id="nav-switch-theme" class="nav-anchor">
-            <span class="nav-theme-icon fas fa-fw" aria-hidden="true" title="Theme"></span>
-            <span class="sr-only">Toggle Theme</span>
-          </span>
+      <div class="nav-items"><a class="page-link nav-item" href="/about/">About</a><div class="header-search nav-item">
+          <i class="fas fa-search header-search-icon"></i>
+          <input type="text" class="header-search-input js-search-input" placeholder="Search..." aria-label="Search Curiosity" autocomplete="off">
+          <div class="search-results-dropdown js-search-results"></div>
         </div>
-      </nav></div>
+        <a href="/feed.xml" class="nav-item header-icon-btn no-underline no_icon" title="RSS Feed" aria-label="Subscribe via RSS">
+          <span class="fas fa-rss rss-icon" aria-hidden="true"></span>
+        </a>
+        <span id="nav-switch-theme" class="nav-item header-icon-btn" style="display:none">
+          <span class="nav-theme-icon fas fa-fw" aria-hidden="true" title="Theme"></span>
+        </span>
+      </div>
+    </nav></div>
 </header>
 
     
@@ -212,14 +210,37 @@ window.onload = wrap_img;
       </p>
     
 
-    </header>
-
-  
-  
-
-  <div class="post-content e-content" itemprop="articleBody">
     
-    <p>Layers in neural netowrks can be seen as a function that takes in a multi-dimensional input and produces an output. For simplicity, let’s assume the input and output dimesnions to be the same.</p>
+  </header>
+
+  
+  
+
+  
+  
+  
+  
+  
+
+  <div class="post-layout">
+    
+    <aside class="toc-sidebar" aria-label="On this page">
+      <nav class="toc-nav">
+      <h2 class="toc-heading">
+        
+        
+          On this page
+        
+        
+      </h2>
+    
+        <ul><li><a href="#fully-connected-layer" class="toc-link">Fully-connected Layer</a></li><li><a href="#convolution" class="toc-link">Convolution</a></li><li><a href="#attention" class="toc-link">Attention</a><ul><li><a href="#basic-self-attention" class="toc-link">Basic Self-attention</a></li><li><a href="#self-attention" class="toc-link">Self-attention</a></li></ul></li><li><a href="#convolution-vs-attention-which-is-better" class="toc-link">Convolution vs. Attention: Which is better?</a></li><li><a href="#summary" class="toc-link">Summary</a></li><li><a href="#further-readings-and-videos" class="toc-link">Further Readings and Videos</a></li><li><a href="#references" class="toc-link">References</a></li></ul>
+      </nav>
+    </aside>
+    
+
+    <div class="post-content e-content" itemprop="articleBody">
+      <p>Layers in neural netowrks can be seen as a function that takes in a multi-dimensional input and produces an output. For simplicity, let’s assume the input and output dimesnions to be the same.</p>
       <h2 id="fully-connected-layer">
         
         
@@ -299,8 +320,10 @@ window.onload = wrap_img;
 <p style="text-align: center;"><sub><sup><em>$\textcolor{9966FF}{W} =  \textcolor{2EC27E}{\textbf{x}}  \textcolor{2EC27E}{\textbf{x}^T}$</em>
 </sup></sub></p>
 
-<div class="flash flash-error" role="alert">
-    <svg height="24" class="octicon octicon-alert" viewBox="0 0 24 24" version="1.1" width="24" aria-hidden="true"><path d="M13 17.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0Zm-.25-8.25a.75.75 0 0 0-1.5 0v4.5a.75.75 0 0 0 1.5 0v-4.5Z"></path><path d="M9.836 3.244c.963-1.665 3.365-1.665 4.328 0l8.967 15.504c.963 1.667-.24 3.752-2.165 3.752H3.034c-1.926 0-3.128-2.085-2.165-3.752Zm3.03.751a1.002 1.002 0 0 0-1.732 0L2.168 19.499A1.002 1.002 0 0 0 3.034 21h17.932a1.002 1.002 0 0 0 .866-1.5L12.866 3.994Z"></path></svg> <b>Warning:</b> Input $\textcolor{2EC27E}{\textbf{x}^T}$ and its transforms are usually multi-dimensional. Vector notation is used for illustration
+<div class="markdown-alert markdown-alert-note" role="alert">
+  <p class="markdown-alert-title"><svg viewBox="0 0 16 16" width="16" height="16" style="display:inline-block;vertical-align:text-bottom;margin-right:0.4em"><path fill="#0969da" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+  <p>Input $\textcolor{2EC27E}{\textbf{x}^T}$ and its transforms are usually multi-dimensional. Vector notation is used for illustration</p>
+
 </div>
       <h3 id="self-attention">
         
@@ -434,6 +457,7 @@ if (typeof loadYouTube === 'undefined') {
   </ol>
 </div>
 
+    </div>
   </div><hr>
   <!-- This code is taken from Jekyll-Codex (jekyllcodex.org). MIT License
 Copyright (c) 2020 Usecue BV -->
@@ -497,15 +521,14 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
             
 
             
-                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 card-compact"><div class="col-4 d-table-cell p-3 v-align-middle">
+                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
     <a href="/pc4consistentdepth/">
-    <img class="image-preview " src="/images/3dreco/out.gif" loading="lazy" alt="Pose Constraints for Self-supervised Monocular Depth and Ego-Motion" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+    <img class="image-preview" src="/images/3dreco/out-poster.jpg" loading="lazy" alt="Pose Constraints for Self-supervised Monocular Depth and Ego-Motion" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
-      
       
       <a class="post-link" href="/pc4consistentdepth/">
         Pose Constraints for Self-supervised Monocular Depth and Ego-Motion
@@ -527,30 +550,31 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=deep-learning">#deep-learning</a>
+          <a class="category-tags-link" href="/?tag=deep-learning">#deep-learning</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=self-supervision">#self-supervision</a>
+          <a class="category-tags-link" href="/?tag=self-supervision">#self-supervision</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=3d-reconstruction">#3d-reconstruction</a>
+          <a class="category-tags-link" href="/?tag=3d-reconstruction">#3d-reconstruction</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=structure-from-motion">#structure-from-motion</a>
+          <a class="category-tags-link" href="/?tag=structure-from-motion">#structure-from-motion</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=visual-odometry">#visual-odometry</a>
+          <a class="category-tags-link" href="/?tag=visual-odometry">#visual-odometry</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=depth-estimation">#depth-estimation</a>
+          <a class="category-tags-link" href="/?tag=depth-estimation">#depth-estimation</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
                 
                 
             
@@ -574,15 +598,14 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
             
 
             
-                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 card-compact"><div class="col-4 d-table-cell p-3 v-align-middle">
+                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
     <a href="/Software-2/">
-    <img class="image-preview " src="/images/loop.svg" loading="lazy" alt="Software 2.0 2.0" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+    <img class="image-preview" src="/images/loop.svg" loading="lazy" alt="Software 2.0 2.0" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
-      
       
       <a class="post-link" href="/Software-2/">
         Software 2.0 2.0
@@ -604,18 +627,19 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=deep-learning">#deep-learning</a>
+          <a class="category-tags-link" href="/?tag=deep-learning">#deep-learning</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=mlops">#mlops</a>
+          <a class="category-tags-link" href="/?tag=mlops">#mlops</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
                 
                 
             
@@ -629,15 +653,14 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
             
 
             
-                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 card-compact"><div class="col-4 d-table-cell p-3 v-align-middle">
+                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
     <a href="/How-Monocular-Depth-Estimation-works/">
-    <img class="image-preview " src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/2551b04d-fd4e-4ec9-9869-3e8c9ac5e7bf/d93a0lc-e4ecbd7d-6120-4925-be1d-1e250d7e0830.png/v1/fill/w_1024,h_576,q_80,strp/cyclops_greek_mythology_by_nilesdino_d93a0lc-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NTc2IiwicGF0aCI6IlwvZlwvMjU1MWIwNGQtZmQ0ZS00ZWM5LTk4NjktM2U4YzlhYzVlN2JmXC9kOTNhMGxjLWU0ZWNiZDdkLTYxMjAtNDkyNS1iZTFkLTFlMjUwZDdlMDgzMC5wbmciLCJ3aWR0aCI6Ijw9MTAyNCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.kEfvRjpv5KXW_HtOAtsBltiTNTF7DswBz8TwLvRVwyo" loading="lazy" alt="Self-supervised monocular depth estimation" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+    <img class="image-preview" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/2551b04d-fd4e-4ec9-9869-3e8c9ac5e7bf/d93a0lc-e4ecbd7d-6120-4925-be1d-1e250d7e0830.png/v1/fill/w_1024,h_576,q_80,strp/cyclops_greek_mythology_by_nilesdino_d93a0lc-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NTc2IiwicGF0aCI6IlwvZlwvMjU1MWIwNGQtZmQ0ZS00ZWM5LTk4NjktM2U4YzlhYzVlN2JmXC9kOTNhMGxjLWU0ZWNiZDdkLTYxMjAtNDkyNS1iZTFkLTFlMjUwZDdlMDgzMC5wbmciLCJ3aWR0aCI6Ijw9MTAyNCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.kEfvRjpv5KXW_HtOAtsBltiTNTF7DswBz8TwLvRVwyo" loading="lazy" alt="Self-supervised monocular depth estimation" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
-      
       
       <a class="post-link" href="/How-Monocular-Depth-Estimation-works/">
         Self-supervised monocular depth estimation
@@ -659,27 +682,28 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=deep-learning">#deep-learning</a>
+          <a class="category-tags-link" href="/?tag=deep-learning">#deep-learning</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=computer-vision">#computer-vision</a>
+          <a class="category-tags-link" href="/?tag=computer-vision">#computer-vision</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=3d-reconstruction">#3d-reconstruction</a>
+          <a class="category-tags-link" href="/?tag=3d-reconstruction">#3d-reconstruction</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=structure-from-motion">#structure-from-motion</a>
+          <a class="category-tags-link" href="/?tag=structure-from-motion">#structure-from-motion</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=visual-odometry">#visual-odometry</a>
+          <a class="category-tags-link" href="/?tag=visual-odometry">#visual-odometry</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
                 
                 
             
@@ -763,15 +787,14 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
             
 
             
-                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 card-compact"><div class="col-4 d-table-cell p-3 v-align-middle">
+                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
     <a href="/Layers-fusion-for-faster-inference/">
-    <img class="image-preview " src="/images/neural-network-3816319.svg" loading="lazy" alt="Layers fusion for faster neural network inference" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+    <img class="image-preview" src="/images/neural-network-3816319.svg" loading="lazy" alt="Layers fusion for faster neural network inference" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
-      
       
       <a class="post-link" href="/Layers-fusion-for-faster-inference/">
         Layers fusion for faster neural network inference
@@ -793,21 +816,22 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=deep-learning">#deep-learning</a>
+          <a class="category-tags-link" href="/?tag=deep-learning">#deep-learning</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=pytorch">#pytorch</a>
+          <a class="category-tags-link" href="/?tag=pytorch">#pytorch</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=fast-inference">#fast-inference</a>
+          <a class="category-tags-link" href="/?tag=fast-inference">#fast-inference</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
                 
                 
                     
@@ -847,46 +871,57 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
 <div id="utterances-container">
     <div id="comments-placeholder" class="consent-placeholder">
         <p><i class="fas fa-comments"></i> <strong>Comments</strong></p>
-        <p class="consent-detail">Loading comments connects to GitHub via utteranc.es and may set cookies.</p>
+        <p class="consent-detail">Loading comments connects to GitHub via utteranc.es and may set cookies. By clicking below, you consent to loading external content that may set third-party cookies. This preference will be remembered across all pages.</p>
         <button id="load-comments" class="button is-rounded">
             <i class="fas fa-comment-dots"></i> Load Comments
         </button>
     </div>
 </div>
 <script>
-document.getElementById('load-comments').addEventListener('click', function() {
-    var placeholder = document.getElementById('comments-placeholder');
-    placeholder.innerHTML = '<p><i class="fas fa-spinner fa-spin"></i> Loading comments...</p>';
+(function() {
+    function loadUtterances() {
+        var placeholder = document.getElementById('comments-placeholder');
+        if (!placeholder) return;
+        placeholder.innerHTML = '<p><i class="fas fa-spinner fa-spin"></i> Loading comments...</p>';
 
-    // Detect dark mode
-    var darkCSS = document.getElementById('dark-css');
-    var isDark = (darkCSS && darkCSS.media !== 'invalid' && darkCSS.media !== '(prefers-color-scheme: dark)')
-              || window.matchMedia('(prefers-color-scheme: dark)').matches;
-    // If applytheme.js forced dark (removed media attr), darkCSS.media is empty string
-    if (darkCSS && darkCSS.media === '') isDark = true;
+        var isDark = typeof window.isDarkMode === 'function' ? window.isDarkMode() : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = isDark ? 'github-dark' : 'github-light';
 
-    var theme = isDark ? 'github-dark' : 'github-light';
+        var script = document.createElement('script');
+        script.src = 'https://utteranc.es/client.js';
+        script.setAttribute('repo', 'zshn25/zshn25.github.io');
+        script.setAttribute('issue-term', 'title');
+        script.setAttribute('label', 'blogpost-comment');
+        script.setAttribute('theme', theme);
+        script.setAttribute('crossorigin', 'anonymous');
+        script.async = true;
 
-    var script = document.createElement('script');
-    script.src = 'https://utteranc.es/client.js';
-    script.setAttribute('repo', 'zshn25/zshn25.github.io');
-    script.setAttribute('issue-term', 'title');
-    script.setAttribute('label', 'blogpost-comment');
-    script.setAttribute('theme', theme);
-    script.setAttribute('crossorigin', 'anonymous');
-    script.async = true;
+        var container = document.getElementById('utterances-container');
+        container.appendChild(script);
 
-    var container = document.getElementById('utterances-container');
-    container.appendChild(script);
+        window.addEventListener('message', function handler(event) {
+            if (event.origin === 'https://utteranc.es') {
+                placeholder.remove();
+                window.removeEventListener('message', handler);
+            }
+        });
+    }
 
-    // Remove placeholder when utterances iframe loads
-    window.addEventListener('message', function handler(event) {
-        if (event.origin === 'https://utteranc.es') {
-            placeholder.remove();
-            window.removeEventListener('message', handler);
-        }
-    });
-});
+    // Use shared consent helpers from consent-gate.js (fallback if not loaded)
+    var consent = window._consent || {
+        get: function() { try { return JSON.parse(localStorage.getItem('embedConsent')) || {}; } catch(e) { return {}; } },
+        set: function(p) { var c = this.get(); c[p] = true; localStorage.setItem('embedConsent', JSON.stringify(c)); }
+    };
+
+    if (consent.get().comments) {
+        loadUtterances();
+    } else {
+        document.getElementById('load-comments').addEventListener('click', function() {
+            consent.set('comments');
+            loadUtterances();
+        });
+    }
+})();
 </script>
 <a class="u-url" href="/CNNs-vs-Transformers/" hidden></a>
 </article>
@@ -901,7 +936,7 @@ document.getElementById('load-comments').addEventListener('click', function() {
       <div class="footer-col">
         <p class="feed-subscribe">
           <a href="https://feedrabbit.com/?url=https://zshn25.github.io/feed.xml">
-            <i class="fas fa-rss" style="color:#ee802f;"></i><span> Subscribe</span>
+            <i class="fas fa-rss rss-icon"></i><span> Subscribe</span>
           </a>
         </p>
         <ul class="contact-list">
@@ -924,16 +959,23 @@ document.getElementById('load-comments').addEventListener('click', function() {
 <div id="privacy-notice" style="display:none">
     This site does not use cookies or track you. Some posts contain embedded content that connects to third parties only when you click.
     <a href="/about/#privacy">Learn more</a>
-    <button class="privacy-ok-btn" onclick="localStorage.setItem('privacyOK','1');document.getElementById('privacy-notice').style.display='none'">OK</button>
+    <button class="privacy-ok-btn" onclick="localStorage.setItem('privacyOK','1');document.getElementById('privacy-notice').style.display='none';document.body.style.paddingBottom=''">OK</button>
 </div>
 <script>
 (function(){
   if(!localStorage.getItem('privacyOK')){
     var el=document.getElementById('privacy-notice');
-    if(el) el.style.display='flex';
+    if(el) {
+      el.style.display='flex';
+      document.body.style.paddingBottom='3em';
+    }
   }
 })();
 </script>
-</body>
+<button class="back-to-top" id="back-to-top" aria-label="Back to top">
+      <i class="fas fa-chevron-up"></i>
+    </button>
+
+  </body>
 
 </html>

@@ -27,8 +27,9 @@
 {"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Zeeshan Khan Suri"},"dateModified":"2022-10-31T02:21:23+00:00","datePublished":"2022-10-31T02:21:23+00:00","description":"How to estimate depth and ego-motion from videos: Neural Networks","headline":"Self-supervised monocular depth estimation","image":"https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/2551b04d-fd4e-4ec9-9869-3e8c9ac5e7bf/d93a0lc-e4ecbd7d-6120-4925-be1d-1e250d7e0830.png/v1/fill/w_1024,h_576,q_80,strp/cyclops_greek_mythology_by_nilesdino_d93a0lc-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NTc2IiwicGF0aCI6IlwvZlwvMjU1MWIwNGQtZmQ0ZS00ZWM5LTk4NjktM2U4YzlhYzVlN2JmXC9kOTNhMGxjLWU0ZWNiZDdkLTYxMjAtNDkyNS1iZTFkLTFlMjUwZDdlMDgzMC5wbmciLCJ3aWR0aCI6Ijw9MTAyNCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.kEfvRjpv5KXW_HtOAtsBltiTNTF7DswBz8TwLvRVwyo","mainEntityOfPage":{"@type":"WebPage","@id":"https://zshn25.github.io/How-Monocular-Depth-Estimation-works/"},"url":"https://zshn25.github.io/How-Monocular-Depth-Estimation-works/"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><!-- Self-hosted vendor CSS (no cross-origin requests for privacy) -->
-<link rel="stylesheet" href="/assets/vendor/primer/primer.css">
-<link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css">
+<!-- Primer utility classes are now inlined via _sass/minima/_primer-utilities.scss -->
+<link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css"></noscript>
 <link rel="stylesheet" href="/assets/vendor/academicons/css/academicons.min.css" media="print" onload="this.media='all'">
     <!-- KaTeX: only on content pages (skipped on homepage for performance) -->
     <link rel="stylesheet" href="/assets/vendor/katex/katex.min.css">
@@ -93,32 +94,29 @@ window.onload = wrap_img;
 <link id="dark-css" href="/assets/css/dark.css" rel="stylesheet" media="(prefers-color-scheme: dark)">
 </head>
 <body><header class="site-header fixed-top">
+  <div class="wrapper header-wrapper">
+    <a class="site-title no-underline" rel="author" href="/">
+      <img src="/images/logo.png" style="max-width:40px;" alt="Curiosity logo" width="40" height="40">
+      Curiosity
+    </a><nav class="site-nav">
+      <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+      <label for="nav-trigger">
+        <span class="menu-icon"></span>
+      </label>
 
-  <div class="wrapper"><a class="site-title no-underline hover-grow" rel="author" href="/"> <img src="/images/logo.png" style="max-width:40px;" alt="Curiosity logo" width="40" height="40"> Curiosity</a><nav class="site-nav">
-        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
-        <label for="nav-trigger">
-          <span class="menu-icon">
-            <svg viewBox="0 0 18 15" width="18px" height="15px">
-              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
-            </svg>
-          </span>
-        </label>
-
-        <div class="trigger"><a class="page-link" href="/about/">About</a><div class="header-search">
-            <i class="fas fa-search header-search-icon"></i>
-            <input type="text" class="header-search-input js-search-input" placeholder="Search..." aria-label="Search Curiosity" autocomplete="off">
-            <div class="search-results-dropdown js-search-results"></div>
-          </div>
-          
-          <a href="/feed.xml" class="nav-anchor no-underline no_icon" title="RSS Feed" aria-label="Subscribe via RSS">
-            <span class="fas fa-rss fa-fw" aria-hidden="true" style="color:#ee802f;"></span>
-          </a>
-          <span id="nav-switch-theme" class="nav-anchor">
-            <span class="nav-theme-icon fas fa-fw" aria-hidden="true" title="Theme"></span>
-            <span class="sr-only">Toggle Theme</span>
-          </span>
+      <div class="nav-items"><a class="page-link nav-item" href="/about/">About</a><div class="header-search nav-item">
+          <i class="fas fa-search header-search-icon"></i>
+          <input type="text" class="header-search-input js-search-input" placeholder="Search..." aria-label="Search Curiosity" autocomplete="off">
+          <div class="search-results-dropdown js-search-results"></div>
         </div>
-      </nav></div>
+        <a href="/feed.xml" class="nav-item header-icon-btn no-underline no_icon" title="RSS Feed" aria-label="Subscribe via RSS">
+          <span class="fas fa-rss rss-icon" aria-hidden="true"></span>
+        </a>
+        <span id="nav-switch-theme" class="nav-item header-icon-btn" style="display:none">
+          <span class="nav-theme-icon fas fa-fw" aria-hidden="true" title="Theme"></span>
+        </span>
+      </div>
+    </nav></div>
 </header>
 
     
@@ -218,14 +216,23 @@ window.onload = wrap_img;
       </p>
     
 
-    </header>
-
-  
-  
-
-  <div class="post-content e-content" itemprop="articleBody">
     
-    <p>Animals (and in extension, humans) are unable to directly perceive the 3D surroundings around us. Each of our eyes projects the 3D world onto 2D, losing the depth dimension. Instead, we rely on our brain to reconstruct these 2D projections to perceive depth. Having more than one eye allows us to geometrically reconstruct depth via triangulation<sup id="fnref:3"><a href="#fn:3" class="footnote" rel="footnote" role="doc-noteref">1</a></sup>, but how are creatures with a single eye (for e.g., due to a defective eye, or due to a birth disorder<sup id="fnref:1"><a href="#fn:1" class="footnote" rel="footnote" role="doc-noteref">2</a></sup>) still able to perceive it?</p>
+  </header>
+
+  
+  
+
+  
+  
+  
+  
+  
+
+  <div class="post-layout">
+    
+
+    <div class="post-content e-content" itemprop="articleBody">
+      <p>Animals (and in extension, humans) are unable to directly perceive the 3D surroundings around us. Each of our eyes projects the 3D world onto 2D, losing the depth dimension. Instead, we rely on our brain to reconstruct these 2D projections to perceive depth. Having more than one eye allows us to geometrically reconstruct depth via triangulation<sup id="fnref:3"><a href="#fn:3" class="footnote" rel="footnote" role="doc-noteref">1</a></sup>, but how are creatures with a single eye (for e.g., due to a defective eye, or due to a birth disorder<sup id="fnref:1"><a href="#fn:1" class="footnote" rel="footnote" role="doc-noteref">2</a></sup>) still able to perceive it?</p>
 
 <p style="text-align: center;"><a href="https://en.wikipedia.org/wiki/File:Odontodactylus_scyllarus_eyes.jpg"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Odontodactylus_scyllarus_eyes.jpg/960px-Odontodactylus_scyllarus_eyes.jpg" alt="Odontodactylus scyllarus eyes" width="50%" class="shadow" /></a></p>
 <p style="text-align: center;"><sub><sup><em>Each eye of <a href="https://en.wikipedia.org/wiki/Mantis_shrimp#Eyes">Mantis Shrimp</a> possesses trinocular vision. <a href="https://commons.wikimedia.org/wiki/File:Odontodactylus_scyllarus_eyes.jpg">Cédric Peneau</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>, via Wikimedia Commons</em>
@@ -281,24 +288,12 @@ if (typeof loadYouTube === 'undefined') {
 </script>
 
 <p width="70%" class="shadow">But this post is not about that. We will be looking at more recent neural network based approaches. After all, neural networks can be thought as function approximators and with enough data, should be able to approximate the function $\mathcal{f}$ that maps an RGB pixel $i \in \mathbb{R}^3$ to its depth $d$</p>
-      <h1 style="text-align: center;" id="d--mathcalfi">
-        
-        
-          <a href="#d--mathcalfi" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> $d = \mathcal{f}(i)$
-        
-        
-      </h1>
-    
+
+<p style="text-align: center;"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>=</mo><mi mathvariant="script">f</mi><mo stretchy="false">(</mo><mi>i</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">d = \mathcal{f}(i)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">d</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal">i</span><span class="mclose">)</span></span></span></span></p>
 
 <p>In-fact we are looking at methods that do not rely on the availability ground-truth (<abbr title="ground-truth">GT</abbr>) depths. Why? Because it is expensive and tedious to gather such ground truth and difficult to calibrate and align different sensor ouputs, making it difficult to scale. But, how can we teach a neural network to estimate the underlying depth without having ground truth? Thanks for asking that! Geometry comes to the rescue. The idea is to synthesize different views of the same scene and compare these synthesized views with the real ones for supervision. It underlies on <strong>the brightness constantcy assumption</strong><sup id="fnref:5"><a href="#fn:5" class="footnote" rel="footnote" role="doc-noteref">5</a></sup>, where parts of the same scene are assumed to be observed in multiple views. A similar assumption is used in binocular vision, where the content of what a left eye/camera sees is very similar to that of what the right one sees; and in motion/optical-flow estimation, where the motion is the vector $u_{xy}, v_{xy}$ defined by the change in pixel locations as</p>
-      <h2 style="text-align: center;" id="ix-y-t--ix--u_xy-y--v_xy-t--1">
-        
-        
-          <a href="#ix-y-t--ix--u_xy-y--v_xy-t--1" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> $I(x, y, t) = I(x + u_{xy}, y + v_{xy}, t + 1)$
-        
-        
-      </h2>
-    
+
+<p style="text-align: center;"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo separator="true">,</mo><mi>t</mi><mo stretchy="false">)</mo><mo>=</mo><mi>I</mi><mo stretchy="false">(</mo><mi>x</mi><mo>+</mo><msub><mi>u</mi><mrow><mi>x</mi><mi>y</mi></mrow></msub><mo separator="true">,</mo><mi>y</mi><mo>+</mo><msub><mi>v</mi><mrow><mi>x</mi><mi>y</mi></mrow></msub><mo separator="true">,</mo><mi>t</mi><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">I(x, y, t) = I(x + u_{xy}, y + v_{xy}, t + 1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">t</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal">u</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">x</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.9012em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">x</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span></span></span></span></p>
       <h2 id="stereo-supervision">
         
         
@@ -315,14 +310,8 @@ if (typeof loadYouTube === 'undefined') {
 </sup></sub></p>
 
 <p>But, how will this help learn depth? This is because view synthesis is a function of depth. In a rectified stereo setting, the optical flow is unidirectional (horizontal) and so only its magnitude a.k.a. disparity is to be found. The problem then boils down to finding a per-pixel disparity that when applied to the left image, gives the right image.</p>
-      <h2 style="text-align: center;" id="i_lx-y-stackrel-i_rx--d_xy-y">
-        
-        
-          <a href="#i_lx-y-stackrel-i_rx--d_xy-y" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> $I_{l}(x, y) \stackrel{!}{=} I_r(x + d_{xy}, y)$
-        
-        
-      </h2>
-    
+
+<p style="text-align: center;"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>I</mi><mi>l</mi></msub><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo stretchy="false">)</mo><mo><mover><mo><mo>=</mo></mo><mo stretchy="false" lspace="0em" rspace="0em">!</mo></mover></mo><msub><mi>I</mi><mi>r</mi></msub><mo stretchy="false">(</mo><mi>x</mi><mo>+</mo><msub><mi>d</mi><mrow><mi>x</mi><mi>y</mi></mrow></msub><mo separator="true">,</mo><mi>y</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">I_{l}(x, y) \stackrel{!}{=} I_r(x + d_{xy}, y)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.403em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0785em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.01968em;">l</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel"><span class="mop op-limits"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:1.153em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span><span class="mop">=</span></span></span><span style="top:-3.5669em;margin-left:0em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mclose mtight">!</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0785em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.02778em;">r</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0361em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">x</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mclose">)</span></span></span></span></p>
 
 <p>The depth from disparity can be calculated by $\text{depth} = \frac{\text{focal length}\times\text{baseline}}{\text{disparity}}$.</p>
 
@@ -371,14 +360,38 @@ if (typeof loadYouTube === 'undefined') {
 </sup></sub></p>
 
 <p>Zhou et.al’s SfMLearner: Unsupervised Learning of Depth and Ego-Motion from Video<sup id="fnref:8:1"><a href="#fn:8" class="footnote" rel="footnote" role="doc-noteref">8</a></sup> does exactly that. They introduce an additional network which estimates the 6 <abbr title="degrees of freedom">DOF</abbr> rigid ego-motion/pose $T \in \text{SE}(3)$, between the cameras of the two consecutive frames with pixel locations $[x_t, y_t, 1]^T$ and $[x_{t+1}, y_{t+1}, 1]^T$ resp.. The working principle is similar to before but the warping of one frame onto the other is done by</p>
-      <h2 style="text-align: center;" id="leftbeginarraycx_t1--y_t1--1-endarray-right-stackrel-ktk-1d_xy-leftbeginarraycx_t--y_t--1-endarray-right">
-        
-        
-          <a href="#leftbeginarraycx_t1--y_t1--1-endarray-right-stackrel-ktk-1d_xy-leftbeginarraycx_t--y_t--1-endarray-right" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> $\left(\begin{array}{c}x_{t+1} \\ y_{t+1} \\ 1 \end{array} \right) \stackrel{!}{=} KTK^{-1}d_{xy} \left(\begin{array}{c}x_t \\ y_t \\ 1 \end{array} \right)$,
-        
-        
-      </h2>
-    
+
+<p style="text-align: center;"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mrow><mo fence="true">(</mo><mtable rowspacing="0.16em" columnalign="center" columnspacing="1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><msub><mi>x</mi><mrow><mi>t</mi><mo>+</mo><mn>1</mn></mrow></msub></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><msub><mi>y</mi><mrow><mi>t</mi><mo>+</mo><mn>1</mn></mrow></msub></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mn>1</mn></mstyle></mtd></mtr></mtable><mo fence="true">)</mo></mrow><mo><mover><mo><mo>=</mo></mo><mo stretchy="false" lspace="0em" rspace="0em">!</mo></mover></mo><mi>K</mi><mi>T</mi><msup><mi>K</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup><msub><mi>d</mi><mrow><mi>x</mi><mi>y</mi></mrow></msub><mrow><mo fence="true">(</mo><mtable rowspacing="0.16em" columnalign="center" columnspacing="1em"><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><msub><mi>x</mi><mi>t</mi></msub></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><msub><mi>y</mi><mi>t</mi></msub></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mrow></mrow></mstyle></mtd></mtr><mtr><mtd><mstyle scriptlevel="0" displaystyle="false"><mn>1</mn></mstyle></mtd></mtr></mtable><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">\left(\begin{array}{c}x_{t+1} \\\\ y_{t+1} \\\\ 1 \end{array} \right) \stackrel{!}{=} KTK^{-1}d_{xy} \left(\begin{array}{c}x_t \\\\ y_t \\\\ 1 \end{array} \right)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:6em;vertical-align:-2.75em;"></span><span class="minner"><span class="mopen"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:3.25em;"><span style="top:-5.25em;"><span class="pstrut" style="height:8em;"></span><span style="width:0.875em;height:6.000em;"><svg xmlns="http://www.w3.org/2000/svg" width='0.875em' height='6.000em' viewBox='0 0 875 6000'><path d='M863,9c0,-2,-2,-5,-6,-9c0,0,-17,0,-17,0c-12.7,0,-19.3,0.3,-20,1
+c-5.3,5.3,-10.3,11,-15,17c-242.7,294.7,-395.3,682,-458,1162c-21.3,163.3,-33.3,349,
+-36,557 l0,2484c0.2,6,0,26,0,60c2,159.3,10,310.7,24,454c53.3,528,210,
+949.7,470,1265c4.7,6,9.7,11.7,15,17c0.7,0.7,7,1,19,1c0,0,18,0,18,0c4,-4,6,-7,6,-9
+c0,-2.7,-3.3,-8.7,-10,-18c-135.3,-192.7,-235.5,-414.3,-300.5,-665c-65,-250.7,-102.5,
+-544.7,-112.5,-882c-2,-104,-3,-167,-3,-189
+l0,-2492c0,-162.7,5.7,-314,17,-454c20.7,-272,63.7,-513,129,-723c65.3,
+-210,155.3,-396.3,270,-559c6.7,-9.3,10,-15.3,10,-18z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:2.75em;"><span></span></span></span></span></span></span><span class="mord"><span class="mtable"><span class="arraycolsep" style="width:0.5em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:3.25em;"><span style="top:-5.41em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2083em;"><span></span></span></span></span></span></span></span></span><span style="top:-4.21em;"><span class="pstrut" style="height:3em;"></span><span class="mord"></span></span><span style="top:-3.01em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">t</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2083em;"><span></span></span></span></span></span></span></span></span><span style="top:-1.81em;"><span class="pstrut" style="height:3em;"></span><span class="mord"></span></span><span style="top:-0.61em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:2.75em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:0.5em;"></span></span></span><span class="mclose"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:3.25em;"><span style="top:-5.25em;"><span class="pstrut" style="height:8em;"></span><span style="width:0.875em;height:6.000em;"><svg xmlns="http://www.w3.org/2000/svg" width='0.875em' height='6.000em' viewBox='0 0 875 6000'><path d='M76,0c-16.7,0,-25,3,-25,9c0,2,2,6.3,6,13c21.3,28.7,42.3,60.3,
+63,95c96.7,156.7,172.8,332.5,228.5,527.5c55.7,195,92.8,416.5,111.5,664.5
+c11.3,139.3,17,290.7,17,454c0,28,1.7,43,3.3,45l0,2409
+c-3,4,-3.3,16.7,-3.3,38c0,162,-5.7,313.7,-17,455c-18.7,248,-55.8,469.3,-111.5,664
+c-55.7,194.7,-131.8,370.3,-228.5,527c-20.7,34.7,-41.7,66.3,-63,95c-2,3.3,-4,7,-6,11
+c0,7.3,5.7,11,17,11c0,0,11,0,11,0c9.3,0,14.3,-0.3,15,-1c5.3,-5.3,10.3,-11,15,-17
+c242.7,-294.7,395.3,-681.7,458,-1161c21.3,-164.7,33.3,-350.7,36,-558
+l0,-2544c-2,-159.3,-10,-310.7,-24,-454c-53.3,-528,-210,-949.7,
+-470,-1265c-4.7,-6,-9.7,-11.7,-15,-17c-0.7,-0.7,-6.7,-1,-18,-1z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:2.75em;"><span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel"><span class="mop op-limits"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:1.153em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span><span class="mop">=</span></span></span><span style="top:-3.5669em;margin-left:0em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mclose mtight">!</span></span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:6em;vertical-align:-2.75em;"></span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="mord mathnormal" style="margin-right:0.13889em;">T</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">x</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner"><span class="mopen"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:3.25em;"><span style="top:-5.25em;"><span class="pstrut" style="height:8em;"></span><span style="width:0.875em;height:6.000em;"><svg xmlns="http://www.w3.org/2000/svg" width='0.875em' height='6.000em' viewBox='0 0 875 6000'><path d='M863,9c0,-2,-2,-5,-6,-9c0,0,-17,0,-17,0c-12.7,0,-19.3,0.3,-20,1
+c-5.3,5.3,-10.3,11,-15,17c-242.7,294.7,-395.3,682,-458,1162c-21.3,163.3,-33.3,349,
+-36,557 l0,2484c0.2,6,0,26,0,60c2,159.3,10,310.7,24,454c53.3,528,210,
+949.7,470,1265c4.7,6,9.7,11.7,15,17c0.7,0.7,7,1,19,1c0,0,18,0,18,0c4,-4,6,-7,6,-9
+c0,-2.7,-3.3,-8.7,-10,-18c-135.3,-192.7,-235.5,-414.3,-300.5,-665c-65,-250.7,-102.5,
+-544.7,-112.5,-882c-2,-104,-3,-167,-3,-189
+l0,-2492c0,-162.7,5.7,-314,17,-454c20.7,-272,63.7,-513,129,-723c65.3,
+-210,155.3,-396.3,270,-559c6.7,-9.3,10,-15.3,10,-18z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:2.75em;"><span></span></span></span></span></span></span><span class="mord"><span class="mtable"><span class="arraycolsep" style="width:0.5em;"></span><span class="col-align-c"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:3.25em;"><span style="top:-5.41em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2806em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-4.21em;"><span class="pstrut" style="height:3em;"></span><span class="mord"></span></span><span style="top:-3.01em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.2806em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">t</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-1.81em;"><span class="pstrut" style="height:3em;"></span><span class="mord"></span></span><span style="top:-0.61em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:2.75em;"><span></span></span></span></span></span><span class="arraycolsep" style="width:0.5em;"></span></span></span><span class="mclose"><span class="delimsizing mult"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:3.25em;"><span style="top:-5.25em;"><span class="pstrut" style="height:8em;"></span><span style="width:0.875em;height:6.000em;"><svg xmlns="http://www.w3.org/2000/svg" width='0.875em' height='6.000em' viewBox='0 0 875 6000'><path d='M76,0c-16.7,0,-25,3,-25,9c0,2,2,6.3,6,13c21.3,28.7,42.3,60.3,
+63,95c96.7,156.7,172.8,332.5,228.5,527.5c55.7,195,92.8,416.5,111.5,664.5
+c11.3,139.3,17,290.7,17,454c0,28,1.7,43,3.3,45l0,2409
+c-3,4,-3.3,16.7,-3.3,38c0,162,-5.7,313.7,-17,455c-18.7,248,-55.8,469.3,-111.5,664
+c-55.7,194.7,-131.8,370.3,-228.5,527c-20.7,34.7,-41.7,66.3,-63,95c-2,3.3,-4,7,-6,11
+c0,7.3,5.7,11,17,11c0,0,11,0,11,0c9.3,0,14.3,-0.3,15,-1c5.3,-5.3,10.3,-11,15,-17
+c242.7,-294.7,395.3,-681.7,458,-1161c21.3,-164.7,33.3,-350.7,36,-558
+l0,-2544c-2,-159.3,-10,-310.7,-24,-454c-53.3,-528,-210,-949.7,
+-470,-1265c-4.7,-6,-9.7,-11.7,-15,-17c-0.7,-0.7,-6.7,-1,-18,-1z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:2.75em;"><span></span></span></span></span></span></span></span></span></span></span></p>
 
 <p>where the camera intrinsics matrix $K = \Bigl[\begin{smallmatrix}k_x&amp;0&amp;p_x \\ 0&amp;k_y&amp;p_y \\ 0&amp;0&amp;1\end{smallmatrix} \Bigr]$, with focal lengths $f_x, f_y$ and principal point $p_x, p_y$ is assumed to be known. Next, we will see how this makes sense</p>
 
@@ -401,15 +414,8 @@ if (typeof loadYouTube === 'undefined') {
 <p style="text-align: center;">$I_{t} \, \Big\langle KTK^{-1}d_{xy} \left(\begin{array}{c}x_t \\ y_t \\ 1 \end{array} \right) \Big\rangle $</p>
 
 <p>, where $\Big\langle \Big\rangle $ is the sampling operator. This projection of $I_t$ onto the coordinate at time $t+1$ geometrically synthesizes the image $\hat{I}_{t+1}$ and can now be compared to the original frame from time $t+1$ and the loss is backpropogated to both the depth and the pose networks.</p>
-      <h3 id="note">
-        
-        
-          <a href="#note" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Note
-        
-        
-      </h3>
-    
-<p>This is not exactly correct. The pose $T$ is used, not to transform the camera, but to transform the point cloud (in the reverse direction to that of the camera pose), and the image $I_{t+1}$ is warped onto $t$, but the underlying concept remains the same. I will now explain how this idea is executed.</p>
+
+<p><strong>Note:</strong> This is not exactly correct. The pose $T$ is used, not to transform the camera, but to transform the point cloud (in the reverse direction to that of the camera pose), and the image $I_{t+1}$ is warped onto $t$, but the underlying concept remains the same. I will now explain how this idea is executed.</p>
       <h2 id="flow-field-due-to-rigid-camera-motion">
         
         
@@ -492,6 +498,7 @@ if (typeof loadYouTube === 'undefined') {
   </ol>
 </div>
 
+    </div>
   </div><hr>
   <!-- This code is taken from Jekyll-Codex (jekyllcodex.org). MIT License
 Copyright (c) 2020 Usecue BV -->
@@ -545,15 +552,14 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
             
 
             
-                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 card-compact"><div class="col-4 d-table-cell p-3 v-align-middle">
+                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
     <a href="/self-supervision-for-foundation-models/">
-    <img class="image-preview " src="/images/foundation.jpeg" loading="lazy" alt="Self-supervised learning for vision foundation models" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+    <img class="image-preview" src="/images/foundation.jpeg" loading="lazy" alt="Self-supervised learning for vision foundation models" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
-      
       
       <a class="post-link" href="/self-supervision-for-foundation-models/">
         Self-supervised learning for vision foundation models
@@ -575,24 +581,25 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=computer-vision">#computer-vision</a>
+          <a class="category-tags-link" href="/?tag=computer-vision">#computer-vision</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=large-neural-networks">#large-neural-networks</a>
+          <a class="category-tags-link" href="/?tag=large-neural-networks">#large-neural-networks</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=foundation-models">#foundation-models</a>
+          <a class="category-tags-link" href="/?tag=foundation-models">#foundation-models</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=self-supervision">#self-supervision</a>
+          <a class="category-tags-link" href="/?tag=self-supervision">#self-supervision</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
                 
                 
             
@@ -606,15 +613,14 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
             
 
             
-                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 card-compact"><div class="col-4 d-table-cell p-3 v-align-middle">
+                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
     <a href="/pc4consistentdepth/">
-    <img class="image-preview " src="/images/3dreco/out.gif" loading="lazy" alt="Pose Constraints for Self-supervised Monocular Depth and Ego-Motion" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+    <img class="image-preview" src="/images/3dreco/out-poster.jpg" loading="lazy" alt="Pose Constraints for Self-supervised Monocular Depth and Ego-Motion" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
-      
       
       <a class="post-link" href="/pc4consistentdepth/">
         Pose Constraints for Self-supervised Monocular Depth and Ego-Motion
@@ -636,30 +642,31 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=deep-learning">#deep-learning</a>
+          <a class="category-tags-link" href="/?tag=deep-learning">#deep-learning</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=self-supervision">#self-supervision</a>
+          <a class="category-tags-link" href="/?tag=self-supervision">#self-supervision</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=3d-reconstruction">#3d-reconstruction</a>
+          <a class="category-tags-link" href="/?tag=3d-reconstruction">#3d-reconstruction</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=structure-from-motion">#structure-from-motion</a>
+          <a class="category-tags-link" href="/?tag=structure-from-motion">#structure-from-motion</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=visual-odometry">#visual-odometry</a>
+          <a class="category-tags-link" href="/?tag=visual-odometry">#visual-odometry</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=depth-estimation">#depth-estimation</a>
+          <a class="category-tags-link" href="/?tag=depth-estimation">#depth-estimation</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
                 
                 
             
@@ -673,15 +680,14 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
             
 
             
-                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 card-compact"><div class="col-4 d-table-cell p-3 v-align-middle">
+                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
     <a href="/CNNs-vs-Transformers/">
-    <img class="image-preview " src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Vision_Transformer.gif/330px-Vision_Transformer.gif" loading="lazy" alt="Convolution vs. Attention" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+    <img class="image-preview" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Vision_Transformer.gif/330px-Vision_Transformer.gif" loading="lazy" alt="Convolution vs. Attention" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
-      
       
       <a class="post-link" href="/CNNs-vs-Transformers/">
         Convolution vs. Attention
@@ -703,21 +709,22 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=deep-learning">#deep-learning</a>
+          <a class="category-tags-link" href="/?tag=deep-learning">#deep-learning</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=convolution">#convolution</a>
+          <a class="category-tags-link" href="/?tag=convolution">#convolution</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=attention">#attention</a>
+          <a class="category-tags-link" href="/?tag=attention">#attention</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
                 
                 
             
@@ -731,15 +738,14 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
             
 
             
-                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 card-compact"><div class="col-4 d-table-cell p-3 v-align-middle">
+                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
     <a href="/Software-2/">
-    <img class="image-preview " src="/images/loop.svg" loading="lazy" alt="Software 2.0 2.0" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+    <img class="image-preview" src="/images/loop.svg" loading="lazy" alt="Software 2.0 2.0" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
-      
       
       <a class="post-link" href="/Software-2/">
         Software 2.0 2.0
@@ -761,18 +767,19 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=deep-learning">#deep-learning</a>
+          <a class="category-tags-link" href="/?tag=deep-learning">#deep-learning</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=mlops">#mlops</a>
+          <a class="category-tags-link" href="/?tag=mlops">#mlops</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
                 
                 
                     
@@ -816,46 +823,57 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
 <div id="utterances-container">
     <div id="comments-placeholder" class="consent-placeholder">
         <p><i class="fas fa-comments"></i> <strong>Comments</strong></p>
-        <p class="consent-detail">Loading comments connects to GitHub via utteranc.es and may set cookies.</p>
+        <p class="consent-detail">Loading comments connects to GitHub via utteranc.es and may set cookies. By clicking below, you consent to loading external content that may set third-party cookies. This preference will be remembered across all pages.</p>
         <button id="load-comments" class="button is-rounded">
             <i class="fas fa-comment-dots"></i> Load Comments
         </button>
     </div>
 </div>
 <script>
-document.getElementById('load-comments').addEventListener('click', function() {
-    var placeholder = document.getElementById('comments-placeholder');
-    placeholder.innerHTML = '<p><i class="fas fa-spinner fa-spin"></i> Loading comments...</p>';
+(function() {
+    function loadUtterances() {
+        var placeholder = document.getElementById('comments-placeholder');
+        if (!placeholder) return;
+        placeholder.innerHTML = '<p><i class="fas fa-spinner fa-spin"></i> Loading comments...</p>';
 
-    // Detect dark mode
-    var darkCSS = document.getElementById('dark-css');
-    var isDark = (darkCSS && darkCSS.media !== 'invalid' && darkCSS.media !== '(prefers-color-scheme: dark)')
-              || window.matchMedia('(prefers-color-scheme: dark)').matches;
-    // If applytheme.js forced dark (removed media attr), darkCSS.media is empty string
-    if (darkCSS && darkCSS.media === '') isDark = true;
+        var isDark = typeof window.isDarkMode === 'function' ? window.isDarkMode() : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = isDark ? 'github-dark' : 'github-light';
 
-    var theme = isDark ? 'github-dark' : 'github-light';
+        var script = document.createElement('script');
+        script.src = 'https://utteranc.es/client.js';
+        script.setAttribute('repo', 'zshn25/zshn25.github.io');
+        script.setAttribute('issue-term', 'title');
+        script.setAttribute('label', 'blogpost-comment');
+        script.setAttribute('theme', theme);
+        script.setAttribute('crossorigin', 'anonymous');
+        script.async = true;
 
-    var script = document.createElement('script');
-    script.src = 'https://utteranc.es/client.js';
-    script.setAttribute('repo', 'zshn25/zshn25.github.io');
-    script.setAttribute('issue-term', 'title');
-    script.setAttribute('label', 'blogpost-comment');
-    script.setAttribute('theme', theme);
-    script.setAttribute('crossorigin', 'anonymous');
-    script.async = true;
+        var container = document.getElementById('utterances-container');
+        container.appendChild(script);
 
-    var container = document.getElementById('utterances-container');
-    container.appendChild(script);
+        window.addEventListener('message', function handler(event) {
+            if (event.origin === 'https://utteranc.es') {
+                placeholder.remove();
+                window.removeEventListener('message', handler);
+            }
+        });
+    }
 
-    // Remove placeholder when utterances iframe loads
-    window.addEventListener('message', function handler(event) {
-        if (event.origin === 'https://utteranc.es') {
-            placeholder.remove();
-            window.removeEventListener('message', handler);
-        }
-    });
-});
+    // Use shared consent helpers from consent-gate.js (fallback if not loaded)
+    var consent = window._consent || {
+        get: function() { try { return JSON.parse(localStorage.getItem('embedConsent')) || {}; } catch(e) { return {}; } },
+        set: function(p) { var c = this.get(); c[p] = true; localStorage.setItem('embedConsent', JSON.stringify(c)); }
+    };
+
+    if (consent.get().comments) {
+        loadUtterances();
+    } else {
+        document.getElementById('load-comments').addEventListener('click', function() {
+            consent.set('comments');
+            loadUtterances();
+        });
+    }
+})();
 </script>
 <a class="u-url" href="/How-Monocular-Depth-Estimation-works/" hidden></a>
 </article>
@@ -870,7 +888,7 @@ document.getElementById('load-comments').addEventListener('click', function() {
       <div class="footer-col">
         <p class="feed-subscribe">
           <a href="https://feedrabbit.com/?url=https://zshn25.github.io/feed.xml">
-            <i class="fas fa-rss" style="color:#ee802f;"></i><span> Subscribe</span>
+            <i class="fas fa-rss rss-icon"></i><span> Subscribe</span>
           </a>
         </p>
         <ul class="contact-list">
@@ -893,16 +911,23 @@ document.getElementById('load-comments').addEventListener('click', function() {
 <div id="privacy-notice" style="display:none">
     This site does not use cookies or track you. Some posts contain embedded content that connects to third parties only when you click.
     <a href="/about/#privacy">Learn more</a>
-    <button class="privacy-ok-btn" onclick="localStorage.setItem('privacyOK','1');document.getElementById('privacy-notice').style.display='none'">OK</button>
+    <button class="privacy-ok-btn" onclick="localStorage.setItem('privacyOK','1');document.getElementById('privacy-notice').style.display='none';document.body.style.paddingBottom=''">OK</button>
 </div>
 <script>
 (function(){
   if(!localStorage.getItem('privacyOK')){
     var el=document.getElementById('privacy-notice');
-    if(el) el.style.display='flex';
+    if(el) {
+      el.style.display='flex';
+      document.body.style.paddingBottom='3em';
+    }
   }
 })();
 </script>
-</body>
+<button class="back-to-top" id="back-to-top" aria-label="Back to top">
+      <i class="fas fa-chevron-up"></i>
+    </button>
+
+  </body>
 
 </html>

@@ -27,8 +27,9 @@
 {"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Zeeshan Khan Suri"},"dateModified":"2021-05-13T22:21:23+00:00","datePublished":"2021-05-13T22:21:23+00:00","description":"Why privacy matters? How is your online privacy getting infringed? What can you do about it?","headline":"Privacy","image":"https://zshn25.github.io/images/privacy.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://zshn25.github.io/why-privacy-matters/"},"url":"https://zshn25.github.io/why-privacy-matters/"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><!-- Self-hosted vendor CSS (no cross-origin requests for privacy) -->
-<link rel="stylesheet" href="/assets/vendor/primer/primer.css">
-<link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css">
+<!-- Primer utility classes are now inlined via _sass/minima/_primer-utilities.scss -->
+<link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css"></noscript>
 <link rel="stylesheet" href="/assets/vendor/academicons/css/academicons.min.css" media="print" onload="this.media='all'">
     <!-- KaTeX: only on content pages (skipped on homepage for performance) -->
     <link rel="stylesheet" href="/assets/vendor/katex/katex.min.css">
@@ -93,32 +94,29 @@ window.onload = wrap_img;
 <link id="dark-css" href="/assets/css/dark.css" rel="stylesheet" media="(prefers-color-scheme: dark)">
 </head>
 <body><header class="site-header fixed-top">
+  <div class="wrapper header-wrapper">
+    <a class="site-title no-underline" rel="author" href="/">
+      <img src="/images/logo.png" style="max-width:40px;" alt="Curiosity logo" width="40" height="40">
+      Curiosity
+    </a><nav class="site-nav">
+      <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+      <label for="nav-trigger">
+        <span class="menu-icon"></span>
+      </label>
 
-  <div class="wrapper"><a class="site-title no-underline hover-grow" rel="author" href="/"> <img src="/images/logo.png" style="max-width:40px;" alt="Curiosity logo" width="40" height="40"> Curiosity</a><nav class="site-nav">
-        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
-        <label for="nav-trigger">
-          <span class="menu-icon">
-            <svg viewBox="0 0 18 15" width="18px" height="15px">
-              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
-            </svg>
-          </span>
-        </label>
-
-        <div class="trigger"><a class="page-link" href="/about/">About</a><div class="header-search">
-            <i class="fas fa-search header-search-icon"></i>
-            <input type="text" class="header-search-input js-search-input" placeholder="Search..." aria-label="Search Curiosity" autocomplete="off">
-            <div class="search-results-dropdown js-search-results"></div>
-          </div>
-          
-          <a href="/feed.xml" class="nav-anchor no-underline no_icon" title="RSS Feed" aria-label="Subscribe via RSS">
-            <span class="fas fa-rss fa-fw" aria-hidden="true" style="color:#ee802f;"></span>
-          </a>
-          <span id="nav-switch-theme" class="nav-anchor">
-            <span class="nav-theme-icon fas fa-fw" aria-hidden="true" title="Theme"></span>
-            <span class="sr-only">Toggle Theme</span>
-          </span>
+      <div class="nav-items"><a class="page-link nav-item" href="/about/">About</a><div class="header-search nav-item">
+          <i class="fas fa-search header-search-icon"></i>
+          <input type="text" class="header-search-input js-search-input" placeholder="Search..." aria-label="Search Curiosity" autocomplete="off">
+          <div class="search-results-dropdown js-search-results"></div>
         </div>
-      </nav></div>
+        <a href="/feed.xml" class="nav-item header-icon-btn no-underline no_icon" title="RSS Feed" aria-label="Subscribe via RSS">
+          <span class="fas fa-rss rss-icon" aria-hidden="true"></span>
+        </a>
+        <span id="nav-switch-theme" class="nav-item header-icon-btn" style="display:none">
+          <span class="nav-theme-icon fas fa-fw" aria-hidden="true" title="Theme"></span>
+        </span>
+      </div>
+    </nav></div>
 </header>
 
     
@@ -192,7 +190,7 @@ window.onload = wrap_img;
        • <i class="far fa-clock"></i> <span class="read-time" title="Estimated read time">
     
     
-      10 mins read
+      13 mins read
     
 </span>
 </p>
@@ -206,26 +204,44 @@ window.onload = wrap_img;
       </p>
     
 
-    </header>
+    
+  </header>
 
   
   
 
-  <div class="post-content e-content" itemprop="articleBody">
+  
+  
+  
+  
+  
+
+  <div class="post-layout">
     
+    <aside class="toc-sidebar" aria-label="On this page">
+      <nav class="toc-nav">
+      <h2 class="toc-heading">
+        
+        
+          On this page
+        
+        
+      </h2>
     
-<div class="flash flash-error" role="alert">
-    <svg height="24" class="octicon octicon-alert" viewBox="0 0 24 24" version="1.1" width="24" aria-hidden="true"><path d="M13 17.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0Zm-.25-8.25a.75.75 0 0 0-1.5 0v4.5a.75.75 0 0 0 1.5 0v-4.5Z"></path><path d="M9.836 3.244c.963-1.665 3.365-1.665 4.328 0l8.967 15.504c.963 1.667-.24 3.752-2.165 3.752H3.034c-1.926 0-3.128-2.085-2.165-3.752Zm3.03.751a1.002 1.002 0 0 0-1.732 0L2.168 19.499A1.002 1.002 0 0 0 3.034 21h17.932a1.002 1.002 0 0 0 .866-1.5L12.866 3.994Z"></path></svg> <b>Warning:</b> This post is still in draft mode. Some of the ideas are complete but needs expansion. Suggestions and comments are always welcome
-</div>
+        <ul><li><a href="#the-why-why-should-you-care" class="toc-link">The Why! Why should you care?</a><ul><li><a href="#you-might-have-nothing-to-hide-but-you-have-something-to-fear" class="toc-link">You might have nothing to hide, but you have something to fear</a><ul><li><a href="#you-might-be-taken-out-of-context-or-misinterpreted" class="toc-link">You might be taken out of context or misinterpreted</a></li></ul></li><li><a href="#right-to-privacy" class="toc-link">Right to privacy</a><ul><li><a href="#privacy-speaks-freedom" class="toc-link">Privacy speaks freedom</a></li><li><a href="#end-to-end-encryption-is-not-enough" class="toc-link">End-to-end encryption is not enough</a></li></ul></li></ul></li><li><a href="#how" class="toc-link">How is your online privacy getting infringed</a><ul><li><a href="#you-are-being-tracked" class="toc-link">You are being tracked</a></li><li><a href="#political-propaganda" class="toc-link">Political propaganda</a></li></ul></li><li><a href="#what-can-you-do-about-it" class="toc-link">What can you do about it?</a><ul><li><a href="#the-privacy-paradox" class="toc-link">The privacy paradox</a></li><li><a href="#who-is-collecting-your-data" class="toc-link">Who is collecting your data?</a></li><li><a href="#practical-steps-to-protect-your-privacy" class="toc-link">Practical steps to protect your privacy</a></li><li><a href="#closing-thoughts" class="toc-link">Closing thoughts</a></li></ul></li><li><a href="#references" class="toc-link">References</a></li></ul>
+      </nav>
+    </aside>
+    
 
-<!-- {::options parse_block_html="true" /} -->
+    <div class="post-content e-content" itemprop="articleBody">
+      <p>It is often important and helpful to formally define what we are talking about for everyone to be on the same page. <strong>Privacy is the ability to choose to express oneself selectively</strong>. It is the subtle distinction between what is morally acceptable between the bedroom, the bathroom, the dining table and the street. There are often things that we share with our friends/family over dinner which we would rather not share in public. Or, there might be things in our minds we would be embarrassed and even guilty to share with anyone else. This subtle distinction, when crossed could lead to undesirable consequences. For example, we would be okay finding ourselves naked in a shower but the same in a public place would be obnoxious.</p>
 
-<p>It is often important and helpful to formally define what we are talking about for everyone to be on the same page. <strong>Privacy is the ability to choose to express oneself selectively</strong>. It is the subtle distinction between what is morally acceptable between the bedroom, the bathroom, the dining table and the street. There are often things that we share with our friends/family over dinner which we would rather not share in public. Or, there might be things in our minds we would be embarrassed and even guilty to share with anyone else. This subtle distinction, when crossed could lead to undesirable consequences. For example, we would be okay finding ourselves naked in a shower but the same in a public place would be obnoxious.</p>
+<p>This post is mostly about “digital privacy” and is used interchangeably. It is privacy in the digital age. Where technology and internet have made it extremely easy to infringe our privacy. I will argue why we should care about our privacy, how (and by whom) it is being infringed, and what can you do about it.</p>
 
-<p>This post is mostly about “digital privacy” and is used interchangeably. It is privacy in the digital age. Where technology and internet have made it extremely easy to infringe the our privacy. I will argue why we should care about our privacy, how (and by whom) it is being infringed, and what can you do about it.</p>
+<div class="markdown-alert markdown-alert-note" role="alert">
+  <p class="markdown-alert-title"><svg viewBox="0 0 16 16" width="16" height="16" style="display:inline-block;vertical-align:text-bottom;margin-right:0.4em"><path fill="#0969da" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+  <p>Many posts on this blog are living documents that are regularly expanded with new ideas and research. See <a href="/about/#living-posts">About</a> for more.</p>
 
-<div class="flash" role="alert">
-    <svg height="24" class="octicon octicon-info" viewBox="0 0 24 24" version="1.1" width="24" aria-hidden="true"><path d="M13 7.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0Zm-3 3.75a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75v4.25h.75a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1 0-1.5h.75V12h-.75a.75.75 0 0 1-.75-.75Z"></path><path d="M12 1c6.075 0 11 4.925 11 11s-4.925 11-11 11S1 18.075 1 12 5.925 1 12 1ZM2.5 12a9.5 9.5 0 0 0 9.5 9.5 9.5 9.5 0 0 0 9.5-9.5A9.5 9.5 0 0 0 12 2.5 9.5 9.5 0 0 0 2.5 12Z"></path></svg> <b>Info:</b> Many posts on this blog are living documents that are regularly expanded with new ideas and research. See <a href="/about/#living-posts">About</a> for more.
 </div>
       <h2 id="the-why-why-should-you-care">
         
@@ -259,7 +275,7 @@ window.onload = wrap_img;
 <blockquote>
   <p>If one would give me six lines written by the hand of the most honest man, I would find something in them to have him hanged.</p>
 
-  <p>-<a href="https://en.wikiquote.org/wiki/Cardinal_Richelieu">Cardinal Richelieu</a></p>
+  <p><em><a href="https://en.wikiquote.org/wiki/Cardinal_Richelieu">Cardinal Richelieu</a></em></p>
 </blockquote>
 
 <p>Privacy protects us from those who can misinterpret what we say, from those who maliciously want to harm us and from the powerful who want to abuse their power over us. Your personal preferences such as which flavor or ice cream you like might definitely be harmless but your political/religious believes could be used against you. You might be denied access to services, for example, your bank might deny you credit because you You might be denied from entering certain countries.</p>
@@ -277,7 +293,7 @@ window.onload = wrap_img;
 <blockquote>
   <p>If you think privacy is unimportant for you because you have nothing to hide, you might as well say free speech is unimportant for you because you have nothing useful to say.</p>
 
-  <p>-Edward Snowden</p>
+  <p><em>Edward Snowden</em></p>
 </blockquote>
       <h4 id="privacy-speaks-freedom">
         
@@ -294,14 +310,16 @@ window.onload = wrap_img;
 
 <p>That freedom is taken away when privacy is taken away ( for e.g., via surveillance). Institutions want to be in control and the most effective way of being in control is to take away freedom. To force compliance of social norms and orthodoxy. To brainwash the members into believing what they want them to believe.</p>
 
-<div class="flash" role="alert">
-    <svg height="24" class="octicon octicon-info" viewBox="0 0 24 24" version="1.1" width="24" aria-hidden="true"><path d="M13 7.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0Zm-3 3.75a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75v4.25h.75a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1 0-1.5h.75V12h-.75a.75.75 0 0 1-.75-.75Z"></path><path d="M12 1c6.075 0 11 4.925 11 11s-4.925 11-11 11S1 18.075 1 12 5.925 1 12 1ZM2.5 12a9.5 9.5 0 0 0 9.5 9.5 9.5 9.5 0 0 0 9.5-9.5A9.5 9.5 0 0 0 12 2.5 9.5 9.5 0 0 0 2.5 12Z"></path></svg> <b>Info:</b> Freedom as a virtue, frees one from the social norms and orthodoxies and nourishes creative open thinking
+<div class="markdown-alert markdown-alert-note" role="alert">
+  <p class="markdown-alert-title"><svg viewBox="0 0 16 16" width="16" height="16" style="display:inline-block;vertical-align:text-bottom;margin-right:0.4em"><path fill="#0969da" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+  <p>Freedom as a virtue, frees one from the social norms and orthodoxies and nourishes creative open thinking</p>
+
 </div>
 
 <blockquote>
   <p>Freedom is not worth having if it does not include freedom of making mistakes.</p>
 
-  <p><a href="https://books.google.de/books?id=1HZDAAAAYAAJ&amp;q=%22Freedom+is+not+worth+having+if+it+does+not+connote+freedom+to+err%22&amp;pg=PA31&amp;redir_esc=y&amp;hl=en#v=onepage" target="_blank">Mahatma Gandhi</a></p>
+  <p><em><a href="https://books.google.de/books?id=1HZDAAAAYAAJ&amp;q=%22Freedom+is+not+worth+having+if+it+does+not+connote+freedom+to+err%22&amp;pg=PA31&amp;redir_esc=y&amp;hl=en#v=onepage" target="_blank">Mahatma Gandhi</a></em></p>
 </blockquote>
       <h4 id="end-to-end-encryption-is-not-enough">
         
@@ -312,8 +330,9 @@ window.onload = wrap_img;
       </h4>
     
 
-<p>The content of your messages or calls might be unnessary for companies to track you. Metadata such as who you’re talking to, when, from where, for how long, etc are enough for companies. Researchers found that just a smartphone’s accelerometer data can reveal people’s location, passwords, body features, age, gender, level of intoxication, driving style, and can be used to reconstruct words spoken next to the device.
-Services like WhatsApp recently realized that people started to care about privacy and started to advertise their End-toEnd encrytion</p>
+<p>The content of your messages or calls might be unnecessary for companies to track you. Metadata such as who you’re talking to, when, from where, for how long, etc. are enough. Researchers found that just a smartphone’s accelerometer data can reveal people’s location, passwords, body features, age, gender, level of intoxication, driving style, and can even be used to reconstruct words spoken next to the device.</p>
+
+<p>Services like WhatsApp realized that people started to care about privacy and began advertising their end-to-end encryption. But encryption only protects the <em>content</em> of your messages. The metadata — who you contacted, when, how often, for how long, from which location — is still collected and stored. This metadata alone is enough to infer your social circles, daily routines, political affiliations, and medical conditions. As former NSA General Counsel Stewart Baker put it: “metadata absolutely tells you everything about somebody’s life. If you have enough metadata, you don’t really need content.”<sup id="fnref:5"><a href="#fn:5" class="footnote" rel="footnote" role="doc-noteref">1</a></sup></p>
       <h2 id="how">
         
         
@@ -333,7 +352,7 @@ Services like WhatsApp recently realized that people started to care about priva
 
 <p>We rely on various social media and other applications for our everyday life. But do you know that these applications are tracking every single activity you do not only when the application is running but all the time? Most of these applications such as Facebook are free to users. But then how come the company is worth billions of dollars? What do they actually sell?</p>
 
-<p>In April 2021, personal data of 533 million Facebook users from 106 countries was <a href="https://www.securityweek.com/facebook-says-hackers-scraped-data-533-million-users-2019-leak/" target="_blank">leaked for free on a hacking forum</a>. Phone numbers, full names, locations, email addresses, and biographical information were all exposed. Facebook confirmed the data had been scraped through a vulnerability in their contact import feature before September 2019<sup id="fnref:3"><a href="#fn:3" class="footnote" rel="footnote" role="doc-noteref">1</a></sup>.</p>
+<p>In April 2021, personal data of 533 million Facebook users from 106 countries was <a href="https://www.securityweek.com/facebook-says-hackers-scraped-data-533-million-users-2019-leak/" target="_blank">leaked for free on a hacking forum</a>. Phone numbers, full names, locations, email addresses, and biographical information were all exposed. Facebook confirmed the data had been scraped through a vulnerability in their contact import feature before September 2019<sup id="fnref:3"><a href="#fn:3" class="footnote" rel="footnote" role="doc-noteref">2</a></sup>.</p>
       <h3 id="political-propaganda">
         
         
@@ -346,24 +365,22 @@ Services like WhatsApp recently realized that people started to care about priva
 <blockquote>
   <p>Nobody needs to justify why they “need” a right: the burden of justification falls on the one seeking to infringe upon the right.</p>
 
-  <p>-Edward Snowden</p>
+  <p><em>Edward Snowden</em></p>
 </blockquote>
 
-<p>It is one thing that your Google search on</p>
+<p>It is one thing that your Google search on a medical condition stays between you and your doctor. It is another thing entirely when that search is sold to data brokers, who sell it to insurance companies, who use it to deny your coverage. The line between “harmless data” and “weapon against you” is thinner than most people realize.</p>
 
-<p>The world is full of ill-intended malicious people who wouldn’t mind destroying someone else’s life for their own benefit. All it takes is one mistake from innocent people being in the wrong place at the wrong time to screw them over.</p>
-
-<!-- Your information may end-up in a data breach with some foreign -->
+<p>The world is full of ill-intended malicious people who wouldn’t mind destroying someone else’s life for their own benefit. All it takes is one mistake from innocent people being in the wrong place at the wrong time to screw them over. Your information may end up in a data breach, fall into the hands of a foreign government, or be purchased by someone with malicious intent.</p>
 
 <blockquote>
   <p>Microsoft reports that 75 percent of U.S. recruiters and human-resource professionals now do online research about candidates, often using information provided by search engines, social-networking sites, photo/video-sharing sites, personal web sites and blogs, and Twitter. They also report that 70 percent of U.S. recruiters have rejected candidates based on internet information.</p>
 
-  <p><a href="https://en.wikipedia.org/wiki/Privacy#Internet">Source</a></p>
+  <p><em><a href="https://en.wikipedia.org/wiki/Privacy#Internet">Source</a></em></p>
 </blockquote>
 
 <p>Your information may be used against you by your government in order to gain political power. Think about the <a href="https://en.wikipedia.org/wiki/Social_Credit_System">social credit system</a>. It is already being practiced in some countries. For e.g., let’s say your country implements it and starts surveilling on you 24x7 and as an open-minded individual, you enter a discussion with your peers and talk against some things your government has done recently. There is a good chance that because once-upon-a-time you raised your voice against the government, you are denied flight tickets for your next vacation.</p>
 
-<p>This again brings up my point on personal freedom. Privacy speaks freedom. The ability to criticize the government is the exact thing that keeps them in check. Taking away that ability by penalizing free speech takes away our freedom and restricts us</p>
+<p>This again brings up my point on personal freedom. Privacy speaks freedom. The ability to criticize the government is the exact thing that keeps them in check. Taking away that ability by penalizing free speech takes away our freedom and restricts us to the role of obedient subjects rather than free citizens.</p>
       <h2 id="what-can-you-do-about-it">
         
         
@@ -373,7 +390,7 @@ Services like WhatsApp recently realized that people started to care about priva
       </h2>
     
 
-<p>Governments approve surveillance programs citing anti-terrorism and the question arises “security versus privacy”. Schneier argues that the real question should be <strong>liberty versus control</strong><sup id="fnref:2"><a href="#fn:2" class="footnote" rel="footnote" role="doc-noteref">2</a></sup>. He argues that foreign physical threat is as bad as …</p>
+<p>Governments approve surveillance programs citing anti-terrorism and the question arises “security versus privacy”. Schneier argues that the real question should be <strong>liberty versus control</strong><sup id="fnref:2"><a href="#fn:2" class="footnote" rel="footnote" role="doc-noteref">3</a></sup>. He argues that a foreign physical threat is no more dangerous than our own institutions slowly eroding the freedoms we take for granted. The question of how much privacy we should sacrifice for security is a false dilemma — we can have both, if we demand it.</p>
       <h3 id="the-privacy-paradox">
         
         
@@ -383,46 +400,70 @@ Services like WhatsApp recently realized that people started to care about priva
       </h3>
     
 
-<p>Many people are indeed concerned about their privacy but behave as they didn’t. This is known as <a href="https://en.wikipedia.org/wiki/Privacy#The_privacy_paradox">the privacy paradox</a>.</p>
+<p>Many people are indeed concerned about their privacy but behave as if they didn’t. This is known as <a href="https://en.wikipedia.org/wiki/Privacy#The_privacy_paradox">the privacy paradox</a>.</p>
 
-<p>Humans are social beings and we seek others’ approval. We have a need for others to know what we are doing, which is why we voluntarily publish information about us online. But as social beings, we also need to acknowledge that there are things which let our close ones, our psychologists, our physicians, our lawyers to know about us which we would never be willing others know. People easily say they don’t value privacy while their actions negate their belief.</p>
+<p>Humans are social beings and we seek others’ approval. We have a need for others to know what we are doing, which is why we voluntarily publish information about us online. But as social beings, we also need to acknowledge that there are things which we let our close ones, our psychologists, our physicians, our lawyers know about us which we would never be willing for others to know. People easily say they don’t value privacy while their actions negate their belief.</p>
 
-<p>Other reasons for the privacy paradox might be “finding it technologically difficult to take certain actions that disallow institutions to take advantage of it. Applications are purposefully designed to make it as difficult for a regular user as possible to care about their privacy by changing the default settings, which are often extracting as much of user’s personal data as possible. Most users do not have the knowledge and experience to protect themselves.</p>
+<p>Another reason for the privacy paradox is that it is technologically difficult for a regular user to take control. Applications are purposefully designed to make it as hard as possible to care about privacy — default settings extract as much personal data as possible, privacy controls are buried deep in settings menus, and “accept all cookies” is always the easiest button to click. Most users do not have the knowledge and experience to protect themselves.</p>
+      <h3 id="who-is-collecting-your-data">
+        
+        
+          <a href="#who-is-collecting-your-data" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Who is collecting your data?
+        
+        
+      </h3>
+    
 
-<p>Who ?
-Government (5 eyes)
-Companies</p>
+<p>Two main categories of entities are collecting your data:</p>
 
-<p>Choose companies and services that are interested in their users’ privacy and take measures to advocate it. This website gives great alternatives to the daily applications we use everyday.</p>
+<p><strong>Governments</strong> — The <a href="https://en.wikipedia.org/wiki/Five_Eyes" target="_blank">Five Eyes alliance</a> (US, UK, Canada, Australia, New Zealand) and their extended partners (Nine Eyes, Fourteen Eyes) run mass surveillance programs. NSA’s PRISM, GCHQ’s Tempora, and similar programs collect enormous volumes of internet traffic, phone records, and metadata from ordinary citizens — not just suspected criminals.</p>
 
-<p>What can you do?</p>
+<p><strong>Companies</strong> — Tech giants like Google, Facebook (Meta), and Amazon collect data to build advertising profiles. Google alone tracks your search history, location history, YouTube watch history, email content, calendar events, and more. Facebook tracks you even when you’re not on Facebook, through “Like” buttons and tracking pixels embedded across millions of websites<sup id="fnref:4"><a href="#fn:4" class="footnote" rel="footnote" role="doc-noteref">4</a></sup>.</p>
+      <h3 id="practical-steps-to-protect-your-privacy">
+        
+        
+          <a href="#practical-steps-to-protect-your-privacy" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Practical steps to protect your privacy
+        
+        
+      </h3>
+    
+
+<p>Here are concrete actions you can take, ordered from easiest to most advanced:</p>
+
+<p><strong>Everyday changes:</strong></p>
 
 <ul>
-  <li>
-    <p>Use encryption everywhere</p>
+  <li><strong>Switch your search engine.</strong> Use <a href="https://duckduckgo.com/" target="_blank">DuckDuckGo</a> instead of Google. DuckDuckGo does not track your searches or build a profile on you.</li>
+  <li><strong>Use a privacy-focused browser.</strong> <a href="https://www.mozilla.org/firefox/" target="_blank">Firefox</a> with strict tracking protection, or <a href="https://brave.com/" target="_blank">Brave</a>, which blocks ads and trackers by default.</li>
+  <li><strong>Install browser extensions.</strong> <a href="https://ublockorigin.com/" target="_blank">uBlock Origin</a> blocks ads and trackers. <a href="https://privacybadger.org/" target="_blank">Privacy Badger</a> by the EFF learns to block invisible trackers.</li>
+  <li><strong>Use encrypted messaging.</strong> Switch from WhatsApp to <a href="https://signal.org/" target="_blank">Signal</a>, which collects virtually no metadata and is open source.</li>
+  <li><strong>Review app permissions.</strong> Go through your phone’s settings and revoke unnecessary permissions (location, microphone, contacts) from apps that don’t need them.</li>
+</ul>
 
-    <figure style="text-align: center;">
+<figure style="text-align: center;">
 <iframe src="https://archive.org/embed/tips-to-help-avoid-online-surveillance" width="75%" height="400vh" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen=""></iframe>
 <figcaption><a class="no_icon" target="_blank" href="https://ssd.eff.org/en/module/animated-overview-how-strong-encryption-can-help-avoid-online-surveillance" rel="noopener noreferrer">How Strong Encryption Can Help Avoid Online Surveillance</a>
 </figcaption>
 </figure>
-  </li>
-  <li>Install https://www.eff.org/https-everywhere browser plugin</li>
-  <li>Change your default search engine to Duckduckgo on all browsers and start using it.</li>
-  <li>Avoid platforms which are notorious for privacy abuse.</li>
-  <li>Use Tor. Tor uses decentralized.</li>
-  <li>Tip: Use temp mail</li>
-  <li>Use OpenSource software. You can find opensource alternatives to almost every software. One example is Signal over Whatsapp</li>
-  <li>Visit privacytools.io and find alternatives to your everyday software.</li>
-  <li>Use tools like PrivacyBadger and UBlock Origin to block Ads and other stuff.</li>
-  <li>Encourage your friends and family to join the privacy preserving social media</li>
+
+<p><strong>Intermediate steps:</strong></p>
+
+<ul>
+  <li><strong>Use a password manager</strong> like <a href="https://bitwarden.com/" target="_blank">Bitwarden</a> (open source) to generate unique, strong passwords for every account.</li>
+  <li><strong>Enable two-factor authentication</strong> on every account that supports it — preferably with an authenticator app rather than SMS.</li>
+  <li><strong>Use a VPN</strong> for browsing, especially on public Wi-Fi. Choose a reputable, no-logs provider.</li>
+  <li><strong>Opt out of data brokers.</strong> Websites like <a href="https://www.privacytools.io/" target="_blank">privacytools.io</a> provide comprehensive alternatives to popular software and services that respect your privacy.</li>
+  <li><strong>Use open-source software.</strong> Open-source applications can be audited by anyone, making it much harder to hide surveillance features. Use <a href="https://signal.org/">Signal</a> over WhatsApp, <a href="https://www.mozilla.org/firefox/">Firefox</a> over Chrome, <a href="https://ubuntu.com/">Linux</a> over Windows.</li>
+  <li><strong>Use temporary/disposable email</strong> for services that don’t need your real email address.</li>
 </ul>
 
-<p>Extreme:</p>
+<p><strong>For the advanced user:</strong></p>
+
 <ul>
-  <li>Use <a href="https://www.qubes-os.org/">Qubes OS</a> with <a href="https://www.whonix.org/">Whonix</a> virtual machine (VM) which routes all your network traffic through <a href="https://www.torproject.org/">Tor</a>. Qubes can also sandbox applications in their own VM so that the application does not affect anything else outside their own sandbox VM. If you don’t want to install the complete OS, you can also use Whonix VM seperately.</li>
-  <li>Setup matrix network on your own server for secure, decentralized communication . Follow <a href="https://matrix.org/docs/guides/free-small-matrix-server">this guide</a></li>
-  <li>https://chrome.google.com/webstore/detail/google-analytics-opt-out/fllaojicojecljbmefodhfapmkghcbnh/related?hl=en</li>
+  <li><strong>Use <a href="https://www.torproject.org/" target="_blank">Tor Browser</a></strong> for anonymous browsing. Tor routes your traffic through multiple relays, making it extremely difficult to trace back to you.</li>
+  <li><strong>Use <a href="https://www.qubes-os.org/" target="_blank">Qubes OS</a></strong> with <a href="https://www.whonix.org/" target="_blank">Whonix</a> — Qubes sandboxes applications in isolated virtual machines so that compromising one application doesn’t affect the rest. Whonix routes all network traffic through Tor.</li>
+  <li><strong>Host your own communication.</strong> Set up a <a href="https://matrix.org/" target="_blank">Matrix</a> server for secure, decentralized messaging that you fully control.</li>
+  <li><strong>Opt out of Google Analytics</strong> on websites you visit by installing the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank">Google Analytics Opt-out Browser Add-on</a>.</li>
 </ul>
       <h3 id="closing-thoughts">
         
@@ -432,16 +473,12 @@ Companies</p>
         
       </h3>
     
-      <h4 id="book-recommendation">
-        
-        
-          <a href="#book-recommendation" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Book recommendation
-        
-        
-      </h4>
-    
 
-<p>To summarize, I would like to point you to the following TED talk which will hopefully fill-in the gaps I left unfilled.</p>
+<p>Privacy is not about having something to hide. It is about having the right to choose what to share and with whom. It is the foundation upon which freedom of thought, freedom of speech, and freedom of association are built. Without privacy, these freedoms erode — not in a dramatic, visible way, but gradually, like a river wearing away at stone.</p>
+
+<p>The good news is that protecting your privacy is not an all-or-nothing endeavor. Every small step you take — switching to a privacy-respecting search engine, installing a tracker blocker, reading a privacy policy before clicking “agree” — chips away at the surveillance infrastructure. You don’t have to be perfect; you just have to start.</p>
+
+<p>I will leave you with this TED talk by Glenn Greenwald, the journalist who broke the Edward Snowden story, which makes the case for why privacy matters far more eloquently than I could:</p>
 
 <div class="consent-embed" id="yt-pcslowahvuk">
     <div class="consent-placeholder">
@@ -479,7 +516,9 @@ if (typeof loadYouTube === 'undefined') {
     }
 }
 </script>
-      <h2 width="100%" class="shadow" id="references">
+
+<p width="100%" class="shadow"><strong>Book recommendation:</strong> Bruce Schneier’s <a href="https://www.schneier.com/books/data-and-goliath/" target="_blank">Data and Goliath</a> is an excellent deep dive into how mass surveillance works, why it matters, and what we can do about it.</p>
+      <h2 id="references">
         
         
           <a href="#references" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> References
@@ -490,15 +529,22 @@ if (typeof loadYouTube === 'undefined') {
 
 <div class="footnotes" role="doc-endnotes">
   <ol>
+    <li id="fn:5">
+      <p>Stewart Baker, former NSA General Counsel, quoted in “Why Metadata Matters,” EFF, June 2013. <a href="#fnref:5" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
     <li id="fn:3">
       <p><a href="https://www.businessinsider.com/stolen-data-of-533-million-facebook-users-leaked-online-2021-4">533 million Facebook users’ phone numbers and personal data have been leaked online</a> <a href="#fnref:3" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
     <li id="fn:2">
       <p><a href="https://www.schneier.com/essays/archives/2006/05/the_eternal_value_of.html">The Eternal Value of Privacy</a> <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
+    <li id="fn:4">
+      <p>Kosinski, M., Stillwell, D., &amp; Graepel, T. (2013). Private traits and attributes are predictable from digital records of human behavior. Proceedings of the National Academy of Sciences of the United States of America, 110(15), 5802–5805. <a href="https://doi.org/10.1073/pnas.1218772110" target="_blank">https://doi.org/10.1073/pnas.1218772110</a> <a href="#fnref:4" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
   </ol>
 </div>
 
+    </div>
   </div><hr>
   <!-- This code is taken from Jekyll-Codex (jekyllcodex.org). MIT License
 Copyright (c) 2020 Usecue BV -->
@@ -831,46 +877,57 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
 <div id="utterances-container">
     <div id="comments-placeholder" class="consent-placeholder">
         <p><i class="fas fa-comments"></i> <strong>Comments</strong></p>
-        <p class="consent-detail">Loading comments connects to GitHub via utteranc.es and may set cookies.</p>
+        <p class="consent-detail">Loading comments connects to GitHub via utteranc.es and may set cookies. By clicking below, you consent to loading external content that may set third-party cookies. This preference will be remembered across all pages.</p>
         <button id="load-comments" class="button is-rounded">
             <i class="fas fa-comment-dots"></i> Load Comments
         </button>
     </div>
 </div>
 <script>
-document.getElementById('load-comments').addEventListener('click', function() {
-    var placeholder = document.getElementById('comments-placeholder');
-    placeholder.innerHTML = '<p><i class="fas fa-spinner fa-spin"></i> Loading comments...</p>';
+(function() {
+    function loadUtterances() {
+        var placeholder = document.getElementById('comments-placeholder');
+        if (!placeholder) return;
+        placeholder.innerHTML = '<p><i class="fas fa-spinner fa-spin"></i> Loading comments...</p>';
 
-    // Detect dark mode
-    var darkCSS = document.getElementById('dark-css');
-    var isDark = (darkCSS && darkCSS.media !== 'invalid' && darkCSS.media !== '(prefers-color-scheme: dark)')
-              || window.matchMedia('(prefers-color-scheme: dark)').matches;
-    // If applytheme.js forced dark (removed media attr), darkCSS.media is empty string
-    if (darkCSS && darkCSS.media === '') isDark = true;
+        var isDark = typeof window.isDarkMode === 'function' ? window.isDarkMode() : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = isDark ? 'github-dark' : 'github-light';
 
-    var theme = isDark ? 'github-dark' : 'github-light';
+        var script = document.createElement('script');
+        script.src = 'https://utteranc.es/client.js';
+        script.setAttribute('repo', 'zshn25/zshn25.github.io');
+        script.setAttribute('issue-term', 'title');
+        script.setAttribute('label', 'blogpost-comment');
+        script.setAttribute('theme', theme);
+        script.setAttribute('crossorigin', 'anonymous');
+        script.async = true;
 
-    var script = document.createElement('script');
-    script.src = 'https://utteranc.es/client.js';
-    script.setAttribute('repo', 'zshn25/zshn25.github.io');
-    script.setAttribute('issue-term', 'title');
-    script.setAttribute('label', 'blogpost-comment');
-    script.setAttribute('theme', theme);
-    script.setAttribute('crossorigin', 'anonymous');
-    script.async = true;
+        var container = document.getElementById('utterances-container');
+        container.appendChild(script);
 
-    var container = document.getElementById('utterances-container');
-    container.appendChild(script);
+        window.addEventListener('message', function handler(event) {
+            if (event.origin === 'https://utteranc.es') {
+                placeholder.remove();
+                window.removeEventListener('message', handler);
+            }
+        });
+    }
 
-    // Remove placeholder when utterances iframe loads
-    window.addEventListener('message', function handler(event) {
-        if (event.origin === 'https://utteranc.es') {
-            placeholder.remove();
-            window.removeEventListener('message', handler);
-        }
-    });
-});
+    // Use shared consent helpers from consent-gate.js (fallback if not loaded)
+    var consent = window._consent || {
+        get: function() { try { return JSON.parse(localStorage.getItem('embedConsent')) || {}; } catch(e) { return {}; } },
+        set: function(p) { var c = this.get(); c[p] = true; localStorage.setItem('embedConsent', JSON.stringify(c)); }
+    };
+
+    if (consent.get().comments) {
+        loadUtterances();
+    } else {
+        document.getElementById('load-comments').addEventListener('click', function() {
+            consent.set('comments');
+            loadUtterances();
+        });
+    }
+})();
 </script>
 <a class="u-url" href="/why-privacy-matters/" hidden></a>
 </article>
@@ -885,7 +942,7 @@ document.getElementById('load-comments').addEventListener('click', function() {
       <div class="footer-col">
         <p class="feed-subscribe">
           <a href="https://feedrabbit.com/?url=https://zshn25.github.io/feed.xml">
-            <i class="fas fa-rss" style="color:#ee802f;"></i><span> Subscribe</span>
+            <i class="fas fa-rss rss-icon"></i><span> Subscribe</span>
           </a>
         </p>
         <ul class="contact-list">
@@ -908,16 +965,23 @@ document.getElementById('load-comments').addEventListener('click', function() {
 <div id="privacy-notice" style="display:none">
     This site does not use cookies or track you. Some posts contain embedded content that connects to third parties only when you click.
     <a href="/about/#privacy">Learn more</a>
-    <button class="privacy-ok-btn" onclick="localStorage.setItem('privacyOK','1');document.getElementById('privacy-notice').style.display='none'">OK</button>
+    <button class="privacy-ok-btn" onclick="localStorage.setItem('privacyOK','1');document.getElementById('privacy-notice').style.display='none';document.body.style.paddingBottom=''">OK</button>
 </div>
 <script>
 (function(){
   if(!localStorage.getItem('privacyOK')){
     var el=document.getElementById('privacy-notice');
-    if(el) el.style.display='flex';
+    if(el) {
+      el.style.display='flex';
+      document.body.style.paddingBottom='3em';
+    }
   }
 })();
 </script>
-</body>
+<button class="back-to-top" id="back-to-top" aria-label="Back to top">
+      <i class="fas fa-chevron-up"></i>
+    </button>
+
+  </body>
 
 </html>

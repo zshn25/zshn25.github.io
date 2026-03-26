@@ -27,8 +27,9 @@
 {"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Zeeshan Khan Suri"},"dateModified":"2022-02-10T05:21:23+00:00","datePublished":"2022-02-10T05:21:23+00:00","description":"What is justice? Is a just person good? Even when the consequences of being unjust are taken away? Even when the advantages of having the reputation of being just are taken away?","headline":"Notes on Justice from Plato’s Republic","image":"https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/David_-_The_Death_of_Socrates_-_detail2.jpg/330px-David_-_The_Death_of_Socrates_-_detail2.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://zshn25.github.io/plato-republic/"},"url":"https://zshn25.github.io/plato-republic/"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><!-- Self-hosted vendor CSS (no cross-origin requests for privacy) -->
-<link rel="stylesheet" href="/assets/vendor/primer/primer.css">
-<link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css">
+<!-- Primer utility classes are now inlined via _sass/minima/_primer-utilities.scss -->
+<link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css"></noscript>
 <link rel="stylesheet" href="/assets/vendor/academicons/css/academicons.min.css" media="print" onload="this.media='all'">
     <!-- KaTeX: only on content pages (skipped on homepage for performance) -->
     <link rel="stylesheet" href="/assets/vendor/katex/katex.min.css">
@@ -93,32 +94,29 @@ window.onload = wrap_img;
 <link id="dark-css" href="/assets/css/dark.css" rel="stylesheet" media="(prefers-color-scheme: dark)">
 </head>
 <body><header class="site-header fixed-top">
+  <div class="wrapper header-wrapper">
+    <a class="site-title no-underline" rel="author" href="/">
+      <img src="/images/logo.png" style="max-width:40px;" alt="Curiosity logo" width="40" height="40">
+      Curiosity
+    </a><nav class="site-nav">
+      <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+      <label for="nav-trigger">
+        <span class="menu-icon"></span>
+      </label>
 
-  <div class="wrapper"><a class="site-title no-underline hover-grow" rel="author" href="/"> <img src="/images/logo.png" style="max-width:40px;" alt="Curiosity logo" width="40" height="40"> Curiosity</a><nav class="site-nav">
-        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
-        <label for="nav-trigger">
-          <span class="menu-icon">
-            <svg viewBox="0 0 18 15" width="18px" height="15px">
-              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
-            </svg>
-          </span>
-        </label>
-
-        <div class="trigger"><a class="page-link" href="/about/">About</a><div class="header-search">
-            <i class="fas fa-search header-search-icon"></i>
-            <input type="text" class="header-search-input js-search-input" placeholder="Search..." aria-label="Search Curiosity" autocomplete="off">
-            <div class="search-results-dropdown js-search-results"></div>
-          </div>
-          
-          <a href="/feed.xml" class="nav-anchor no-underline no_icon" title="RSS Feed" aria-label="Subscribe via RSS">
-            <span class="fas fa-rss fa-fw" aria-hidden="true" style="color:#ee802f;"></span>
-          </a>
-          <span id="nav-switch-theme" class="nav-anchor">
-            <span class="nav-theme-icon fas fa-fw" aria-hidden="true" title="Theme"></span>
-            <span class="sr-only">Toggle Theme</span>
-          </span>
+      <div class="nav-items"><a class="page-link nav-item" href="/about/">About</a><div class="header-search nav-item">
+          <i class="fas fa-search header-search-icon"></i>
+          <input type="text" class="header-search-input js-search-input" placeholder="Search..." aria-label="Search Curiosity" autocomplete="off">
+          <div class="search-results-dropdown js-search-results"></div>
         </div>
-      </nav></div>
+        <a href="/feed.xml" class="nav-item header-icon-btn no-underline no_icon" title="RSS Feed" aria-label="Subscribe via RSS">
+          <span class="fas fa-rss rss-icon" aria-hidden="true"></span>
+        </a>
+        <span id="nav-switch-theme" class="nav-item header-icon-btn" style="display:none">
+          <span class="nav-theme-icon fas fa-fw" aria-hidden="true" title="Theme"></span>
+        </span>
+      </div>
+    </nav></div>
 </header>
 
     
@@ -212,14 +210,37 @@ window.onload = wrap_img;
       </p>
     
 
-    </header>
-
-  
-  
-
-  <div class="post-content e-content" itemprop="articleBody">
     
-    <p>In Plato’s Republic <sup id="fnref:1"><a href="#fn:1" class="footnote" rel="footnote" role="doc-noteref">1</a></sup>, Socrates attempts to define what justice is and why pursuing justice is good not only because what having the reputation of being just leads to, but also in by itself. This distinction between seeming to be just, and being just is characterized by the question, “if one removes all the consequences of being unjust, doesn’t a just person act same as a unjust person?”.</p>
+  </header>
+
+  
+  
+
+  
+  
+  
+  
+  
+
+  <div class="post-layout">
+    
+    <aside class="toc-sidebar" aria-label="On this page">
+      <nav class="toc-nav">
+      <h2 class="toc-heading">
+        
+        
+          On this page
+        
+        
+      </h2>
+    
+        <ul><li><a href="#socratess-just-city" class="toc-link">Socrates‘s just city</a><ul><li><a href="#education-of-the-philosopher-king" class="toc-link">Education of the philosopher king</a></li><li><a href="#what-is-justice" class="toc-link">What is justice?</a></li></ul></li><li><a href="#references" class="toc-link">References</a></li></ul>
+      </nav>
+    </aside>
+    
+
+    <div class="post-content e-content" itemprop="articleBody">
+      <p>In Plato’s Republic <sup id="fnref:1"><a href="#fn:1" class="footnote" rel="footnote" role="doc-noteref">1</a></sup>, Socrates attempts to define what justice is and why pursuing justice is good not only because what having the reputation of being just leads to, but also in by itself. This distinction between seeming to be just, and being just is characterized by the question, “if one removes all the consequences of being unjust, doesn’t a just person act same as a unjust person?”.</p>
 
 <p>First, it is said that justice is <strong>to give what one is owed</strong>. But, such a definition is ambiguous and open to interpretation. Furthermore, knowledge is a prerequisite here, as in order to know what one is owed, knowledge is required.</p>
 
@@ -276,8 +297,9 @@ window.onload = wrap_img;
 <p>Justice is the combination and harmonious interaction of the moderate, the courageous and the wise. Justice is to the soul as health is to the body. And just as the philosopher king should be in control of the city, the reason should be in control of appetites and spiritedness.</p>
 
 <blockquote>
-  <p>“One who is just doesn’t allow any part of himself to do the work of another part or allow the various classes within him to meddle with each other. He regulates well what is his own and rules himself. He puts himself in order, in his own friend, and harmonizes the three parts of himself like three limiting notes in a musical scale — high, low and middle. He binds together those parts and any other that may be in between, and from having been many things he becomes entirely one, moderate and harmonious. Only then does he act. And when he does anything, whether acquiring wealth, taking care of his body, engaging in politics, or in private contracts — in all of these, he believes that the action is just and fine that preserves this inner harmony and helps achieve it, and calls it so, and regards as wisdom the knowledge that oversees such actions. And he believes that the action that destroys this harmony is unjust, and calls it so, and regards the belief that oversees it as ignorance.”
-<em>443 d,e</em></p>
+  <p>“One who is just doesn’t allow any part of himself to do the work of another part or allow the various classes within him to meddle with each other. He regulates well what is his own and rules himself. He puts himself in order, in his own friend, and harmonizes the three parts of himself like three limiting notes in a musical scale — high, low and middle. He binds together those parts and any other that may be in between, and from having been many things he becomes entirely one, moderate and harmonious. Only then does he act. And when he does anything, whether acquiring wealth, taking care of his body, engaging in politics, or in private contracts — in all of these, he believes that the action is just and fine that preserves this inner harmony and helps achieve it, and calls it so, and regards as wisdom the knowledge that oversees such actions. And he believes that the action that destroys this harmony is unjust, and calls it so, and regards the belief that oversees it as ignorance.”</p>
+
+  <p><em>443 d,e</em></p>
 </blockquote>
 
 <!-- %
@@ -318,6 +340,7 @@ Plato’s excessive emphasis on unity would seem to destroy the natural diversit
   </ol>
 </div>
 
+    </div>
   </div><hr>
   <!-- This code is taken from Jekyll-Codex (jekyllcodex.org). MIT License
 Copyright (c) 2020 Usecue BV -->
@@ -421,15 +444,14 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
             
 
             
-                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 card-compact"><div class="col-4 d-table-cell p-3 v-align-middle">
+                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
     <a href="/the-necessity-of-the-state/">
-    <img class="image-preview " src="https://www.mises.org.es/wp-content/uploads/2017/04/Leviathan_by_Thomas_Hobbes-e1416438094895.jpg" loading="lazy" alt="Trading Freedom for Peace: The necessity of the state" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+    <img class="image-preview" src="https://www.mises.org.es/wp-content/uploads/2017/04/Leviathan_by_Thomas_Hobbes-e1416438094895.jpg" loading="lazy" alt="Trading Freedom for Peace: The necessity of the state" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
-      
       
       <a class="post-link" href="/the-necessity-of-the-state/">
         Trading Freedom for Peace: The necessity of the state
@@ -451,21 +473,22 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=politics">#politics</a>
+          <a class="category-tags-link" href="/?tag=politics">#politics</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=philosophy">#philosophy</a>
+          <a class="category-tags-link" href="/?tag=philosophy">#philosophy</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=social-contract">#social-contract</a>
+          <a class="category-tags-link" href="/?tag=social-contract">#social-contract</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
                 
                 
             
@@ -479,15 +502,14 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
             
 
             
-                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 card-compact"><div class="col-4 d-table-cell p-3 v-align-middle">
+                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
     <a href="/Aristotle-definitions/">
-    <img class="image-preview " src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Aristotle_Altemps_Inv8575.jpg/250px-Aristotle_Altemps_Inv8575.jpg" loading="lazy" alt="Aristotle’s regime, the good citizen and justice" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+    <img class="image-preview" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Aristotle_Altemps_Inv8575.jpg/250px-Aristotle_Altemps_Inv8575.jpg" loading="lazy" alt="Aristotle’s regime, the good citizen and justice" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
-      
       
       <a class="post-link" href="/Aristotle-definitions/">
         Aristotle’s regime, the good citizen and justice
@@ -509,24 +531,25 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=politics">#politics</a>
+          <a class="category-tags-link" href="/?tag=politics">#politics</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=philosophy">#philosophy</a>
+          <a class="category-tags-link" href="/?tag=philosophy">#philosophy</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=justice">#justice</a>
+          <a class="category-tags-link" href="/?tag=justice">#justice</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=regime">#regime</a>
+          <a class="category-tags-link" href="/?tag=regime">#regime</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
                 
                 
             
@@ -540,15 +563,14 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
             
 
             
-                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 card-compact"><div class="col-4 d-table-cell p-3 v-align-middle">
+                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
     <a href="/kinds-of-wealth-getting-Aristotle/">
-    <img class="image-preview " src="/images/aristotle_wallstreet.jpeg" loading="lazy" alt="Reasons for earning money: The good and the ugly" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+    <img class="image-preview" src="/images/aristotle_wallstreet.jpeg" loading="lazy" alt="Reasons for earning money: The good and the ugly" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
-      
       
       <a class="post-link" href="/kinds-of-wealth-getting-Aristotle/">
         Reasons for earning money: The good and the ugly
@@ -570,24 +592,25 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=politics">#politics</a>
+          <a class="category-tags-link" href="/?tag=politics">#politics</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=philosophy">#philosophy</a>
+          <a class="category-tags-link" href="/?tag=philosophy">#philosophy</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=greed">#greed</a>
+          <a class="category-tags-link" href="/?tag=greed">#greed</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=wealth">#wealth</a>
+          <a class="category-tags-link" href="/?tag=wealth">#wealth</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
                 
                 
             
@@ -611,15 +634,14 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
             
 
             
-                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 card-compact"><div class="col-4 d-table-cell p-3 v-align-middle">
+                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
     <a href="/purpose/">
-    <img class="image-preview " src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/NASA-Apollo8-Dec24-Earthrise.jpg/1200px-NASA-Apollo8-Dec24-Earthrise.jpg" loading="lazy" alt="The purpose in life" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+    <img class="image-preview" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/NASA-Apollo8-Dec24-Earthrise.jpg/1200px-NASA-Apollo8-Dec24-Earthrise.jpg" loading="lazy" alt="The purpose in life" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
-      
       
       <a class="post-link" href="/purpose/">
         The purpose in life
@@ -641,18 +663,19 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=philosophy">#philosophy</a>
+          <a class="category-tags-link" href="/?tag=philosophy">#philosophy</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=meaning">#meaning</a>
+          <a class="category-tags-link" href="/?tag=meaning">#meaning</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
                 
                 
                     
@@ -704,46 +727,57 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
 <div id="utterances-container">
     <div id="comments-placeholder" class="consent-placeholder">
         <p><i class="fas fa-comments"></i> <strong>Comments</strong></p>
-        <p class="consent-detail">Loading comments connects to GitHub via utteranc.es and may set cookies.</p>
+        <p class="consent-detail">Loading comments connects to GitHub via utteranc.es and may set cookies. By clicking below, you consent to loading external content that may set third-party cookies. This preference will be remembered across all pages.</p>
         <button id="load-comments" class="button is-rounded">
             <i class="fas fa-comment-dots"></i> Load Comments
         </button>
     </div>
 </div>
 <script>
-document.getElementById('load-comments').addEventListener('click', function() {
-    var placeholder = document.getElementById('comments-placeholder');
-    placeholder.innerHTML = '<p><i class="fas fa-spinner fa-spin"></i> Loading comments...</p>';
+(function() {
+    function loadUtterances() {
+        var placeholder = document.getElementById('comments-placeholder');
+        if (!placeholder) return;
+        placeholder.innerHTML = '<p><i class="fas fa-spinner fa-spin"></i> Loading comments...</p>';
 
-    // Detect dark mode
-    var darkCSS = document.getElementById('dark-css');
-    var isDark = (darkCSS && darkCSS.media !== 'invalid' && darkCSS.media !== '(prefers-color-scheme: dark)')
-              || window.matchMedia('(prefers-color-scheme: dark)').matches;
-    // If applytheme.js forced dark (removed media attr), darkCSS.media is empty string
-    if (darkCSS && darkCSS.media === '') isDark = true;
+        var isDark = typeof window.isDarkMode === 'function' ? window.isDarkMode() : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = isDark ? 'github-dark' : 'github-light';
 
-    var theme = isDark ? 'github-dark' : 'github-light';
+        var script = document.createElement('script');
+        script.src = 'https://utteranc.es/client.js';
+        script.setAttribute('repo', 'zshn25/zshn25.github.io');
+        script.setAttribute('issue-term', 'title');
+        script.setAttribute('label', 'blogpost-comment');
+        script.setAttribute('theme', theme);
+        script.setAttribute('crossorigin', 'anonymous');
+        script.async = true;
 
-    var script = document.createElement('script');
-    script.src = 'https://utteranc.es/client.js';
-    script.setAttribute('repo', 'zshn25/zshn25.github.io');
-    script.setAttribute('issue-term', 'title');
-    script.setAttribute('label', 'blogpost-comment');
-    script.setAttribute('theme', theme);
-    script.setAttribute('crossorigin', 'anonymous');
-    script.async = true;
+        var container = document.getElementById('utterances-container');
+        container.appendChild(script);
 
-    var container = document.getElementById('utterances-container');
-    container.appendChild(script);
+        window.addEventListener('message', function handler(event) {
+            if (event.origin === 'https://utteranc.es') {
+                placeholder.remove();
+                window.removeEventListener('message', handler);
+            }
+        });
+    }
 
-    // Remove placeholder when utterances iframe loads
-    window.addEventListener('message', function handler(event) {
-        if (event.origin === 'https://utteranc.es') {
-            placeholder.remove();
-            window.removeEventListener('message', handler);
-        }
-    });
-});
+    // Use shared consent helpers from consent-gate.js (fallback if not loaded)
+    var consent = window._consent || {
+        get: function() { try { return JSON.parse(localStorage.getItem('embedConsent')) || {}; } catch(e) { return {}; } },
+        set: function(p) { var c = this.get(); c[p] = true; localStorage.setItem('embedConsent', JSON.stringify(c)); }
+    };
+
+    if (consent.get().comments) {
+        loadUtterances();
+    } else {
+        document.getElementById('load-comments').addEventListener('click', function() {
+            consent.set('comments');
+            loadUtterances();
+        });
+    }
+})();
 </script>
 <a class="u-url" href="/plato-republic/" hidden></a>
 </article>
@@ -758,7 +792,7 @@ document.getElementById('load-comments').addEventListener('click', function() {
       <div class="footer-col">
         <p class="feed-subscribe">
           <a href="https://feedrabbit.com/?url=https://zshn25.github.io/feed.xml">
-            <i class="fas fa-rss" style="color:#ee802f;"></i><span> Subscribe</span>
+            <i class="fas fa-rss rss-icon"></i><span> Subscribe</span>
           </a>
         </p>
         <ul class="contact-list">
@@ -781,16 +815,23 @@ document.getElementById('load-comments').addEventListener('click', function() {
 <div id="privacy-notice" style="display:none">
     This site does not use cookies or track you. Some posts contain embedded content that connects to third parties only when you click.
     <a href="/about/#privacy">Learn more</a>
-    <button class="privacy-ok-btn" onclick="localStorage.setItem('privacyOK','1');document.getElementById('privacy-notice').style.display='none'">OK</button>
+    <button class="privacy-ok-btn" onclick="localStorage.setItem('privacyOK','1');document.getElementById('privacy-notice').style.display='none';document.body.style.paddingBottom=''">OK</button>
 </div>
 <script>
 (function(){
   if(!localStorage.getItem('privacyOK')){
     var el=document.getElementById('privacy-notice');
-    if(el) el.style.display='flex';
+    if(el) {
+      el.style.display='flex';
+      document.body.style.paddingBottom='3em';
+    }
   }
 })();
 </script>
-</body>
+<button class="back-to-top" id="back-to-top" aria-label="Back to top">
+      <i class="fas fa-chevron-up"></i>
+    </button>
+
+  </body>
 
 </html>

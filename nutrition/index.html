@@ -27,8 +27,9 @@
 {"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Zeeshan Khan Suri"},"dateModified":"2020-10-30T05:21:23+00:00","datePublished":"2020-10-30T05:21:23+00:00","description":"Preventing disease is the first step to long-term health and well-being. By following basic nutrition advice you can improve your health by significant amounts.","headline":"Nutrition","image":"https://zshn25.github.io/images/cook.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://zshn25.github.io/nutrition/"},"url":"https://zshn25.github.io/nutrition/"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><!-- Self-hosted vendor CSS (no cross-origin requests for privacy) -->
-<link rel="stylesheet" href="/assets/vendor/primer/primer.css">
-<link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css">
+<!-- Primer utility classes are now inlined via _sass/minima/_primer-utilities.scss -->
+<link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css"></noscript>
 <link rel="stylesheet" href="/assets/vendor/academicons/css/academicons.min.css" media="print" onload="this.media='all'">
     <!-- KaTeX: only on content pages (skipped on homepage for performance) -->
     <link rel="stylesheet" href="/assets/vendor/katex/katex.min.css">
@@ -93,32 +94,29 @@ window.onload = wrap_img;
 <link id="dark-css" href="/assets/css/dark.css" rel="stylesheet" media="(prefers-color-scheme: dark)">
 </head>
 <body><header class="site-header fixed-top">
+  <div class="wrapper header-wrapper">
+    <a class="site-title no-underline" rel="author" href="/">
+      <img src="/images/logo.png" style="max-width:40px;" alt="Curiosity logo" width="40" height="40">
+      Curiosity
+    </a><nav class="site-nav">
+      <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+      <label for="nav-trigger">
+        <span class="menu-icon"></span>
+      </label>
 
-  <div class="wrapper"><a class="site-title no-underline hover-grow" rel="author" href="/"> <img src="/images/logo.png" style="max-width:40px;" alt="Curiosity logo" width="40" height="40"> Curiosity</a><nav class="site-nav">
-        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
-        <label for="nav-trigger">
-          <span class="menu-icon">
-            <svg viewBox="0 0 18 15" width="18px" height="15px">
-              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
-            </svg>
-          </span>
-        </label>
-
-        <div class="trigger"><a class="page-link" href="/about/">About</a><div class="header-search">
-            <i class="fas fa-search header-search-icon"></i>
-            <input type="text" class="header-search-input js-search-input" placeholder="Search..." aria-label="Search Curiosity" autocomplete="off">
-            <div class="search-results-dropdown js-search-results"></div>
-          </div>
-          
-          <a href="/feed.xml" class="nav-anchor no-underline no_icon" title="RSS Feed" aria-label="Subscribe via RSS">
-            <span class="fas fa-rss fa-fw" aria-hidden="true" style="color:#ee802f;"></span>
-          </a>
-          <span id="nav-switch-theme" class="nav-anchor">
-            <span class="nav-theme-icon fas fa-fw" aria-hidden="true" title="Theme"></span>
-            <span class="sr-only">Toggle Theme</span>
-          </span>
+      <div class="nav-items"><a class="page-link nav-item" href="/about/">About</a><div class="header-search nav-item">
+          <i class="fas fa-search header-search-icon"></i>
+          <input type="text" class="header-search-input js-search-input" placeholder="Search..." aria-label="Search Curiosity" autocomplete="off">
+          <div class="search-results-dropdown js-search-results"></div>
         </div>
-      </nav></div>
+        <a href="/feed.xml" class="nav-item header-icon-btn no-underline no_icon" title="RSS Feed" aria-label="Subscribe via RSS">
+          <span class="fas fa-rss rss-icon" aria-hidden="true"></span>
+        </a>
+        <span id="nav-switch-theme" class="nav-item header-icon-btn" style="display:none">
+          <span class="nav-theme-icon fas fa-fw" aria-hidden="true" title="Theme"></span>
+        </span>
+      </div>
+    </nav></div>
 </header>
 
     
@@ -192,7 +190,7 @@ window.onload = wrap_img;
        • <i class="far fa-clock"></i> <span class="read-time" title="Estimated read time">
     
     
-      7 mins read
+      12 mins read
     
 </span>
 </p>
@@ -212,26 +210,44 @@ window.onload = wrap_img;
       </p>
     
 
-    </header>
-
-  
-  
-
-  <div class="post-content e-content" itemprop="articleBody">
     
-      <aside class="sidebar__right sticky">
-      <nav class="toc">
-        <ul><li><a href="#obesity-as-a-worldwide-public-health-crisis">Obesity as a worldwide public health crisis</a><ul><li><a href="#why-is-obesity-increasing">Why is obesity increasing?</a></li></ul></li><li><a href="#focus-on-food-rather-than-nutrients">Focus on food rather than nutrients</a><ul><li><a href="#is-dietary-fat-really-bad">Is dietary fat really bad?</a><ul><li><a href="#the-good-the-bad-and-the-ugly">The good, the bad, and the ugly</a></li></ul></li><li><a href="#are-carbohydrates-really-bad">Are carbohydrates really bad?</a></li><li><a href="#what-about-proteins">What about proteins?</a></li><li><a href="#thinking-of-food-as-a-whole-and-not-as-macronutrients">Thinking of food as a whole and not as macronutrients</a></li><li><a href="#key-takeaways">Key takeaways:</a></li></ul></li><li><a href="#exercise">Exercise</a></li><li><a href="#summary">Summary</a></li><li><a href="#references">References</a></li></ul>
+  </header>
+
+  
+  
+
+  
+  
+  
+  
+  
+
+  <div class="post-layout">
+    
+    <aside class="toc-sidebar" aria-label="On this page">
+      <nav class="toc-nav">
+      <h2 class="toc-heading">
+        
+        
+          On this page
+        
+        
+      </h2>
+    
+        <ul><li><a href="#obesity-as-a-worldwide-public-health-crisis" class="toc-link">Obesity as a worldwide public health crisis</a><ul><li><a href="#why-is-obesity-increasing" class="toc-link">Why is obesity increasing?</a></li></ul></li><li><a href="#focus-on-food-rather-than-nutrients" class="toc-link">Focus on food rather than nutrients</a><ul><li><a href="#is-dietary-fat-really-bad" class="toc-link">Is dietary fat really bad?</a><ul><li><a href="#the-good-the-bad-and-the-ugly" class="toc-link">The good, the bad, and the ugly</a></li></ul></li><li><a href="#are-carbohydrates-really-bad" class="toc-link">Are carbohydrates really bad?</a></li><li><a href="#what-about-proteins" class="toc-link">What about proteins?</a></li><li><a href="#thinking-of-food-as-a-whole-and-not-as-macronutrients" class="toc-link">Thinking of food as a whole and not as macronutrients</a></li><li><a href="#key-takeaways" class="toc-link">Key takeaways:</a></li></ul></li><li><a href="#exercise" class="toc-link">Exercise</a></li><li><a href="#your-gut-microbiome-the-organ-you-didnt-know-you-had" class="toc-link">Your gut microbiome: the organ you didn’t know you had</a><ul><li><a href="#the-gut-brain-connection" class="toc-link">The gut-brain connection</a></li><li><a href="#what-feeds-your-gut" class="toc-link">What feeds your gut</a></li><li><a href="#what-harms-your-gut" class="toc-link">What harms your gut</a></li></ul></li><li><a href="#modern-dietary-guidelines" class="toc-link">Modern dietary guidelines</a><ul><li><a href="#what-the-evidence-consistently-says" class="toc-link">What the evidence consistently says</a></li></ul></li><li><a href="#summary" class="toc-link">Summary</a></li><li><a href="#references" class="toc-link">References</a></li></ul>
       </nav>
     </aside>
     
-    
-    <p>Preventing disease is the first step to long-term health and well-being. By following basic nutrition advice you can improve your health by significant amounts.</p>
+
+    <div class="post-content e-content" itemprop="articleBody">
+      <p>Preventing disease is the first step to long-term health and well-being. By following basic nutrition advice you can improve your health by significant amounts.</p>
 
 <!-- {::options parse_block_html="true" /} -->
 
-<div class="flash flash-error" role="alert">
-    <svg height="24" class="octicon octicon-alert" viewBox="0 0 24 24" version="1.1" width="24" aria-hidden="true"><path d="M13 17.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0Zm-.25-8.25a.75.75 0 0 0-1.5 0v4.5a.75.75 0 0 0 1.5 0v-4.5Z"></path><path d="M9.836 3.244c.963-1.665 3.365-1.665 4.328 0l8.967 15.504c.963 1.667-.24 3.752-2.165 3.752H3.034c-1.926 0-3.128-2.085-2.165-3.752Zm3.03.751a1.002 1.002 0 0 0-1.732 0L2.168 19.499A1.002 1.002 0 0 0 3.034 21h17.932a1.002 1.002 0 0 0 .866-1.5L12.866 3.994Z"></path></svg> <b>Warning:</b> Nutrition is not a solved problem. We still don’t know for sure which foods to eat and which ones to avoid but there is a decades of consistent science and research, which I want to bring to you. Take it with a grain of salt
+<div class="markdown-alert markdown-alert-warning" role="alert">
+  <p class="markdown-alert-title"><svg viewBox="0 0 16 16" width="16" height="16" style="display:inline-block;vertical-align:text-bottom;margin-right:0.4em"><path fill="#bf8700" d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575ZM8 5a.75.75 0 0 0-.75.75v2.5a.75.75 0 0 0 1.5 0v-2.5A.75.75 0 0 0 8 5Zm0 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"></path></svg>Warning</p>
+  <p>Nutrition is not a solved problem. We still don’t know for sure which foods to eat and which ones to avoid but there is a decades of consistent science and research, which I want to bring to you. Take it with a grain of salt</p>
+
 </div>
 
 <!-- ***Disclaimer***: *Nutrition is not a solved problem. We still don’t know for sure which foods to eat and which ones to avoid but there is a decades of consistent science and research, which I want to bring to you. Take it with a grain of salt*
@@ -245,7 +261,7 @@ window.onload = wrap_img;
       </h2>
     
 
-<p>Western diet is now a major cause of obesity, which is a recognized chronic disease with well-defined health consequences such as Cardiovascular diseases, type 2 diabetes, obstructive sleep apnea, certain types of cancer, osteoarthritis, depression <sup id="fnref:1"><a href="#fn:1" class="footnote" rel="footnote" role="doc-noteref">1</a></sup>. Obesity is labelled by the <a href="https://www.who.int/nutrition/topics/obesity/en/">WHO</a> as a worldwide public health crisis <sup id="fnref:2"><a href="#fn:2" class="footnote" rel="footnote" role="doc-noteref">2</a></sup>. Western diet is normally defined as highly processed foods with very little whole grains, fruits and vegetables. The rate at which obesity is increasing is also increasing at an alarming rate. Data shows that <strong>39%</strong> of adults aged 18 years and older were overweight or obese in 2016<sup id="fnref:7"><a href="#fn:7" class="footnote" rel="footnote" role="doc-noteref">3</a></sup>.</p>
+<p>Western diet is now a major cause of obesity, which is a recognized chronic disease with well-defined health consequences such as Cardiovascular diseases, type 2 diabetes, obstructive sleep apnea, certain types of cancer, osteoarthritis, depression <sup id="fnref:1"><a href="#fn:1" class="footnote" rel="footnote" role="doc-noteref">1</a></sup>. Obesity is labelled by the <a href="https://www.who.int/nutrition/topics/obesity/en/"><abbr title="World Health Organization">WHO</abbr></a> as a worldwide public health crisis <sup id="fnref:2"><a href="#fn:2" class="footnote" rel="footnote" role="doc-noteref">2</a></sup>. Western diet is normally defined as highly processed foods with very little whole grains, fruits and vegetables. The rate at which obesity is increasing is also increasing at an alarming rate. Data shows that <strong>39%</strong> of adults aged 18 years and older were overweight or obese in 2016<sup id="fnref:7"><a href="#fn:7" class="footnote" rel="footnote" role="doc-noteref">3</a></sup>.</p>
 
 <!-- <figure>
   <a class="no_icon" target="_blank" href="https://metrocosm.com/wp-content/uploads/2016/07/world-obesity-map.gif" rel="noopener noreferrer">
@@ -367,10 +383,10 @@ if (typeof loadYouTube === 'undefined') {
     <p>Unsaturated fats, such as Omega-3 fatty acids, which are found in fish and some nuts,seeds, are good for long term health. In fact, Omega-3 fatty acids are the only kinds which cannot be made in human body. So, it is essential to have them.</p>
   </li>
   <li>
-    <p><a href="https://en.wikipedia.org/wiki/Saturated_fat#Association_with_diseases">Saturated fats</a> are bad for health <sup id="fnref:3"><a href="#fn:3" class="footnote" rel="footnote" role="doc-noteref">4</a></sup>. They increase the amound of bad chelestrol in the blood (LDL).</p>
+    <p><a href="https://en.wikipedia.org/wiki/Saturated_fat#Association_with_diseases">Saturated fats</a> are bad for health <sup id="fnref:3"><a href="#fn:3" class="footnote" rel="footnote" role="doc-noteref">4</a></sup>. They increase the amound of bad chelestrol in the blood (<abbr title="Low-density lipoprotein">LDL</abbr>).</p>
   </li>
   <li>
-    <p>While naturally occurring unsaturated fats, such as the ones found in olive oil, avocado, fish and nuts are good, chemically engineered saturated fats, such as the ones found in margarines and frying oils have week chemical bonds and are easily converted into trans-fats <sup id="fnref:4"><a href="#fn:4" class="footnote" rel="footnote" role="doc-noteref">5</a></sup>. Trans fats increase the amount of bad cholesterol in the blood (LDL) and decreases the amount of good cholesterol (HDL), which increases the risk of heart disease <sup id="fnref:5"><a href="#fn:5" class="footnote" rel="footnote" role="doc-noteref">6</a></sup>. These must be avoided as much as possible.</p>
+    <p>While naturally occurring unsaturated fats, such as the ones found in olive oil, avocado, fish and nuts are good, chemically engineered saturated fats, such as the ones found in margarines and frying oils have week chemical bonds and are easily converted into trans-fats <sup id="fnref:4"><a href="#fn:4" class="footnote" rel="footnote" role="doc-noteref">5</a></sup>. Trans fats increase the amount of bad cholesterol in the blood (<abbr title="Low-density lipoprotein">LDL</abbr>) and decreases the amount of good cholesterol (<abbr title="High-density lipoprotein">HDL</abbr>), which increases the risk of heart disease <sup id="fnref:5"><a href="#fn:5" class="footnote" rel="footnote" role="doc-noteref">6</a></sup>. These must be avoided as much as possible.</p>
   </li>
 </ul>
       <h3 id="are-carbohydrates-really-bad">
@@ -448,13 +464,92 @@ if (typeof loadYouTube === 'undefined') {
       </h2>
     
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>eating --&gt; energy++
-excercizing --&gt; energy--
-</code></pre></div></div>
+<p>Eating provides energy; exercising expends it. For people who are trying to lose excess weight, favoring energy expenditure over energy storage needs to be prioritized. This can be achieved by consuming fewer calories and exercising more.</p>
 
-<p>For people who are trying to lose excess weight, favoring energy expenditure over energy storage needs to be prioritized. This can be achieved by consuming fewer calories and exercising more.</p>
+<p>But, not only the <strong>quantity</strong> of the food, but also the <strong>quality</strong> of the food we eat matters. A calorie from a donut is not the same as a calorie from broccoli — the nutrients, fiber, and how your body processes them are fundamentally different.</p>
 
-<p>But, not only the <strong>quantity</strong> of the food, but also the <strong>quality</strong> of the food we eat matters.</p><hr />
+<div class="markdown-alert markdown-alert-note" role="alert">
+  <p class="markdown-alert-title"><svg viewBox="0 0 16 16" width="16" height="16" style="display:inline-block;vertical-align:text-bottom;margin-right:0.4em"><path fill="#0969da" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+  <p>Exercise deserves its own dedicated post. For now, the key message is: regular physical activity is essential for health, independent of weight management.</p>
+
+</div><hr />
+      <h2 id="your-gut-microbiome-the-organ-you-didnt-know-you-had">
+        
+        
+          <a href="#your-gut-microbiome-the-organ-you-didnt-know-you-had" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Your gut microbiome: the organ you didn’t know you had
+        
+        
+      </h2>
+    
+
+<p>Your gut contains approximately <strong>38 trillion microorganisms</strong> — roughly a 1:1 ratio with your own human cells<sup id="fnref:8"><a href="#fn:8" class="footnote" rel="footnote" role="doc-noteref">8</a></sup>. This collection of bacteria, weighing about 2-3 kg, encodes over 150 times more genes than the human genome. Scientists increasingly refer to the gut microbiome as a separate organ because of its profound influence on nearly every aspect of health.</p>
+      <h3 id="the-gut-brain-connection">
+        
+        
+          <a href="#the-gut-brain-connection" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> The gut-brain connection
+        
+        
+      </h3>
+    
+
+<p>The gut and brain communicate bidirectionally through the <strong>vagus nerve</strong>, the enteric nervous system (sometimes called the “second brain,” with over 500 million neurons), the immune system, and microbial metabolites. Your gut produces approximately <strong>95% of the body’s serotonin</strong> and about <strong>50% of its dopamine</strong> — neurotransmitters critical for mood, sleep, and cognition<sup id="fnref:9"><a href="#fn:9" class="footnote" rel="footnote" role="doc-noteref">9</a></sup>.</p>
+
+<p>A study analyzed data from over 1,000 people and found that <em>Coprococcus</em> and <em>Dialister</em> bacteria were consistently depleted in people with depression, regardless of antidepressant treatment. Butyrate-producing bacteria were associated with higher quality of life<sup id="fnref:10"><a href="#fn:10" class="footnote" rel="footnote" role="doc-noteref">10</a></sup>.</p>
+      <h3 id="what-feeds-your-gut">
+        
+        
+          <a href="#what-feeds-your-gut" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> What feeds your gut
+        
+        
+      </h3>
+    
+
+<p><strong>Fiber is the fuel.</strong> Only about 5% of people meet the recommended daily fiber intake (25g for women, 38g for men). Fiber is fermented by gut bacteria into <strong>short-chain fatty acids</strong> (butyrate, propionate, acetate) that nourish colon cells, maintain gut barrier integrity, regulate immune responses, and signal satiety to the brain.</p>
+
+<p>The <strong>diversity</strong> of fiber sources matters as much as total quantity. People who eat <strong>30+ different plant species per week</strong> have significantly more diverse microbiomes than those who eat 10 or fewer<sup id="fnref:11"><a href="#fn:11" class="footnote" rel="footnote" role="doc-noteref">11</a></sup>. The Hadza hunter-gatherers of Tanzania, who consume 100-150g of fiber per day, have gut microbial diversity roughly 40% higher than Western populations<sup id="fnref:12"><a href="#fn:12" class="footnote" rel="footnote" role="doc-noteref">12</a></sup>.</p>
+
+<p><strong>Fermented foods</strong> — yogurt, kefir, sauerkraut, kimchi, miso, tempeh — are powerful allies. A Stanford study found that a diet high in fermented foods (6+ servings/day for 10 weeks) increased microbiome diversity and decreased markers of inflammation<sup id="fnref:13"><a href="#fn:13" class="footnote" rel="footnote" role="doc-noteref">13</a></sup>.</p>
+      <h3 id="what-harms-your-gut">
+        
+        
+          <a href="#what-harms-your-gut" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> What harms your gut
+        
+        
+      </h3>
+    
+
+<ul>
+  <li><strong>Ultra-processed foods:</strong> Emulsifiers found in many processed foods have been shown to thin the gut mucus layer and promote inflammation<sup id="fnref:14"><a href="#fn:14" class="footnote" rel="footnote" role="doc-noteref">14</a></sup>. A 2024 umbrella review of 45 meta-analyses covering nearly 10 million participants found that higher ultra-processed food consumption was associated with a 50% higher risk of cardiovascular death and 48-53% higher risk of anxiety and depression<sup id="fnref:15"><a href="#fn:15" class="footnote" rel="footnote" role="doc-noteref">15</a></sup>.</li>
+  <li><strong>Artificial sweeteners:</strong> Saccharin, sucralose, and aspartame alter gut microbiota composition and may impair glucose tolerance<sup id="fnref:16"><a href="#fn:16" class="footnote" rel="footnote" role="doc-noteref">16</a></sup>.</li>
+  <li><strong>Antibiotics:</strong> While life-saving, broad-spectrum antibiotics can devastate microbial diversity. Recovery can take 6-12 months, and some species may never return<sup id="fnref:17"><a href="#fn:17" class="footnote" rel="footnote" role="doc-noteref">17</a></sup>.</li>
+  <li><strong>When fiber intake is too low,</strong> gut bacteria begin consuming the mucus lining of the intestine as an alternative energy source, compromising gut barrier function<sup id="fnref:18"><a href="#fn:18" class="footnote" rel="footnote" role="doc-noteref">18</a></sup>.</li>
+</ul><hr />
+      <h2 id="modern-dietary-guidelines">
+        
+        
+          <a href="#modern-dietary-guidelines" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Modern dietary guidelines
+        
+        
+      </h2>
+    
+
+<p>The science of nutrition continues to evolve, but the core recommendations have remained remarkably consistent across major health organizations:</p>
+      <h3 id="what-the-evidence-consistently-says">
+        
+        
+          <a href="#what-the-evidence-consistently-says" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> What the evidence consistently says
+        
+        
+      </h3>
+    
+
+<p>The <strong><abbr title="United States Department of Agriculture">USDA</abbr> Dietary Guidelines 2020-2025</strong> recommend limiting added sugars to less than 10% of daily calories, saturated fat to less than 10%, and sodium to less than 2,300 mg/day. They emphasize dietary patterns — Mediterranean, <abbr title="Dietary Approaches to Stop Hypertension">DASH</abbr>, and healthy vegetarian — over individual nutrients<sup id="fnref:19"><a href="#fn:19" class="footnote" rel="footnote" role="doc-noteref">19</a></sup>.</p>
+
+<p>The <strong><abbr title="World Health Organization">WHO</abbr></strong> recommends at least 400g (5 portions) of fruits and vegetables per day, less than 10% of energy from free sugars (ideally below 5%), and less than 2,000 mg of sodium per day. In 2023, the <abbr title="World Health Organization">WHO</abbr> advised against using non-sugar sweeteners for weight control, finding no long-term benefit for reducing body fat<sup id="fnref:20"><a href="#fn:20" class="footnote" rel="footnote" role="doc-noteref">20</a></sup>.</p>
+
+<p><strong>Harvard’s Healthy Eating Plate</strong> emphasizes whole grains (not just any grains), healthy oils (olive, canola), water as the primary beverage, and includes physical activity — providing a clearer guide than the <abbr title="United States Department of Agriculture">USDA</abbr>’s MyPlate<sup id="fnref:21"><a href="#fn:21" class="footnote" rel="footnote" role="doc-noteref">21</a></sup>.</p>
+
+<p>The <strong>EAT-Lancet Planetary Health Diet</strong> (2019) integrates human health with environmental sustainability, recommending approximately 500g/day of vegetables and fruits, 232g/day of whole grains, 125g/day of plant-based protein, and limiting red meat to about 14g/day<sup id="fnref:22"><a href="#fn:22" class="footnote" rel="footnote" role="doc-noteref">22</a></sup>.</p><hr />
       <h2 id="summary">
         
         
@@ -464,21 +559,17 @@ excercizing --&gt; energy--
       </h2>
     
 
-<p>When we outsource our food preparation to large companies or restaurants, we get low nutrient dense food.</p>
+<p>When we outsource our food preparation to large companies or restaurants, we get low nutrient-dense food.</p>
 
 <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mtext>Nutrient density</mtext><mo>=</mo><mfrac><mtext>nutrients per gram</mtext><mtext>calories per gram</mtext></mfrac></mrow><annotation encoding="application/x-tex">\text{Nutrient density} = \frac{\text{nutrients per gram}}{\text{calories per gram}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">Nutrient density</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:2.2253em;vertical-align:-0.8804em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.3449em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord text"><span class="mord">calories per gram</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord text"><span class="mord">nutrients per gram</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.8804em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span>
 
-<p>Home-made food, cooked using high quality ingredients, having natural unsaturated fats, low <abbr title="Glycemic index">GI</abbr>, lots of fiber, and mostly plant-based protein will lead to good long-term health and longevity. The following food pyramid summaries this in a graphical, easy to remember illustration.</p>
+<p>Home-made food, cooked using high quality ingredients, having natural unsaturated fats, low <abbr title="Glycemic index">GI</abbr>, lots of fiber, and mostly plant-based protein will lead to good long-term health and longevity. Feed your gut microbiome with diverse plant foods and fermented foods. Minimize ultra-processed foods and refined sugars.</p>
 
-<p style="text-align: center;"><a href="https://commons.wikimedia.org/wiki/File:Nutrition-pyramid.jpg"><img src="https://upload.wikimedia.org/wikipedia/commons/e/eb/Nutrition-pyramid.jpg" alt="bmi" width="50%" class="shadow" /></a></p>
-<p style="text-align: center;"><sub><sup><em>Fig.3: Food pyramid. <a href="https://commons.wikimedia.org/wiki/File:Nutrition-pyramid.jpg">Spmallare</a>, <a href="https://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>, via Wikimedia Commons</em>
+<p style="text-align: center;"><a href="https://commons.wikimedia.org/wiki/File:Good_Food_Display_-_NCI_Visuals_Online.jpg"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/960px-Good_Food_Display_-_NCI_Visuals_Online.jpg" alt="realfood" /></a></p>
+<p style="text-align: center;"><sub><sup><em>Some healthy foods including beans, grains, cauliflower, cantaloupe, pasta, bread, orange, turkey, fish, carrots, turnips, zucchini, snowpeas, string beans, radishes, asparagus, summer squash, lean beef, tomatoes, and potatoes, Public domain, via Wikimedia Commons</em>
 </sup></sub></p>
 
-<p>Even if you’re not obese, being aware of the food you eat and maintaining physical exercise will ensure long term health.</p>
-
-<!-- ## Choosing food that supports long term health
-
-Our shopping environments fail to support health. --><hr />
+<p>The bottom line: <strong>eat real food, mostly plants, not too much</strong> — as Michael Pollan famously put it. Your body and your gut microbiome will thank you.</p><hr />
       <h2 id="references">
         
         
@@ -497,7 +588,7 @@ Our shopping environments fail to support health. --><hr />
       <p><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3033553/">Hurt RT, Kulisek C, Buchanan LA, McClave SA. The obesity epidemic: challenges, health initiatives, and implications for gastroenterologists. Gastroenterol Hepatol (N Y). 2010;6(12):780-792.</a> <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
     <li id="fn:7">
-      <p><a href="https://www.who.int/en/news-room/fact-sheets/detail/obesity-and-overweight">WHO (2018) – Fact sheet – Obesity and overweight. Updated February 2018</a> <a href="#fnref:7" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+      <p><a href="https://www.who.int/en/news-room/fact-sheets/detail/obesity-and-overweight"><abbr title="World Health Organization">WHO</abbr> (2018) – Fact sheet – Obesity and overweight. Updated February 2018</a> <a href="#fnref:7" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
     <li id="fn:3">
       <p><a href="https://en.wikipedia.org/wiki/Fat#Cis_and_trans_fats">https://en.wikipedia.org/wiki/Fat#Cis_and_trans_fats</a> <a href="#fnref:3" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
@@ -511,9 +602,55 @@ Our shopping environments fail to support health. --><hr />
     <li id="fn:6">
       <p><a href="https://www.health.harvard.edu/blog/eat-more-plants-fewer-animals-2018112915198">https://www.health.harvard.edu/blog/eat-more-plants-fewer-animals-2018112915198</a> <a href="#fnref:6" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
+    <li id="fn:8">
+      <p>Sender, R., Fuchs, S., &amp; Milo, R. (2016). <a href="https://doi.org/10.1016/j.cell.2016.01.013">Revised Estimates for the Number of Human and Bacteria Cells in the Body.</a> Cell, 164(3), 337-340. <a href="#fnref:8" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:9">
+      <p>Yano, J. M., et al. (2015). <a href="https://doi.org/10.1016/j.cell.2015.02.047">Indigenous Bacteria from the Gut Microbiota Regulate Host Serotonin Biosynthesis.</a> Cell, 161(2), 264-276. <a href="#fnref:9" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:10">
+      <p>Valles-Colomer, M., et al. (2019). <a href="https://doi.org/10.1038/s41564-018-0337-x">The neuroactive potential of the human gut microbiota in quality of life and depression.</a> Nature Microbiology, 4, 623-632. <a href="#fnref:10" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:11">
+      <p>McDonald, D., et al. (2018). <a href="https://doi.org/10.1128/mSystems.00031-18">American Gut: an Open Platform for Citizen Science Microbiome Research.</a> mSystems, 3(3). <a href="#fnref:11" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:12">
+      <p>Smits, S. A., et al. (2017). <a href="https://doi.org/10.1126/science.aan4834">Seasonal cycling in the gut microbiome of the Hadza hunter-gatherers of Tanzania.</a> Science, 357(6353), 802-806. <a href="#fnref:12" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:13">
+      <p>Wastyk, H. C., et al. (2021). <a href="https://doi.org/10.1016/j.cell.2021.06.019">Gut-microbiota-targeted diets modulate human immune status.</a> Cell, 184(16), 4137-4153. <a href="#fnref:13" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:14">
+      <p>Chassaing, B., et al. (2015). <a href="https://doi.org/10.1038/nature14232">Dietary emulsifiers impact the mouse gut microbiota promoting colitis and metabolic syndrome.</a> Nature, 519, 92-96. <a href="#fnref:14" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:15">
+      <p>Lane, M. M., et al. (2024). <a href="https://doi.org/10.1136/bmj-2023-077310">Ultra-processed food exposure and adverse health outcomes: umbrella review of epidemiological meta-analyses.</a> The BMJ, 384, e077310. <a href="#fnref:15" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:16">
+      <p>Suez, J., et al. (2022). <a href="https://doi.org/10.1016/j.cell.2022.07.016">Personalized microbiome-driven effects of non-nutritive sweeteners on human glucose tolerance.</a> Cell, 185(18), 3307-3328. <a href="#fnref:16" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:17">
+      <p>Palleja, A., et al. (2018). <a href="https://doi.org/10.1038/s41564-018-0257-9">Recovery of gut microbiota of healthy adults following antibiotic exposure.</a> Nature Microbiology, 3, 1255-1265. <a href="#fnref:17" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:18">
+      <p>Desai, M. S., et al. (2016). <a href="https://doi.org/10.1016/j.cell.2016.10.043">A dietary fiber-deprived gut microbiota degrades the colonic mucus barrier and enhances pathogen susceptibility.</a> Cell, 167(5), 1339-1353. <a href="#fnref:18" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:19">
+      <p>U.S. Department of Agriculture and U.S. Department of Health and Human Services. <a href="https://www.dietaryguidelines.gov/">Dietary Guidelines for Americans, 2020-2025.</a> 9th Edition, December 2020. <a href="#fnref:19" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:20">
+      <p>World Health Organization. <a href="https://www.who.int/publications/i/item/9789240073616">Use of non-sugar sweeteners: <abbr title="World Health Organization">WHO</abbr> guideline.</a> Geneva, 2023. <a href="#fnref:20" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:21">
+      <p>Harvard T.H. Chan School of Public Health. <a href="https://www.hsph.harvard.edu/nutritionsource/healthy-eating-plate/">The Nutrition Source: Healthy Eating Plate.</a> <a href="#fnref:21" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:22">
+      <p>Willett, W., et al. (2019). <a href="https://doi.org/10.1016/S0140-6736(18)31788-4">Food in the Anthropocene: the EAT-Lancet Commission on healthy diets from sustainable food systems.</a> The Lancet, 393(10170), 447-492. <a href="#fnref:22" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
   </ol>
 </div>
 
+    </div>
   </div><hr>
   <!-- This code is taken from Jekyll-Codex (jekyllcodex.org). MIT License
 Copyright (c) 2020 Usecue BV -->
@@ -767,15 +904,14 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
             
 
             
-                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 card-compact"><div class="col-4 d-table-cell p-3 v-align-middle">
+                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
     <a href="/hot-chocolate/">
-    <img class="image-preview " src="/images/recipes/hotchocolate/cocoa.jpg" loading="lazy" alt="Hot chocolate" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+    <img class="image-preview" src="/images/recipes/hotchocolate/cocoa.jpg" loading="lazy" alt="Hot chocolate" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
-      
       
       <a class="post-link" href="/hot-chocolate/">
         Hot chocolate
@@ -797,21 +933,22 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=food">#food</a>
+          <a class="category-tags-link" href="/?tag=food">#food</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=cooking">#cooking</a>
+          <a class="category-tags-link" href="/?tag=cooking">#cooking</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=recipe">#recipe</a>
+          <a class="category-tags-link" href="/?tag=recipe">#recipe</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
                 
                 
             
@@ -915,46 +1052,57 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
 <div id="utterances-container">
     <div id="comments-placeholder" class="consent-placeholder">
         <p><i class="fas fa-comments"></i> <strong>Comments</strong></p>
-        <p class="consent-detail">Loading comments connects to GitHub via utteranc.es and may set cookies.</p>
+        <p class="consent-detail">Loading comments connects to GitHub via utteranc.es and may set cookies. By clicking below, you consent to loading external content that may set third-party cookies. This preference will be remembered across all pages.</p>
         <button id="load-comments" class="button is-rounded">
             <i class="fas fa-comment-dots"></i> Load Comments
         </button>
     </div>
 </div>
 <script>
-document.getElementById('load-comments').addEventListener('click', function() {
-    var placeholder = document.getElementById('comments-placeholder');
-    placeholder.innerHTML = '<p><i class="fas fa-spinner fa-spin"></i> Loading comments...</p>';
+(function() {
+    function loadUtterances() {
+        var placeholder = document.getElementById('comments-placeholder');
+        if (!placeholder) return;
+        placeholder.innerHTML = '<p><i class="fas fa-spinner fa-spin"></i> Loading comments...</p>';
 
-    // Detect dark mode
-    var darkCSS = document.getElementById('dark-css');
-    var isDark = (darkCSS && darkCSS.media !== 'invalid' && darkCSS.media !== '(prefers-color-scheme: dark)')
-              || window.matchMedia('(prefers-color-scheme: dark)').matches;
-    // If applytheme.js forced dark (removed media attr), darkCSS.media is empty string
-    if (darkCSS && darkCSS.media === '') isDark = true;
+        var isDark = typeof window.isDarkMode === 'function' ? window.isDarkMode() : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = isDark ? 'github-dark' : 'github-light';
 
-    var theme = isDark ? 'github-dark' : 'github-light';
+        var script = document.createElement('script');
+        script.src = 'https://utteranc.es/client.js';
+        script.setAttribute('repo', 'zshn25/zshn25.github.io');
+        script.setAttribute('issue-term', 'title');
+        script.setAttribute('label', 'blogpost-comment');
+        script.setAttribute('theme', theme);
+        script.setAttribute('crossorigin', 'anonymous');
+        script.async = true;
 
-    var script = document.createElement('script');
-    script.src = 'https://utteranc.es/client.js';
-    script.setAttribute('repo', 'zshn25/zshn25.github.io');
-    script.setAttribute('issue-term', 'title');
-    script.setAttribute('label', 'blogpost-comment');
-    script.setAttribute('theme', theme);
-    script.setAttribute('crossorigin', 'anonymous');
-    script.async = true;
+        var container = document.getElementById('utterances-container');
+        container.appendChild(script);
 
-    var container = document.getElementById('utterances-container');
-    container.appendChild(script);
+        window.addEventListener('message', function handler(event) {
+            if (event.origin === 'https://utteranc.es') {
+                placeholder.remove();
+                window.removeEventListener('message', handler);
+            }
+        });
+    }
 
-    // Remove placeholder when utterances iframe loads
-    window.addEventListener('message', function handler(event) {
-        if (event.origin === 'https://utteranc.es') {
-            placeholder.remove();
-            window.removeEventListener('message', handler);
-        }
-    });
-});
+    // Use shared consent helpers from consent-gate.js (fallback if not loaded)
+    var consent = window._consent || {
+        get: function() { try { return JSON.parse(localStorage.getItem('embedConsent')) || {}; } catch(e) { return {}; } },
+        set: function(p) { var c = this.get(); c[p] = true; localStorage.setItem('embedConsent', JSON.stringify(c)); }
+    };
+
+    if (consent.get().comments) {
+        loadUtterances();
+    } else {
+        document.getElementById('load-comments').addEventListener('click', function() {
+            consent.set('comments');
+            loadUtterances();
+        });
+    }
+})();
 </script>
 <a class="u-url" href="/nutrition/" hidden></a>
 </article>
@@ -969,7 +1117,7 @@ document.getElementById('load-comments').addEventListener('click', function() {
       <div class="footer-col">
         <p class="feed-subscribe">
           <a href="https://feedrabbit.com/?url=https://zshn25.github.io/feed.xml">
-            <i class="fas fa-rss" style="color:#ee802f;"></i><span> Subscribe</span>
+            <i class="fas fa-rss rss-icon"></i><span> Subscribe</span>
           </a>
         </p>
         <ul class="contact-list">
@@ -992,16 +1140,23 @@ document.getElementById('load-comments').addEventListener('click', function() {
 <div id="privacy-notice" style="display:none">
     This site does not use cookies or track you. Some posts contain embedded content that connects to third parties only when you click.
     <a href="/about/#privacy">Learn more</a>
-    <button class="privacy-ok-btn" onclick="localStorage.setItem('privacyOK','1');document.getElementById('privacy-notice').style.display='none'">OK</button>
+    <button class="privacy-ok-btn" onclick="localStorage.setItem('privacyOK','1');document.getElementById('privacy-notice').style.display='none';document.body.style.paddingBottom=''">OK</button>
 </div>
 <script>
 (function(){
   if(!localStorage.getItem('privacyOK')){
     var el=document.getElementById('privacy-notice');
-    if(el) el.style.display='flex';
+    if(el) {
+      el.style.display='flex';
+      document.body.style.paddingBottom='3em';
+    }
   }
 })();
 </script>
-</body>
+<button class="back-to-top" id="back-to-top" aria-label="Back to top">
+      <i class="fas fa-chevron-up"></i>
+    </button>
+
+  </body>
 
 </html>

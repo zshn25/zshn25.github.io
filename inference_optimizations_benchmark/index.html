@@ -25,8 +25,9 @@
 {"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Zeeshan Khan Suri"},"dateModified":"2026-03-24T00:00:00+00:00","datePublished":"2026-03-24T00:00:00+00:00","description":"benchmarked on a real depth estimation model.","headline":"Inference Speedup Benchmark — Depth Anything v3 (Metric-Large)","mainEntityOfPage":{"@type":"WebPage","@id":"https://zshn25.github.io/inference_optimizations_benchmark/"},"url":"https://zshn25.github.io/inference_optimizations_benchmark/"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><!-- Self-hosted vendor CSS (no cross-origin requests for privacy) -->
-<link rel="stylesheet" href="/assets/vendor/primer/primer.css">
-<link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css">
+<!-- Primer utility classes are now inlined via _sass/minima/_primer-utilities.scss -->
+<link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css"></noscript>
 <link rel="stylesheet" href="/assets/vendor/academicons/css/academicons.min.css" media="print" onload="this.media='all'">
     <!-- KaTeX: only on content pages (skipped on homepage for performance) -->
     <link rel="stylesheet" href="/assets/vendor/katex/katex.min.css">
@@ -91,32 +92,29 @@ window.onload = wrap_img;
 <link id="dark-css" href="/assets/css/dark.css" rel="stylesheet" media="(prefers-color-scheme: dark)">
 </head>
 <body><header class="site-header fixed-top">
+  <div class="wrapper header-wrapper">
+    <a class="site-title no-underline" rel="author" href="/">
+      <img src="/images/logo.png" style="max-width:40px;" alt="Curiosity logo" width="40" height="40">
+      Curiosity
+    </a><nav class="site-nav">
+      <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+      <label for="nav-trigger">
+        <span class="menu-icon"></span>
+      </label>
 
-  <div class="wrapper"><a class="site-title no-underline hover-grow" rel="author" href="/"> <img src="/images/logo.png" style="max-width:40px;" alt="Curiosity logo" width="40" height="40"> Curiosity</a><nav class="site-nav">
-        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
-        <label for="nav-trigger">
-          <span class="menu-icon">
-            <svg viewBox="0 0 18 15" width="18px" height="15px">
-              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
-            </svg>
-          </span>
-        </label>
-
-        <div class="trigger"><a class="page-link" href="/about/">About</a><div class="header-search">
-            <i class="fas fa-search header-search-icon"></i>
-            <input type="text" class="header-search-input js-search-input" placeholder="Search..." aria-label="Search Curiosity" autocomplete="off">
-            <div class="search-results-dropdown js-search-results"></div>
-          </div>
-          
-          <a href="/feed.xml" class="nav-anchor no-underline no_icon" title="RSS Feed" aria-label="Subscribe via RSS">
-            <span class="fas fa-rss fa-fw" aria-hidden="true" style="color:#ee802f;"></span>
-          </a>
-          <span id="nav-switch-theme" class="nav-anchor">
-            <span class="nav-theme-icon fas fa-fw" aria-hidden="true" title="Theme"></span>
-            <span class="sr-only">Toggle Theme</span>
-          </span>
+      <div class="nav-items"><a class="page-link nav-item" href="/about/">About</a><div class="header-search nav-item">
+          <i class="fas fa-search header-search-icon"></i>
+          <input type="text" class="header-search-input js-search-input" placeholder="Search..." aria-label="Search Curiosity" autocomplete="off">
+          <div class="search-results-dropdown js-search-results"></div>
         </div>
-      </nav></div>
+        <a href="/feed.xml" class="nav-item header-icon-btn no-underline no_icon" title="RSS Feed" aria-label="Subscribe via RSS">
+          <span class="fas fa-rss rss-icon" aria-hidden="true"></span>
+        </a>
+        <span id="nav-switch-theme" class="nav-item header-icon-btn" style="display:none">
+          <span class="nav-theme-icon fas fa-fw" aria-hidden="true" title="Theme"></span>
+        </span>
+      </div>
+    </nav></div>
 </header>
 
     
@@ -213,14 +211,59 @@ window.onload = wrap_img;
       </p>
     
 
-    </header>
-
-  
-  
-
-  <div class="post-content e-content" itemprop="articleBody">
     
-    <p>How fast can we push a single forward pass of a modern depth estimator on a CUDA GPU?</p>
+  
+    <div class="pb-5 d-flex flex-wrap flex-justify-end">
+      <div class="px-2">
+
+    <a href="https://github.com/zshn25/zshn25.github.io/tree/master/_notebooks/2026-03-24-inference_optimizations_benchmark.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+      <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/zshn25/zshn25.github.io/master?filepath=_notebooks%2F2026-03-24-inference_optimizations_benchmark.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+      <div class="px-2">
+    <a href="https://colab.research.google.com/github/zshn25/zshn25.github.io/blob/master/_notebooks/2026-03-24-inference_optimizations_benchmark.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+    </div>
+  
+  </header>
+
+  
+  
+
+  
+  
+  
+  
+  
+
+  <div class="post-layout">
+    
+    <aside class="toc-sidebar" aria-label="On this page">
+      <nav class="toc-nav">
+      <h2 class="toc-heading">
+        
+        
+          On this page
+        
+        
+      </h2>
+    
+        <ul><li><a href="#model-depth-anything-v3--metric-large" class="toc-link">Model: Depth Anything v3 — Metric-Large</a></li><li><a href="#gpu-warmup" class="toc-link">GPU warmup</a></li><li><a href="#benchmarking-utilities" class="toc-link">Benchmarking utilities</a></li><li><a href="#0--baseline-eager" class="toc-link">0 – Baseline (eager)</a></li><li><a href="#1--cudnnbenchmark" class="toc-link">1 – cudnn.benchmark</a></li><li><a href="#2--channels_last" class="toc-link">2 – channels_last</a></li><li><a href="#3--inference_mode" class="toc-link">3 – inference_mode</a></li><li><a href="#4--tf32-matmul" class="toc-link">4 – TF32 matmul</a></li><li><a href="#5--amp-fp16" class="toc-link">5 – AMP FP16</a></li><li><a href="#6--amp-bf16" class="toc-link">6 – AMP BF16</a></li><li><a href="#7--static-fp16-modelhalf" class="toc-link">7 – Static FP16 (model.half())</a></li><li><a href="#7b--sdpa-backends" class="toc-link">7b – SDPA backends</a></li><li><a href="#8--torchcompile-default" class="toc-link">8 – torch.compile (default)</a></li><li><a href="#9--torchcompile-reduce-overhead" class="toc-link">9 – torch.compile (reduce-overhead)</a></li><li><a href="#10--torchcompile-max-autotune" class="toc-link">10 – torch.compile (max-autotune)</a></li><li><a href="#11--compile-fullgraph--freeze" class="toc-link">11 – compile fullgraph + freeze</a></li><li><a href="#12--jit-trace--optimize" class="toc-link">12 – JIT Trace + optimize</a></li><li><a href="#13--manual-cuda-graphs" class="toc-link">13 – Manual CUDA Graphs</a></li><li><a href="#14--torchao-int8-weight-only" class="toc-link">14 – torchao int8 weight-only</a></li><li><a href="#15--torchao-int8-dynamic-quantization" class="toc-link">15 – torchao int8 dynamic quantization</a></li><li><a href="#16--torchao-int4-weight-only" class="toc-link">16 – torchao int4 weight-only</a></li><li><a href="#17--onnx-runtime-cuda-ep" class="toc-link">17 – ONNX Runtime CUDA EP</a></li><li><a href="#18--ort-cuda-ep--io-binding" class="toc-link">18 – ORT CUDA EP + IO Binding</a></li><li><a href="#19--ort-tensorrt-ep" class="toc-link">19 – ORT TensorRT EP</a></li><li><a href="#20--torch-tensorrt" class="toc-link">20 – Torch-TensorRT</a></li><li><a href="#21--triton-fused-softmax" class="toc-link">21 – Triton fused softmax</a></li><li><a href="#22--compile-fullgraph--fp16" class="toc-link">22 – compile fullgraph + FP16</a></li><li><a href="#23--weight-pruning-50-" class="toc-link">23 – Weight pruning 50 %</a></li><li><a href="#24--weight-pruning-50---compile" class="toc-link">24 – Weight pruning 50 % + compile</a></li><li><a href="#25--torchexport--aotinductor" class="toc-link">25 – torch.export + AOTInductor</a></li><li><a href="#26--multi-stream-pipelining" class="toc-link">26 – Multi-stream pipelining</a></li><li><a href="#27--bitsandbytes-int8-llmint8" class="toc-link">27 – bitsandbytes int8 (LLM.int8())</a></li><li><a href="#28--bitsandbytes-nf4" class="toc-link">28 – bitsandbytes NF4</a></li><li><a href="#29--fp16--compile-reduce-overhead" class="toc-link">29 – FP16 + compile reduce-overhead</a></li><li><a href="#30--fp16--tf32--cudnnbenchmark" class="toc-link">30 – FP16 + TF32 + cudnn.benchmark</a></li><li><a href="#31--fp16--compile-reduce-overhead--tf32" class="toc-link">31 – FP16 + compile reduce-overhead + TF32</a></li><li><a href="#profiler-deep-dive" class="toc-link">Profiler deep-dive</a></li><li><a href="#results-batch1" class="toc-link">Results (batch=1)</a></li><li><a href="#what-we-learned" class="toc-link">What we learned</a><ul><li><a href="#the-free-wins-everyone-should-use-these" class="toc-link">The free wins (everyone should use these)</a></li><li><a href="#the-compiler-wins-need-triton--linux" class="toc-link">The compiler wins (need Triton / Linux)</a></li><li><a href="#depth-estimation-gotchas" class="toc-link">Depth estimation gotchas</a></li><li><a href="#why-some-techniques-are-slow-or-fail" class="toc-link">Why some techniques are slow or fail</a></li><li><a href="#the-quantization-landscape" class="toc-link">The quantization landscape</a></li><li><a href="#references" class="toc-link">References</a></li></ul></li><li><a href="#cleanup" class="toc-link">Cleanup</a></li></ul>
+      </nav>
+    </aside>
+    
+
+    <div class="post-content e-content" itemprop="articleBody">
+      <p>How fast can we push a single forward pass of a modern depth estimator on a CUDA GPU?</p>
 
 <p><strong>Model:</strong> <a href="https://github.com/ByteDance-Seed/depth-anything-3">Depth Anything v3</a>
 — Metric-Large variant (<strong>334 M params</strong>).  DinoV2 ViT-L/14 backbone (304 M) +
@@ -404,51 +447,55 @@ report the <strong>median of medians</strong>.</p>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>All dependencies assumed installed.
 </code></pre></div></div>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#collapse-hide
-</span><span class="kn">from</span> <span class="n">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<details class="cell-collapse">
+<summary>Show code</summary>
 
-<span class="kn">import</span> <span class="n">gc</span>
-<span class="kn">import</span> <span class="n">os</span>
-<span class="kn">import</span> <span class="n">warnings</span>
+```python
+from __future__ import annotations
 
-<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">import</span> <span class="n">torch</span>
-<span class="kn">import</span> <span class="n">torch.nn</span> <span class="k">as</span> <span class="n">nn</span>
-<span class="kn">import</span> <span class="n">torch.nn.functional</span> <span class="k">as</span> <span class="n">F</span>
-<span class="kn">import</span> <span class="n">torch.utils.benchmark</span> <span class="k">as</span> <span class="n">benchmark</span>
-<span class="kn">from</span> <span class="n">torch.profiler</span> <span class="kn">import</span> <span class="n">ProfilerActivity</span><span class="p">,</span> <span class="n">profile</span>
+import gc
+import os
+import warnings
 
-<span class="n">warnings</span><span class="p">.</span><span class="nf">filterwarnings</span><span class="p">(</span><span class="sh">"</span><span class="s">ignore</span><span class="sh">"</span><span class="p">)</span>
+import numpy as np
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+import torch.utils.benchmark as benchmark
+from torch.profiler import ProfilerActivity, profile
 
-<span class="c1"># ── Environment setup for TensorRT EP + AOTInductor ──────────────────────
-</span><span class="n">_trt_libs</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span>
-    <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">dirname</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">__file__</span><span class="p">),</span> <span class="n">os</span><span class="p">.</span><span class="n">pardir</span><span class="p">,</span> <span class="sh">"</span><span class="s">tensorrt_libs</span><span class="sh">"</span><span class="p">,</span>
-<span class="p">)</span>
-<span class="n">_trt_libs</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">abspath</span><span class="p">(</span><span class="n">_trt_libs</span><span class="p">)</span>
-<span class="k">if</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">isdir</span><span class="p">(</span><span class="n">_trt_libs</span><span class="p">):</span>
-    <span class="n">_ld</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">environ</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="sh">"</span><span class="s">LD_LIBRARY_PATH</span><span class="sh">"</span><span class="p">,</span> <span class="sh">""</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">_trt_libs</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_ld</span><span class="p">:</span>
-        <span class="n">os</span><span class="p">.</span><span class="n">environ</span><span class="p">[</span><span class="sh">"</span><span class="s">LD_LIBRARY_PATH</span><span class="sh">"</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">_trt_libs</span><span class="si">}</span><span class="s">:</span><span class="si">{</span><span class="n">_ld</span><span class="si">}</span><span class="sh">"</span>
-        <span class="kn">import</span> <span class="n">ctypes</span>
-        <span class="k">for</span> <span class="n">_lib</span> <span class="ow">in</span> <span class="p">(</span><span class="sh">"</span><span class="s">libnvinfer.so.10</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">libnvinfer_plugin.so.10</span><span class="sh">"</span><span class="p">):</span>
-            <span class="n">_p</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">_trt_libs</span><span class="p">,</span> <span class="n">_lib</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">exists</span><span class="p">(</span><span class="n">_p</span><span class="p">):</span>
-                <span class="n">ctypes</span><span class="p">.</span><span class="nc">CDLL</span><span class="p">(</span><span class="n">_p</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">ctypes</span><span class="p">.</span><span class="n">RTLD_GLOBAL</span><span class="p">)</span>
+warnings.filterwarnings("ignore")
 
-<span class="k">for</span> <span class="n">_cand</span> <span class="ow">in</span> <span class="p">(</span><span class="sh">"</span><span class="s">/usr/local/cuda</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">/usr/local/cuda-12.1</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">/usr/local/cuda-12</span><span class="sh">"</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">isdir</span><span class="p">(</span><span class="n">_cand</span><span class="p">)</span> <span class="ow">and</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">isfile</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">_cand</span><span class="p">,</span> <span class="sh">"</span><span class="s">bin</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">nvcc</span><span class="sh">"</span><span class="p">)):</span>
-        <span class="n">os</span><span class="p">.</span><span class="n">environ</span><span class="p">.</span><span class="nf">setdefault</span><span class="p">(</span><span class="sh">"</span><span class="s">CUDA_HOME</span><span class="sh">"</span><span class="p">,</span> <span class="n">_cand</span><span class="p">)</span>
-        <span class="k">break</span>
+# ── Environment setup for TensorRT EP + AOTInductor ──────────────────────
+_trt_libs = os.path.join(
+    os.path.dirname(torch.__file__), os.pardir, "tensorrt_libs",
+)
+_trt_libs = os.path.abspath(_trt_libs)
+if os.path.isdir(_trt_libs):
+    _ld = os.environ.get("LD_LIBRARY_PATH", "")
+    if _trt_libs not in _ld:
+        os.environ["LD_LIBRARY_PATH"] = f"{_trt_libs}:{_ld}"
+        import ctypes
+        for _lib in ("libnvinfer.so.10", "libnvinfer_plugin.so.10"):
+            _p = os.path.join(_trt_libs, _lib)
+            if os.path.exists(_p):
+                ctypes.CDLL(_p, mode=ctypes.RTLD_GLOBAL)
 
-<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">PyTorch </span><span class="si">{</span><span class="n">torch</span><span class="p">.</span><span class="n">__version__</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
-<span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">CUDA available: </span><span class="si">{</span><span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">()</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
-<span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">is_available</span><span class="p">():</span>
-    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">CUDA version: </span><span class="si">{</span><span class="n">torch</span><span class="p">.</span><span class="n">version</span><span class="p">.</span><span class="n">cuda</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
-    <span class="n">cap</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">get_device_capability</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">mem_gb</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">get_device_properties</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">total_memory</span> <span class="o">/</span> <span class="mf">1e9</span>
-    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">VRAM: </span><span class="si">{</span><span class="n">mem_gb</span><span class="si">:</span><span class="p">.</span><span class="mi">1</span><span class="n">f</span><span class="si">}</span><span class="s"> GB</span><span class="sh">"</span><span class="p">)</span>
-</code></pre></div></div>
+for _cand in ("/usr/local/cuda", "/usr/local/cuda-12.1", "/usr/local/cuda-12"):
+    if os.path.isdir(_cand) and os.path.isfile(os.path.join(_cand, "bin", "nvcc")):
+        os.environ.setdefault("CUDA_HOME", _cand)
+        break
 
+print(f"PyTorch {torch.__version__}")
+print(f"CUDA available: {torch.cuda.is_available()}")
+if torch.cuda.is_available():
+    print(f"CUDA version: {torch.version.cuda}")
+    cap = torch.cuda.get_device_capability(0)
+    mem_gb = torch.cuda.get_device_properties(0).total_memory / 1e9
+    print(f"VRAM: {mem_gb:.1f} GB")
+```
+
+</details>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PyTorch 2.5.1+cu121
 CUDA available: True
 CUDA version: 12.1
@@ -663,169 +710,173 @@ the <strong>median of medians</strong>.</p>
   <li><strong><code class="language-plaintext highlighter-rouge">reset_backends()</code></strong> — disable all global toggles (TF32, cudnn.benchmark, etc.)</li>
 </ul>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#collapse-hide
-</span><span class="kn">import</span> <span class="n">time</span>
-<span class="kn">from</span> <span class="n">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span>
-<span class="kn">from</span> <span class="n">statistics</span> <span class="kn">import</span> <span class="n">median</span>
-<span class="kn">import</span> <span class="n">torch.utils.benchmark</span> <span class="k">as</span> <span class="n">_bench_mod</span>
+<details class="cell-collapse">
+<summary>Show code</summary>
 
-<span class="c1"># ── Shared state ─────────────────────────────────────────────────────────
-</span><span class="n">GPU_RESULTS</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="n">SETUP_TIMES</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="n">MIN_RUN_TIME</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.0</span>
-<span class="n">N_ROUNDS</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span>
+```python
+import time
+from contextlib import contextmanager
+from statistics import median
+import torch.utils.benchmark as _bench_mod
 
-<span class="c1"># Cache base model weights for fresh_model()
-</span><span class="n">_BASE_STATE_DICT</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="p">.</span><span class="nf">cpu</span><span class="p">().</span><span class="nf">clone</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">model</span><span class="p">.</span><span class="nf">state_dict</span><span class="p">().</span><span class="nf">items</span><span class="p">()}</span>
+# ── Shared state ─────────────────────────────────────────────────────────
+GPU_RESULTS: dict[str, float] = {}
+SETUP_TIMES: dict[str, float] = {}
+MIN_RUN_TIME: float = 3.0
+N_ROUNDS: int = 5
 
-
-<span class="k">def</span> <span class="nf">reset_backends</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-    <span class="n">torch</span><span class="p">.</span><span class="n">backends</span><span class="p">.</span><span class="n">cudnn</span><span class="p">.</span><span class="n">benchmark</span> <span class="o">=</span> <span class="bp">False</span>
-    <span class="n">torch</span><span class="p">.</span><span class="n">backends</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="n">matmul</span><span class="p">.</span><span class="n">allow_tf32</span> <span class="o">=</span> <span class="bp">False</span>
-    <span class="n">torch</span><span class="p">.</span><span class="n">backends</span><span class="p">.</span><span class="n">cudnn</span><span class="p">.</span><span class="n">allow_tf32</span> <span class="o">=</span> <span class="bp">False</span>
+# Cache base model weights for fresh_model()
+_BASE_STATE_DICT = {k: v.cpu().clone() for k, v in model.state_dict().items()}
 
 
-<span class="n">_TORCH_COMPILE_OK</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="bp">None</span> <span class="o">=</span> <span class="bp">None</span>
-
-<span class="k">def</span> <span class="nf">_check_compile_support</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-    <span class="k">global</span> <span class="n">_TORCH_COMPILE_OK</span>
-    <span class="k">if</span> <span class="n">_TORCH_COMPILE_OK</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">_TORCH_COMPILE_OK</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">_m</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">compile</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="nc">Linear</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">).</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">mode</span><span class="o">=</span><span class="sh">"</span><span class="s">default</span><span class="sh">"</span><span class="p">)</span>
-        <span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="nf">no_grad</span><span class="p">():</span>
-            <span class="nf">_m</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="nf">randn</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">))</span>
-        <span class="n">_TORCH_COMPILE_OK</span> <span class="o">=</span> <span class="bp">True</span>
-    <span class="k">except</span> <span class="nb">Exception</span><span class="p">:</span>
-        <span class="n">_TORCH_COMPILE_OK</span> <span class="o">=</span> <span class="bp">False</span>
-    <span class="k">return</span> <span class="n">_TORCH_COMPILE_OK</span>
+def reset_backends() -&gt; None:
+    torch.backends.cudnn.benchmark = False
+    torch.backends.cuda.matmul.allow_tf32 = False
+    torch.backends.cudnn.allow_tf32 = False
 
 
-<span class="k">def</span> <span class="nf">check_output</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">reference</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">0.05</span><span class="p">):</span>
-    <span class="k">if</span> <span class="nf">isinstance</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">ndarray</span><span class="p">):</span>
-        <span class="n">diff</span> <span class="o">=</span> <span class="nf">float</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">max</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">abs</span><span class="p">(</span><span class="n">output</span> <span class="o">-</span> <span class="n">reference</span><span class="p">.</span><span class="nf">cpu</span><span class="p">().</span><span class="nf">numpy</span><span class="p">())))</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">diff</span> <span class="o">=</span> <span class="p">(</span><span class="n">output</span><span class="p">.</span><span class="nf">float</span><span class="p">().</span><span class="nf">cpu</span><span class="p">()</span> <span class="o">-</span> <span class="n">reference</span><span class="p">.</span><span class="nf">cpu</span><span class="p">()).</span><span class="nf">abs</span><span class="p">().</span><span class="nf">max</span><span class="p">().</span><span class="nf">item</span><span class="p">()</span>
-    <span class="n">status</span> <span class="o">=</span> <span class="sh">"</span><span class="s">OK</span><span class="sh">"</span> <span class="k">if</span> <span class="n">diff</span> <span class="o">&lt;</span> <span class="n">atol</span> <span class="k">else</span> <span class="sh">"</span><span class="s">WARN</span><span class="sh">"</span>
-    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">  [</span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s">] </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s">: max diff = </span><span class="si">{</span><span class="n">diff</span><span class="si">:</span><span class="p">.</span><span class="mi">6</span><span class="n">f</span><span class="si">}</span><span class="s"> (atol=</span><span class="si">{</span><span class="n">atol</span><span class="si">}</span><span class="s">)</span><span class="sh">"</span><span class="p">)</span>
+_TORCH_COMPILE_OK: bool | None = None
+
+def _check_compile_support() -&gt; bool:
+    global _TORCH_COMPILE_OK
+    if _TORCH_COMPILE_OK is not None:
+        return _TORCH_COMPILE_OK
+    try:
+        _m = torch.compile(torch.nn.Linear(1, 1).to(device), mode="default")
+        with torch.no_grad():
+            _m(torch.randn(1, 1, device=device))
+        _TORCH_COMPILE_OK = True
+    except Exception:
+        _TORCH_COMPILE_OK = False
+    return _TORCH_COMPILE_OK
 
 
-<span class="k">def</span> <span class="nf">_gpu_warmup</span><span class="p">(</span><span class="n">stmt</span><span class="p">,</span> <span class="n">globals_dict</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
-    <span class="n">t</span> <span class="o">=</span> <span class="n">_bench_mod</span><span class="p">.</span><span class="nc">Timer</span><span class="p">(</span><span class="n">stmt</span><span class="o">=</span><span class="n">stmt</span><span class="p">,</span> <span class="nb">globals</span><span class="o">=</span><span class="n">globals_dict</span><span class="p">)</span>
-    <span class="n">t</span><span class="p">.</span><span class="nf">timeit</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+def check_output(name, output, reference, atol=0.05):
+    if isinstance(output, np.ndarray):
+        diff = float(np.max(np.abs(output - reference.cpu().numpy())))
+    else:
+        diff = (output.float().cpu() - reference.cpu()).abs().max().item()
+    status = "OK" if diff &lt; atol else "WARN"
+    print(f"  [{status}] {name}: max diff = {diff:.6f} (atol={atol})")
 
 
-<span class="k">def</span> <span class="nf">bench</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">stmt</span><span class="p">,</span> <span class="n">globals_dict</span><span class="p">,</span> <span class="n">results</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-          <span class="n">min_run_time</span><span class="o">=</span><span class="n">MIN_RUN_TIME</span><span class="p">,</span> <span class="n">n_rounds</span><span class="o">=</span><span class="n">N_ROUNDS</span><span class="p">,</span> <span class="n">sanity</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">results</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="n">results</span> <span class="o">=</span> <span class="n">GPU_RESULTS</span>
-
-    <span class="nf">_gpu_warmup</span><span class="p">(</span><span class="n">stmt</span><span class="p">,</span> <span class="n">globals_dict</span><span class="p">)</span>
-
-    <span class="n">t</span> <span class="o">=</span> <span class="n">_bench_mod</span><span class="p">.</span><span class="nc">Timer</span><span class="p">(</span><span class="n">stmt</span><span class="o">=</span><span class="n">stmt</span><span class="p">,</span> <span class="nb">globals</span><span class="o">=</span><span class="n">globals_dict</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
-    <span class="n">round_medians</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="n">n_rounds</span><span class="p">):</span>
-        <span class="n">m</span> <span class="o">=</span> <span class="n">t</span><span class="p">.</span><span class="nf">blocked_autorange</span><span class="p">(</span><span class="n">min_run_time</span><span class="o">=</span><span class="n">min_run_time</span><span class="p">)</span>
-        <span class="n">round_medians</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">m</span><span class="p">.</span><span class="n">median</span> <span class="o">*</span> <span class="mf">1e3</span><span class="p">)</span>
-    <span class="n">ms</span> <span class="o">=</span> <span class="nf">median</span><span class="p">(</span><span class="n">round_medians</span><span class="p">)</span>
-    <span class="n">results</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">ms</span>
-    <span class="n">spread</span> <span class="o">=</span> <span class="nf">max</span><span class="p">(</span><span class="n">round_medians</span><span class="p">)</span> <span class="o">-</span> <span class="nf">min</span><span class="p">(</span><span class="n">round_medians</span><span class="p">)</span>
-    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">  </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s">: </span><span class="si">{</span><span class="n">ms</span><span class="si">:</span><span class="p">.</span><span class="mi">3</span><span class="n">f</span><span class="si">}</span><span class="s"> ms  </span><span class="sh">"</span>
-          <span class="sa">f</span><span class="sh">"</span><span class="s">(spread: </span><span class="si">{</span><span class="n">spread</span><span class="si">:</span><span class="p">.</span><span class="mi">3</span><span class="n">f</span><span class="si">}</span><span class="s"> ms  </span><span class="sh">"</span>
-          <span class="sa">f</span><span class="sh">"</span><span class="s">rounds: </span><span class="si">{</span><span class="sh">'</span><span class="s">, </span><span class="sh">'</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="sh">'</span><span class="si">{</span><span class="n">r</span><span class="si">:</span><span class="p">.</span><span class="mi">2</span><span class="n">f</span><span class="si">}</span><span class="sh">'</span><span class="s"> for r in round_medians)</span><span class="si">}</span><span class="s">)</span><span class="sh">"</span><span class="p">)</span>
-
-    <span class="k">if</span> <span class="n">sanity</span> <span class="ow">and</span> <span class="n">SANITY_INPUT</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="n">_mdl</span> <span class="o">=</span> <span class="n">globals_dict</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="sh">"</span><span class="s">model</span><span class="sh">"</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">_mdl</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="nf">isinstance</span><span class="p">(</span><span class="n">_mdl</span><span class="p">,</span> <span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">_dtype</span> <span class="o">=</span> <span class="bp">None</span>
-                <span class="n">_ac</span> <span class="o">=</span> <span class="bp">None</span>
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="n">_fp</span> <span class="o">=</span> <span class="nf">next</span><span class="p">(</span><span class="n">_mdl</span><span class="p">.</span><span class="nf">parameters</span><span class="p">())</span>
-                    <span class="k">if</span> <span class="n">_fp</span><span class="p">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">torch</span><span class="p">.</span><span class="n">float16</span><span class="p">:</span>
-                        <span class="n">_dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">float16</span>
-                <span class="k">except</span> <span class="nb">StopIteration</span><span class="p">:</span>
-                    <span class="k">pass</span>
-                <span class="k">if</span> <span class="sh">"</span><span class="s">autocast</span><span class="sh">"</span> <span class="ow">in</span> <span class="n">stmt</span> <span class="ow">and</span> <span class="sh">"</span><span class="s">float16</span><span class="sh">"</span> <span class="ow">in</span> <span class="n">stmt</span><span class="p">:</span>
-                    <span class="n">_ac</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">float16</span>
-                    <span class="n">_dtype</span> <span class="o">=</span> <span class="bp">None</span>
-                <span class="k">elif</span> <span class="sh">"</span><span class="s">autocast</span><span class="sh">"</span> <span class="ow">in</span> <span class="n">stmt</span> <span class="ow">and</span> <span class="sh">"</span><span class="s">bfloat16</span><span class="sh">"</span> <span class="ow">in</span> <span class="n">stmt</span><span class="p">:</span>
-                    <span class="n">_ac</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">bfloat16</span>
-                    <span class="n">_dtype</span> <span class="o">=</span> <span class="bp">None</span>
-                <span class="nf">sanity_check</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">_mdl</span><span class="p">,</span> <span class="n">input_dtype</span><span class="o">=</span><span class="n">_dtype</span><span class="p">,</span> <span class="n">autocast_dtype</span><span class="o">=</span><span class="n">_ac</span><span class="p">)</span>
-            <span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">  ⚠ Sanity skip: </span><span class="si">{</span><span class="nf">type</span><span class="p">(</span><span class="n">e</span><span class="p">).</span><span class="n">__name__</span><span class="si">}</span><span class="s">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+def _gpu_warmup(stmt, globals_dict, n=10):
+    t = _bench_mod.Timer(stmt=stmt, globals=globals_dict)
+    t.timeit(n)
 
 
-<span class="nd">@contextmanager</span>
-<span class="k">def</span> <span class="nf">timed</span><span class="p">(</span><span class="n">label</span><span class="p">):</span>
-    <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">synchronize</span><span class="p">()</span>
-    <span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="nf">perf_counter</span><span class="p">()</span>
-    <span class="k">yield</span>
-    <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">synchronize</span><span class="p">()</span>
-    <span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="nf">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">t0</span>
-    <span class="n">SETUP_TIMES</span><span class="p">[</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">elapsed</span>
-    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">  [</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s">] setup: </span><span class="si">{</span><span class="n">elapsed</span><span class="si">:</span><span class="p">.</span><span class="mi">2</span><span class="n">f</span><span class="si">}</span><span class="s"> s</span><span class="sh">"</span><span class="p">)</span>
+def bench(label, stmt, globals_dict, results=None,
+          min_run_time=MIN_RUN_TIME, n_rounds=N_ROUNDS, sanity=True):
+    if results is None:
+        results = GPU_RESULTS
+
+    _gpu_warmup(stmt, globals_dict)
+
+    t = _bench_mod.Timer(stmt=stmt, globals=globals_dict, label=label)
+    round_medians = []
+    for _ in range(n_rounds):
+        m = t.blocked_autorange(min_run_time=min_run_time)
+        round_medians.append(m.median * 1e3)
+    ms = median(round_medians)
+    results[label] = ms
+    spread = max(round_medians) - min(round_medians)
+    print(f"  {label}: {ms:.3f} ms  "
+          f"(spread: {spread:.3f} ms  "
+          f"rounds: {', '.join(f'{r:.2f}' for r in round_medians)})")
+
+    if sanity and SANITY_INPUT is not None:
+        _mdl = globals_dict.get("model")
+        if _mdl is not None and isinstance(_mdl, nn.Module):
+            try:
+                _dtype = None
+                _ac = None
+                try:
+                    _fp = next(_mdl.parameters())
+                    if _fp.dtype == torch.float16:
+                        _dtype = torch.float16
+                except StopIteration:
+                    pass
+                if "autocast" in stmt and "float16" in stmt:
+                    _ac = torch.float16
+                    _dtype = None
+                elif "autocast" in stmt and "bfloat16" in stmt:
+                    _ac = torch.bfloat16
+                    _dtype = None
+                sanity_check(label, _mdl, input_dtype=_dtype, autocast_dtype=_ac)
+            except Exception as e:
+                print(f"  ⚠ Sanity skip: {type(e).__name__}: {e}")
 
 
-<span class="k">def</span> <span class="nf">fresh_model</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">:</span>
-    <span class="sh">"""</span><span class="s">Return a fresh DA3 depth model with cached weights.</span><span class="sh">"""</span>
-    <span class="n">_api</span> <span class="o">=</span> <span class="nc">DepthAnything3</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="n">MODEL_NAME</span><span class="p">)</span>
-    <span class="n">m</span> <span class="o">=</span> <span class="nc">DA3Depth</span><span class="p">(</span><span class="n">_api</span><span class="p">)</span>
-    <span class="n">m</span><span class="p">.</span><span class="nf">load_state_dict</span><span class="p">(</span><span class="n">_BASE_STATE_DICT</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">m</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="n">device</span><span class="p">).</span><span class="nf">eval</span><span class="p">()</span>
+@contextmanager
+def timed(label):
+    torch.cuda.synchronize()
+    t0 = time.perf_counter()
+    yield
+    torch.cuda.synchronize()
+    elapsed = time.perf_counter() - t0
+    SETUP_TIMES[label] = elapsed
+    print(f"  [{label}] setup: {elapsed:.2f} s")
 
 
-<span class="k">def</span> <span class="nf">cleanup</span><span class="p">():</span>
-    <span class="n">torch</span><span class="p">.</span><span class="n">_dynamo</span><span class="p">.</span><span class="nf">reset</span><span class="p">()</span>
-    <span class="n">gc</span><span class="p">.</span><span class="nf">collect</span><span class="p">()</span>
-    <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">empty_cache</span><span class="p">()</span>
+def fresh_model() -&gt; nn.Module:
+    """Return a fresh DA3 depth model with cached weights."""
+    _api = DepthAnything3(model_name=MODEL_NAME)
+    m = DA3Depth(_api)
+    m.load_state_dict(_BASE_STATE_DICT, strict=True)
+    return m.to(device).eval()
 
 
-<span class="k">def</span> <span class="nf">sanity_check</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">model_or_out</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">input_dtype</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">autocast_dtype</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-                 <span class="n">atol_mse</span><span class="o">=</span><span class="mf">0.5</span><span class="p">):</span>
-    <span class="sh">"""</span><span class="s">Compare depth output to baseline on real image.  Show visual on failure.</span><span class="sh">"""</span>
-    <span class="k">if</span> <span class="nf">isinstance</span><span class="p">(</span><span class="n">model_or_out</span><span class="p">,</span> <span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">ndarray</span><span class="p">)):</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">as_tensor</span><span class="p">(</span><span class="n">model_or_out</span><span class="p">).</span><span class="nf">float</span><span class="p">()</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">inp</span> <span class="o">=</span> <span class="n">SANITY_INPUT</span>
-        <span class="k">if</span> <span class="n">input_dtype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">inp</span> <span class="o">=</span> <span class="n">inp</span><span class="p">.</span><span class="nf">to</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">input_dtype</span><span class="p">)</span>
-        <span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="nf">no_grad</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">autocast_dtype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-                <span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="n">amp</span><span class="p">.</span><span class="nf">autocast</span><span class="p">(</span><span class="sh">"</span><span class="s">cuda</span><span class="sh">"</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">autocast_dtype</span><span class="p">):</span>
-                    <span class="n">out</span> <span class="o">=</span> <span class="nf">model_or_out</span><span class="p">(</span><span class="n">inp</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">out</span> <span class="o">=</span> <span class="nf">model_or_out</span><span class="p">(</span><span class="n">inp</span><span class="p">)</span>
-        <span class="n">out</span> <span class="o">=</span> <span class="n">out</span><span class="p">.</span><span class="nf">float</span><span class="p">()</span>
-
-    <span class="n">ref</span> <span class="o">=</span> <span class="n">SANITY_DEPTH_REF</span><span class="p">.</span><span class="nf">float</span><span class="p">()</span>
-    <span class="n">mse</span> <span class="o">=</span> <span class="p">((</span><span class="n">out</span><span class="p">.</span><span class="nf">cpu</span><span class="p">()</span> <span class="o">-</span> <span class="n">ref</span><span class="p">.</span><span class="nf">cpu</span><span class="p">())</span> <span class="o">**</span> <span class="mi">2</span><span class="p">).</span><span class="nf">mean</span><span class="p">().</span><span class="nf">item</span><span class="p">()</span>
-
-    <span class="k">if</span> <span class="n">mse</span> <span class="o">&lt;</span> <span class="n">atol_mse</span><span class="p">:</span>
-        <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">  ✓ Sanity (</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s">): depth MSE = </span><span class="si">{</span><span class="n">mse</span><span class="si">:</span><span class="p">.</span><span class="mi">6</span><span class="n">f</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">mse</span> <span class="o">&lt;</span> <span class="mf">5.0</span><span class="p">:</span>
-        <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">  ⚠ Sanity (</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s">): depth MSE = </span><span class="si">{</span><span class="n">mse</span><span class="si">:</span><span class="p">.</span><span class="mi">6</span><span class="n">f</span><span class="si">}</span><span class="s">  (above </span><span class="si">{</span><span class="n">atol_mse</span><span class="si">}</span><span class="s"> threshold)</span><span class="sh">"</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">  ✗ Sanity (</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s">): depth MSE = </span><span class="si">{</span><span class="n">mse</span><span class="si">:</span><span class="p">.</span><span class="mi">6</span><span class="n">f</span><span class="si">}</span><span class="s">  — DEPTH DIVERGED</span><span class="sh">"</span><span class="p">)</span>
-        <span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-        <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">imshow</span><span class="p">(</span><span class="n">SANITY_IMG</span><span class="p">)</span>
-        <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">set_title</span><span class="p">(</span><span class="sh">"</span><span class="s">Input</span><span class="sh">"</span><span class="p">)</span>
-        <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">axis</span><span class="p">(</span><span class="sh">"</span><span class="s">off</span><span class="sh">"</span><span class="p">)</span>
-        <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">imshow</span><span class="p">(</span><span class="n">ref</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">].</span><span class="nf">cpu</span><span class="p">().</span><span class="nf">numpy</span><span class="p">(),</span> <span class="n">cmap</span><span class="o">=</span><span class="sh">"</span><span class="s">inferno</span><span class="sh">"</span><span class="p">)</span>
-        <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">set_title</span><span class="p">(</span><span class="sh">"</span><span class="s">Baseline depth</span><span class="sh">"</span><span class="p">)</span>
-        <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="nf">axis</span><span class="p">(</span><span class="sh">"</span><span class="s">off</span><span class="sh">"</span><span class="p">)</span>
-        <span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="nf">imshow</span><span class="p">(</span><span class="n">out</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">].</span><span class="nf">cpu</span><span class="p">().</span><span class="nf">numpy</span><span class="p">(),</span> <span class="n">cmap</span><span class="o">=</span><span class="sh">"</span><span class="s">inferno</span><span class="sh">"</span><span class="p">)</span>
-        <span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="nf">set_title</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s"> depth</span><span class="sh">"</span><span class="p">)</span>
-        <span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">].</span><span class="nf">axis</span><span class="p">(</span><span class="sh">"</span><span class="s">off</span><span class="sh">"</span><span class="p">)</span>
-        <span class="n">plt</span><span class="p">.</span><span class="nf">tight_layout</span><span class="p">()</span>
-        <span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
-        <span class="n">plt</span><span class="p">.</span><span class="nf">close</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+def cleanup():
+    torch._dynamo.reset()
+    gc.collect()
+    torch.cuda.empty_cache()
 
 
-<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Ready.</span><span class="sh">"</span><span class="p">)</span>
-</code></pre></div></div>
+def sanity_check(name, model_or_out, *, input_dtype=None, autocast_dtype=None,
+                 atol_mse=0.5):
+    """Compare depth output to baseline on real image.  Show visual on failure."""
+    if isinstance(model_or_out, (torch.Tensor, np.ndarray)):
+        out = torch.as_tensor(model_or_out).float()
+    else:
+        inp = SANITY_INPUT
+        if input_dtype is not None:
+            inp = inp.to(dtype=input_dtype)
+        with torch.no_grad():
+            if autocast_dtype is not None:
+                with torch.amp.autocast("cuda", dtype=autocast_dtype):
+                    out = model_or_out(inp)
+            else:
+                out = model_or_out(inp)
+        out = out.float()
 
+    ref = SANITY_DEPTH_REF.float()
+    mse = ((out.cpu() - ref.cpu()) ** 2).mean().item()
+
+    if mse &lt; atol_mse:
+        print(f"  ✓ Sanity ({name}): depth MSE = {mse:.6f}")
+    elif mse &lt; 5.0:
+        print(f"  ⚠ Sanity ({name}): depth MSE = {mse:.6f}  (above {atol_mse} threshold)")
+    else:
+        print(f"  ✗ Sanity ({name}): depth MSE = {mse:.6f}  — DEPTH DIVERGED")
+        fig, axes = plt.subplots(1, 3, figsize=(14, 4))
+        axes[0].imshow(SANITY_IMG)
+        axes[0].set_title("Input")
+        axes[0].axis("off")
+        axes[1].imshow(ref[0, 0].cpu().numpy(), cmap="inferno")
+        axes[1].set_title("Baseline depth")
+        axes[1].axis("off")
+        axes[2].imshow(out[0, 0].cpu().numpy(), cmap="inferno")
+        axes[2].set_title(f"{name} depth")
+        axes[2].axis("off")
+        plt.tight_layout()
+        plt.show()
+        plt.close(fig)
+
+
+print("Ready.")
+```
+
+</details>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ready.
 </code></pre></div></div><hr />
       <h2 id="0--baseline-eager">
@@ -4474,7 +4525,34 @@ Cleanup done.
 </code></pre></div></div>
 
 
-  </div><hr>
+
+    </div>
+  </div>
+
+  
+  
+  
+  
+    <div class="pb-5 d-flex flex-wrap flex-justify-end">
+      <div class="px-2">
+
+    <a href="https://github.com/zshn25/zshn25.github.io/tree/master/_notebooks/2026-03-24-inference_optimizations_benchmark.ipynb" role="button" target="_blank">
+<img class="notebook-badge-image" src="/assets/badges/github.svg" alt="View On GitHub">
+    </a>
+</div>
+
+      <div class="px-2">
+    <a href="https://mybinder.org/v2/gh/zshn25/zshn25.github.io/master?filepath=_notebooks%2F2026-03-24-inference_optimizations_benchmark.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/assets/badges/binder.svg" alt="Open In Binder"/>
+    </a>
+</div>
+
+      <div class="px-2">
+    <a href="https://colab.research.google.com/github/zshn25/zshn25.github.io/blob/master/_notebooks/2026-03-24-inference_optimizations_benchmark.ipynb" target="_blank">
+        <img class="notebook-badge-image" src="/assets/badges/colab.svg" alt="Open In Colab"/>
+    </a>
+</div>
+    </div><hr>
   <!-- This code is taken from Jekyll-Codex (jekyllcodex.org). MIT License
 Copyright (c) 2020 Usecue BV -->
 
@@ -4537,15 +4615,14 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
             
 
             
-                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 card-compact"><div class="col-4 d-table-cell p-3 v-align-middle">
+                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
     <a href="/pc4consistentdepth/">
-    <img class="image-preview " src="/images/3dreco/out.gif" loading="lazy" alt="Pose Constraints for Self-supervised Monocular Depth and Ego-Motion" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+    <img class="image-preview" src="/images/3dreco/out-poster.jpg" loading="lazy" alt="Pose Constraints for Self-supervised Monocular Depth and Ego-Motion" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
-      
       
       <a class="post-link" href="/pc4consistentdepth/">
         Pose Constraints for Self-supervised Monocular Depth and Ego-Motion
@@ -4567,30 +4644,31 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=deep-learning">#deep-learning</a>
+          <a class="category-tags-link" href="/?tag=deep-learning">#deep-learning</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=self-supervision">#self-supervision</a>
+          <a class="category-tags-link" href="/?tag=self-supervision">#self-supervision</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=3d-reconstruction">#3d-reconstruction</a>
+          <a class="category-tags-link" href="/?tag=3d-reconstruction">#3d-reconstruction</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=structure-from-motion">#structure-from-motion</a>
+          <a class="category-tags-link" href="/?tag=structure-from-motion">#structure-from-motion</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=visual-odometry">#visual-odometry</a>
+          <a class="category-tags-link" href="/?tag=visual-odometry">#visual-odometry</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=depth-estimation">#depth-estimation</a>
+          <a class="category-tags-link" href="/?tag=depth-estimation">#depth-estimation</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
                 
                 
             
@@ -4704,15 +4782,14 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
             
 
             
-                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 card-compact"><div class="col-4 d-table-cell p-3 v-align-middle">
+                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
     <a href="/Layers-fusion-for-faster-inference/">
-    <img class="image-preview " src="/images/neural-network-3816319.svg" loading="lazy" alt="Layers fusion for faster neural network inference" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+    <img class="image-preview" src="/images/neural-network-3816319.svg" loading="lazy" alt="Layers fusion for faster neural network inference" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
-      
       
       <a class="post-link" href="/Layers-fusion-for-faster-inference/">
         Layers fusion for faster neural network inference
@@ -4734,21 +4811,22 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=deep-learning">#deep-learning</a>
+          <a class="category-tags-link" href="/?tag=deep-learning">#deep-learning</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=pytorch">#pytorch</a>
+          <a class="category-tags-link" href="/?tag=pytorch">#pytorch</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=fast-inference">#fast-inference</a>
+          <a class="category-tags-link" href="/?tag=fast-inference">#fast-inference</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
                 
                 
             
@@ -4812,15 +4890,14 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
             
 
             
-                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 card-compact"><div class="col-4 d-table-cell p-3 v-align-middle">
+                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
     <a href="/ResNet-feature-pyramid-in-Pytorch/">
-    <img class="image-preview " src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Image_pyramid.svg/1200px-Image_pyramid.svg.png" loading="lazy" alt="ResNet feature pyramid in Pytorch" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+    <img class="image-preview" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Image_pyramid.svg/1200px-Image_pyramid.svg.png" loading="lazy" alt="ResNet feature pyramid in Pytorch" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
-      
       
       <a class="post-link" href="/ResNet-feature-pyramid-in-Pytorch/">
         ResNet feature pyramid in Pytorch
@@ -4842,21 +4919,22 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=deep-learning">#deep-learning</a>
+          <a class="category-tags-link" href="/?tag=deep-learning">#deep-learning</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=computer-vision">#computer-vision</a>
+          <a class="category-tags-link" href="/?tag=computer-vision">#computer-vision</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=pytorch">#pytorch</a>
+          <a class="category-tags-link" href="/?tag=pytorch">#pytorch</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
                 
                 
             
@@ -4934,46 +5012,57 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
 <div id="utterances-container">
     <div id="comments-placeholder" class="consent-placeholder">
         <p><i class="fas fa-comments"></i> <strong>Comments</strong></p>
-        <p class="consent-detail">Loading comments connects to GitHub via utteranc.es and may set cookies.</p>
+        <p class="consent-detail">Loading comments connects to GitHub via utteranc.es and may set cookies. By clicking below, you consent to loading external content that may set third-party cookies. This preference will be remembered across all pages.</p>
         <button id="load-comments" class="button is-rounded">
             <i class="fas fa-comment-dots"></i> Load Comments
         </button>
     </div>
 </div>
 <script>
-document.getElementById('load-comments').addEventListener('click', function() {
-    var placeholder = document.getElementById('comments-placeholder');
-    placeholder.innerHTML = '<p><i class="fas fa-spinner fa-spin"></i> Loading comments...</p>';
+(function() {
+    function loadUtterances() {
+        var placeholder = document.getElementById('comments-placeholder');
+        if (!placeholder) return;
+        placeholder.innerHTML = '<p><i class="fas fa-spinner fa-spin"></i> Loading comments...</p>';
 
-    // Detect dark mode
-    var darkCSS = document.getElementById('dark-css');
-    var isDark = (darkCSS && darkCSS.media !== 'invalid' && darkCSS.media !== '(prefers-color-scheme: dark)')
-              || window.matchMedia('(prefers-color-scheme: dark)').matches;
-    // If applytheme.js forced dark (removed media attr), darkCSS.media is empty string
-    if (darkCSS && darkCSS.media === '') isDark = true;
+        var isDark = typeof window.isDarkMode === 'function' ? window.isDarkMode() : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = isDark ? 'github-dark' : 'github-light';
 
-    var theme = isDark ? 'github-dark' : 'github-light';
+        var script = document.createElement('script');
+        script.src = 'https://utteranc.es/client.js';
+        script.setAttribute('repo', 'zshn25/zshn25.github.io');
+        script.setAttribute('issue-term', 'title');
+        script.setAttribute('label', 'blogpost-comment');
+        script.setAttribute('theme', theme);
+        script.setAttribute('crossorigin', 'anonymous');
+        script.async = true;
 
-    var script = document.createElement('script');
-    script.src = 'https://utteranc.es/client.js';
-    script.setAttribute('repo', 'zshn25/zshn25.github.io');
-    script.setAttribute('issue-term', 'title');
-    script.setAttribute('label', 'blogpost-comment');
-    script.setAttribute('theme', theme);
-    script.setAttribute('crossorigin', 'anonymous');
-    script.async = true;
+        var container = document.getElementById('utterances-container');
+        container.appendChild(script);
 
-    var container = document.getElementById('utterances-container');
-    container.appendChild(script);
+        window.addEventListener('message', function handler(event) {
+            if (event.origin === 'https://utteranc.es') {
+                placeholder.remove();
+                window.removeEventListener('message', handler);
+            }
+        });
+    }
 
-    // Remove placeholder when utterances iframe loads
-    window.addEventListener('message', function handler(event) {
-        if (event.origin === 'https://utteranc.es') {
-            placeholder.remove();
-            window.removeEventListener('message', handler);
-        }
-    });
-});
+    // Use shared consent helpers from consent-gate.js (fallback if not loaded)
+    var consent = window._consent || {
+        get: function() { try { return JSON.parse(localStorage.getItem('embedConsent')) || {}; } catch(e) { return {}; } },
+        set: function(p) { var c = this.get(); c[p] = true; localStorage.setItem('embedConsent', JSON.stringify(c)); }
+    };
+
+    if (consent.get().comments) {
+        loadUtterances();
+    } else {
+        document.getElementById('load-comments').addEventListener('click', function() {
+            consent.set('comments');
+            loadUtterances();
+        });
+    }
+})();
 </script>
 <a class="u-url" href="/inference_optimizations_benchmark/" hidden></a>
 </article>
@@ -4988,7 +5077,7 @@ document.getElementById('load-comments').addEventListener('click', function() {
       <div class="footer-col">
         <p class="feed-subscribe">
           <a href="https://feedrabbit.com/?url=https://zshn25.github.io/feed.xml">
-            <i class="fas fa-rss" style="color:#ee802f;"></i><span> Subscribe</span>
+            <i class="fas fa-rss rss-icon"></i><span> Subscribe</span>
           </a>
         </p>
         <ul class="contact-list">
@@ -5011,16 +5100,23 @@ document.getElementById('load-comments').addEventListener('click', function() {
 <div id="privacy-notice" style="display:none">
     This site does not use cookies or track you. Some posts contain embedded content that connects to third parties only when you click.
     <a href="/about/#privacy">Learn more</a>
-    <button class="privacy-ok-btn" onclick="localStorage.setItem('privacyOK','1');document.getElementById('privacy-notice').style.display='none'">OK</button>
+    <button class="privacy-ok-btn" onclick="localStorage.setItem('privacyOK','1');document.getElementById('privacy-notice').style.display='none';document.body.style.paddingBottom=''">OK</button>
 </div>
 <script>
 (function(){
   if(!localStorage.getItem('privacyOK')){
     var el=document.getElementById('privacy-notice');
-    if(el) el.style.display='flex';
+    if(el) {
+      el.style.display='flex';
+      document.body.style.paddingBottom='3em';
+    }
   }
 })();
 </script>
-</body>
+<button class="back-to-top" id="back-to-top" aria-label="Back to top">
+      <i class="fas fa-chevron-up"></i>
+    </button>
+
+  </body>
 
 </html>

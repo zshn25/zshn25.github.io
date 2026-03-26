@@ -27,8 +27,9 @@
 {"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Thomas Hobbes"},"dateModified":"2022-10-23T02:21:23+00:00","datePublished":"2022-10-23T02:21:23+00:00","description":"Hobbes motivates his justification of the Leviathan (the political state) by defining the grim natural state of man","headline":"Trading Freedom for Peace: The necessity of the state","image":"https://www.mises.org.es/wp-content/uploads/2017/04/Leviathan_by_Thomas_Hobbes-e1416438094895.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://zshn25.github.io/the-necessity-of-the-state/"},"url":"https://zshn25.github.io/the-necessity-of-the-state/"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><!-- Self-hosted vendor CSS (no cross-origin requests for privacy) -->
-<link rel="stylesheet" href="/assets/vendor/primer/primer.css">
-<link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css">
+<!-- Primer utility classes are now inlined via _sass/minima/_primer-utilities.scss -->
+<link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css"></noscript>
 <link rel="stylesheet" href="/assets/vendor/academicons/css/academicons.min.css" media="print" onload="this.media='all'">
     <!-- KaTeX: only on content pages (skipped on homepage for performance) -->
     <link rel="stylesheet" href="/assets/vendor/katex/katex.min.css">
@@ -93,32 +94,29 @@ window.onload = wrap_img;
 <link id="dark-css" href="/assets/css/dark.css" rel="stylesheet" media="(prefers-color-scheme: dark)">
 </head>
 <body><header class="site-header fixed-top">
+  <div class="wrapper header-wrapper">
+    <a class="site-title no-underline" rel="author" href="/">
+      <img src="/images/logo.png" style="max-width:40px;" alt="Curiosity logo" width="40" height="40">
+      Curiosity
+    </a><nav class="site-nav">
+      <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+      <label for="nav-trigger">
+        <span class="menu-icon"></span>
+      </label>
 
-  <div class="wrapper"><a class="site-title no-underline hover-grow" rel="author" href="/"> <img src="/images/logo.png" style="max-width:40px;" alt="Curiosity logo" width="40" height="40"> Curiosity</a><nav class="site-nav">
-        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
-        <label for="nav-trigger">
-          <span class="menu-icon">
-            <svg viewBox="0 0 18 15" width="18px" height="15px">
-              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
-            </svg>
-          </span>
-        </label>
-
-        <div class="trigger"><a class="page-link" href="/about/">About</a><div class="header-search">
-            <i class="fas fa-search header-search-icon"></i>
-            <input type="text" class="header-search-input js-search-input" placeholder="Search..." aria-label="Search Curiosity" autocomplete="off">
-            <div class="search-results-dropdown js-search-results"></div>
-          </div>
-          
-          <a href="/feed.xml" class="nav-anchor no-underline no_icon" title="RSS Feed" aria-label="Subscribe via RSS">
-            <span class="fas fa-rss fa-fw" aria-hidden="true" style="color:#ee802f;"></span>
-          </a>
-          <span id="nav-switch-theme" class="nav-anchor">
-            <span class="nav-theme-icon fas fa-fw" aria-hidden="true" title="Theme"></span>
-            <span class="sr-only">Toggle Theme</span>
-          </span>
+      <div class="nav-items"><a class="page-link nav-item" href="/about/">About</a><div class="header-search nav-item">
+          <i class="fas fa-search header-search-icon"></i>
+          <input type="text" class="header-search-input js-search-input" placeholder="Search..." aria-label="Search Curiosity" autocomplete="off">
+          <div class="search-results-dropdown js-search-results"></div>
         </div>
-      </nav></div>
+        <a href="/feed.xml" class="nav-item header-icon-btn no-underline no_icon" title="RSS Feed" aria-label="Subscribe via RSS">
+          <span class="fas fa-rss rss-icon" aria-hidden="true"></span>
+        </a>
+        <span id="nav-switch-theme" class="nav-item header-icon-btn" style="display:none">
+          <span class="nav-theme-icon fas fa-fw" aria-hidden="true" title="Theme"></span>
+        </span>
+      </div>
+    </nav></div>
 </header>
 
     
@@ -212,16 +210,27 @@ window.onload = wrap_img;
       </p>
     
 
-    </header>
+    
+  </header>
 
   
   
 
-  <div class="post-content e-content" itemprop="articleBody">
+  
+  
+  
+  
+  
+
+  <div class="post-layout">
     
-    
-<div class="flash" role="alert">
-    <svg height="24" class="octicon octicon-info" viewBox="0 0 24 24" version="1.1" width="24" aria-hidden="true"><path d="M13 7.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0Zm-3 3.75a.75.75 0 0 1 .75-.75h1.5a.75.75 0 0 1 .75.75v4.25h.75a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1 0-1.5h.75V12h-.75a.75.75 0 0 1-.75-.75Z"></path><path d="M12 1c6.075 0 11 4.925 11 11s-4.925 11-11 11S1 18.075 1 12 5.925 1 12 1ZM2.5 12a9.5 9.5 0 0 0 9.5 9.5 9.5 9.5 0 0 0 9.5-9.5A9.5 9.5 0 0 0 12 2.5 9.5 9.5 0 0 0 2.5 12Z"></path></svg> <b>Info:</b> The whole post is a rephrasing of excerpts from Thomas Hobbes’s Leviathan Chapter 13
+
+    <div class="post-content e-content" itemprop="articleBody">
+      
+<div class="markdown-alert markdown-alert-note" role="alert">
+  <p class="markdown-alert-title"><svg viewBox="0 0 16 16" width="16" height="16" style="display:inline-block;vertical-align:text-bottom;margin-right:0.4em"><path fill="#0969da" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+  <p>The whole post is a rephrasing of excerpts from Thomas Hobbes’s Leviathan Chapter 13</p>
+
 </div>
 
 <p>Nature made people so equal in physical and mental abilities that, while there might be some differences, overall, no one can claim a significant advantage. Even the (physically) weakest can pose a threat to the strongest through cunningness or through alliance. In terms of mental faculties, prudence is simply experience; and men will get an equal amount of that in an equal period of time spent on things that they equally apply themselves to.</p>
@@ -267,14 +276,16 @@ Competition, distrust and glory lead men to a state of anarchy: every man agains
   <li>the natural condition of humans is war of every man against another, but this is not always the case. Natural contiditon of humans also includes community, peace, based on consensus without escalating to conflict.</li>
   <li>to be governed by the state is better than anarchy, but the creation of state brings its own disadvantages, such as heirarchies, inequality, etc. In fact, many anarchists believe the opposite
     <blockquote>
-      <p>we must not hastily conclude that the mischiefs of anarchy are worse than those which government is qualified to produce.
-<em>(Godwin 1793: bk VII, chap. V, p. 736)</em></p>
+      <p>we must not hastily conclude that the mischiefs of anarchy are worse than those which government is qualified to produce.</p>
+
+      <p><em>(Godwin 1793: bk VII, chap. V, p. 736)</em></p>
     </blockquote>
 
     <p><br /></p>
     <blockquote>
-      <p>The government of man by man (under whatever name it be disguised) is oppression. Society finds its highest perfection in the union of order with anarchy. 
-<em>(Proudhon 1840 [1876: 286])</em></p>
+      <p>The government of man by man (under whatever name it be disguised) is oppression. Society finds its highest perfection in the union of order with anarchy.</p>
+
+      <p><em>(Proudhon 1840 [1876: 286])</em></p>
     </blockquote>
   </li>
   <li>every person in a society 
@@ -287,6 +298,7 @@ Hobbes argues that one would never submit to a sovereign state power unless one 
 
 <!-- - *WAR doesn’t consist just in battle -->
 
+    </div>
   </div><hr>
   <!-- This code is taken from Jekyll-Codex (jekyllcodex.org). MIT License
 Copyright (c) 2020 Usecue BV -->
@@ -400,15 +412,14 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
             
 
             
-                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 card-compact"><div class="col-4 d-table-cell p-3 v-align-middle">
+                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
     <a href="/Aristotle-definitions/">
-    <img class="image-preview " src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Aristotle_Altemps_Inv8575.jpg/250px-Aristotle_Altemps_Inv8575.jpg" loading="lazy" alt="Aristotle’s regime, the good citizen and justice" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+    <img class="image-preview" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Aristotle_Altemps_Inv8575.jpg/250px-Aristotle_Altemps_Inv8575.jpg" loading="lazy" alt="Aristotle’s regime, the good citizen and justice" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
-      
       
       <a class="post-link" href="/Aristotle-definitions/">
         Aristotle’s regime, the good citizen and justice
@@ -430,24 +441,25 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=politics">#politics</a>
+          <a class="category-tags-link" href="/?tag=politics">#politics</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=philosophy">#philosophy</a>
+          <a class="category-tags-link" href="/?tag=philosophy">#philosophy</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=justice">#justice</a>
+          <a class="category-tags-link" href="/?tag=justice">#justice</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=regime">#regime</a>
+          <a class="category-tags-link" href="/?tag=regime">#regime</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
                 
                 
             
@@ -461,15 +473,14 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
             
 
             
-                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 card-compact"><div class="col-4 d-table-cell p-3 v-align-middle">
+                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
     <a href="/kinds-of-wealth-getting-Aristotle/">
-    <img class="image-preview " src="/images/aristotle_wallstreet.jpeg" loading="lazy" alt="Reasons for earning money: The good and the ugly" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+    <img class="image-preview" src="/images/aristotle_wallstreet.jpeg" loading="lazy" alt="Reasons for earning money: The good and the ugly" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
-      
       
       <a class="post-link" href="/kinds-of-wealth-getting-Aristotle/">
         Reasons for earning money: The good and the ugly
@@ -491,24 +502,25 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=politics">#politics</a>
+          <a class="category-tags-link" href="/?tag=politics">#politics</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=philosophy">#philosophy</a>
+          <a class="category-tags-link" href="/?tag=philosophy">#philosophy</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=greed">#greed</a>
+          <a class="category-tags-link" href="/?tag=greed">#greed</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=wealth">#wealth</a>
+          <a class="category-tags-link" href="/?tag=wealth">#wealth</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
                 
                 
             
@@ -522,15 +534,14 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
             
 
             
-                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 card-compact"><div class="col-4 d-table-cell p-3 v-align-middle">
+                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
     <a href="/plato-republic/">
-    <img class="image-preview " src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/David_-_The_Death_of_Socrates_-_detail2.jpg/330px-David_-_The_Death_of_Socrates_-_detail2.jpg" loading="lazy" alt="Notes on Justice from Plato&#39;s Republic" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+    <img class="image-preview" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/David_-_The_Death_of_Socrates_-_detail2.jpg/330px-David_-_The_Death_of_Socrates_-_detail2.jpg" loading="lazy" alt="Notes on Justice from Plato&#39;s Republic" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
-      
       
       <a class="post-link" href="/plato-republic/">
         Notes on Justice from Plato&#39;s Republic
@@ -552,21 +563,22 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=politics">#politics</a>
+          <a class="category-tags-link" href="/?tag=politics">#politics</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=philosophy">#philosophy</a>
+          <a class="category-tags-link" href="/?tag=philosophy">#philosophy</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=justice">#justice</a>
+          <a class="category-tags-link" href="/?tag=justice">#justice</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
                 
                 
             
@@ -580,15 +592,14 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
             
 
             
-                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 card-compact"><div class="col-4 d-table-cell p-3 v-align-middle">
+                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
     <a href="/purpose/">
-    <img class="image-preview " src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/NASA-Apollo8-Dec24-Earthrise.jpg/1200px-NASA-Apollo8-Dec24-Earthrise.jpg" loading="lazy" alt="The purpose in life" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+    <img class="image-preview" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/NASA-Apollo8-Dec24-Earthrise.jpg/1200px-NASA-Apollo8-Dec24-Earthrise.jpg" loading="lazy" alt="The purpose in life" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
-      
       
       <a class="post-link" href="/purpose/">
         The purpose in life
@@ -610,18 +621,19 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=philosophy">#philosophy</a>
+          <a class="category-tags-link" href="/?tag=philosophy">#philosophy</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=meaning">#meaning</a>
+          <a class="category-tags-link" href="/?tag=meaning">#meaning</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
                 
                 
                     
@@ -667,46 +679,57 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
 <div id="utterances-container">
     <div id="comments-placeholder" class="consent-placeholder">
         <p><i class="fas fa-comments"></i> <strong>Comments</strong></p>
-        <p class="consent-detail">Loading comments connects to GitHub via utteranc.es and may set cookies.</p>
+        <p class="consent-detail">Loading comments connects to GitHub via utteranc.es and may set cookies. By clicking below, you consent to loading external content that may set third-party cookies. This preference will be remembered across all pages.</p>
         <button id="load-comments" class="button is-rounded">
             <i class="fas fa-comment-dots"></i> Load Comments
         </button>
     </div>
 </div>
 <script>
-document.getElementById('load-comments').addEventListener('click', function() {
-    var placeholder = document.getElementById('comments-placeholder');
-    placeholder.innerHTML = '<p><i class="fas fa-spinner fa-spin"></i> Loading comments...</p>';
+(function() {
+    function loadUtterances() {
+        var placeholder = document.getElementById('comments-placeholder');
+        if (!placeholder) return;
+        placeholder.innerHTML = '<p><i class="fas fa-spinner fa-spin"></i> Loading comments...</p>';
 
-    // Detect dark mode
-    var darkCSS = document.getElementById('dark-css');
-    var isDark = (darkCSS && darkCSS.media !== 'invalid' && darkCSS.media !== '(prefers-color-scheme: dark)')
-              || window.matchMedia('(prefers-color-scheme: dark)').matches;
-    // If applytheme.js forced dark (removed media attr), darkCSS.media is empty string
-    if (darkCSS && darkCSS.media === '') isDark = true;
+        var isDark = typeof window.isDarkMode === 'function' ? window.isDarkMode() : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = isDark ? 'github-dark' : 'github-light';
 
-    var theme = isDark ? 'github-dark' : 'github-light';
+        var script = document.createElement('script');
+        script.src = 'https://utteranc.es/client.js';
+        script.setAttribute('repo', 'zshn25/zshn25.github.io');
+        script.setAttribute('issue-term', 'title');
+        script.setAttribute('label', 'blogpost-comment');
+        script.setAttribute('theme', theme);
+        script.setAttribute('crossorigin', 'anonymous');
+        script.async = true;
 
-    var script = document.createElement('script');
-    script.src = 'https://utteranc.es/client.js';
-    script.setAttribute('repo', 'zshn25/zshn25.github.io');
-    script.setAttribute('issue-term', 'title');
-    script.setAttribute('label', 'blogpost-comment');
-    script.setAttribute('theme', theme);
-    script.setAttribute('crossorigin', 'anonymous');
-    script.async = true;
+        var container = document.getElementById('utterances-container');
+        container.appendChild(script);
 
-    var container = document.getElementById('utterances-container');
-    container.appendChild(script);
+        window.addEventListener('message', function handler(event) {
+            if (event.origin === 'https://utteranc.es') {
+                placeholder.remove();
+                window.removeEventListener('message', handler);
+            }
+        });
+    }
 
-    // Remove placeholder when utterances iframe loads
-    window.addEventListener('message', function handler(event) {
-        if (event.origin === 'https://utteranc.es') {
-            placeholder.remove();
-            window.removeEventListener('message', handler);
-        }
-    });
-});
+    // Use shared consent helpers from consent-gate.js (fallback if not loaded)
+    var consent = window._consent || {
+        get: function() { try { return JSON.parse(localStorage.getItem('embedConsent')) || {}; } catch(e) { return {}; } },
+        set: function(p) { var c = this.get(); c[p] = true; localStorage.setItem('embedConsent', JSON.stringify(c)); }
+    };
+
+    if (consent.get().comments) {
+        loadUtterances();
+    } else {
+        document.getElementById('load-comments').addEventListener('click', function() {
+            consent.set('comments');
+            loadUtterances();
+        });
+    }
+})();
 </script>
 <a class="u-url" href="/the-necessity-of-the-state/" hidden></a>
 </article>
@@ -721,7 +744,7 @@ document.getElementById('load-comments').addEventListener('click', function() {
       <div class="footer-col">
         <p class="feed-subscribe">
           <a href="https://feedrabbit.com/?url=https://zshn25.github.io/feed.xml">
-            <i class="fas fa-rss" style="color:#ee802f;"></i><span> Subscribe</span>
+            <i class="fas fa-rss rss-icon"></i><span> Subscribe</span>
           </a>
         </p>
         <ul class="contact-list">
@@ -744,16 +767,23 @@ document.getElementById('load-comments').addEventListener('click', function() {
 <div id="privacy-notice" style="display:none">
     This site does not use cookies or track you. Some posts contain embedded content that connects to third parties only when you click.
     <a href="/about/#privacy">Learn more</a>
-    <button class="privacy-ok-btn" onclick="localStorage.setItem('privacyOK','1');document.getElementById('privacy-notice').style.display='none'">OK</button>
+    <button class="privacy-ok-btn" onclick="localStorage.setItem('privacyOK','1');document.getElementById('privacy-notice').style.display='none';document.body.style.paddingBottom=''">OK</button>
 </div>
 <script>
 (function(){
   if(!localStorage.getItem('privacyOK')){
     var el=document.getElementById('privacy-notice');
-    if(el) el.style.display='flex';
+    if(el) {
+      el.style.display='flex';
+      document.body.style.paddingBottom='3em';
+    }
   }
 })();
 </script>
-</body>
+<button class="back-to-top" id="back-to-top" aria-label="Back to top">
+      <i class="fas fa-chevron-up"></i>
+    </button>
+
+  </body>
 
 </html>

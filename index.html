@@ -27,8 +27,9 @@
 {"@context":"https://schema.org","@type":"WebSite","author":{"@type":"Person","name":"Zeeshan Khan Suri"},"description":"I am curious. Therefore I am.","headline":"Curiosity","image":"https://zshn25.github.io/images/logo.png","name":"Curiosity","url":"https://zshn25.github.io/"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><!-- Self-hosted vendor CSS (no cross-origin requests for privacy) -->
-<link rel="stylesheet" href="/assets/vendor/primer/primer.css">
-<link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css">
+<!-- Primer utility classes are now inlined via _sass/minima/_primer-utilities.scss -->
+<link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css"></noscript>
 <link rel="stylesheet" href="/assets/vendor/academicons/css/academicons.min.css" media="print" onload="this.media='all'">
 
 <script>
@@ -64,65 +65,35 @@ window.onload = wrap_img;
 <link id="dark-css" href="/assets/css/dark.css" rel="stylesheet" media="(prefers-color-scheme: dark)">
 </head>
 <body><header class="site-header fixed-top">
+  <div class="wrapper header-wrapper">
+    <a class="site-title no-underline" rel="author" href="/">
+      <img src="/images/logo.png" style="max-width:40px;" alt="Curiosity logo" width="40" height="40">
+      Curiosity
+    </a><nav class="site-nav">
+      <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+      <label for="nav-trigger">
+        <span class="menu-icon"></span>
+      </label>
 
-  <div class="wrapper"><a class="site-title no-underline hover-grow" rel="author" href="/"> <img src="/images/logo.png" style="max-width:40px;" alt="Curiosity logo" width="40" height="40"> Curiosity</a><nav class="site-nav">
-        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
-        <label for="nav-trigger">
-          <span class="menu-icon">
-            <svg viewBox="0 0 18 15" width="18px" height="15px">
-              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
-            </svg>
-          </span>
-        </label>
-
-        <div class="trigger"><a class="page-link" href="/about/">About</a><div class="header-search">
-            <i class="fas fa-search header-search-icon"></i>
-            <input type="text" class="header-search-input js-search-input" placeholder="Search..." aria-label="Search Curiosity" autocomplete="off">
-            <div class="search-results-dropdown js-search-results"></div>
-          </div>
-          
-          <a href="/feed.xml" class="nav-anchor no-underline no_icon" title="RSS Feed" aria-label="Subscribe via RSS">
-            <span class="fas fa-rss fa-fw" aria-hidden="true" style="color:#ee802f;"></span>
-          </a>
-          <span id="nav-switch-theme" class="nav-anchor">
-            <span class="nav-theme-icon fas fa-fw" aria-hidden="true" title="Theme"></span>
-            <span class="sr-only">Toggle Theme</span>
-          </span>
+      <div class="nav-items"><a class="page-link nav-item" href="/about/">About</a><div class="header-search nav-item">
+          <i class="fas fa-search header-search-icon"></i>
+          <input type="text" class="header-search-input js-search-input" placeholder="Search..." aria-label="Search Curiosity" autocomplete="off">
+          <div class="search-results-dropdown js-search-results"></div>
         </div>
-      </nav></div>
+        <a href="/feed.xml" class="nav-item header-icon-btn no-underline no_icon" title="RSS Feed" aria-label="Subscribe via RSS">
+          <span class="fas fa-rss rss-icon" aria-hidden="true"></span>
+        </a>
+        <span id="nav-switch-theme" class="nav-item header-icon-btn" style="display:none">
+          <span class="nav-theme-icon fas fa-fw" aria-hidden="true" title="Theme"></span>
+        </span>
+      </div>
+    </nav></div>
 </header>
 
     
     <main class="page-content" aria-label="Content">
       <div class="wrapper">
-        <div class="home"><!-- This site is built with [fastpages](https://github.com/fastai/fastpages), An easy to use blogging platform with extra features for Jupyter Notebooks.
-
-![](/images/diagram.png "https://github.com/fastai/fastpages")
-
-[fastpages](https://github.com/fastai/fastpages) automates the process of creating blog posts via GitHub Actions, so you don't have to fuss with conversion scripts.  A full list of features can be found on [GitHub](https://github.com/fastai/fastpages).  
-
-You can edit the `index.html` file to change this content. -->
-
-<!-- adapted from https://github.com/pmarsceill/just-the-docs -->
-<script type="text/javascript" src="/assets/js/search.js"></script>
-
-<script type="text/javascript" src="/assets/js/vendor/lunr.min.js"></script>
-
-<div class="search">
-    <div class="search-input-wrap search-padding">
-    <input type="text" class="js-search-input search-input input-block form-control" tabindex="0" placeholder="Search Curiosity" aria-label="Search Curiosity" autocomplete="off" />
-    </div>
-    <br />
-    <div class="js-search-results search-results-wrap"></div>
-</div>
-      <h1 id="posts">
-        
-        
-          <a href="#posts" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Posts
-        
-        
-      </h1>
-    
+        <div class="home">
 
   
   
@@ -400,12 +371,54 @@ You can edit the `index.html` file to change this content. -->
     </div>
     <ul class="post-list" data-section="tech">
       
-      <li data-categories="pytorch,inference,optimization,gpu,depth-estimation"><div class="Box box-shadow-medium border-0 rounded-1 col-12 "><div class="col-8 d-table-cell p-3">
+      
+      <li class="featured-post" data-categories="privacy"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
+    <a href="/why-privacy-matters/">
+    <img class="image-preview" src="/images/privacy.jpg" loading="lazy" alt="Privacy" /></a>
+  </div><div class="post-card-body">
+    <span class="featured-badge"><i class="fas fa-star"></i> Featured</span>
       <h3>
         
         
           
       
+      <a class="post-link" href="/why-privacy-matters/">
+        Privacy
+      </a>
+      
+    
+        
+        
+      </h3>
+    
+    <p class="post-meta-description">Why privacy matters? How is your online privacy getting infringed? What can you do about it?</p>
+    <p class="post-meta"><i class="far fa-calendar-alt"></i>  May 13, 2021
+      • <i class="far fa-clock"></i> <span class="read-time" title="Estimated read time">
+    
+    
+      13 mins read
+    
+</span>
+</p>
+
+        
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
+          
+          <a class="category-tags-link" href="/?tag=privacy">#privacy</a>
+          
+          
+        </p>
+        
+  </div>
+</div>
+</li>
+      
+      
+      <li class="" data-categories="pytorch,inference,optimization,gpu,depth-estimation"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-body">
+      <h3>
+        
+        
+          
       
       <a class="post-link" href="/inference_optimizations_benchmark/">
         Inference Speedup Benchmark — Depth Anything v3 (Metric-Large)
@@ -427,37 +440,37 @@ You can edit the `index.html` file to change this content. -->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=pytorch">#pytorch</a>
+          <a class="category-tags-link" href="/?tag=pytorch">#pytorch</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=inference">#inference</a>
+          <a class="category-tags-link" href="/?tag=inference">#inference</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=optimization">#optimization</a>
+          <a class="category-tags-link" href="/?tag=optimization">#optimization</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=gpu">#gpu</a>
+          <a class="category-tags-link" href="/?tag=gpu">#gpu</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=depth-estimation">#depth-estimation</a>
+          <a class="category-tags-link" href="/?tag=depth-estimation">#depth-estimation</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
       
-      <li data-categories="computer-vision,large-neural-networks,foundation-models,self-supervision"><div class="Box box-shadow-medium border-0 rounded-1 col-12 "><div class="col-4 d-table-cell p-3 v-align-middle">
+      <li class="" data-categories="computer-vision,large-neural-networks,foundation-models,self-supervision"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/self-supervision-for-foundation-models/">
-    <img class="image-preview " src="/images/foundation.jpeg" loading="lazy" alt="Self-supervised learning for vision foundation models" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+    <img class="image-preview" src="/images/foundation.jpeg" loading="lazy" alt="Self-supervised learning for vision foundation models" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
-      
       
       <a class="post-link" href="/self-supervision-for-foundation-models/">
         Self-supervised learning for vision foundation models
@@ -479,34 +492,34 @@ You can edit the `index.html` file to change this content. -->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=computer-vision">#computer-vision</a>
+          <a class="category-tags-link" href="/?tag=computer-vision">#computer-vision</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=large-neural-networks">#large-neural-networks</a>
+          <a class="category-tags-link" href="/?tag=large-neural-networks">#large-neural-networks</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=foundation-models">#foundation-models</a>
+          <a class="category-tags-link" href="/?tag=foundation-models">#foundation-models</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=self-supervision">#self-supervision</a>
+          <a class="category-tags-link" href="/?tag=self-supervision">#self-supervision</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
       
-      <li data-categories="deep-learning,self-supervision,3d-reconstruction,structure-from-motion,visual-odometry,depth-estimation"><div class="Box box-shadow-medium border-0 rounded-1 col-12 "><div class="col-4 d-table-cell p-3 v-align-middle">
+      <li class="" data-categories="deep-learning,self-supervision,3d-reconstruction,structure-from-motion,visual-odometry,depth-estimation"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/pc4consistentdepth/">
-    <img class="image-preview " src="/images/3dreco/out.gif" loading="lazy" alt="Pose Constraints for Self-supervised Monocular Depth and Ego-Motion" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+    <img class="image-preview" src="/images/3dreco/out-poster.jpg" loading="lazy" alt="Pose Constraints for Self-supervised Monocular Depth and Ego-Motion" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
-      
       
       <a class="post-link" href="/pc4consistentdepth/">
         Pose Constraints for Self-supervised Monocular Depth and Ego-Motion
@@ -528,40 +541,40 @@ You can edit the `index.html` file to change this content. -->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=deep-learning">#deep-learning</a>
+          <a class="category-tags-link" href="/?tag=deep-learning">#deep-learning</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=self-supervision">#self-supervision</a>
+          <a class="category-tags-link" href="/?tag=self-supervision">#self-supervision</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=3d-reconstruction">#3d-reconstruction</a>
+          <a class="category-tags-link" href="/?tag=3d-reconstruction">#3d-reconstruction</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=structure-from-motion">#structure-from-motion</a>
+          <a class="category-tags-link" href="/?tag=structure-from-motion">#structure-from-motion</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=visual-odometry">#visual-odometry</a>
+          <a class="category-tags-link" href="/?tag=visual-odometry">#visual-odometry</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=depth-estimation">#depth-estimation</a>
+          <a class="category-tags-link" href="/?tag=depth-estimation">#depth-estimation</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
       
-      <li data-categories="deep-learning,convolution,attention"><div class="Box box-shadow-medium border-0 rounded-1 col-12 "><div class="col-4 d-table-cell p-3 v-align-middle">
+      <li class="" data-categories="deep-learning,convolution,attention"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/CNNs-vs-Transformers/">
-    <img class="image-preview " src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Vision_Transformer.gif/330px-Vision_Transformer.gif" loading="lazy" alt="Convolution vs. Attention" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+    <img class="image-preview" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Vision_Transformer.gif/330px-Vision_Transformer.gif" loading="lazy" alt="Convolution vs. Attention" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
-      
       
       <a class="post-link" href="/CNNs-vs-Transformers/">
         Convolution vs. Attention
@@ -583,31 +596,31 @@ You can edit the `index.html` file to change this content. -->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=deep-learning">#deep-learning</a>
+          <a class="category-tags-link" href="/?tag=deep-learning">#deep-learning</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=convolution">#convolution</a>
+          <a class="category-tags-link" href="/?tag=convolution">#convolution</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=attention">#attention</a>
+          <a class="category-tags-link" href="/?tag=attention">#attention</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
       
-      <li data-categories="deep-learning,mlops"><div class="Box box-shadow-medium border-0 rounded-1 col-12 "><div class="col-4 d-table-cell p-3 v-align-middle">
+      <li class="" data-categories="deep-learning,mlops"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/Software-2/">
-    <img class="image-preview " src="/images/loop.svg" loading="lazy" alt="Software 2.0 2.0" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+    <img class="image-preview" src="/images/loop.svg" loading="lazy" alt="Software 2.0 2.0" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
-      
       
       <a class="post-link" href="/Software-2/">
         Software 2.0 2.0
@@ -629,28 +642,28 @@ You can edit the `index.html` file to change this content. -->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=deep-learning">#deep-learning</a>
+          <a class="category-tags-link" href="/?tag=deep-learning">#deep-learning</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=mlops">#mlops</a>
+          <a class="category-tags-link" href="/?tag=mlops">#mlops</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
       
-      <li data-categories="deep-learning,computer-vision,3d-reconstruction,structure-from-motion,visual-odometry"><div class="Box box-shadow-medium border-0 rounded-1 col-12 "><div class="col-4 d-table-cell p-3 v-align-middle">
+      <li class="section-hidden" data-categories="deep-learning,computer-vision,3d-reconstruction,structure-from-motion,visual-odometry"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/How-Monocular-Depth-Estimation-works/">
-    <img class="image-preview " src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/2551b04d-fd4e-4ec9-9869-3e8c9ac5e7bf/d93a0lc-e4ecbd7d-6120-4925-be1d-1e250d7e0830.png/v1/fill/w_1024,h_576,q_80,strp/cyclops_greek_mythology_by_nilesdino_d93a0lc-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NTc2IiwicGF0aCI6IlwvZlwvMjU1MWIwNGQtZmQ0ZS00ZWM5LTk4NjktM2U4YzlhYzVlN2JmXC9kOTNhMGxjLWU0ZWNiZDdkLTYxMjAtNDkyNS1iZTFkLTFlMjUwZDdlMDgzMC5wbmciLCJ3aWR0aCI6Ijw9MTAyNCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.kEfvRjpv5KXW_HtOAtsBltiTNTF7DswBz8TwLvRVwyo" loading="lazy" alt="Self-supervised monocular depth estimation" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+    <img class="image-preview" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/2551b04d-fd4e-4ec9-9869-3e8c9ac5e7bf/d93a0lc-e4ecbd7d-6120-4925-be1d-1e250d7e0830.png/v1/fill/w_1024,h_576,q_80,strp/cyclops_greek_mythology_by_nilesdino_d93a0lc-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NTc2IiwicGF0aCI6IlwvZlwvMjU1MWIwNGQtZmQ0ZS00ZWM5LTk4NjktM2U4YzlhYzVlN2JmXC9kOTNhMGxjLWU0ZWNiZDdkLTYxMjAtNDkyNS1iZTFkLTFlMjUwZDdlMDgzMC5wbmciLCJ3aWR0aCI6Ijw9MTAyNCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.kEfvRjpv5KXW_HtOAtsBltiTNTF7DswBz8TwLvRVwyo" loading="lazy" alt="Self-supervised monocular depth estimation" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
-      
       
       <a class="post-link" href="/How-Monocular-Depth-Estimation-works/">
         Self-supervised monocular depth estimation
@@ -672,37 +685,37 @@ You can edit the `index.html` file to change this content. -->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=deep-learning">#deep-learning</a>
+          <a class="category-tags-link" href="/?tag=deep-learning">#deep-learning</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=computer-vision">#computer-vision</a>
+          <a class="category-tags-link" href="/?tag=computer-vision">#computer-vision</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=3d-reconstruction">#3d-reconstruction</a>
+          <a class="category-tags-link" href="/?tag=3d-reconstruction">#3d-reconstruction</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=structure-from-motion">#structure-from-motion</a>
+          <a class="category-tags-link" href="/?tag=structure-from-motion">#structure-from-motion</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=visual-odometry">#visual-odometry</a>
+          <a class="category-tags-link" href="/?tag=visual-odometry">#visual-odometry</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
       
-      <li data-categories="c++,vector,tutorial" class="section-hidden"><div class="Box box-shadow-medium border-0 rounded-1 col-12 "><div class="col-4 d-table-cell p-3 v-align-middle">
+      <li class="section-hidden" data-categories="c++,vector,tutorial"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/c++-vector-mwe-tutorial/">
-    <img class="image-preview " src="/images/c-coding-6205174_640.png" loading="lazy" alt="A minimal working example of a custom Vector class in C++" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+    <img class="image-preview" src="/images/c-coding-6205174_640.png" loading="lazy" alt="A minimal working example of a custom Vector class in C++" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
-      
       
       <a class="post-link" href="/c++-vector-mwe-tutorial/">
         A minimal working example of a custom Vector class in C++
@@ -724,71 +737,31 @@ You can edit the `index.html` file to change this content. -->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=c++">#c++</a>
+          <a class="category-tags-link" href="/?tag=c++">#c++</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=vector">#vector</a>
+          <a class="category-tags-link" href="/?tag=vector">#vector</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=tutorial">#tutorial</a>
+          <a class="category-tags-link" href="/?tag=tutorial">#tutorial</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
       
-      <li data-categories="privacy" class="section-hidden"><div class="Box box-shadow-medium border-0 rounded-1 col-12 "><div class="col-4 d-table-cell p-3 v-align-middle">
-    <a href="/why-privacy-matters/">
-    <img class="image-preview " src="/images/privacy.jpg" loading="lazy" alt="Privacy" /></a>
-  </div><div class="col-8 d-table-cell p-3">
-      <h3>
-        
-        
-          
-      
-      
-      <a class="post-link" href="/why-privacy-matters/">
-        Privacy
-      </a>
-      
-    
-        
-        
-      </h3>
-    
-    <p class="post-meta-description">Why privacy matters? How is your online privacy getting infringed? What can you do about it?</p>
-    <p class="post-meta"><i class="far fa-calendar-alt"></i>  May 13, 2021
-      • <i class="far fa-clock"></i> <span class="read-time" title="Estimated read time">
-    
-    
-      10 mins read
-    
-</span>
-</p>
-
-        
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
-          
-          <a class="category-tags-link label label-default" href="/?tag=privacy">#privacy</a>
-          
-          
-        </p>
-        
-  </div>
-</div></li>
-      
-      <li data-categories="deep-learning,pytorch,fast-inference" class="section-hidden"><div class="Box box-shadow-medium border-0 rounded-1 col-12 "><div class="col-4 d-table-cell p-3 v-align-middle">
+      <li class="section-hidden" data-categories="deep-learning,pytorch,fast-inference"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/Layers-fusion-for-faster-inference/">
-    <img class="image-preview " src="/images/neural-network-3816319.svg" loading="lazy" alt="Layers fusion for faster neural network inference" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+    <img class="image-preview" src="/images/neural-network-3816319.svg" loading="lazy" alt="Layers fusion for faster neural network inference" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
-      
       
       <a class="post-link" href="/Layers-fusion-for-faster-inference/">
         Layers fusion for faster neural network inference
@@ -810,31 +783,31 @@ You can edit the `index.html` file to change this content. -->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=deep-learning">#deep-learning</a>
+          <a class="category-tags-link" href="/?tag=deep-learning">#deep-learning</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=pytorch">#pytorch</a>
+          <a class="category-tags-link" href="/?tag=pytorch">#pytorch</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=fast-inference">#fast-inference</a>
+          <a class="category-tags-link" href="/?tag=fast-inference">#fast-inference</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
       
-      <li data-categories="3d-mesh,datasets,computer-vision" class="section-hidden"><div class="Box box-shadow-medium border-0 rounded-1 col-12 "><div class="col-4 d-table-cell p-3 v-align-middle">
+      <li class="section-hidden" data-categories="3d-mesh,datasets,computer-vision"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/compilation-3d-mesh-resources/">
-    <img class="image-preview " src="https://deep-geometry.github.io/abc-dataset/assets/images/header.png" loading="lazy" alt="Compilation of 3D mesh models" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+    <img class="image-preview" src="https://deep-geometry.github.io/abc-dataset/assets/images/header.png" loading="lazy" alt="Compilation of 3D mesh models" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
-      
       
       <a class="post-link" href="/compilation-3d-mesh-resources/">
         Compilation of 3D mesh models
@@ -856,31 +829,31 @@ You can edit the `index.html` file to change this content. -->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=3d-mesh">#3d-mesh</a>
+          <a class="category-tags-link" href="/?tag=3d-mesh">#3d-mesh</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=datasets">#datasets</a>
+          <a class="category-tags-link" href="/?tag=datasets">#datasets</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=computer-vision">#computer-vision</a>
+          <a class="category-tags-link" href="/?tag=computer-vision">#computer-vision</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
       
-      <li data-categories="mathematics,computer-vision" class="section-hidden"><div class="Box box-shadow-medium border-0 rounded-1 col-12 "><div class="col-4 d-table-cell p-3 v-align-middle">
+      <li class="section-hidden" data-categories="mathematics,computer-vision"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/is-convolution-linear/">
-    <img class="image-preview " src="https://upload.wikimedia.org/wikipedia/commons/6/6a/Convolution_of_box_signal_with_itself2.gif" loading="lazy" alt="Is convolution linear?" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+    <img class="image-preview" src="https://upload.wikimedia.org/wikipedia/commons/6/6a/Convolution_of_box_signal_with_itself2.gif" loading="lazy" alt="Is convolution linear?" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
-      
       
       <a class="post-link" href="/is-convolution-linear/">
         Is convolution linear?
@@ -902,28 +875,28 @@ You can edit the `index.html` file to change this content. -->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=mathematics">#mathematics</a>
+          <a class="category-tags-link" href="/?tag=mathematics">#mathematics</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=computer-vision">#computer-vision</a>
+          <a class="category-tags-link" href="/?tag=computer-vision">#computer-vision</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
       
-      <li data-categories="deep-learning,computer-vision,pytorch" class="section-hidden"><div class="Box box-shadow-medium border-0 rounded-1 col-12 "><div class="col-4 d-table-cell p-3 v-align-middle">
+      <li class="section-hidden" data-categories="deep-learning,computer-vision,pytorch"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/ResNet-feature-pyramid-in-Pytorch/">
-    <img class="image-preview " src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Image_pyramid.svg/1200px-Image_pyramid.svg.png" loading="lazy" alt="ResNet feature pyramid in Pytorch" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+    <img class="image-preview" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Image_pyramid.svg/1200px-Image_pyramid.svg.png" loading="lazy" alt="ResNet feature pyramid in Pytorch" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
-      
       
       <a class="post-link" href="/ResNet-feature-pyramid-in-Pytorch/">
         ResNet feature pyramid in Pytorch
@@ -945,31 +918,31 @@ You can edit the `index.html` file to change this content. -->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=deep-learning">#deep-learning</a>
+          <a class="category-tags-link" href="/?tag=deep-learning">#deep-learning</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=computer-vision">#computer-vision</a>
+          <a class="category-tags-link" href="/?tag=computer-vision">#computer-vision</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=pytorch">#pytorch</a>
+          <a class="category-tags-link" href="/?tag=pytorch">#pytorch</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
       
-      <li data-categories="github,tags,releases" class="section-hidden"><div class="Box box-shadow-medium border-0 rounded-1 col-12 "><div class="col-4 d-table-cell p-3 v-align-middle">
+      <li class="section-hidden" data-categories="github,tags,releases"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/how-to-release-on-git/">
-    <img class="image-preview " src="https://octodex.github.com/images/octonaut.jpg" loading="lazy" alt="How to Release on Github" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+    <img class="image-preview" src="https://octodex.github.com/images/octonaut.jpg" loading="lazy" alt="How to Release on Github" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
-      
       
       <a class="post-link" href="/how-to-release-on-git/">
         How to Release on Github
@@ -991,21 +964,22 @@ You can edit the `index.html` file to change this content. -->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=github">#github</a>
+          <a class="category-tags-link" href="/?tag=github">#github</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=tags">#tags</a>
+          <a class="category-tags-link" href="/?tag=tags">#tags</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=releases">#releases</a>
+          <a class="category-tags-link" href="/?tag=releases">#releases</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
       
     </ul>
     
@@ -1056,15 +1030,16 @@ You can edit the `index.html` file to change this content. -->
     </div>
     <ul class="post-list" data-section="philosophy">
       
-      <li data-categories="politics,philosophy,social-contract"><div class="Box box-shadow-medium border-0 rounded-1 col-12 "><div class="col-4 d-table-cell p-3 v-align-middle">
+      
+      
+      <li class="" data-categories="politics,philosophy,social-contract"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/the-necessity-of-the-state/">
-    <img class="image-preview " src="https://www.mises.org.es/wp-content/uploads/2017/04/Leviathan_by_Thomas_Hobbes-e1416438094895.jpg" loading="lazy" alt="Trading Freedom for Peace: The necessity of the state" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+    <img class="image-preview" src="https://www.mises.org.es/wp-content/uploads/2017/04/Leviathan_by_Thomas_Hobbes-e1416438094895.jpg" loading="lazy" alt="Trading Freedom for Peace: The necessity of the state" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
-      
       
       <a class="post-link" href="/the-necessity-of-the-state/">
         Trading Freedom for Peace: The necessity of the state
@@ -1086,31 +1061,31 @@ You can edit the `index.html` file to change this content. -->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=politics">#politics</a>
+          <a class="category-tags-link" href="/?tag=politics">#politics</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=philosophy">#philosophy</a>
+          <a class="category-tags-link" href="/?tag=philosophy">#philosophy</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=social-contract">#social-contract</a>
+          <a class="category-tags-link" href="/?tag=social-contract">#social-contract</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
       
-      <li data-categories="politics,philosophy,justice,regime"><div class="Box box-shadow-medium border-0 rounded-1 col-12 "><div class="col-4 d-table-cell p-3 v-align-middle">
+      <li class="" data-categories="politics,philosophy,justice,regime"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/Aristotle-definitions/">
-    <img class="image-preview " src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Aristotle_Altemps_Inv8575.jpg/250px-Aristotle_Altemps_Inv8575.jpg" loading="lazy" alt="Aristotle’s regime, the good citizen and justice" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+    <img class="image-preview" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Aristotle_Altemps_Inv8575.jpg/250px-Aristotle_Altemps_Inv8575.jpg" loading="lazy" alt="Aristotle’s regime, the good citizen and justice" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
-      
       
       <a class="post-link" href="/Aristotle-definitions/">
         Aristotle’s regime, the good citizen and justice
@@ -1132,34 +1107,34 @@ You can edit the `index.html` file to change this content. -->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=politics">#politics</a>
+          <a class="category-tags-link" href="/?tag=politics">#politics</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=philosophy">#philosophy</a>
+          <a class="category-tags-link" href="/?tag=philosophy">#philosophy</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=justice">#justice</a>
+          <a class="category-tags-link" href="/?tag=justice">#justice</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=regime">#regime</a>
+          <a class="category-tags-link" href="/?tag=regime">#regime</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
       
-      <li data-categories="politics,philosophy,greed,wealth"><div class="Box box-shadow-medium border-0 rounded-1 col-12 "><div class="col-4 d-table-cell p-3 v-align-middle">
+      <li class="" data-categories="politics,philosophy,greed,wealth"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/kinds-of-wealth-getting-Aristotle/">
-    <img class="image-preview " src="/images/aristotle_wallstreet.jpeg" loading="lazy" alt="Reasons for earning money: The good and the ugly" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+    <img class="image-preview" src="/images/aristotle_wallstreet.jpeg" loading="lazy" alt="Reasons for earning money: The good and the ugly" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
-      
       
       <a class="post-link" href="/kinds-of-wealth-getting-Aristotle/">
         Reasons for earning money: The good and the ugly
@@ -1181,34 +1156,34 @@ You can edit the `index.html` file to change this content. -->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=politics">#politics</a>
+          <a class="category-tags-link" href="/?tag=politics">#politics</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=philosophy">#philosophy</a>
+          <a class="category-tags-link" href="/?tag=philosophy">#philosophy</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=greed">#greed</a>
+          <a class="category-tags-link" href="/?tag=greed">#greed</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=wealth">#wealth</a>
+          <a class="category-tags-link" href="/?tag=wealth">#wealth</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
       
-      <li data-categories="politics,philosophy,justice"><div class="Box box-shadow-medium border-0 rounded-1 col-12 "><div class="col-4 d-table-cell p-3 v-align-middle">
+      <li class="" data-categories="politics,philosophy,justice"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/plato-republic/">
-    <img class="image-preview " src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/David_-_The_Death_of_Socrates_-_detail2.jpg/330px-David_-_The_Death_of_Socrates_-_detail2.jpg" loading="lazy" alt="Notes on Justice from Plato&#39;s Republic" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+    <img class="image-preview" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/David_-_The_Death_of_Socrates_-_detail2.jpg/330px-David_-_The_Death_of_Socrates_-_detail2.jpg" loading="lazy" alt="Notes on Justice from Plato&#39;s Republic" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
-      
       
       <a class="post-link" href="/plato-republic/">
         Notes on Justice from Plato&#39;s Republic
@@ -1230,31 +1205,31 @@ You can edit the `index.html` file to change this content. -->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=politics">#politics</a>
+          <a class="category-tags-link" href="/?tag=politics">#politics</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=philosophy">#philosophy</a>
+          <a class="category-tags-link" href="/?tag=philosophy">#philosophy</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=justice">#justice</a>
+          <a class="category-tags-link" href="/?tag=justice">#justice</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
       
-      <li data-categories="philosophy,meaning"><div class="Box box-shadow-medium border-0 rounded-1 col-12 "><div class="col-4 d-table-cell p-3 v-align-middle">
+      <li class="" data-categories="philosophy,meaning"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/purpose/">
-    <img class="image-preview " src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/NASA-Apollo8-Dec24-Earthrise.jpg/1200px-NASA-Apollo8-Dec24-Earthrise.jpg" loading="lazy" alt="The purpose in life" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+    <img class="image-preview" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/NASA-Apollo8-Dec24-Earthrise.jpg/1200px-NASA-Apollo8-Dec24-Earthrise.jpg" loading="lazy" alt="The purpose in life" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
-      
       
       <a class="post-link" href="/purpose/">
         The purpose in life
@@ -1276,28 +1251,28 @@ You can edit the `index.html` file to change this content. -->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=philosophy">#philosophy</a>
+          <a class="category-tags-link" href="/?tag=philosophy">#philosophy</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=meaning">#meaning</a>
+          <a class="category-tags-link" href="/?tag=meaning">#meaning</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
       
-      <li data-categories="religion,islam,philosophy"><div class="Box box-shadow-medium border-0 rounded-1 col-12 "><div class="col-4 d-table-cell p-3 v-align-middle">
+      <li class="" data-categories="religion,islam,philosophy"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/fasting-during-ramadan/">
-    <img class="image-preview " src="/images/crater-1853110_640.jpg" loading="lazy" alt="The virtue of fasting during Ramadan" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+    <img class="image-preview" src="/images/crater-1853110_640.jpg" loading="lazy" alt="The virtue of fasting during Ramadan" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
-      
       
       <a class="post-link" href="/fasting-during-ramadan/">
         The virtue of fasting during Ramadan
@@ -1319,31 +1294,31 @@ You can edit the `index.html` file to change this content. -->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=religion">#religion</a>
+          <a class="category-tags-link" href="/?tag=religion">#religion</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=islam">#Islam</a>
+          <a class="category-tags-link" href="/?tag=islam">#Islam</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=philosophy">#philosophy</a>
+          <a class="category-tags-link" href="/?tag=philosophy">#philosophy</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
       
-      <li data-categories="philosophy,gratitude" class="section-hidden"><div class="Box box-shadow-medium border-0 rounded-1 col-12 "><div class="col-4 d-table-cell p-3 v-align-middle">
+      <li class="section-hidden" data-categories="philosophy,gratitude"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/practicing-gratitude/">
-    <img class="image-preview " src="/images/flower-3175428_640.jpg" loading="lazy" alt="Practicing Gratitude" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+    <img class="image-preview" src="/images/flower-3175428_640.jpg" loading="lazy" alt="Practicing Gratitude" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
-      
       
       <a class="post-link" href="/practicing-gratitude/">
         Practicing Gratitude
@@ -1365,18 +1340,19 @@ You can edit the `index.html` file to change this content. -->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=philosophy">#philosophy</a>
+          <a class="category-tags-link" href="/?tag=philosophy">#philosophy</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=gratitude">#gratitude</a>
+          <a class="category-tags-link" href="/?tag=gratitude">#gratitude</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
       
     </ul>
     
@@ -1425,15 +1401,63 @@ You can edit the `index.html` file to change this content. -->
     </div>
     <ul class="post-list" data-section="life">
       
-      <li data-categories="external-link,dhmo-conspiracy"><div class="Box box-shadow-medium border-0 rounded-1 col-12 "><div class="col-4 d-table-cell p-3 v-align-middle">
-    <a href="/dihydrogen-monoxide/">
-    <img class="image-preview " src="/images/poison-1481596_640.jpg" loading="lazy" alt="Dihydrogen Monoxide - The Truth" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+      
+      <li class="featured-post" data-categories="health,nutrition,cooking"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
+    <a href="/nutrition/">
+    <img class="image-preview" src="/images/cook.jpg" loading="lazy" alt="Nutrition" /></a>
+  </div><div class="post-card-body">
+    <span class="featured-badge"><i class="fas fa-star"></i> Featured</span>
       <h3>
         
         
           
       
+      <a class="post-link" href="/nutrition/">
+        Nutrition
+      </a>
+      
+    
+        
+        
+      </h3>
+    
+    <p class="post-meta-description">Preventing disease is the first step to long-term health and well-being. By following basic nutrition advice you can improve your health by significant amounts.</p>
+    <p class="post-meta"><i class="far fa-calendar-alt"></i>  Oct 30, 2020
+      • <i class="far fa-clock"></i> <span class="read-time" title="Estimated read time">
+    
+    
+      12 mins read
+    
+</span>
+</p>
+
+        
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
+          
+          <a class="category-tags-link" href="/?tag=health">#health</a>
+          &nbsp;
+          
+          <a class="category-tags-link" href="/?tag=nutrition">#nutrition</a>
+          &nbsp;
+          
+          <a class="category-tags-link" href="/?tag=cooking">#cooking</a>
+          
+          
+        </p>
+        
+  </div>
+</div>
+</li>
+      
+      
+      <li class="" data-categories="external-link,dhmo-conspiracy"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
+    <a href="/dihydrogen-monoxide/">
+    <img class="image-preview" src="/images/poison-1481596_640.jpg" loading="lazy" alt="Dihydrogen Monoxide - The Truth" /></a>
+  </div><div class="post-card-body">
+      <h3>
+        
+        
+          
       
       <a class="post-link" href="https://www.dhmo.org/truth/Dihydrogen-Monoxide.html" target="_blank">
         Dihydrogen Monoxide - The Truth
@@ -1455,28 +1479,28 @@ You can edit the `index.html` file to change this content. -->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=external-link">#external-link</a>
+          <a class="category-tags-link" href="/?tag=external-link">#external-link</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=dhmo-conspiracy">#dhmo-conspiracy</a>
+          <a class="category-tags-link" href="/?tag=dhmo-conspiracy">#dhmo-conspiracy</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
       
-      <li data-categories="investing,finance,stocks"><div class="Box box-shadow-medium border-0 rounded-1 col-12 "><div class="col-4 d-table-cell p-3 v-align-middle">
+      <li class="" data-categories="investing,finance,stocks"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/gme-stock/">
-    <img class="image-preview " src="/images/tomoon.jpg" loading="lazy" alt="$GME short squeeze" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+    <img class="image-preview" src="/images/tomoon.jpg" loading="lazy" alt="$GME short squeeze" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
-      
       
       <a class="post-link" href="/gme-stock/">
         $GME short squeeze
@@ -1498,31 +1522,31 @@ You can edit the `index.html` file to change this content. -->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=investing">#investing</a>
+          <a class="category-tags-link" href="/?tag=investing">#investing</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=finance">#finance</a>
+          <a class="category-tags-link" href="/?tag=finance">#finance</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=stocks">#stocks</a>
+          <a class="category-tags-link" href="/?tag=stocks">#stocks</a>
           
           
         </p>
         
   </div>
-</div></li>
+</div>
+</li>
       
-      <li data-categories="food,cooking,recipe"><div class="Box box-shadow-medium border-0 rounded-1 col-12 "><div class="col-4 d-table-cell p-3 v-align-middle">
+      <li class="" data-categories="food,cooking,recipe"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/hot-chocolate/">
-    <img class="image-preview " src="/images/recipes/hotchocolate/cocoa.jpg" loading="lazy" alt="Hot chocolate" /></a>
-  </div><div class="col-8 d-table-cell p-3">
+    <img class="image-preview" src="/images/recipes/hotchocolate/cocoa.jpg" loading="lazy" alt="Hot chocolate" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
-      
       
       <a class="post-link" href="/hot-chocolate/">
         Hot chocolate
@@ -1544,67 +1568,22 @@ You can edit the `index.html` file to change this content. -->
 </p>
 
         
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link label label-default" href="/?tag=food">#food</a>
+          <a class="category-tags-link" href="/?tag=food">#food</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=cooking">#cooking</a>
+          <a class="category-tags-link" href="/?tag=cooking">#cooking</a>
           &nbsp;
           
-          <a class="category-tags-link label label-default" href="/?tag=recipe">#recipe</a>
+          <a class="category-tags-link" href="/?tag=recipe">#recipe</a>
           
           
         </p>
         
   </div>
-</div></li>
-      
-      <li data-categories="health,nutrition,cooking"><div class="Box box-shadow-medium border-0 rounded-1 col-12 "><div class="col-4 d-table-cell p-3 v-align-middle">
-    <a href="/nutrition/">
-    <img class="image-preview " src="/images/cook.jpg" loading="lazy" alt="Nutrition" /></a>
-  </div><div class="col-8 d-table-cell p-3">
-      <h3>
-        
-        
-          
-      
-      
-      <a class="post-link" href="/nutrition/">
-        Nutrition
-      </a>
-      
-    
-        
-        
-      </h3>
-    
-    <p class="post-meta-description">Preventing disease is the first step to long-term health and well-being. By following basic nutrition advice you can improve your health by significant amounts.</p>
-    <p class="post-meta"><i class="far fa-calendar-alt"></i>  Oct 30, 2020
-      • <i class="far fa-clock"></i> <span class="read-time" title="Estimated read time">
-    
-    
-      7 mins read
-    
-</span>
-</p>
-
-        
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
-          
-          <a class="category-tags-link label label-default" href="/?tag=health">#health</a>
-          &nbsp;
-          
-          <a class="category-tags-link label label-default" href="/?tag=nutrition">#nutrition</a>
-          &nbsp;
-          
-          <a class="category-tags-link label label-default" href="/?tag=cooking">#cooking</a>
-          
-          
-        </p>
-        
-  </div>
-</div></li>
+</div>
+</li>
       
     </ul>
     
@@ -2065,22 +2044,22 @@ document.addEventListener('DOMContentLoaded', function() {
     wcTag.addEventListener('click', function(e) {
       e.preventDefault();
       var tag = this.getAttribute('data-wc-tag');
-      // Find chip in any section and click it
-      var chip = document.querySelector('.category-chip[data-tag="' + tag + '"]');
-      if (chip) {
-        // Clear other filters in that section first
+      // Find ALL chips with this tag across all sections
+      var chips = document.querySelectorAll('.category-chip[data-tag="' + tag + '"]');
+      var scrollTarget = null;
+      chips.forEach(function(chip) {
         var section = chip.closest('.topic-section');
-        if (section) {
-          section.querySelectorAll('.category-chip.active').forEach(function(c) { c.classList.remove('active'); });
+        if (!section) return;
+        // Toggle this chip (don't clear others — allow independent per-section)
+        if (!chip.classList.contains('active')) {
+          chip.click();
         }
-        chip.click();
         // Expand the section if collapsed
-        if (section) {
-          var toggle = section.querySelector('.section-toggle');
-          if (toggle && !toggle.dataset.expanded) toggle.click();
-          section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      }
+        var toggle = section.querySelector('.section-toggle');
+        if (toggle && !toggle.dataset.expanded) toggle.click();
+        if (!scrollTarget) scrollTarget = section;
+      });
+      if (scrollTarget) scrollTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
 
@@ -2117,7 +2096,7 @@ document.addEventListener('DOMContentLoaded', function() {
       <div class="footer-col">
         <p class="feed-subscribe">
           <a href="https://feedrabbit.com/?url=https://zshn25.github.io/feed.xml">
-            <i class="fas fa-rss" style="color:#ee802f;"></i><span> Subscribe</span>
+            <i class="fas fa-rss rss-icon"></i><span> Subscribe</span>
           </a>
         </p>
         <ul class="contact-list">
@@ -2140,16 +2119,23 @@ document.addEventListener('DOMContentLoaded', function() {
 <div id="privacy-notice" style="display:none">
     This site does not use cookies or track you. Some posts contain embedded content that connects to third parties only when you click.
     <a href="/about/#privacy">Learn more</a>
-    <button class="privacy-ok-btn" onclick="localStorage.setItem('privacyOK','1');document.getElementById('privacy-notice').style.display='none'">OK</button>
+    <button class="privacy-ok-btn" onclick="localStorage.setItem('privacyOK','1');document.getElementById('privacy-notice').style.display='none';document.body.style.paddingBottom=''">OK</button>
 </div>
 <script>
 (function(){
   if(!localStorage.getItem('privacyOK')){
     var el=document.getElementById('privacy-notice');
-    if(el) el.style.display='flex';
+    if(el) {
+      el.style.display='flex';
+      document.body.style.paddingBottom='3em';
+    }
   }
 })();
 </script>
-</body>
+<button class="back-to-top" id="back-to-top" aria-label="Back to top">
+      <i class="fas fa-chevron-up"></i>
+    </button>
+
+  </body>
 
 </html>

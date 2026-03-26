@@ -17,58 +17,54 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
+  // ── Close hamburger menu on outside click ──
+  var navTrigger = document.getElementById('nav-trigger');
+  if (navTrigger) {
+    document.addEventListener('click', function(e) {
+      if (navTrigger.checked && !e.target.closest('.site-nav')) {
+        navTrigger.checked = false;
+      }
+    });
+  }
+
   // ── Detect blockquote attributions and style them ──
-  // Matches "-Author", "— Author", "*Author*" as last <p> in a blockquote
   document.querySelectorAll('.post-content blockquote').forEach(function(bq) {
     var lastP = bq.querySelector('p:last-child');
     if (!lastP) return;
     var text = lastP.textContent.trim();
-    // Pattern: starts with - or — or – (attribution dash)
     if (/^[-–—]/.test(text)) {
       lastP.innerHTML = lastP.innerHTML.replace(/^[-–—]+\s*/, '— ');
       lastP.classList.add('bq-attribution');
     } else if (lastP.children.length === 1 && lastP.children[0].tagName === 'EM' && bq.querySelectorAll('p').length > 1) {
-      // Standalone <em> as last paragraph (e.g., *Nietzsche*)
       lastP.innerHTML = '— ' + lastP.innerHTML;
       lastP.classList.add('bq-attribution');
     }
   });
 
   // ── Reformat internal-link blockquotes as styled callout cards ──
-  // Only converts "checkout my post" or heading-link style blockquotes
   document.querySelectorAll('.post-content blockquote').forEach(function(bq) {
-    // Skip blockquotes that contain math
     if (bq.querySelector('.katex, .katex-display') || bq.textContent.indexOf('$$') !== -1) return;
-    // Skip blockquotes with multiple paragraphs (real quotes, not ads)
     var paras = bq.querySelectorAll('p');
     if (paras.length > 2) return;
-    // Find the primary link inside (either in p or h2/h3)
     var link = bq.querySelector('a[href]');
     if (!link) return;
     var href = link.getAttribute('href');
-    // Only convert if it's an internal link (same origin or relative)
     if (href.indexOf('http') === 0 && link.hostname !== location.hostname) return;
-    // Skip if link text is just a number (footnote reference)
     var text = link.textContent.trim();
     if (!text || /^\d+$/.test(text)) return;
-    // Only convert if the blockquote is short (1-2 child elements, used as an ad)
     var children = bq.children;
     if (children.length > 2) return;
-    // Check if it's a "checkout" style or heading style
     var isHeading = !!bq.querySelector('h1, h2, h3, h4');
     var prefix = '';
     if (!isHeading) {
-      // Extract any text before the link (e.g., "Checkout my blog post on ")
       var parent = link.parentNode;
       if (parent && parent.textContent) {
         var fullText = parent.textContent;
         var linkIdx = fullText.indexOf(text);
         if (linkIdx > 0) prefix = fullText.substring(0, linkIdx).trim();
       }
-      // Skip if no "checkout" prefix and it's not a heading — it's a real quote
       if (!prefix && !isHeading) return;
     }
-    // Create the callout card
     var callout = document.createElement('div');
     callout.className = 'inline-post-callout';
     callout.innerHTML =
@@ -83,27 +79,169 @@ document.addEventListener('DOMContentLoaded', function() {
     bq.parentNode.replaceChild(callout, bq);
   });
 
+  // ── Back to top button ──
+  var backBtn = document.getElementById('back-to-top');
+  if (backBtn) {
+    var privacyNotice = document.getElementById('privacy-notice');
+    function updateBackBtn() {
+      if (window.scrollY > 400) backBtn.classList.add('visible');
+      else backBtn.classList.remove('visible');
+      // Push above privacy banner if it's visible
+      if (privacyNotice && privacyNotice.style.display === 'flex') {
+        backBtn.classList.add('above-banner');
+      } else {
+        backBtn.classList.remove('above-banner');
+      }
+    }
+    window.addEventListener('scroll', updateBackBtn, { passive: true });
+    updateBackBtn();
+    backBtn.addEventListener('click', function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  // ── Dark mode: image handling ──
+  // data-invert-dark="true"       → invert filter
+  // data-transparent-dark="true"  → replace white pixels with transparent via canvas
+  // data-no-invert                → skip entirely
+  // No attribute                  → auto-detect via canvas sampling
+  var isDark = typeof window.isDarkMode === 'function' ? window.isDarkMode() : false;
+  if (isDark) {
+    var INVERT_FILTER = 'invert(0.88) hue-rotate(180deg)';
+    var sampleCanvas = document.createElement('canvas');
+    sampleCanvas.width = 50;
+    sampleCanvas.height = 50;
+    var sampleCtx = sampleCanvas.getContext('2d');
+
+    function makeWhiteTransparent(img) {
+      var c = document.createElement('canvas');
+      c.width = img.naturalWidth;
+      c.height = img.naturalHeight;
+      var ctx = c.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      try {
+        var imageData = ctx.getImageData(0, 0, c.width, c.height);
+        var d = imageData.data;
+        for (var i = 0; i < d.length; i += 4) {
+          if (d[i] > 240 && d[i+1] > 240 && d[i+2] > 240) {
+            d[i+3] = 0;
+          }
+        }
+        ctx.putImageData(imageData, 0, 0);
+        img.src = c.toDataURL('image/png');
+        img.style.background = 'transparent';
+      } catch(e) { /* cross-origin — cannot process pixels */ }
+    }
+
+    function analyzeAndInvert(img) {
+      if (img.hasAttribute('data-no-invert')) return;
+      if (img.getAttribute('data-transparent-dark') === 'true') {
+        makeWhiteTransparent(img);
+        return;
+      }
+      if (img.getAttribute('data-invert-dark') === 'true') {
+        img.style.filter = INVERT_FILTER;
+        return;
+      }
+      try {
+        sampleCtx.clearRect(0, 0, 50, 50);
+        sampleCtx.drawImage(img, 0, 0, 50, 50);
+        var data = sampleCtx.getImageData(0, 0, 50, 50).data;
+        var whiteOrTransparent = 0;
+        var total = 2500;
+        for (var i = 0; i < data.length; i += 4) {
+          var r = data[i], g = data[i+1], b = data[i+2], a = data[i+3];
+          if (a < 30 || (r > 240 && g > 240 && b > 240)) whiteOrTransparent++;
+        }
+        if (whiteOrTransparent / total > 0.7) {
+          img.style.filter = INVERT_FILTER;
+        }
+      } catch(e) { /* cross-origin images — skip */ }
+    }
+
+    document.querySelectorAll('.post-content img').forEach(function(img) {
+      if (img.complete && img.naturalWidth > 0) analyzeAndInvert(img);
+      else img.addEventListener('load', function() { analyzeAndInvert(img); });
+    });
+
+    document.querySelectorAll('iframe[src*="ourworldindata"]').forEach(function(f) {
+      f.classList.add('owid-dark');
+    });
+  }
+
   // ── Inline header search (lunr.js) ──
   initHeaderSearch();
+
+  // ── Copy button for all code blocks ──
+  var COPY_SVG = '<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/></svg>';
+  var CHECK_SVG = '<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"/></svg>';
+  document.querySelectorAll('.post-content pre > code, .highlight pre').forEach(function(codeEl) {
+    var pre = codeEl.tagName === 'PRE' ? codeEl : codeEl.parentNode;
+    if (!pre || pre.tagName !== 'PRE') return;
+    if (pre.querySelector('.copy-code-btn')) return;
+    pre.style.position = 'relative';
+    var btn = document.createElement('button');
+    btn.className = 'copy-code-btn';
+    btn.setAttribute('aria-label', 'Copy code');
+    btn.innerHTML = COPY_SVG;
+    btn.addEventListener('click', function() {
+      var text = (codeEl.tagName === 'CODE' ? codeEl : pre.querySelector('code') || pre).textContent;
+      navigator.clipboard.writeText(text).then(function() {
+        btn.innerHTML = CHECK_SVG;
+        setTimeout(function() { btn.innerHTML = COPY_SVG; }, 1500);
+      });
+    });
+    pre.appendChild(btn);
+  });
+
+  // ── Table of Contents — scroll-based active section tracking ──
+  var tocLinks = document.querySelectorAll('.toc-nav .toc-link');
+  if (tocLinks.length > 1) {
+    var headingIds = [];
+    tocLinks.forEach(function(link) {
+      var href = link.getAttribute('href');
+      if (href && href.charAt(0) === '#') headingIds.push(href.slice(1));
+    });
+
+    var currentActive = null;
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          var id = entry.target.id;
+          if (currentActive) currentActive.classList.remove('active');
+          var link = document.querySelector('.toc-nav .toc-link[href="#' + id + '"]');
+          if (link) {
+            link.classList.add('active');
+            currentActive = link;
+          }
+        }
+      });
+    }, { rootMargin: '-80px 0px -70% 0px', threshold: 0 });
+
+    headingIds.forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+  }
 
 }, false);
 
 function initHeaderSearch() {
-  var input = document.querySelector('.header-search-input');
-  var dropdown = document.querySelector('.search-results-dropdown');
-  if (!input || !dropdown || typeof lunr === 'undefined') return;
+  if (typeof lunr === 'undefined') return;
+  var containers = document.querySelectorAll('.header-search');
+  if (!containers.length) return;
 
   var searchData = null;
   var searchIndex = null;
 
-  // Lazy-load search data on first focus
-  input.addEventListener('focus', function() {
-    if (searchData) return;
+  function loadSearchData(cb) {
+    if (searchData) { if (cb) cb(); return; }
     var req = new XMLHttpRequest();
     req.open('GET', '/assets/js/search-data.json', true);
     req.onload = function() {
       if (req.status >= 200 && req.status < 400) {
-        searchData = JSON.parse(req.responseText);
+        try { searchData = JSON.parse(req.responseText); }
+        catch (e) { console.error('Search data parse error:', e); return; }
         searchIndex = lunr(function() {
           this.ref('id');
           this.field('title', { boost: 200 });
@@ -113,50 +251,22 @@ function initHeaderSearch() {
             this.add({ id: i, title: searchData[i].title, content: searchData[i].content });
           }
         });
+        if (cb) cb();
       }
     };
     req.send();
-  });
-
-  var debounceTimer;
-  input.addEventListener('input', function() {
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(function() { performSearch(input.value); }, 150);
-  });
-
-  // Keyboard navigation
-  input.addEventListener('keydown', function(e) {
-    var items = dropdown.querySelectorAll('a');
-    var active = dropdown.querySelector('a.active');
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      if (active) { active.classList.remove('active'); var next = active.nextElementSibling; if (next) next.classList.add('active'); }
-      else if (items.length) items[0].classList.add('active');
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      if (active) { active.classList.remove('active'); var prev = active.previousElementSibling; if (prev) prev.classList.add('active'); }
-    } else if (e.key === 'Enter') {
-      e.preventDefault();
-      if (active) window.location.href = active.getAttribute('href');
-      else if (items.length) window.location.href = items[0].getAttribute('href');
-    } else if (e.key === 'Escape') {
-      hideDropdown();
-      input.blur();
-    }
-  });
-
-  // Close dropdown on outside click
-  document.addEventListener('click', function(e) {
-    if (!e.target.closest('.header-search')) hideDropdown();
-  });
-
-  function hideDropdown() {
-    dropdown.innerHTML = '';
-    dropdown.classList.remove('active');
   }
 
-  function performSearch(query) {
-    hideDropdown();
+  function hideAllDropdowns() {
+    containers.forEach(function(c) {
+      var dd = c.querySelector('.search-results-dropdown');
+      if (dd) { dd.innerHTML = ''; dd.classList.remove('active'); }
+    });
+  }
+
+  function showResults(dropdown, query) {
+    dropdown.innerHTML = '';
+    dropdown.classList.remove('active');
     if (!query || !searchIndex) return;
     var results = searchIndex.query(function(q) {
       var tokens = lunr.tokenizer(query);
@@ -184,4 +294,42 @@ function initHeaderSearch() {
       dropdown.appendChild(a);
     }
   }
+
+  containers.forEach(function(container) {
+    var input = container.querySelector('.header-search-input');
+    var dropdown = container.querySelector('.search-results-dropdown');
+    if (!input || !dropdown) return;
+
+    input.addEventListener('focus', function() { loadSearchData(); });
+
+    var debounceTimer;
+    input.addEventListener('input', function() {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(function() { showResults(dropdown, input.value); }, 150);
+    });
+
+    input.addEventListener('keydown', function(e) {
+      var items = dropdown.querySelectorAll('a');
+      var active = dropdown.querySelector('a.active');
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (active) { active.classList.remove('active'); var next = active.nextElementSibling; if (next) next.classList.add('active'); }
+        else if (items.length) items[0].classList.add('active');
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (active) { active.classList.remove('active'); var prev = active.previousElementSibling; if (prev) prev.classList.add('active'); }
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        if (active) window.location.href = active.getAttribute('href');
+        else if (items.length) window.location.href = items[0].getAttribute('href');
+      } else if (e.key === 'Escape') {
+        hideAllDropdowns();
+        input.blur();
+      }
+    });
+  });
+
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.header-search')) hideAllDropdowns();
+  });
 }

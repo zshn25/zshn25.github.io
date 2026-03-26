@@ -27,8 +27,9 @@
 {"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Zeeshan Khan Suri"},"dateModified":"2021-01-25T23:21:23+00:00","datePublished":"2021-01-25T23:21:23+00:00","description":"Short squeeze and Gamma squeeze of the GameStop stock","headline":"$GME short squeeze","image":"https://zshn25.github.io/images/tomoon.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://zshn25.github.io/gme-stock/"},"url":"https://zshn25.github.io/gme-stock/"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><!-- Self-hosted vendor CSS (no cross-origin requests for privacy) -->
-<link rel="stylesheet" href="/assets/vendor/primer/primer.css">
-<link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css">
+<!-- Primer utility classes are now inlined via _sass/minima/_primer-utilities.scss -->
+<link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css"></noscript>
 <link rel="stylesheet" href="/assets/vendor/academicons/css/academicons.min.css" media="print" onload="this.media='all'">
     <!-- KaTeX: only on content pages (skipped on homepage for performance) -->
     <link rel="stylesheet" href="/assets/vendor/katex/katex.min.css">
@@ -93,32 +94,29 @@ window.onload = wrap_img;
 <link id="dark-css" href="/assets/css/dark.css" rel="stylesheet" media="(prefers-color-scheme: dark)">
 </head>
 <body><header class="site-header fixed-top">
+  <div class="wrapper header-wrapper">
+    <a class="site-title no-underline" rel="author" href="/">
+      <img src="/images/logo.png" style="max-width:40px;" alt="Curiosity logo" width="40" height="40">
+      Curiosity
+    </a><nav class="site-nav">
+      <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+      <label for="nav-trigger">
+        <span class="menu-icon"></span>
+      </label>
 
-  <div class="wrapper"><a class="site-title no-underline hover-grow" rel="author" href="/"> <img src="/images/logo.png" style="max-width:40px;" alt="Curiosity logo" width="40" height="40"> Curiosity</a><nav class="site-nav">
-        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
-        <label for="nav-trigger">
-          <span class="menu-icon">
-            <svg viewBox="0 0 18 15" width="18px" height="15px">
-              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
-            </svg>
-          </span>
-        </label>
-
-        <div class="trigger"><a class="page-link" href="/about/">About</a><div class="header-search">
-            <i class="fas fa-search header-search-icon"></i>
-            <input type="text" class="header-search-input js-search-input" placeholder="Search..." aria-label="Search Curiosity" autocomplete="off">
-            <div class="search-results-dropdown js-search-results"></div>
-          </div>
-          
-          <a href="/feed.xml" class="nav-anchor no-underline no_icon" title="RSS Feed" aria-label="Subscribe via RSS">
-            <span class="fas fa-rss fa-fw" aria-hidden="true" style="color:#ee802f;"></span>
-          </a>
-          <span id="nav-switch-theme" class="nav-anchor">
-            <span class="nav-theme-icon fas fa-fw" aria-hidden="true" title="Theme"></span>
-            <span class="sr-only">Toggle Theme</span>
-          </span>
+      <div class="nav-items"><a class="page-link nav-item" href="/about/">About</a><div class="header-search nav-item">
+          <i class="fas fa-search header-search-icon"></i>
+          <input type="text" class="header-search-input js-search-input" placeholder="Search..." aria-label="Search Curiosity" autocomplete="off">
+          <div class="search-results-dropdown js-search-results"></div>
         </div>
-      </nav></div>
+        <a href="/feed.xml" class="nav-item header-icon-btn no-underline no_icon" title="RSS Feed" aria-label="Subscribe via RSS">
+          <span class="fas fa-rss rss-icon" aria-hidden="true"></span>
+        </a>
+        <span id="nav-switch-theme" class="nav-item header-icon-btn" style="display:none">
+          <span class="nav-theme-icon fas fa-fw" aria-hidden="true" title="Theme"></span>
+        </span>
+      </div>
+    </nav></div>
 </header>
 
     
@@ -212,14 +210,23 @@ window.onload = wrap_img;
       </p>
     
 
-    </header>
-
-  
-  
-
-  <div class="post-content e-content" itemprop="articleBody">
     
-    <p><img src="https://www.tradingview.com/x/KiBV1r8g/" alt="gme" /></p>
+  </header>
+
+  
+  
+
+  
+  
+  
+  
+  
+
+  <div class="post-layout">
+    
+
+    <div class="post-content e-content" itemprop="articleBody">
+      <p><img src="https://www.tradingview.com/x/KiBV1r8g/" alt="gme" data-invert-dark="true" /></p>
 
 <p>This week (starting 25/01/2021) is an exciting event in the history of stocks, where rare events happening to the <abbr title="GameStop">GME</abbr> stock. Although, this might be a definite opportunity to make/lose money, I am in it for the knowledge of how the stock market works. As I am trying to figure out this event and learn more about options trading, I came across this comment which explains things so clearly that I decided to share it here, for my future reference on options knowledge and also to give my readers an insight.</p>
 
@@ -257,30 +264,18 @@ window.onload = wrap_img;
       </h2>
     
 
-<p>This is a rare event where normal people like us can coordinate and take money for <abbr title="Market makers">MM</abbr>. I do not advice to do anything. Do your own <abbr title="Due Diligence">DD</abbr>, but I have bought some position today at open and hoping the squeeze to happen. Note that short squeeze could take days to happen. And the next question is, when to sell? Very good question. Nobody knows. Depending on your apatite for loss, you can wait for it to truly rocket or take whatever gains without FOMO on future gains.</p>
-      <h3 id="edit-1-26012021">
-        
-        
-          <a href="#edit-1-26012021" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Edit 1 26/01/2021
-        
-        
-      </h3>
-    
+<p>This is a rare event where normal people like us can coordinate and take money for <abbr title="Market makers">MM</abbr>. I do not advice to do anything. Do your own <abbr title="Due Diligence">DD</abbr>, but I have bought some position today at open and hoping the squeeze to happen. Note that short squeeze could take days to happen. And the next question is, when to sell? Very good question. Nobody knows. Depending on your apatite for loss, you can wait for it to truly rocket or take whatever gains without FOMO on future gains.</p><hr />
+
+<p><strong>Edit 1 (26/01/2021):</strong></p>
 
 <p>Today we have seen another gamma squeeze where <abbr title="GameStop">GME</abbr> rose till $155 (over 100%) but at the end of the day, <abbr title="GameStop">GME</abbr> came down, closing at +20%. What drove the price down was believed to be a <strong>short ladder attack</strong>, where a short seller sells to another short seller and within a short time, the other short seller sells it back. What this does is make people think that other shareholders are selling at lower price, thus creating a havoc and making some of the investors sell at lower price.</p>
 
 <blockquote class="reddit-card" data-dnt="true"><a href="https://www.reddit.com/r/wallstreetbets/comments/l1tg88/gme_how_shorts_manipulated_you_and_how_you_can_be/?ref=share&amp;ref_source=embed">GME - How shorts manipulated you, and how you can be better</a> from <a href="http://www.reddit.com/r/wallstreetbets">r/wallstreetbets</a></blockquote>
-<script async="" src="//embed.redditmedia.com/widgets/platform.js" charset="UTF-8"></script>
-      <h3 id="edit-27012021">
-        
-        
-          <a href="#edit-27012021" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Edit 27/01/2021
-        
-        
-      </h3>
-    
+<script async="" src="//embed.redditmedia.com/widgets/platform.js" charset="UTF-8"></script><hr />
 
-<p><img src="https://www.tradingview.com/x/cAN5zZlP/" alt="GME stock today" /></p>
+<p><strong>Edit (27/01/2021):</strong></p>
+
+<p><img src="https://www.tradingview.com/x/cAN5zZlP/" alt="GME stock today" data-invert-dark="true" /></p>
 
 <p>Yesterday we have seen yet another gamma squeeze but this time it did not drop back. It was amazing to see <abbr title="GameStop">GME</abbr> rise by so much after hours. Maybe it was due to Elon Musk’s tweet?</p>
 
@@ -290,31 +285,20 @@ window.onload = wrap_img;
 <p>The Endgame strategy?</p>
 
 <blockquote class="reddit-card"><a href="https://www.reddit.com/r/wallstreetbets/comments/l5x0fc/gme_endgame/">GME Endgame</a> from <a href="http://www.reddit.com/r/wallstreetbets">r/wallstreetbets</a></blockquote>
-<script async="" src="//embed.redditmedia.com/widgets/platform.js" charset="UTF-8"></script>
-      <h3 id="final-edit">
-        
-        
-          <a href="#final-edit" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Final Edit:
-        
-        
-      </h3>
-    
+<script async="" src="//embed.redditmedia.com/widgets/platform.js" charset="UTF-8"></script><hr />
+
+<p><strong>Final Edit:</strong></p>
 
 <p><abbr title="GameStop">GME</abbr> peaked at $450 as the result of the squeeze. Many brokers including the famous Robinhood in the US <strong>halted</strong> trading on <abbr title="GameStop">GME</abbr>. That means, no one was allowed to buy <abbr title="GameStop">GME</abbr> shares anymore. Only selling was allowed. As a result, the price fell from there. Many analysts later said that it <abbr title="GameStop">GME</abbr> wouldn’t be halted, it would indeed reach $1000.</p><hr />
 
 <blockquote>
   <p>I use <a href="https://live.trading212.com/">Trading212</a> for buying stocks, which does not charge any commission or any order fee. We both can get a free stock share worth up to €100 if you use the following link to sign up. Do not forget to deposit at least 1€ after signing up. Create a Trading 212 Invest account using this link <a href="https://www.trading212.com/invite/FzPJYhiT">https://www.trading212.com/invite/FzPJYhiT</a> and we both get a free share! If you already have an account, you can try my Promo Code <code class="language-plaintext highlighter-rouge">FzPJYhiT</code> to get a free share.</p>
 </blockquote>
-      <h5 id="disclaimer-this-is-not-a-financial-advice-do-your-own-dd-before-investing">
-        
-        
-          <a href="#disclaimer-this-is-not-a-financial-advice-do-your-own-dd-before-investing" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Disclaimer: This is not a financial advice. Do your own <abbr title="Due Diligence">DD</abbr> before investing.
-        
-        
-      </h5>
-    
+
+<p><strong>Disclaimer:</strong> This is not a financial advice. Do your own <abbr title="Due Diligence">DD</abbr> before investing.</p>
 
 
+    </div>
   </div><hr>
   <!-- This code is taken from Jekyll-Codex (jekyllcodex.org). MIT License
 Copyright (c) 2020 Usecue BV -->
@@ -663,46 +647,57 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
 <div id="utterances-container">
     <div id="comments-placeholder" class="consent-placeholder">
         <p><i class="fas fa-comments"></i> <strong>Comments</strong></p>
-        <p class="consent-detail">Loading comments connects to GitHub via utteranc.es and may set cookies.</p>
+        <p class="consent-detail">Loading comments connects to GitHub via utteranc.es and may set cookies. By clicking below, you consent to loading external content that may set third-party cookies. This preference will be remembered across all pages.</p>
         <button id="load-comments" class="button is-rounded">
             <i class="fas fa-comment-dots"></i> Load Comments
         </button>
     </div>
 </div>
 <script>
-document.getElementById('load-comments').addEventListener('click', function() {
-    var placeholder = document.getElementById('comments-placeholder');
-    placeholder.innerHTML = '<p><i class="fas fa-spinner fa-spin"></i> Loading comments...</p>';
+(function() {
+    function loadUtterances() {
+        var placeholder = document.getElementById('comments-placeholder');
+        if (!placeholder) return;
+        placeholder.innerHTML = '<p><i class="fas fa-spinner fa-spin"></i> Loading comments...</p>';
 
-    // Detect dark mode
-    var darkCSS = document.getElementById('dark-css');
-    var isDark = (darkCSS && darkCSS.media !== 'invalid' && darkCSS.media !== '(prefers-color-scheme: dark)')
-              || window.matchMedia('(prefers-color-scheme: dark)').matches;
-    // If applytheme.js forced dark (removed media attr), darkCSS.media is empty string
-    if (darkCSS && darkCSS.media === '') isDark = true;
+        var isDark = typeof window.isDarkMode === 'function' ? window.isDarkMode() : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = isDark ? 'github-dark' : 'github-light';
 
-    var theme = isDark ? 'github-dark' : 'github-light';
+        var script = document.createElement('script');
+        script.src = 'https://utteranc.es/client.js';
+        script.setAttribute('repo', 'zshn25/zshn25.github.io');
+        script.setAttribute('issue-term', 'title');
+        script.setAttribute('label', 'blogpost-comment');
+        script.setAttribute('theme', theme);
+        script.setAttribute('crossorigin', 'anonymous');
+        script.async = true;
 
-    var script = document.createElement('script');
-    script.src = 'https://utteranc.es/client.js';
-    script.setAttribute('repo', 'zshn25/zshn25.github.io');
-    script.setAttribute('issue-term', 'title');
-    script.setAttribute('label', 'blogpost-comment');
-    script.setAttribute('theme', theme);
-    script.setAttribute('crossorigin', 'anonymous');
-    script.async = true;
+        var container = document.getElementById('utterances-container');
+        container.appendChild(script);
 
-    var container = document.getElementById('utterances-container');
-    container.appendChild(script);
+        window.addEventListener('message', function handler(event) {
+            if (event.origin === 'https://utteranc.es') {
+                placeholder.remove();
+                window.removeEventListener('message', handler);
+            }
+        });
+    }
 
-    // Remove placeholder when utterances iframe loads
-    window.addEventListener('message', function handler(event) {
-        if (event.origin === 'https://utteranc.es') {
-            placeholder.remove();
-            window.removeEventListener('message', handler);
-        }
-    });
-});
+    // Use shared consent helpers from consent-gate.js (fallback if not loaded)
+    var consent = window._consent || {
+        get: function() { try { return JSON.parse(localStorage.getItem('embedConsent')) || {}; } catch(e) { return {}; } },
+        set: function(p) { var c = this.get(); c[p] = true; localStorage.setItem('embedConsent', JSON.stringify(c)); }
+    };
+
+    if (consent.get().comments) {
+        loadUtterances();
+    } else {
+        document.getElementById('load-comments').addEventListener('click', function() {
+            consent.set('comments');
+            loadUtterances();
+        });
+    }
+})();
 </script>
 <a class="u-url" href="/gme-stock/" hidden></a>
 </article>
@@ -717,7 +712,7 @@ document.getElementById('load-comments').addEventListener('click', function() {
       <div class="footer-col">
         <p class="feed-subscribe">
           <a href="https://feedrabbit.com/?url=https://zshn25.github.io/feed.xml">
-            <i class="fas fa-rss" style="color:#ee802f;"></i><span> Subscribe</span>
+            <i class="fas fa-rss rss-icon"></i><span> Subscribe</span>
           </a>
         </p>
         <ul class="contact-list">
@@ -740,16 +735,23 @@ document.getElementById('load-comments').addEventListener('click', function() {
 <div id="privacy-notice" style="display:none">
     This site does not use cookies or track you. Some posts contain embedded content that connects to third parties only when you click.
     <a href="/about/#privacy">Learn more</a>
-    <button class="privacy-ok-btn" onclick="localStorage.setItem('privacyOK','1');document.getElementById('privacy-notice').style.display='none'">OK</button>
+    <button class="privacy-ok-btn" onclick="localStorage.setItem('privacyOK','1');document.getElementById('privacy-notice').style.display='none';document.body.style.paddingBottom=''">OK</button>
 </div>
 <script>
 (function(){
   if(!localStorage.getItem('privacyOK')){
     var el=document.getElementById('privacy-notice');
-    if(el) el.style.display='flex';
+    if(el) {
+      el.style.display='flex';
+      document.body.style.paddingBottom='3em';
+    }
   }
 })();
 </script>
-</body>
+<button class="back-to-top" id="back-to-top" aria-label="Back to top">
+      <i class="fas fa-chevron-up"></i>
+    </button>
+
+  </body>
 
 </html>
