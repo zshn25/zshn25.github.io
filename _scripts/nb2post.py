@@ -9,15 +9,10 @@ is dumped as plain markdown:
     - key: value
     - key: value
 
-This script reads such a .md file, extracts the fastpages metadata, and rewrites
-the file with proper Jekyll YAML front matter:
-
-    ---
-    layout: post
-    title: "Title"
-    description: "Description"
-    key: value
-    ---
+This script:
+1. Extracts fastpages metadata → proper Jekyll YAML front matter
+2. Converts #collapse-hide / #collapse-show directives → <details> HTML
+3. Sets layout: notebook for badge support
 """
 
 import re
@@ -28,7 +23,7 @@ from pathlib import Path
 def parse_fastpages_header(lines):
     """Parse fastpages-style metadata from the beginning of converted markdown.
 
-    Returns (front_matter_dict, description, remaining_lines).
+    Returns (title, description, meta_dict, remaining_lines).
     """
     meta = {}
     description = ""
@@ -44,7 +39,7 @@ def parse_fastpages_header(lines):
             continue
 
         # Description: > Some description
-        if stripped.startswith("> ") and not title == "" and not meta:
+        if stripped.startswith("> ") and title and not meta:
             description = stripped[2:].strip()
             continue
 
@@ -67,13 +62,12 @@ def parse_fastpages_header(lines):
     return title, description, meta, lines[body_start:]
 
 
-def build_front_matter(title, description, meta):
+def build_front_matter(title, description, meta, nb_filename=None):
     """Build Jekyll YAML front matter string."""
     fm_lines = ["---"]
-    fm_lines.append("layout: post")
+    fm_lines.append("layout: notebook")
 
     if title:
-        # Escape quotes in title
         safe_title = title.replace('"', '\\"')
         fm_lines.append(f'title: "{safe_title}"')
 
@@ -88,26 +82,78 @@ def build_front_matter(title, description, meta):
             continue
         # Handle categories: [a, b, c] format
         if key == "categories" and value.startswith("["):
-            # Convert [a, b, c] to space-separated
             cats = value.strip("[]").split(",")
             value = " ".join(c.strip() for c in cats)
         fm_lines.append(f"{key}: {value}")
 
-    # Ensure layout and published are present
-    has_published = any(k.lower() == "published" for k in meta)
-    if not has_published:
+    # Ensure published and comments
+    if not any(k.lower() == "published" for k in meta):
         fm_lines.append("published: true")
-
-    has_comments = any(k.lower() == "comments" for k in meta)
-    if not has_comments:
+    if not any(k.lower() == "comments" for k in meta):
         fm_lines.append("comments: true")
+
+    # Add notebook path for Colab/GitHub/Binder badges
+    if nb_filename:
+        fm_lines.append(f"nb_path: _notebooks/{nb_filename}")
 
     fm_lines.append("---")
     return "\n".join(fm_lines)
 
 
+def process_collapse_directives(content):
+    """Convert #collapse-hide / #collapse-show in fenced code blocks to <details>.
+
+    Looks for patterns like:
+        ```python
+        #collapse-hide
+        code...
+        ```
+
+    Converts to:
+        <details class="cell-collapse">
+        <summary>Show code</summary>
+
+        ```python
+        code...
+        ```
+
+        </details>
+    """
+    # Match fenced code blocks that start with #collapse-hide or #collapse-show
+    pattern = re.compile(
+        r'^(```\w*)\n'           # opening fence with optional language
+        r'#collapse-(hide|show)\n'  # collapse directive
+        r'(.*?)'                 # code content
+        r'^(```)\s*$',           # closing fence
+        re.MULTILINE | re.DOTALL
+    )
+
+    def replacer(m):
+        fence_open = m.group(1)
+        mode = m.group(2)  # "hide" or "show"
+        code = m.group(3)
+        fence_close = m.group(4)
+
+        if mode == "hide":
+            return (
+                f'<details class="cell-collapse">\n'
+                f'<summary>Show code</summary>\n\n'
+                f'{fence_open}\n{code}{fence_close}\n\n'
+                f'</details>'
+            )
+        else:  # show
+            return (
+                f'<details class="cell-collapse" open>\n'
+                f'<summary>Hide code</summary>\n\n'
+                f'{fence_open}\n{code}{fence_close}\n\n'
+                f'</details>'
+            )
+
+    return pattern.sub(replacer, content)
+
+
 def process_file(filepath):
-    """Process a single markdown file: add Jekyll front matter."""
+    """Process a single markdown file: add front matter + collapse directives."""
     path = Path(filepath)
     content = path.read_text(encoding="utf-8")
     lines = content.split("\n")
@@ -123,8 +169,15 @@ def process_file(filepath):
         print(f"  [skip] {path.name} — no fastpages title found")
         return
 
-    front_matter = build_front_matter(title, description, meta)
+    # Derive original notebook filename from post filename
+    # e.g. 2021-02-01-ResNet-feature-pyramid-in-Pytorch.md → same.ipynb
+    nb_filename = path.stem + ".ipynb"
+
+    front_matter = build_front_matter(title, description, meta, nb_filename)
     body = "\n".join(body_lines)
+
+    # Process collapse directives in the body
+    body = process_collapse_directives(body)
 
     # Write back
     path.write_text(front_matter + "\n\n" + body, encoding="utf-8")

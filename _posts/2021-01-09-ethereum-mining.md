@@ -90,9 +90,9 @@ Notice that Ethermine pool charges 1% as pool fee. You could also choose [Hiveon
 Tip: After starting mining, head to your pool website and enter your Wallet address. It will show you all your workers' details and lets you track your payouts. You can also set your minimum payout there.
 
 
-### Happy mining!
+**Happy mining!**
 
 
 
 
-###### *Disclaimer: This is a referral link where I benefit if you spend money on their website*
+<small><em>Disclaimer: This is a referral link where I benefit if you spend money on their website</em></small>

@@ -54,7 +54,9 @@ Learning based approaches replaced the handcrafted features (SURF in the above e
 
 Traditional approach is to come up with a model/algorithm that converts an input to an output.
 
-### $ \text{input} \rightarrow \ model \ \rightarrow \text{output} $
+{:refdef: style="text-align: center;"}
+$$\text{input} \rightarrow \text{model} \rightarrow \text{output}$$
+{:refdef}
 
 Deep learning replaces this with 2 steps:
 

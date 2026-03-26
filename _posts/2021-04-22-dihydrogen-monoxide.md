@@ -28,8 +28,8 @@ comments: true
 > - in many forms of cruel animal research.
 > - in the distribution of pesticides. Even after washing, produce remains contaminated by this chemical.
 > - as an additive in certain "junk-foods" and other food products.
-> 
->   [Coalition to ban DHMO by Jackson, Craig](https://web.archive.org/web/19961031232918/http://media.circus.com/~no_dhmo/)
+>
+> *[Coalition to ban DHMO by Jackson, Craig](https://web.archive.org/web/19961031232918/http://media.circus.com/~no_dhmo/)*
 
 
 ## P.S. 

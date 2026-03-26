@@ -101,44 +101,36 @@ layout: default
       </p>
     {% endif %}
 
-    {% if page.layout == 'notebook' %}
-      {% if page.badges or page.badges == nil %}
-        <div class="pb-5 d-flex flex-wrap flex-justify-end">
-          {% unless page.hide_github_badge or site.default_badges.github != true %}{% include notebook_github_link.html %}{% endunless %}
-          {% unless page.hide_binder_badge or site.default_badges.binder != true  %}{% include notebook_binder_link.html %}{% endunless %}
-          {% unless page.hide_colab_badge or site.default_badges.colab != true %}{% include notebook_colab_link.html %}{% endunless %}
-        </div>
-      {% endif -%}
-    {% endif -%}
+    {% include notebook_badges.html %}
   </header>
 
   {% assign my_min = page.toc_min | default: site.toc_min | default: 2 %}
-  {% assign my_max = page.toc_max | default: site.toc_max | default: 6 %}
+  {% assign my_max = page.toc_max | default: site.toc_max | default: 4 %}
 
-  <div class="post-content e-content" itemprop="articleBody">
-    {% if page.toc %}
-      <aside class="sidebar__right sticky">
-      <nav class="toc">
-        {% include toc.html sanitize=true html=content h_min=my_min h_max=my_max skip_no_ids=true %}
+  {% comment %}<!-- Generate ToC HTML — only show for posts with 3+ headings -->{% endcomment %}
+  {% capture toc_html %}{% include toc.html sanitize=true html=content h_min=my_min h_max=my_max skip_no_ids=true anchor_class="toc-link" %}{% endcapture %}
+  {% assign toc_stripped = toc_html | strip %}
+  {% assign toc_count = toc_stripped | split: 'toc-link' %}
+  {% comment %}<!-- split produces N+1 parts for N links, so size > 3 means 3+ headings -->{% endcomment %}
+
+  <div class="post-layout">
+    {% if toc_count.size > 3 %}
+    <aside class="toc-sidebar" aria-label="On this page">
+      <nav class="toc-nav">
+        <h2 class="toc-heading">On this page</h2>
+        {{ toc_html }}
       </nav>
     </aside>
-    {% comment %}
-    <!-- {% include toc.html html=content sanitize="true" h_min=my_min h_max=my_max %} -->
-    {% endcomment %}
     {% endif %}
-    {{ content }}
+
+    <div class="post-content e-content" itemprop="articleBody">
+      {{ content }}
+    </div>
   </div>
 
   {% comment %}<!-- Repeat notebook execution links in the bottom -->{% endcomment %}
-  {% if page.layout == 'notebook' %}
-      {% if page.badges or page.badges == nil %}
-        <div class="pb-5 d-flex flex-wrap flex-justify-end">
-          {% unless page.hide_github_badge or site.default_badges.github != true %}{% include notebook_github_link.html %}{% endunless %}
-          {% unless page.hide_binder_badge or site.default_badges.binder != true  %}{% include notebook_binder_link.html %}{% endunless %}
-          {% unless page.hide_colab_badge or site.default_badges.colab != true %}{% include notebook_colab_link.html %}{% endunless %}
-        </div>
-      {% endif -%}
-    {% endif -%}
+  {% comment %}<!-- Repeat notebook execution links at the bottom -->{% endcomment %}
+  {% include notebook_badges.html %}
   <hr>
   {% include share-buttons.html %}
   {% comment %}<!-- only show related on a post page when `related: true` -->{% endcomment %}

@@ -1,22 +1,49 @@
 ---
 ---
-// Dark mode theme — neutral dark palette based on minima dark skin
+// Dark mode theme — neutral dark palette
 // Loaded via <link media="(prefers-color-scheme: dark)"> in custom-head.html
 // Toggled via assets/js/applytheme.js (localStorage override)
 
-// Color palette (aligned with minima skins/auto.scss dark mode values)
-$dm-bg:          #181818;  // page background
-$dm-surface:     #1e1e1e;  // cards, overlays, post list items
-$dm-surface-up:  #222222;  // elevated: code blocks, table headers
-$dm-border:      #363636;  // borders, dividers
-$dm-border-light:#444444;  // lighter borders (scrollbar, nav)
+// Color palette
+$dm-bg:          #181818;
+$dm-surface:     #1e1e1e;
+$dm-surface-up:  #222222;
+$dm-border:      #363636;
+$dm-border-light:#444444;
 
-$high-emph: rgba(white, 0.87); // headings, primary text
-$med-emph:  rgba(white, 0.70); // body text
-$low-emph:  rgba(white, 0.38); // secondary text, post-meta
+// Breakpoint (must match $on-palm in custom-variables.scss)
+$on-palm:        800px;
 
-$dm-link:         #5691cd;  // link color (minima dark)
-$dm-link-visited: #80bbff;  // visited links
+$high-emph: rgba(white, 0.87);
+$med-emph:  rgba(white, 0.70);
+$low-emph:  rgba(white, 0.38);
+
+$dm-link:         #5691cd;
+$dm-link-visited: #80bbff;
+
+// ── CSS custom properties — dark mode overrides ──
+:root {
+  --color-primary: #b399ff;
+  --color-secondary: #33ddb8;
+  --color-accent: #ff9933;
+  --bg-primary: #{$dm-bg};
+  --bg-secondary: #{$dm-surface};
+  --bg-inset: #{$dm-surface-up};
+  --fg-primary: #{$high-emph};
+  --fg-secondary: #{$med-emph};
+  --fg-muted: #{$low-emph};
+  --border-default: #{$dm-border};
+  --border-subtle: #{$dm-border-light};
+  --label-bg: #2a1f4e;
+  --label-fg: #b399ff;
+  --label-border: rgba(153, 102, 255, 0.3);
+
+  // Dark mode shadow overrides — deeper blacks for contrast
+  --shadow-sm: 0 1px 0 rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 3px 6px rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadow-xl: 0 12px 48px rgba(0, 0, 0, 0.45);
+}
 
 // ── Base elements ──
 html, body, input, textarea, select, button {
@@ -24,11 +51,12 @@ html, body, input, textarea, select, button {
   background-color: $dm-bg !important;
 }
 
-// ── Typography ──
+// ── Typography — headings are full white for contrast with body text ──
 h1, h2, h3, h4, h5, h6,
 .post-title, .post-link {
-  color: $high-emph !important;
+  color: white !important;
 }
+h2 { border-bottom-color: $dm-border !important; }
 
 a { color: $dm-link !important; }
 a:visited { color: $dm-link-visited !important; }
@@ -41,11 +69,10 @@ li .post-meta-description { color: $med-emph !important; }
 img + em, figcaption { color: $low-emph; }
 blockquote {
   border-left-color: #5691cd !important;
-  background: $dm-surface !important;
+  background: transparent !important;
   color: $med-emph !important;
   cite, .bq-attribution { color: $low-emph !important; }
 }
-hr { border-color: $dm-border; }
 ::selection { background: #5691cd; color: white; }
 
 // ── Layout: header, footer, nav, wrapper ──
@@ -66,22 +93,53 @@ hr { border-color: $dm-border; }
 .footer-col { color: $med-emph; }
 .site-title, .site-title:visited { color: $high-emph !important; }
 .site-nav {
-  background-color: $dm-bg !important;
-  border-color: $dm-border-light;
+  background-color: transparent !important;
   .page-link { color: $high-emph !important; }
-  .trigger { background-color: $dm-bg !important; }
+  .nav-items {
+    @media screen and (max-width: $on-palm) {
+      background-color: $dm-bg !important;
+      border-color: $dm-border-light !important;
+    }
+  }
+  .nav-item:hover { background-color: $dm-surface !important; }
 }
 .page-content, .wrapper { background-color: $dm-bg !important; }
 
 // ── Scrollbar ──
 * { scrollbar-color: $dm-border-light $dm-bg; }
 
-// ── Code — override Dracula blue-tinted backgrounds with neutral dark ──
+// ── Code — GitHub Dark syntax highlighting (all !important to override light theme) ──
 pre, code {
-  border-color: $dm-border;
+  border-color: $dm-border !important;
   background-color: $dm-surface-up !important;
+  color: #c9d1d9 !important;
 }
 .highlight { background-color: $dm-surface-up !important; }
+.highlight, .highlight .w { color: #c9d1d9 !important; background-color: $dm-surface-up !important; }
+.highlight .k, .highlight .kd, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kt, .highlight .kv { color: #ff7b72 !important; }
+.highlight .gr { color: #f0f6fc !important; }
+.highlight .gd { color: #ffdcd7 !important; background-color: #67060c !important; }
+.highlight .nb, .highlight .nc, .highlight .no, .highlight .nn { color: #ffa657 !important; }
+.highlight .sr, .highlight .na, .highlight .nt { color: #7ee787 !important; }
+.highlight .gi { color: #aff5b4 !important; background-color: #033a16 !important; }
+.highlight .kc { color: #79c0ff !important; }
+.highlight .l, .highlight .ld, .highlight .m, .highlight .mb, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mx { color: #79c0ff !important; }
+.highlight .sb, .highlight .bp, .highlight .ne, .highlight .nl, .highlight .py { color: #79c0ff !important; }
+.highlight .nv, .highlight .vc, .highlight .vg, .highlight .vi, .highlight .vm { color: #79c0ff !important; }
+.highlight .o, .highlight .ow { color: #79c0ff !important; }
+.highlight .gh, .highlight .gu { color: #1f6feb !important; font-weight: bold; }
+.highlight .s, .highlight .sa, .highlight .sc, .highlight .dl, .highlight .sd, .highlight .s2, .highlight .se, .highlight .sh, .highlight .sx, .highlight .s1, .highlight .ss { color: #a5d6ff !important; }
+.highlight .nd, .highlight .nf, .highlight .fm { color: #d2a8ff !important; }
+.highlight .err { color: #f0f6fc !important; background-color: #8e1519 !important; }
+.highlight .c, .highlight .ch, .highlight .cd, .highlight .cm, .highlight .cp, .highlight .cpf, .highlight .c1, .highlight .cs { color: #8b949e !important; }
+.highlight .gl, .highlight .gt { color: #8b949e !important; }
+.highlight .ni, .highlight .si { color: #c9d1d9 !important; }
+.highlight .ge { color: #c9d1d9 !important; font-style: italic; }
+.highlight .gs { color: #c9d1d9 !important; font-weight: bold; }
+// Catch-all for any token class not explicitly colored above (.n, .p, .x, etc.)
+.highlight .n, .highlight .p, .highlight .x, .highlight .go, .highlight .gp { color: #c9d1d9 !important; }
+pre.highlight { border-color: $dm-border !important; }
+
 [class^="language-"]:not(.language-plaintext) pre,
 [class^="language-"]:not(.language-plaintext) code {
   background-color: $dm-surface-up !important;
@@ -107,16 +165,16 @@ table td {
 }
 
 // ── Buttons ──
-.btn {
+.btn, .button {
   background-color: $dm-surface !important;
   color: $high-emph !important;
   border-color: $dm-border !important;
-  &:hover { background-color: $dm-bg !important; }
+  &:hover { background-color: $dm-surface-up !important; }
 }
-.button {
-  background-color: $dm-surface !important;
-  color: $high-emph !important;
-  border-color: $dm-border !important;
+.button.is-primary, .btn-primary {
+  background-color: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+  color: white !important;
 }
 
 // ── Post list cards ──
@@ -132,11 +190,38 @@ table td {
 .post-link, .post-link:visited { color: $high-emph !important; }
 .post-link:hover { color: $dm-link !important; }
 
-// ── Callout flash blocks ──
+// ── Callout / alert blocks ──
 .flash {
-  color: $dm-bg !important;
-  filter: brightness(85%);
+  background-color: $dm-surface !important;
+  color: $med-emph !important;
+  border-color: $dm-border !important;
 }
+.flash-error {
+  background-color: rgba(#da3633, 0.15) !important;
+  border-color: rgba(#da3633, 0.4) !important;
+}
+.flash-success {
+  background-color: rgba(#3fb950, 0.15) !important;
+  border-color: rgba(#3fb950, 0.4) !important;
+}
+.flash-warn {
+  background-color: rgba(#d29922, 0.15) !important;
+  border-color: rgba(#d29922, 0.4) !important;
+}
+.markdown-alert {
+  color: $med-emph !important;
+  background: $dm-surface !important;
+  // Only override non-left borders — preserve the colored left border from type-specific rules
+  border-right-color: $dm-border !important;
+  border-top-color: $dm-border !important;
+  border-bottom-color: $dm-border !important;
+}
+// Type-specific left border colors need !important to work in dark mode
+.markdown-alert-note { border-left-color: #58a6ff !important; .markdown-alert-title { color: #58a6ff !important; } }
+.markdown-alert-tip { border-left-color: #3fb950 !important; .markdown-alert-title { color: #3fb950 !important; } }
+.markdown-alert-important { border-left-color: #bc8cff !important; .markdown-alert-title { color: #bc8cff !important; } }
+.markdown-alert-warning { border-left-color: #d29922 !important; .markdown-alert-title { color: #d29922 !important; } }
+.markdown-alert-caution { border-left-color: #f85149 !important; .markdown-alert-title { color: #f85149 !important; } }
 
 // ── Canvas (charts) ──
 canvas { filter: invert(100%); }
@@ -149,8 +234,15 @@ canvas { filter: invert(100%); }
 
 // ── Privacy notice bar ──
 #privacy-notice {
-  background: rgba($dm-bg, 0.97) !important;
+  background: rgba($dm-surface-up, 0.97) !important;
   border-top: 1px solid $dm-border;
+  color: $high-emph !important;
+  a { color: var(--color-primary) !important; }
+  .privacy-ok-btn {
+    background: var(--color-primary) !important;
+    color: white !important;
+    &:hover { opacity: 0.85; }
+  }
 }
 
 // ── Consent placeholders (YouTube, comments, third-party) ──
@@ -170,9 +262,10 @@ canvas { filter: invert(100%); }
 }
 
 // ── Breadcrumbs ──
-.breadcrumbs { color: $low-emph; a { color: $dm-link !important; } }
+.breadcrumbs { color: $low-emph; a { color: $dm-link !important; } span { color: $low-emph !important; } }
 
-// ── Tag cloud ──
+// ── Heading anchor ──
+.heading-anchor .octicon-heading-anchor { color: $dm-link !important; }
 .tag-cloud {
   .tag-color-tech { color: #b366ff !important; }       // lighter purple
   .tag-color-philosophy { color: #ffb366 !important; }  // lighter orange
@@ -187,19 +280,18 @@ canvas { filter: invert(100%); }
   background-color: $dm-surface !important;
   color: $med-emph !important;
   border-color: $dm-border !important;
-  &:hover { border-color: $dm-link !important; color: $high-emph !important; }
+  &:hover { border-color: var(--color-primary) !important; color: var(--color-primary) !important; }
   &.active {
-    background-color: #5691cd !important;
+    background-color: var(--color-primary) !important;
     color: white !important;
-    border-color: #5691cd !important;
+    border-color: var(--color-primary) !important;
   }
 }
 
 // ── HR ──
-hr { border-color: $dm-border !important; }
+hr { border-color: $dm-border !important; background-color: $dm-border !important; }
 
 // ── Search ──
-#myInput,
 .header-search-input {
   background-color: $dm-surface !important;
   color: $high-emph !important;
@@ -228,11 +320,11 @@ hr { border-color: $dm-border !important; }
 // ── Social media ──
 .social-media-list a:hover { background-color: $dm-surface-up !important; }
 
-// ── Breadcrumbs ──
-.breadcrumbs { color: $low-emph; a { color: $dm-link !important; } span { color: $low-emph !important; } }
-
 // ── Anchor link stroke ──
-.anchor-link { -webkit-text-stroke-color: $dm-bg !important; }
+.heading-anchor { color: $low-emph; }
+
+// ── Header icon buttons ──
+.header-icon-btn { color: $med-emph; }
 
 // ── Topic sections ──
 .topic-section { border-color: $dm-border !important; }
@@ -250,3 +342,59 @@ hr { border-color: $dm-border !important; }
 .inline-post-callout-title { color: $dm-link !important; }
 .inline-post-callout-arrow { color: $dm-border !important; }
 .inline-post-callout:hover .inline-post-callout-arrow { color: $dm-link !important; }
+
+// ── Back to top button ──
+.back-to-top {
+  color: white !important;
+  border-color: white !important;
+  background: transparent !important;
+  &:hover {
+    background: var(--color-primary) !important;
+    border-color: var(--color-primary) !important;
+  }
+}
+
+// ── Post card dark bg ──
+.post-card-body { background: $dm-surface; }
+
+// ── Copy code button ──
+.copy-code-btn {
+  color: $med-emph !important;
+  background: rgba(255,255,255,0.1) !important;
+  &:hover { background: rgba(255,255,255,0.2) !important; }
+}
+
+// ── Table of Contents sidebar ──
+.toc-nav {
+  border-left-color: $dm-border-light !important;
+}
+.toc-heading {
+  color: $med-emph !important;
+}
+.toc-nav .toc-link {
+  color: $med-emph !important;
+  &:hover { color: $high-emph !important; }
+  &.active {
+    color: $high-emph !important;
+    border-left-color: var(--color-primary) !important;
+  }
+}
+
+// ── Load comments button ──
+#load-comments {
+  background-color: $dm-surface !important;
+  color: $high-emph !important;
+  border-color: $dm-border !important;
+  &:hover { background-color: $dm-surface-up !important; }
+}
+
+// ── Section toggle ──
+.section-toggle {
+  color: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+  &:hover { background-color: rgba(#b399ff, 0.1) !important; }
+}
+
+// ── Featured posts ──
+.featured-post .post-card { border-left-color: #e6a817 !important; }
+.featured-badge { color: #e6a817 !important; background: rgba(230, 168, 23, 0.12) !important; }

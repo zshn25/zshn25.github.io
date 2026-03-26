@@ -1,222 +1,152 @@
-// Override Syntax Highlighting In Minima With the Dracula Theme: https://draculatheme.com/
-// If you wish to override any of this CSS, do so in _sass/minima/custom-styles.css
- 
-$dt-gray-dark: #282a36;  // Background
-$dt-code-cell-background: #323443;
-$dt-gray: #44475a;       // Current Line & Selection
-$dt-gray-light: #f8f8f2; // Foreground
-$dt-blue: #6272a4;       // Comment
-$dt-cyan: #8be9fd;
-$dt-green: #50fa7b;
-$dt-orange: #ffb86c;
-$dt-pink: #ff79c6;
-$dt-purple: #bd93f9;
-$dt-red: #ff5555;
-$dt-yellow: #f1fa8c;
-$dt-green-light: rgb(172, 229, 145);
+// GitHub Light syntax highlighting theme (replaces Dracula)
+// Generated via: rougify style github
 
+.highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight, .highlight .w {
+  color: #24292f;
+  background-color: #f6f8fa;
+}
+.highlight .k, .highlight .kd, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kt, .highlight .kv {
+  color: #cf222e;
+}
+.highlight .gr {
+  color: #f6f8fa;
+}
+.highlight .gd {
+  color: #82071e;
+  background-color: #ffebe9;
+}
+.highlight .nb {
+  color: #953800;
+}
+.highlight .nc {
+  color: #953800;
+}
+.highlight .no {
+  color: #953800;
+}
+.highlight .nn {
+  color: #953800;
+}
+.highlight .sr {
+  color: #116329;
+}
+.highlight .na {
+  color: #116329;
+}
+.highlight .nt {
+  color: #116329;
+}
+.highlight .gi {
+  color: #116329;
+  background-color: #dafbe1;
+}
+.highlight .ges {
+  font-weight: bold;
+  font-style: italic;
+}
+.highlight .kc {
+  color: #0550ae;
+}
+.highlight .l, .highlight .ld, .highlight .m, .highlight .mb, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mx {
+  color: #0550ae;
+}
+.highlight .sb {
+  color: #0550ae;
+}
+.highlight .bp {
+  color: #0550ae;
+}
+.highlight .ne {
+  color: #0550ae;
+}
+.highlight .nl {
+  color: #0550ae;
+}
+.highlight .py {
+  color: #0550ae;
+}
+.highlight .nv, .highlight .vc, .highlight .vg, .highlight .vi, .highlight .vm {
+  color: #0550ae;
+}
+.highlight .o, .highlight .ow {
+  color: #0550ae;
+}
+.highlight .gh {
+  color: #0550ae;
+  font-weight: bold;
+}
+.highlight .gu {
+  color: #0550ae;
+  font-weight: bold;
+}
+.highlight .s, .highlight .sa, .highlight .sc, .highlight .dl, .highlight .sd, .highlight .s2, .highlight .se, .highlight .sh, .highlight .sx, .highlight .s1, .highlight .ss {
+  color: #0a3069;
+}
+.highlight .nd {
+  color: #8250df;
+}
+.highlight .nf, .highlight .fm {
+  color: #8250df;
+}
+.highlight .err {
+  color: #f6f8fa;
+  background-color: #82071e;
+}
+.highlight .c, .highlight .ch, .highlight .cd, .highlight .cm, .highlight .cp, .highlight .cpf, .highlight .c1, .highlight .cs {
+  color: #6e7781;
+}
+.highlight .gl {
+  color: #6e7781;
+}
+.highlight .gt {
+  color: #6e7781;
+}
+.highlight .ni {
+  color: #24292f;
+}
+.highlight .si {
+  color: #24292f;
+}
+.highlight .ge {
+  color: #24292f;
+  font-style: italic;
+}
+.highlight .gs {
+  color: #24292f;
+  font-weight: bold;
+}
+
+// Code block base styling
+pre, code {
+  border-radius: 6px;
+}
+
+pre.highlight {
+  padding: 1em;
+  overflow-x: auto;
+  border: 1px solid var(--border-subtle, #eaeef2);
+}
+
+code {
+  padding: 0.2em 0.4em;
+  font-size: 85%;
+  background-color: rgba(175, 184, 193, 0.2);
+  border-radius: 6px;
+}
+
+// Don't double-style code inside pre
+pre code {
+  padding: 0;
+  background: none;
+  border: none;
+  font-size: 100%;
+}
+
+// Notebook output styling (markdown code blocks from nbconvert)
 .language-python + .language-plaintext {
-    border-left: 1px solid grey;
-    margin-left: 1rem !important;
-}
-
-// ensure dark background for code in markdown
-[class^="language-"]:not(.language-plaintext) pre,
-[class^="language-"]:not(.language-plaintext) code {
-    background-color: $dt-code-cell-background !important;
-    color: $dt-gray-light;
-}
-
-.language-python + .language-plaintext code { background-color: white !important; }
-.language-python + .language-plaintext pre  { background-color: white !important; }
-
-// for Jupyter Notebook HTML Code Cells modified from https://www.fast.ai/public/css/hyde.css
-
-.input_area pre, .input_area div {
-    margin-bottom:1.0rem !important;
-    margin-top:1.5rem !important;
-    padding-bottom:0 !important;
-    padding-top:0 !important;
-    background: #323443 !important;
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-    font-family: Menlo, Monaco, Consolas, "Lucida Console", Roboto, Ubuntu, monospace;
-    border-radius: 5px;
-    font-size: 105%;
-}
-.output_area pre, .output_area div {
-    margin-bottom:1rem !important;
-    margin-top:0rem !important;
-    padding-bottom:0 !important;
-    padding-top:0 !important;
-}
-.input_area pre {
-    border-left: 1px solid lightcoral;
-}
-.output_area pre {
-    border-left: 1px solid grey;
-    margin-left: 1rem !important;
-    font-size: 16px;
-}
-
-.code_cell table { width: auto; }
-
-/* Dracula Theme v1.2.5
- *
- * https://github.com/zenorocha/dracula-theme
- *
- * Copyright 2016, All rights reserved
- *
- * Code licensed under the MIT license
- *
- */
-
-.highlight {
-    background: $dt-code-cell-background !important;
-    color: $dt-gray-light !important;
-    pre, code {
-     background: $dt-code-cell-background;
-     color: $dt-gray-light;
-     font-size: 110%;
-    }
-   
-    .hll,
-    .s,
-    .sa,
-    .sb,
-    .sc,
-    .dl,
-    .sd,
-    .s2,
-    .se,
-    .sh,
-    .si,
-    .sx,
-    .sr,
-    .s1,
-    .ss {
-         color:rgb(231, 153, 122);
-    }
-  
-    .go {
-      color: $dt-gray;
-    }
-  
-    .err,
-    .g,
-    .l,
-    .n,
-    .x,
-    .ge,
-    .gr,
-    .gh,
-    .gi,
-    .gp,
-    .gs,
-    .gu,
-    .gt,
-    .ld,
-    .no,
-    .nd,
-    .pi,
-    .ni,
-    .ne,
-    .nn,
-    .nx,
-    .py,
-    .w,
-    .bp {
-      color: $dt-gray-light;
-      background-color: $dt-code-cell-background !important;
-    }
- 
-    .p {
-         font-weight: bold;
-         color: rgb(102, 217, 239);
- }
-  
-    .ge {
-      text-decoration: underline;
-    }
-  
-    .bp {
-      font-style: italic;
-    }
-  
-    .c,
-    .ch,
-    .cm,
-    .cpf,
-    .cs {
-      color: $dt-blue;
-    }
-
-    .c1 {
-      color: gray;
-    }
-  
-    .kd,
-    .kt,
-    .nb,
-    .nl,
-    .nv,
-    .vc,
-    .vg,
-    .vi,
-    .vm {
-      color: $dt-cyan;
-    }
-  
-    .kd,
-    .nb,
-    .nl,
-    .nv,
-    .vc,
-    .vg,
-    .vi,
-    .vm {
-      font-style: italic;
-    }
-  
-    .fm,
-    .na,
-    .nc,
-    .nf
-     {
-      color: $dt-green-light;
-    }
-  
-    .k,
-    .o,
-    .cp,
-    .kc,
-    .kn,
-    .kp,
-    .kr,
-    .nt,
-    .ow {
-      color: $dt-pink;
-    }
- 
-    .kc {
-         color: $dt-green-light;   
-    }
-  
-    .m,
-    .mb,
-    .mf,
-    .mh,
-    .mi,
-    .mo,
-    .il {
-      color: $dt-purple;
-    }
-  
-    .gd {
-      color: $dt-red;
-    }
-}
-
-p code{
-  font-size: 19px;
+  border-left: 3px solid #ddd;
+  margin-left: 1rem;
+  code { background-color: transparent !important; }
 }

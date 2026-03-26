@@ -1,13 +1,13 @@
-<div class="Box box-shadow-medium border-0 rounded-1 col-12 {% if include.compact %}card-compact{% endif %}">
+<div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card {% if include.compact %}card-compact{% endif %}">
   {%- if post.image -%}
-  <div class="col-4 d-table-cell p-3 v-align-middle">
+  <div class="post-card-image">
     <a href="{{ post.url | relative_url }}">
-    <img class="image-preview " src="{{ post.image | relative_url }}" loading="lazy" alt="{{ post.title | escape }}" /></a>
+    <img class="image-preview" src="{{ post.image | relative_url }}" loading="lazy" alt="{{ post.title | escape }}" /></a>
   </div>
   {%- endif -%}
-  <div class="col-8 d-table-cell p-3">
+  <div class="post-card-body">
+    {% if post.featured %}<span class="featured-badge"><i class="fas fa-star"></i> Featured</span>{% endif %}
     <h3>
-      {% comment %} For external link posts {% endcomment %}
       {% if post.link %}
       <a class="post-link" href="{{ post.link }}" target="_blank">
         {{ post.title | escape }}
@@ -23,9 +23,9 @@
       • <i class="far fa-clock"></i> {% include reading_time.html post_content=post.content %}</p>
 
         {% if post.categories.size > 0 and site.show_tags %}
-        <p class="category-tags "><i class="fas fa-tags category-tags-icon"></i>
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           {% for category in post.categories %}
-          <a class="category-tags-link label label-default" href="{{ '/?tag=' | append: category | downcase | relative_url }}">#{{category}}</a>
+          <a class="category-tags-link" href="{{ '/?tag=' | append: category | downcase | relative_url }}">#{{category}}</a>
           {% unless forloop.last %}&nbsp;{% endunless %}
           {% endfor %}
         </p>

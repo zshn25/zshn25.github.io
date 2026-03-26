@@ -32,13 +32,13 @@ If animals are able to use these cues to reason about the relative 3D structure,
 But this post is not about that. We will be looking at more recent neural network based approaches. After all, neural networks can be thought as function approximators and with enough data, should be able to approximate the function $\mathcal{f}$ that maps an RGB pixel $i \in \mathbb{R}^3$ to its depth $d$
 
 {:refdef: style="text-align: center;"}
-# $d = \mathcal{f}(i)$
+$$d = \mathcal{f}(i)$$
 {:refdef}
 
 In-fact we are looking at methods that do not rely on the availability ground-truth (GT) depths. Why? Because it is expensive and tedious to gather such ground truth and difficult to calibrate and align different sensor ouputs, making it difficult to scale. But, how can we teach a neural network to estimate the underlying depth without having ground truth? Thanks for asking that! Geometry comes to the rescue. The idea is to synthesize different views of the same scene and compare these synthesized views with the real ones for supervision. It underlies on **the brightness constantcy assumption**[^5], where parts of the same scene are assumed to be observed in multiple views. A similar assumption is used in binocular vision, where the content of what a left eye/camera sees is very similar to that of what the right one sees; and in motion/optical-flow estimation, where the motion is the vector $u_{xy}, v_{xy}$ defined by the change in pixel locations as
 
 {:refdef: style="text-align: center;"}
-## $I(x, y, t) = I(x + u_{xy}, y + v_{xy}, t + 1)$
+$$I(x, y, t) = I(x + u_{xy}, y + v_{xy}, t + 1)$$
 {:refdef}
 
 
@@ -59,7 +59,7 @@ Garg et.al., propose a method called monodepth[^6], to estimate depth from a sin
 But, how will this help learn depth? This is because view synthesis is a function of depth. In a rectified stereo setting, the optical flow is unidirectional (horizontal) and so only its magnitude a.k.a. disparity is to be found. The problem then boils down to finding a per-pixel disparity that when applied to the left image, gives the right image.
 
 {:refdef: style="text-align: center;"}
-## $I_{l}(x, y) \stackrel{!}{=} I_r(x + d_{xy}, y)$
+$$I_{l}(x, y) \stackrel{!}{=} I_r(x + d_{xy}, y)$$
 {:refdef}
 
 The depth from disparity can be calculated by $\text{depth} = \frac{\text{focal length}\times\text{baseline}}{\text{disparity}}$.
@@ -115,7 +115,7 @@ The answer is not straightforward. Even if we think about exploiting motion, the
 Zhou et.al's SfMLearner: Unsupervised Learning of Depth and Ego-Motion from Video[^8] does exactly that. They introduce an additional network which estimates the 6 DOF rigid ego-motion/pose $T \in \text{SE}(3)$, between the cameras of the two consecutive frames with pixel locations $[x_t, y_t, 1]^T$ and $[x_{t+1}, y_{t+1}, 1]^T$ resp.. The working principle is similar to before but the warping of one frame onto the other is done by
 
 {:refdef: style="text-align: center;"}
-## $\left(\begin{array}{c}x_{t+1} \\\\ y_{t+1} \\\\ 1 \end{array} \right) \stackrel{!}{=} KTK^{-1}d_{xy} \left(\begin{array}{c}x_t \\\\ y_t \\\\ 1 \end{array} \right)$,
+$$\left(\begin{array}{c}x_{t+1} \\\\ y_{t+1} \\\\ 1 \end{array} \right) \stackrel{!}{=} KTK^{-1}d_{xy} \left(\begin{array}{c}x_t \\\\ y_t \\\\ 1 \end{array} \right)$$
 {: refdef}
 
 where the camera intrinsics matrix $K = \Bigl[\begin{smallmatrix}k_x&0&p_x \\\\ 0&k_y&p_y \\\\ 0&0&1\end{smallmatrix} \Bigr]$, with focal lengths $f_x, f_y$ and principal point $p_x, p_y$ is assumed to be known. Next, we will see how this makes sense
@@ -157,8 +157,7 @@ $I_{t} \, \Big\langle KTK^{-1}d_{xy} \left(\begin{array}{c}x_t \\\\ y_t \\\\ 1 \
 , where $\Big\langle \Big\rangle $ is the sampling operator. This projection of $I_t$ onto the coordinate at time $t+1$ geometrically synthesizes the image $\hat{I}_{t+1}$ and can now be compared to the original frame from time $t+1$ and the loss is backpropogated to both the depth and the pose networks.
 
 
-### Note
-This is not exactly correct. The pose $T$ is used, not to transform the camera, but to transform the point cloud (in the reverse direction to that of the camera pose), and the image $I_{t+1}$ is warped onto $t$, but the underlying concept remains the same. I will now explain how this idea is executed.
+**Note:** This is not exactly correct. The pose $T$ is used, not to transform the camera, but to transform the point cloud (in the reverse direction to that of the camera pose), and the image $I_{t+1}$ is warped onto $t$, but the underlying concept remains the same. I will now explain how this idea is executed.
 
 ## Flow field due to rigid camera motion
 

@@ -11,12 +11,12 @@ layout: default
 
   {%- comment -%}
   ═══════════════════════════════════════════════════════════════
-   Category-to-collection mapping (same as topics.html)
+   Category-to-collection mapping — from _data/categories.yml
   ═══════════════════════════════════════════════════════════════
   {%- endcomment -%}
-  {% assign tech_cats = "deep-learning,computer-vision,pytorch,fast-inference,convolution,attention,mlops,c++,vector,tutorial,mathematics,3d-mesh,datasets,3d-reconstruction,structure-from-motion,visual-odometry,depth-estimation,large-neural-networks,foundation-models,self-supervision,github,tags,releases,python,tech,cryptocurrency,ethereum,privacy" | split: "," %}
-  {% assign philosophy_cats = "philosophy,politics,meaning,justice,regime,greed,wealth,social-contract,religion,Islam" | split: "," %}
-  {% assign life_cats = "food,cooking,recipe,health,nutrition,investing,finance,stocks,gratitude,external-link,dhmo-conspiracy,recommendations" | split: "," %}
+  {% assign tech_cats = site.data.categories.tech.tags %}
+  {% assign philosophy_cats = site.data.categories.philosophy.tags %}
+  {% assign life_cats = site.data.categories.life.tags %}
 
   {%- comment -%} Build posts per collection (exclude hidden) {%- endcomment -%}
   {% assign tech_posts = '' | split: '' %}
@@ -77,11 +77,17 @@ layout: default
       {% endfor %}
     </div>
     <ul class="post-list" data-section="tech">
-      {% for post in tech_posts %}
-      <li data-categories="{{ post.categories | join: ',' | downcase }}"{% if forloop.index > posts_per_section %} class="section-hidden"{% endif %}>
+      {% assign idx = 0 %}
+      {% for post in tech_posts %}{% if post.featured %}{% assign idx = idx | plus: 1 %}
+      <li class="featured-post{% if idx > posts_per_section %} section-hidden{% endif %}" data-categories="{{ post.categories | join: ',' | downcase }}">
         {%- include post_list_image_card.html -%}
       </li>
-      {% endfor %}
+      {% endif %}{% endfor %}
+      {% for post in tech_posts %}{% unless post.featured %}{% assign idx = idx | plus: 1 %}
+      <li class="{% if idx > posts_per_section %}section-hidden{% endif %}" data-categories="{{ post.categories | join: ',' | downcase }}">
+        {%- include post_list_image_card.html -%}
+      </li>
+      {% endunless %}{% endfor %}
     </ul>
     {% if tech_posts.size > posts_per_section %}
     <div class="section-toggle-wrap">
@@ -110,11 +116,17 @@ layout: default
       {% endfor %}
     </div>
     <ul class="post-list" data-section="philosophy">
-      {% for post in philosophy_posts %}
-      <li data-categories="{{ post.categories | join: ',' | downcase }}"{% if forloop.index > posts_per_section %} class="section-hidden"{% endif %}>
+      {% assign idx = 0 %}
+      {% for post in philosophy_posts %}{% if post.featured %}{% assign idx = idx | plus: 1 %}
+      <li class="featured-post{% if idx > posts_per_section %} section-hidden{% endif %}" data-categories="{{ post.categories | join: ',' | downcase }}">
         {%- include post_list_image_card.html -%}
       </li>
-      {% endfor %}
+      {% endif %}{% endfor %}
+      {% for post in philosophy_posts %}{% unless post.featured %}{% assign idx = idx | plus: 1 %}
+      <li class="{% if idx > posts_per_section %}section-hidden{% endif %}" data-categories="{{ post.categories | join: ',' | downcase }}">
+        {%- include post_list_image_card.html -%}
+      </li>
+      {% endunless %}{% endfor %}
     </ul>
     {% if philosophy_posts.size > posts_per_section %}
     <div class="section-toggle-wrap">
@@ -143,11 +155,17 @@ layout: default
       {% endfor %}
     </div>
     <ul class="post-list" data-section="life">
-      {% for post in life_posts %}
-      <li data-categories="{{ post.categories | join: ',' | downcase }}"{% if forloop.index > posts_per_section %} class="section-hidden"{% endif %}>
+      {% assign idx = 0 %}
+      {% for post in life_posts %}{% if post.featured %}{% assign idx = idx | plus: 1 %}
+      <li class="featured-post{% if idx > posts_per_section %} section-hidden{% endif %}" data-categories="{{ post.categories | join: ',' | downcase }}">
         {%- include post_list_image_card.html -%}
       </li>
-      {% endfor %}
+      {% endif %}{% endfor %}
+      {% for post in life_posts %}{% unless post.featured %}{% assign idx = idx | plus: 1 %}
+      <li class="{% if idx > posts_per_section %}section-hidden{% endif %}" data-categories="{{ post.categories | join: ',' | downcase }}">
+        {%- include post_list_image_card.html -%}
+      </li>
+      {% endunless %}{% endfor %}
     </ul>
     {% if life_posts.size > posts_per_section %}
     <div class="section-toggle-wrap">
@@ -297,22 +315,22 @@ document.addEventListener('DOMContentLoaded', function() {
     wcTag.addEventListener('click', function(e) {
       e.preventDefault();
       var tag = this.getAttribute('data-wc-tag');
-      // Find chip in any section and click it
-      var chip = document.querySelector('.category-chip[data-tag="' + tag + '"]');
-      if (chip) {
-        // Clear other filters in that section first
+      // Find ALL chips with this tag across all sections
+      var chips = document.querySelectorAll('.category-chip[data-tag="' + tag + '"]');
+      var scrollTarget = null;
+      chips.forEach(function(chip) {
         var section = chip.closest('.topic-section');
-        if (section) {
-          section.querySelectorAll('.category-chip.active').forEach(function(c) { c.classList.remove('active'); });
+        if (!section) return;
+        // Toggle this chip (don't clear others — allow independent per-section)
+        if (!chip.classList.contains('active')) {
+          chip.click();
         }
-        chip.click();
         // Expand the section if collapsed
-        if (section) {
-          var toggle = section.querySelector('.section-toggle');
-          if (toggle && !toggle.dataset.expanded) toggle.click();
-          section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      }
+        var toggle = section.querySelector('.section-toggle');
+        if (toggle && !toggle.dataset.expanded) toggle.click();
+        if (!scrollTarget) scrollTarget = section;
+      });
+      if (scrollTarget) scrollTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
 

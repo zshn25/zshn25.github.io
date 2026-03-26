@@ -1,0 +1,70 @@
+# Single source of truth for topic → category mappings.
+# Referenced by home.html, topics.html, and any future templates.
+
+tech:
+  label: Tech
+  description: "AI, ML, Computer Vision, Deep Learning, Programming"
+  icon: "fas fa-microchip"
+  tags:
+    - deep-learning
+    - computer-vision
+    - pytorch
+    - fast-inference
+    - convolution
+    - attention
+    - mlops
+    - c++
+    - vector
+    - tutorial
+    - mathematics
+    - 3d-mesh
+    - datasets
+    - 3d-reconstruction
+    - structure-from-motion
+    - visual-odometry
+    - depth-estimation
+    - large-neural-networks
+    - foundation-models
+    - self-supervision
+    - github
+    - tags
+    - releases
+    - python
+    - tech
+    - cryptocurrency
+    - ethereum
+    - privacy
+
+philosophy:
+  label: Philosophy
+  description: "Politics, Ethics, Justice, Meaning of Life"
+  icon: "fas fa-brain"
+  tags:
+    - philosophy
+    - politics
+    - meaning
+    - justice
+    - regime
+    - greed
+    - wealth
+    - social-contract
+    - religion
+    - Islam
+
+life:
+  label: Life
+  description: "Health, Food, Finance, Miscellaneous"
+  icon: "fas fa-seedling"
+  tags:
+    - food
+    - cooking
+    - recipe
+    - health
+    - nutrition
+    - investing
+    - finance
+    - stocks
+    - gratitude
+    - external-link
+    - dhmo-conspiracy
+    - recommendations

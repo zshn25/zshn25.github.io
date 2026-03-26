@@ -13,32 +13,28 @@ search_exclude: true
     {% assign categories = categories | push: c[0] %}
   {% endfor %}
   {% assign categories = categories | sort_natural %}
+  {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
 
   <div class="tag-cloud">
   {% for category in categories %}
     {% assign count = site.categories[category].size %}
-    {% if count >= 8 %}
-      <a class="tag-5" href="#{{ category }}">{{ category }}&nbsp;({{ count }})</a>
-    {% elsif count >= 5 %}
-      <a class="tag-4" href="#{{ category }}">{{ category }}&nbsp;({{ count }})</a>
-    {% elsif count >= 3 %}
-      <a class="tag-3" href="#{{ category }}">{{ category }}&nbsp;({{ count }})</a>
-    {% elsif count >= 2 %}
-      <a class="tag-2" href="#{{ category }}">{{ category }}&nbsp;({{ count }})</a>
-    {% else %}
-      <a class="tag-1" href="#{{ category }}">{{ category }}&nbsp;({{ count }})</a>
+    {% if count >= 8 %}{% assign tag_size = "tag-5" %}
+    {% elsif count >= 5 %}{% assign tag_size = "tag-4" %}
+    {% elsif count >= 3 %}{% assign tag_size = "tag-3" %}
+    {% elsif count >= 2 %}{% assign tag_size = "tag-2" %}
+    {% else %}{% assign tag_size = "tag-1" %}
     {% endif %}
+    <a class="{{ tag_size }}" href="#{{ category }}">{{ category }}&nbsp;({{ count }})</a>
   {% endfor %}
   </div>
 
   <hr>
 
   {% for category in categories %}
-      <h3 id ="{{ category }}"><i class="fas fa-tags category-tags-icon"></i></i> {{ category }}</h3>
+      <h3 id ="{{ category }}"><i class="fas fa-tags category-tags-icon"></i> {{ category }}</h3>
       <a name="{{ category | slugize }}"></a>
       {% for post in site.categories[category] %}
         {% if post.hide != true %}
-        {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
         <article class="archive-item">
           <p class="post-meta post-meta-title"><a class="page-meta" href="{{ site.baseurl }}{{ post.url }}">{{post.title}}</a>  • {{ post.date | date: date_format }}</p>
         </article>

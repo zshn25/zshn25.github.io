@@ -70,4 +70,4 @@ Fig. 1: 100% chocolates I found on Amazon but the [Sevenhills Cacao Mass](https:
 
 7. Enjoy!!
 
-###### *Disclaimer: Amazon affiliate links*
+<small><em>Disclaimer: Amazon affiliate links</em></small>

@@ -13,7 +13,7 @@ published: true
 
 I believe that most of us belong somewhere in the middle of this bell curve, which approximates how fortunate (in terms of many factors) people are. On one extreme are people who were born in extreme poverty without basic necessities, or with crippling physical and mental disabilities or during times of warfare and crisis or belonging to races/regions with extreme discrimination and injustice or have unfortunately undergone negative and life changing tragedies. On the other hand are the fortunate, with extreme amounts of wealth, health, freedom, luck, etc.. While most of us belong somewhere in the middle, we often question why are we not fortunate enough to be born in the richest, socially elite and forget than while belonging to the normal also means not belonging to the negative side.
 
-[![Normal_Distribution](https://upload.wikimedia.org/wikipedia/commons/4/44/Standard_Normal_Distribution.png)](https://commons.wikimedia.org/wiki/File:Standard_Normal_Distribution.png)
+[![Normal_Distribution](https://upload.wikimedia.org/wikipedia/commons/4/44/Standard_Normal_Distribution.png){: data-invert-dark="true"}](https://commons.wikimedia.org/wiki/File:Standard_Normal_Distribution.png)
 {:refdef: style="text-align: center;font-size: .8rem;font-style: italic;color: light-grey;"}
 *My hypothesis on how fortunate we are. **X-axis:** How fortunate we are. **Y-axis:** Population. Image by [D Wells](https://commons.wikimedia.org/wiki/User:D_Wells), [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/3.0), via Wikimedia Commons.*
 {:refdef}

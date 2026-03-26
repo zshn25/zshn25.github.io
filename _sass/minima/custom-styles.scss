@@ -1,5 +1,6 @@
 /*-----------------------------------*/
 /*--- IMPORT STYLES FOR FASTPAGES ---*/
+@import "minima/primer-utilities";   // Lightweight Primer utility classes (replaces 200KB primer.css)
 @import "minima/fastpages-styles";   
 
 
@@ -22,10 +23,9 @@ img + em {
 #share-buttons:after {content: ""; display: block; clear: both;}
 #share-buttons > div {
     position: relative;
-    text-align: left; 
-    height: 36px; 
-    width: 32px; 
-    float: left; 
+    height: 36px;
+    width: 32px;
+    float: left;
     text-align: center;
 }
 #share-buttons > div > svg {height: 16px; fill: #aaaaaa;
@@ -97,34 +97,31 @@ a:visited {
 
 // Dark mode is handled by assets/css/dark.scss loaded via <link> in custom-head.html
 // and assets/js/applytheme.js for localStorage override.
-// Removed duplicate @media import that conflicted with different colors.
 
-// If you want to turn off dark background for syntax highlighting, comment or delete the below line.
-@import "minima/fastpages-dracula-highlight"; 
-// @import "minima/dark-mode"
-// @import "minimal-mistakes/variables";
-// @import "minimal-mistakes/breakpoint/breakpoint";
-// @import "minimal-mistakes/mixins";
-// @import "minimal-mistakes/sidebar";
-// @import "minimal-mistakes/navigation";
-
-// Bulma buttom elements for Nerfies like buttons for paper, code, video, etc.
-// @import "https://cdn.jsdelivr.net/npm/bulma@0.9.4/sass/utilities/_all.sass";
-// @import "https://cdn.jsdelivr.net/npm/bulma@0.9.4/sass/elements/button.sass";
+@import "minima/fastpages-dracula-highlight";
 
 .button {
-  background-color: white;
-  border-color: #dbdbdb;
-  border-width: 1px;
-  color: #363636;
-  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
-  padding-bottom: calc(0.5em - 1px);
-  padding-left: 1em;
-  padding-right: 1em;
-  padding-top: calc(0.5em - 1px);
-  text-align: center;
+  min-height: 32px;
+  padding: 5px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
   white-space: nowrap;
+  cursor: pointer;
+  border: 1px solid var(--border-default, #d1d9e0);
+  border-radius: var(--radius-md);
+  color: var(--fg-primary, #1f2328);
+  background-color: var(--bg-secondary, #f6f8fa);
+  transition: background-color 80ms cubic-bezier(0.33, 1, 0.68, 1), border-color 80ms;
+  text-align: center;
+  text-decoration: none;
+  &:hover {
+    background-color: var(--bg-inset, #f3f4f6);
+    border-color: var(--border-default, #c8ced4);
+  }
 }
 
 .button[disabled] {
@@ -132,8 +129,8 @@ a:visited {
 }
 .button[disabled],
 fieldset[disabled] .button {
-  background-color: white;
-  border-color: #dbdbdb;
+  background-color: var(--bg-secondary, #f6f8fa);
+  border-color: var(--border-default, #d1d9e0);
   box-shadow: none;
   opacity: 0.5;
 }
@@ -144,7 +141,7 @@ fieldset[disabled] .button.is-dark {
   box-shadow: none;
 }
 .button.is-rounded {
-  border-radius: 290486px;
+  border-radius: var(--radius-full);
   padding-left: calc(1em + .25em);
   padding-right: calc(1em + .25em);
 }
@@ -153,11 +150,20 @@ fieldset[disabled] .button.is-dark {
 }
 .button.is-big {
   font-size: 1.5rem;
+  min-height: 44px;
+  padding: 10px 24px;
 }
 .button.is-dark {
   background-color: #363636;
   border-color: transparent;
   color: #fff;
+}
+// Primer primary button variant
+.button.is-primary, .btn-primary {
+  background-color: var(--color-primary, $curiosity-main);
+  color: white;
+  border-color: var(--color-primary, $curiosity-main);
+  &:hover { opacity: 0.9; }
 }
 
 // Iframe auto width https://www.h3xed.com/web-development/how-to-make-a-responsive-100-width-youtube-iframe-embed

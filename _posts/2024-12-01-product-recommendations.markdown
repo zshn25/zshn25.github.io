@@ -9,6 +9,7 @@ categories: recommendations
 author:     Zeeshan Khan Suri
 hidden:    true
 hide: true
+draft: true
 search_exclude: false
 ---
 
@@ -42,4 +43,4 @@ ___
 
 
 
-###### *Disclaimer: This is a referral link where I benefit if you spend money on their website*
+<small><em>Disclaimer: This is a referral link where I benefit if you spend money on their website</em></small>

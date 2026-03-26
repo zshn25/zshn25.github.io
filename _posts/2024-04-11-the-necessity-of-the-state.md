@@ -53,10 +53,12 @@ Hobbes's justification for the state, emerging as a necessary response to natura
 - the natural condition of humans is war of every man against another, but this is not always the case. Natural contiditon of humans also includes community, peace, based on consensus without escalating to conflict.
 - to be governed by the state is better than anarchy, but the creation of state brings its own disadvantages, such as heirarchies, inequality, etc. In fact, many anarchists believe the opposite
   > we must not hastily conclude that the mischiefs of anarchy are worse than those which government is qualified to produce.
+  >
   > *(Godwin 1793: bk VII, chap. V, p. 736)*
 
   <br>
-  > The government of man by man (under whatever name it be disguised) is oppression. Society finds its highest perfection in the union of order with anarchy. 
+  > The government of man by man (under whatever name it be disguised) is oppression. Society finds its highest perfection in the union of order with anarchy.
+  >
   > *(Proudhon 1840 [1876: 286])*
 - every person in a society 
 Hobbes argues that one would never submit to a sovereign state power unless one sees an advantage over the way of life that one would lead in conditions of natural liberty, namely the state of anarchy where every person is against every other. The holders of power have a number of specific obligations: 

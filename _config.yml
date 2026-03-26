@@ -70,17 +70,7 @@ google_analytics: false
 # SEO settings
 lang: en
 
-# Post categories for navigation
-post_categories:
-  - name: Tech
-    description: "AI, ML, CV, Deep Learning, Programming"
-    icon: "fas fa-microchip"
-  - name: Philosophy
-    description: "Politics, Ethics, Meaning of Life"
-    icon: "fas fa-brain"
-  - name: Life
-    description: "Health, Food, Finance, Miscellaneous"
-    icon: "fas fa-seedling"
+# Post categories — defined in _data/categories.yml (single source of truth)
 
 # Pages to show in the header navigation (in order)
 # Search is inline in the header; Tags word cloud is at the bottom of the homepage
@@ -152,4 +142,4 @@ sass:
 # to limit size of xml as it can grow quite large.
 feed:
   posts_limit: 5 #default posts_limit: 10
-  excerpt_only: true
+  excerpt_only: false

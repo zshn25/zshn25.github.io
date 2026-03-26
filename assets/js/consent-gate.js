@@ -19,6 +19,9 @@
         return !!getConsent()[provider];
     }
 
+    // Expose for reuse (utterances.html, youtube.html)
+    window._consent = { get: getConsent, set: setConsent, has: hasConsent };
+
     // ── Expose for YouTube include (youtube.html calls loadYouTube) ──
     var _origLoadYouTube = null;
     window._consentYouTube = function() { setConsent('youtube'); };
@@ -52,8 +55,7 @@
         observer.disconnect();
         removeScripts();
 
-        var darkCSS = document.getElementById('dark-css');
-        var isDark = (darkCSS && darkCSS.media === '') || window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var isDark = typeof window.isDarkMode === 'function' ? window.isDarkMode() : window.matchMedia('(prefers-color-scheme: dark)').matches;
 
         // ── Twitter embeds ──
         var tweets = document.querySelectorAll('blockquote.twitter-tweet');

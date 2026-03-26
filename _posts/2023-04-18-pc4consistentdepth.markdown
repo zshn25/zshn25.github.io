@@ -2,7 +2,7 @@
 layout: post
 title:  "Pose Constraints for Self-supervised Monocular Depth and Ego-Motion"
 description: "Enforcing pose network to be consistent improves depth consistency"
-image: images/3dreco/out.gif
+image: images/3dreco/out-poster.jpg
 date:   2023-04-17 19:21:23 -0700
 categories: deep-learning self-supervision 3d-reconstruction structure-from-motion visual-odometry depth-estimation
 author: Zeeshan Khan Suri (DENSO ADAS Engineering Services GmbH)
@@ -69,7 +69,9 @@ comments: true
 &nbsp;
 
 {:refdef: style="text-align: center;"}
-![teaser]({{site.baseurl}}/images/3dreco/out.gif){: width="100%" .shadow}
+<video autoplay loop muted playsinline width="100%" class="shadow" poster="{{site.baseurl}}/images/3dreco/out-poster.jpg">
+  <source src="{{site.baseurl}}/images/3dreco/out.mp4" type="video/mp4">
+</video>
 {: refdef}
 {:refdef: style="text-align: center;"}
 <sub><sup>*Consistent Depth without any post-processing. [KITTI dataset](https://www.cvlibs.net/datasets/kitti/index.php)[^2]*
@@ -77,6 +79,7 @@ comments: true
 {: refdef}
 
 > Very well written and clearly structured paper, well done.
+>
 > *Reviewer 4*
 
 ## Abstract

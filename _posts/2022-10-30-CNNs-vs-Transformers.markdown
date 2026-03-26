@@ -94,7 +94,7 @@ The weights are computed based on cosine similarity of the inputs $\textcolor{2E
 </sup></sub>
 {: refdef}
 
-{% include alert.html content="Input $\textcolor{2EC27E}{\textbf{x}^T}$ and its transforms are usually multi-dimensional. Vector notation is used for illustration"%}
+{% include note.html content="Input $\textcolor{2EC27E}{\textbf{x}^T}$ and its transforms are usually multi-dimensional. Vector notation is used for illustration"%}
 
 ### Self-attention
 

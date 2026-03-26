@@ -6,6 +6,7 @@ date:   2020-10-29 22:21:23 -0700
 comments: true
 image: images/cook.jpg
 categories: health nutrition cooking
+featured: true
 redirect_from:
   - /cooking/health/nutrition
   - /cooking/health/nutrition/
@@ -120,20 +121,60 @@ The quality of the source of nutrients matters a lot for long term health.
 
 ## Exercise
 
-```
-eating --> energy++
-excercizing --> energy--
-```
+Eating provides energy; exercising expends it. For people who are trying to lose excess weight, favoring energy expenditure over energy storage needs to be prioritized. This can be achieved by consuming fewer calories and exercising more.
 
-For people who are trying to lose excess weight, favoring energy expenditure over energy storage needs to be prioritized. This can be achieved by consuming fewer calories and exercising more.
+But, not only the **quantity** of the food, but also the **quality** of the food we eat matters. A calorie from a donut is not the same as a calorie from broccoli — the nutrients, fiber, and how your body processes them are fundamentally different.
 
-But, not only the **quantity** of the food, but also the **quality** of the food we eat matters.
+{% include info.html content="Exercise deserves its own dedicated post. For now, the key message is: regular physical activity is essential for health, independent of weight management." %}
 
-___
+---
+
+## Your gut microbiome: the organ you didn't know you had
+
+Your gut contains approximately **38 trillion microorganisms** — roughly a 1:1 ratio with your own human cells[^8]. This collection of bacteria, weighing about 2-3 kg, encodes over 150 times more genes than the human genome. Scientists increasingly refer to the gut microbiome as a separate organ because of its profound influence on nearly every aspect of health.
+
+### The gut-brain connection
+
+The gut and brain communicate bidirectionally through the **vagus nerve**, the enteric nervous system (sometimes called the "second brain," with over 500 million neurons), the immune system, and microbial metabolites. Your gut produces approximately **95% of the body's serotonin** and about **50% of its dopamine** — neurotransmitters critical for mood, sleep, and cognition[^9].
+
+A study analyzed data from over 1,000 people and found that *Coprococcus* and *Dialister* bacteria were consistently depleted in people with depression, regardless of antidepressant treatment. Butyrate-producing bacteria were associated with higher quality of life[^10].
+
+### What feeds your gut
+
+**Fiber is the fuel.** Only about 5% of people meet the recommended daily fiber intake (25g for women, 38g for men). Fiber is fermented by gut bacteria into **short-chain fatty acids** (butyrate, propionate, acetate) that nourish colon cells, maintain gut barrier integrity, regulate immune responses, and signal satiety to the brain.
+
+The **diversity** of fiber sources matters as much as total quantity. People who eat **30+ different plant species per week** have significantly more diverse microbiomes than those who eat 10 or fewer[^11]. The Hadza hunter-gatherers of Tanzania, who consume 100-150g of fiber per day, have gut microbial diversity roughly 40% higher than Western populations[^12].
+
+**Fermented foods** — yogurt, kefir, sauerkraut, kimchi, miso, tempeh — are powerful allies. A Stanford study found that a diet high in fermented foods (6+ servings/day for 10 weeks) increased microbiome diversity and decreased markers of inflammation[^13].
+
+### What harms your gut
+
+- **Ultra-processed foods:** Emulsifiers found in many processed foods have been shown to thin the gut mucus layer and promote inflammation[^14]. A 2024 umbrella review of 45 meta-analyses covering nearly 10 million participants found that higher ultra-processed food consumption was associated with a 50% higher risk of cardiovascular death and 48-53% higher risk of anxiety and depression[^15].
+- **Artificial sweeteners:** Saccharin, sucralose, and aspartame alter gut microbiota composition and may impair glucose tolerance[^16].
+- **Antibiotics:** While life-saving, broad-spectrum antibiotics can devastate microbial diversity. Recovery can take 6-12 months, and some species may never return[^17].
+- **When fiber intake is too low,** gut bacteria begin consuming the mucus lining of the intestine as an alternative energy source, compromising gut barrier function[^18].
+
+---
+
+## Modern dietary guidelines
+
+The science of nutrition continues to evolve, but the core recommendations have remained remarkably consistent across major health organizations:
+
+### What the evidence consistently says
+
+The **USDA Dietary Guidelines 2020-2025** recommend limiting added sugars to less than 10% of daily calories, saturated fat to less than 10%, and sodium to less than 2,300 mg/day. They emphasize dietary patterns — Mediterranean, DASH, and healthy vegetarian — over individual nutrients[^19].
+
+The **WHO** recommends at least 400g (5 portions) of fruits and vegetables per day, less than 10% of energy from free sugars (ideally below 5%), and less than 2,000 mg of sodium per day. In 2023, the WHO advised against using non-sugar sweeteners for weight control, finding no long-term benefit for reducing body fat[^20].
+
+**Harvard's Healthy Eating Plate** emphasizes whole grains (not just any grains), healthy oils (olive, canola), water as the primary beverage, and includes physical activity — providing a clearer guide than the USDA's MyPlate[^21].
+
+The **EAT-Lancet Planetary Health Diet** (2019) integrates human health with environmental sustainability, recommending approximately 500g/day of vegetables and fruits, 232g/day of whole grains, 125g/day of plant-based protein, and limiting red meat to about 14g/day[^22].
+
+---
 
 ## Summary
 
-When we outsource our food preparation to large companies or restaurants, we get low nutrient dense food.
+When we outsource our food preparation to large companies or restaurants, we get low nutrient-dense food.
 
 {% raw %}
 
@@ -141,22 +182,17 @@ $$ \text{Nutrient density} = \frac{\text{nutrients per gram}}{\text{calories per
 
 {% endraw %}
 
-Home-made food, cooked using high quality ingredients, having natural unsaturated fats, low GI, lots of fiber, and mostly plant-based protein will lead to good long-term health and longevity. The following food pyramid summaries this in a graphical, easy to remember illustration.
-
+Home-made food, cooked using high quality ingredients, having natural unsaturated fats, low GI, lots of fiber, and mostly plant-based protein will lead to good long-term health and longevity. Feed your gut microbiome with diverse plant foods and fermented foods. Minimize ultra-processed foods and refined sugars.
 
 {:refdef: style="text-align: center;"}
-[![bmi](https://upload.wikimedia.org/wikipedia/commons/e/eb/Nutrition-pyramid.jpg){: width="50%" .shadow}](https://commons.wikimedia.org/wiki/File:Nutrition-pyramid.jpg)
+[![realfood](https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/960px-Good_Food_Display_-_NCI_Visuals_Online.jpg)](https://commons.wikimedia.org/wiki/File:Good_Food_Display_-_NCI_Visuals_Online.jpg)
 {: refdef}
 {:refdef: style="text-align: center;"}
-<sub><sup>*Fig.3: Food pyramid. [Spmallare](https://commons.wikimedia.org/wiki/File:Nutrition-pyramid.jpg), [CC BY 3.0](https://creativecommons.org/licenses/by/3.0), via Wikimedia Commons*
+<sub><sup>*Some healthy foods including beans, grains, cauliflower, cantaloupe, pasta, bread, orange, turkey, fish, carrots, turnips, zucchini, snowpeas, string beans, radishes, asparagus, summer squash, lean beef, tomatoes, and potatoes, Public domain, via Wikimedia Commons*
 </sup></sub>
 {: refdef}
 
-Even if you're not obese, being aware of the food you eat and maintaining physical exercise will ensure long term health.
-
-<!-- ## Choosing food that supports long term health
-
-Our shopping environments fail to support health. -->
+The bottom line: **eat real food, mostly plants, not too much** — as Michael Pollan famously put it. Your body and your gut microbiome will thank you.
 
 ---
 
@@ -176,6 +212,42 @@ Our shopping environments fail to support health. -->
 
 [^7]: [WHO (2018) – Fact sheet – Obesity and overweight. Updated February 2018](https://www.who.int/en/news-room/fact-sheets/detail/obesity-and-overweight)
 
+[^8]: Sender, R., Fuchs, S., & Milo, R. (2016). [Revised Estimates for the Number of Human and Bacteria Cells in the Body.](https://doi.org/10.1016/j.cell.2016.01.013) Cell, 164(3), 337-340.
+
+[^9]: Yano, J. M., et al. (2015). [Indigenous Bacteria from the Gut Microbiota Regulate Host Serotonin Biosynthesis.](https://doi.org/10.1016/j.cell.2015.02.047) Cell, 161(2), 264-276.
+
+[^10]: Valles-Colomer, M., et al. (2019). [The neuroactive potential of the human gut microbiota in quality of life and depression.](https://doi.org/10.1038/s41564-018-0337-x) Nature Microbiology, 4, 623-632.
+
+[^11]: McDonald, D., et al. (2018). [American Gut: an Open Platform for Citizen Science Microbiome Research.](https://doi.org/10.1128/mSystems.00031-18) mSystems, 3(3).
+
+[^12]: Smits, S. A., et al. (2017). [Seasonal cycling in the gut microbiome of the Hadza hunter-gatherers of Tanzania.](https://doi.org/10.1126/science.aan4834) Science, 357(6353), 802-806.
+
+[^13]: Wastyk, H. C., et al. (2021). [Gut-microbiota-targeted diets modulate human immune status.](https://doi.org/10.1016/j.cell.2021.06.019) Cell, 184(16), 4137-4153.
+
+[^14]: Chassaing, B., et al. (2015). [Dietary emulsifiers impact the mouse gut microbiota promoting colitis and metabolic syndrome.](https://doi.org/10.1038/nature14232) Nature, 519, 92-96.
+
+[^15]: Lane, M. M., et al. (2024). [Ultra-processed food exposure and adverse health outcomes: umbrella review of epidemiological meta-analyses.](https://doi.org/10.1136/bmj-2023-077310) The BMJ, 384, e077310.
+
+[^16]: Suez, J., et al. (2022). [Personalized microbiome-driven effects of non-nutritive sweeteners on human glucose tolerance.](https://doi.org/10.1016/j.cell.2022.07.016) Cell, 185(18), 3307-3328.
+
+[^17]: Palleja, A., et al. (2018). [Recovery of gut microbiota of healthy adults following antibiotic exposure.](https://doi.org/10.1038/s41564-018-0257-9) Nature Microbiology, 3, 1255-1265.
+
+[^18]: Desai, M. S., et al. (2016). [A dietary fiber-deprived gut microbiota degrades the colonic mucus barrier and enhances pathogen susceptibility.](https://doi.org/10.1016/j.cell.2016.10.043) Cell, 167(5), 1339-1353.
+
+[^19]: U.S. Department of Agriculture and U.S. Department of Health and Human Services. [Dietary Guidelines for Americans, 2020-2025.](https://www.dietaryguidelines.gov/) 9th Edition, December 2020.
+
+[^20]: World Health Organization. [Use of non-sugar sweeteners: WHO guideline.](https://www.who.int/publications/i/item/9789240073616) Geneva, 2023.
+
+[^21]: Harvard T.H. Chan School of Public Health. [The Nutrition Source: Healthy Eating Plate.](https://www.hsph.harvard.edu/nutritionsource/healthy-eating-plate/)
+
+[^22]: Willett, W., et al. (2019). [Food in the Anthropocene: the EAT-Lancet Commission on healthy diets from sustainable food systems.](https://doi.org/10.1016/S0140-6736(18)31788-4) The Lancet, 393(10170), 447-492.
+
 *[ATP]: Adenosine triphosphate
 *[GI]: Glycemic index
 *[BMI]: Body mass index
+*[WHO]: World Health Organization
+*[USDA]: United States Department of Agriculture
+*[DASH]: Dietary Approaches to Stop Hypertension
+*[LDL]: Low-density lipoprotein
+*[HDL]: High-density lipoprotein
+*[UPF]: Ultra-processed food

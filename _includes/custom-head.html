@@ -8,8 +8,9 @@
 
 {%- include favicons.html -%}
 <!-- Self-hosted vendor CSS (no cross-origin requests for privacy) -->
-<link rel="stylesheet" href="{{ '/assets/vendor/primer/primer.css' | relative_url }}">
-<link rel="stylesheet" href="{{ '/assets/vendor/fontawesome/css/all.min.css' | relative_url }}">
+<!-- Primer utility classes are now inlined via _sass/minima/_primer-utilities.scss -->
+<link rel="stylesheet" href="{{ '/assets/vendor/fontawesome/css/all.min.css' | relative_url }}" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="{{ '/assets/vendor/fontawesome/css/all.min.css' | relative_url }}"></noscript>
 <link rel="stylesheet" href="{{ '/assets/vendor/academicons/css/academicons.min.css' | relative_url }}" media="print" onload="this.media='all'">
 
 {%- if site.annotations -%}

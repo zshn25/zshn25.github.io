@@ -13,6 +13,8 @@ In order to maintain economic equality and fairness in society, wealth needs to 
 
 I think fasting is a great practice for exercising self-control, sacrifice and compassion towards the poor. Accompanying it with charity makes it a great custom for everyone (not only Muslims) to follow
 
+## References
+
 [^1]: [https://en.wikipedia.org/wiki/Zakat](https://en.wikipedia.org/wiki/Zakat)
 [^2]: [https://en.wikipedia.org/wiki/Five_Pillars_of_Islam](https://en.wikipedia.org/wiki/Five_Pillars_of_Islam)
 [^3]: [https://en.wikipedia.org/wiki/Ramadan#Fasting](https://en.wikipedia.org/wiki/Ramadan#Fasting)

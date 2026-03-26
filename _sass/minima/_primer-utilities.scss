@@ -1,0 +1,146 @@
+// Lightweight Primer-inspired utility classes
+// Replaces the full 200KB primer.css — only the 24 classes actually used
+
+// ── Display ──
+.d-flex { display: flex !important; }
+.d-block { display: block !important; }
+.d-table-cell { display: table-cell !important; }
+
+// ── Flexbox ──
+.flex-wrap { flex-wrap: wrap !important; }
+.flex-justify-end { justify-content: flex-end !important; }
+
+// ── Grid columns (table-cell widths) ──
+.col-4 { width: 33.33% !important; }
+.col-8 { width: 66.67% !important; }
+.col-12 { width: 100% !important; }
+
+// ── Spacing ──
+.p-3 { padding: 1em !important; }
+.pb-5 { padding-bottom: 2em !important; }
+.px-2 { padding-left: 0.5em !important; padding-right: 0.5em !important; }
+
+// ── Box component ──
+.Box {
+  border: 1px solid var(--border-default, #d1d9e0);
+  border-radius: 6px;
+  background: var(--bg-primary, #fff);
+}
+.box-shadow-medium { box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04); }
+.border-0 { border: 0 !important; }
+.rounded-1 { border-radius: 6px !important; }
+
+// ── Alignment ──
+.v-align-middle { vertical-align: middle !important; }
+
+// ── Sizing & Background ──
+.width-full { width: 100% !important; }
+.bg-white { background-color: var(--bg-primary, #fff) !important; }
+
+// ── Labels ──
+.label {
+  display: inline-block;
+  padding: 0.15em 0.6em;
+  font-size: 0.82em;
+  font-weight: 500;
+  line-height: 1.5;
+  border-radius: 2em;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.label-default {
+  background: var(--label-bg, #f3f0ff);
+  color: var(--label-fg, #9966ff);
+  border: 1px solid var(--label-border, rgba(153, 102, 255, 0.2));
+}
+
+// ── Form controls ──
+.form-control {
+  padding: 0.4em 0.75em;
+  font-size: 0.9em;
+  line-height: 1.5;
+  color: var(--fg-primary, #1f2328);
+  background-color: var(--bg-primary, #fff);
+  border: 1px solid var(--border-default, #d1d9e0);
+  border-radius: 6px;
+  box-shadow: inset 0 1px 0 rgba(208, 215, 222, 0.2);
+  &:focus {
+    border-color: var(--color-primary, #9966ff);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(153, 102, 255, 0.15);
+  }
+}
+.input-block { display: block; width: 100%; }
+
+// ── Pagination (base — overridden by fastpages-styles for prev/next) ──
+.paginate-container {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  text-align: center;
+}
+
+// ── Flash / Alert callouts (used by callout.html include) ──
+.flash {
+  padding: 1em 1.2em;
+  margin: 1em 0;
+  border-radius: 6px;
+  border: 1px solid var(--border-default, #d1d9e0);
+  background: var(--bg-secondary, #f6f8fa);
+  color: var(--fg-primary, #1f2328);
+  font-style: normal;
+  b { font-weight: 600; }
+  p { margin: 0.3em 0 !important; font-style: normal; }
+}
+.flash-error {
+  background: #fff5f5;
+  border-color: rgba(#cf222e, 0.3);
+  color: #82071e;
+}
+.flash-success {
+  background: #f0fff4;
+  border-color: rgba(#1a7f37, 0.3);
+  color: #116329;
+}
+.flash-warn {
+  background: #fff8e1;
+  border-color: rgba(#bf8700, 0.3);
+  color: #7d5600;
+}
+
+// ── Markdown alerts (GFM-style > [!NOTE] rendered manually) ──
+.markdown-alert {
+  padding: 0.8em 1em;
+  margin: 1em 0;
+  border-left: 4px solid var(--border-default, #d1d9e0);
+  border-radius: 0 6px 6px 0;
+  background: var(--bg-secondary, #f6f8fa);
+  font-style: normal;
+  p { margin: 0.3em 0 !important; font-style: normal; }
+  .markdown-alert-title {
+    font-weight: 600;
+    margin-bottom: 0.3em;
+    display: flex;
+    align-items: center;
+    gap: 0.4em;
+  }
+}
+.markdown-alert-note {
+  border-left-color: #0969da;
+  .markdown-alert-title { color: #0969da; }
+}
+.markdown-alert-tip {
+  border-left-color: #1a7f37;
+  .markdown-alert-title { color: #1a7f37; }
+}
+.markdown-alert-important {
+  border-left-color: #8250df;
+  .markdown-alert-title { color: #8250df; }
+}
+.markdown-alert-warning {
+  border-left-color: #bf8700;
+  .markdown-alert-title { color: #bf8700; }
+}
+.markdown-alert-caution {
+  border-left-color: #cf222e;
+  .markdown-alert-title { color: #cf222e; }
+}

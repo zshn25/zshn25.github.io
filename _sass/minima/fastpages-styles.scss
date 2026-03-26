@@ -17,12 +17,19 @@
 }
 
 // Minima-inspired base fixes
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
 body {
   overflow-wrap: break-word;
   overflow-x: hidden;
   font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--fg-primary, #1f2328);
 }
 
 .post img {
@@ -45,95 +52,254 @@ img.emoji{
   color: $post-content-color;
 }
 
+// ── Header ──
 .site-header {
-  // overwrite default site header border properties
-  border-top: 0px ;
-  border-bottom: 0px ;
+  border-top: 0;
+  border-bottom: 0;
   backdrop-filter: blur(8px);
+}
 
-  .site-title {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-weight: 700 !important;
-    font-size: 1.2em;
-    letter-spacing: -0.02em;
+.site-title {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 700 !important;
+  font-size: 1.3em;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.fixed-top {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 1030;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.92);
+  height: $header-height;
+  border-bottom: 1px solid var(--border-subtle, rgba(0, 0, 0, 0.06));
+}
+
+// ── Header flexbox layout ──
+.header-wrapper {
+  display: flex;
+  align-items: center;
+  height: $header-height;
+}
+
+// ── Nav — single structure, all items collapse into hamburger at breakpoint ──
+// Override minima's default 1000px breakpoint — we control the breakpoint via $on-palm
+.site-nav {
+  margin-left: auto;
+  position: relative !important;
+  float: none !important;
+  top: auto !important;
+  right: auto !important;
+  background-color: transparent !important;
+  border: none !important;
+  text-align: left !important;
+
+  .nav-trigger { display: none; }
+  label[for="nav-trigger"] { display: none !important; }
+
+  // Desktop: items sit inline
+  .nav-items {
+    display: flex !important;
+    align-items: center;
+    gap: 0.25em;
+    clear: none !important;
+  }
+
+  .page-link {
+    margin-left: 1em;
+    font-weight: 500;
+    font-size: 0.95em;
+    letter-spacing: 0.01em;
+    display: inline !important;
+    padding: 0 !important;
+  }
+
+  .header-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    cursor: pointer;
+    color: inherit;
+    text-decoration: none;
   }
 }
 
-.fixed-top{
-  position:fixed;
-  top:0;
-  right:0;
-  left:0;
-  z-index:1030;
-  width:100%;
-  background: rgba(255, 255, 255, 0.92);
-  height: $header-height;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-} // Fixed pos of header
+// Fix hamburger icon — use FA5 bars
+.site-nav .menu-icon::before {
+  font-family: "Font Awesome 5 Free" !important;
+}
+.site-nav .menu-icon > svg { display: none; }
+.rss-icon { color: $curiosity-accent; }
 
-// Header nav link spacing (prevents cluttered About/Tags/Search)
-.site-nav .page-link {
-  margin-left: 1.5em;
-  font-weight: 500;
-  font-size: 0.95em;
-  letter-spacing: 0.01em;
+// ── Mobile: hamburger dropdown ──
+@media screen and (max-width: $on-palm) {
+  .site-nav {
+    label[for="nav-trigger"] {
+      display: block !important;
+      float: none !important;
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      line-height: 36px;
+      text-align: center;
+      z-index: 2;
+    }
+
+    .nav-items {
+      display: none !important;
+      position: absolute;
+      top: 100%;
+      right: 0;
+      flex-direction: column;
+      align-items: stretch;
+      background: white;
+      border: 1px solid var(--border-default, #d1d9e0) !important;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-lg);
+      min-width: 200px;
+      padding: var(--space-2) 0;
+      z-index: 1000;
+    }
+
+    #nav-trigger:checked ~ .nav-items { display: flex !important; }
+
+    .page-link {
+      display: block !important;
+      margin-left: 0 !important;
+      padding: var(--space-2) var(--space-3) !important;
+    }
+
+    .nav-item {
+      display: block;
+      padding: var(--space-2) var(--space-3);
+      margin-left: 0 !important;
+      &:hover { background-color: var(--bg-secondary, #f6f8fa); }
+    }
+
+    .header-icon-btn {
+      width: auto;
+      height: auto;
+      justify-content: flex-start;
+      padding: var(--space-2) var(--space-3);
+    }
+
+    .header-search {
+      display: block;
+      padding: var(--space-2) var(--space-3);
+      margin-left: 0;
+    }
+    .header-search-input {
+      width: 100%;
+      box-sizing: border-box;
+      &:focus { width: 100%; }
+    }
+  }
 }
 
 .search-padding {  padding-top: calc($header-height / 2)}
 
 .page-content {
-        padding-top: $header-height;
+        padding-top: calc(#{$header-height} + var(--space-5));
         line-height: 1.7;
 }
 
-// make non-headings slightly lighter
+// ── Primer-informed typography ──
+// Body text: Primer uses 16px/1.5, letter-spacing 0.24px
 .post-content p, .post-content li {
-  font-size: 18px;
+  font-size: 1rem;
   color: $post-content-color;
-  line-height: 1.75;
+  line-height: 1.5;
+  letter-spacing: 0.015em;
 }
 
-.post-link{
-    font-weight: normal;
-}
+// dead .post-link removed — see line ~810 for the active definition
 
-// change padding of headings
+// ── Heading hierarchy — Primer scale (h1≈2rem, h2≈1.75rem, h3≈1.25rem, h4≈1rem) ──
+// Primer uses weight ~460-480 for headings (lighter than bold); closest with Inter is 500
 h1 {
-    margin-top:2.5rem !important;
+    font-size: 2rem !important;
+    margin-top: 3rem !important;
+    font-weight: 600 !important;
+    line-height: 1.2;
 }
-
 h2 {
-    margin-top:2rem !important;      
+    font-size: 1.5rem !important;
+    margin-top: 2.5rem !important;
+    font-weight: 500 !important;
+    line-height: 1.3;
+    padding-bottom: 0.3em;
+    border-bottom: 1px solid var(--border-subtle, #eaeef2);
 }
-
-h3, h4 {
-    margin-top:1.5rem !important;      
+h3 {
+    font-size: 1.25rem !important;
+    margin-top: 2rem !important;
+    font-weight: 500 !important;
+    line-height: 1.3;
+}
+h4 {
+    font-size: 1rem !important;
+    margin-top: 1.5rem !important;
+    font-weight: 500 !important;
+    line-height: 1.3;
 }
 
 p {
-    margin-top:1rem !important; 
-    margin-bottom:1rem !important;   
+    margin-top: 1rem !important;
+    margin-bottom: 1rem !important;
     -webkit-hyphens: auto;
       -ms-hyphens: auto;
         hyphens: auto;
 }
 
 h1, h2, h3, h4 {
-    font-family: Georgia, "Times New Roman", serif;
-    font-weight: 600 !important;
-    margin-bottom:0.4rem !important;
-    letter-spacing: -0.01em;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    margin-bottom: 0.5rem !important;
+    letter-spacing: -0.02em;
+    color: var(--fg-primary, #1f2328);
     code {
-      font-size: 100%;
+      font-size: 90%;
     }
 }
 
 pre {
-    margin-bottom:1.5rem !important; 
+    margin-bottom: 1.5rem !important;
 }
 
-// make sure the post title doesn't have too much spacing
-.post-title { margin-top: .5rem !important; }
+// ── Post title — heavier than in-content headings to create hierarchy ──
+// Primer Brand: display headings use weight 800, line-height ~1.1
+.post-title {
+  font-size: 2.25rem !important;
+  font-weight: 700 !important;
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.3rem !important;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  border-bottom: none !important;
+}
+
+// Post header area — generous top padding like Primer docs
+.post-header {
+  margin-bottom: 2em;
+  padding-top: var(--space-4);
+  .page-description {
+    margin-top: 0.4em !important;
+    margin-bottom: 0.6em !important;
+    font-size: 1.2em;
+    color: var(--fg-secondary, #656d76);
+  }
+  .post-meta-title { margin-top: var(--space-2) !important; margin-bottom: 0.3em !important; }
+  .breadcrumbs { margin-bottom: var(--space-3); }
+  // No border-bottom on h2-like elements inside post header
+  h1, h2 { border-bottom: none !important; }
+}
 
 li {
   h3, h4 {
@@ -157,6 +323,20 @@ li {
 
 details.description:not([open]) summary::after {
   content: attr(data-close);
+}
+
+// Notebook collapse directives (#collapse-hide / #collapse-show)
+details.cell-collapse {
+  margin: 0.5em 0;
+  summary {
+    cursor: pointer;
+    font-size: 0.85em;
+    color: #666;
+    padding: 0.3em 0;
+    user-select: none;
+    &:hover { color: $curiosity-main; }
+    &::marker { color: #999; }
+  }
 }
 
 // Notebook badges
@@ -183,68 +363,33 @@ details.description:not([open]) summary::after {
   }
 }
 
-// Make Anchor Links Appear Only on Hover
-// h1 {
-//   margin-left: -20px;
-//   padding-left: 10px; 
-// }
-
-h2 {
-  margin-left: -18px;
-  padding-left: 10px; 
-}
-
-h3 {
-  margin-left: -16px;
-  padding-left: 10px; 
-}
-
-h4 {
-  margin-left: -14px;
-  padding-left: 10px; 
-}
-
-h5 {
-  margin-left: -12px;
-  padding-left: 10px; 
-}
-
-h6 {
-  margin-left: -10px;
-  padding-left: 10px; 
-}
-
-h1 .octicon-heading-anchor, h2 .octicon-heading-anchor, h3 .octicon-heading-anchor, h4 .octicon-heading-anchor, h5 .octicon-heading-anchor, h6 .octicon-heading-anchor  {
-  visibility: hidden;
-}
-
-h1:hover .octicon-heading-anchor, h2:hover .octicon-heading-anchor, h3:hover .octicon-heading-anchor, h4:hover .octicon-heading-anchor, h5:hover .octicon-heading-anchor, h6:hover .octicon-heading-anchor {
-  visibility: visible;
-}
-
-.octicon-heading-anchor {
-  fill: currentColor;
-  padding: 0;
-  margin-left: -16px;
-  vertical-align: middle;
-}
-.anchor-link {
+// ── Heading anchor links — absolutely positioned, no text shift ──
+.heading-anchor {
+  position: absolute;
+  left: -1.5em;
+  top: 50%;
+  transform: translateY(-50%);
   opacity: 0;
-  padding-left: 0.375em;
-  \-webkit-text-stroke: 1.75px white;
-  \-webkit-transition: opacity 0.2s ease-in-out 0.1s;
-  \-moz-transition: opacity 0.2s ease-in-out 0.1s;
-  \-ms-transition: opacity 0.2s ease-in-out 0.1s;
+  transition: opacity 0.2s ease;
+  text-decoration: none !important;
+  line-height: 1;
+  .octicon-heading-anchor {
+    fill: currentColor;
+    vertical-align: middle;
+    color: $curiosity-main-light;
+  }
+}
+h1, h2, h3, h4, h5, h6 {
+  position: relative;
+  &:hover .heading-anchor { opacity: 1; }
 }
 
-h1:hover .anchor-link,
-h2:hover .anchor-link,
-h3:hover .anchor-link,
-h4:hover .anchor-link,
-h5:hover .anchor-link,
-h6:hover .anchor-link {
-  opacity: 1;
-}
+// ── Prevent horizontal overflow from math, tables, code ──
+// NOTE: uses overflow-x: auto (not clip) to avoid clipping absolute-positioned heading anchors
+.katex-display { overflow-x: auto; overflow-y: hidden; }
+.post-content { overflow-x: visible; }
+.post-content pre { overflow-x: auto; }
+.post-content table { display: block; overflow-x: auto; }
 
 
 // category tags
@@ -264,22 +409,29 @@ h6:hover .anchor-link {
 .page-description {
   margin-top: .5rem !important;
   margin-bottom: .5rem !important;
-  color: $post-content-color;
-  font-size: 125%;
+  color: var(--fg-secondary, #656d76);
+  font-size: 1.15em;
+  line-height: 1.6;
 }
 
-// Custom styling for category tags
+// Custom styling for category tags — match chip style
 .category-tags-icon {
   font-size: 75% !important;
   padding-left: 0.375em;
   opacity: 50%;
 }
 .category-tags-link {
-  color: #666 !important;
-  font-size: 13px !important;
+  display: inline-block;
+  padding: 0.1em 0.5em;
+  border: 1px solid var(--border-default, #d1d9e0);
+  border-radius: 2em;
+  font-size: 0.75em !important;
+  font-weight: 500;
   text-decoration: none !important;
-  &:visited { color: #666 !important; }
-  &:hover { color: $curiosity-main !important; }
+  color: var(--fg-secondary, #656d76) !important;
+  background: var(--bg-secondary, #f6f8fa);
+  &:visited { color: var(--fg-secondary, #656d76) !important; }
+  &:hover { color: var(--color-primary, $curiosity-main) !important; border-color: var(--color-primary, $curiosity-main); }
 }
 
 // Search Page Styles
@@ -295,12 +447,12 @@ h6:hover .anchor-link {
 .search-results-list-item a:hover .search-result-title {text-decoration: underline;}
 
 .search-result-rel-date {
-  color: rgb(109, 120, 138);
+  color: var(--fg-secondary, rgb(109, 120, 138));
   font-size: 14px;
 }
 
 .search-result-preview {
-  color: #777;
+  color: var(--fg-muted, #777);
   font-size: 16px;
   margin-top:.02rem !important;
   margin-bottom:.02rem !important;
@@ -373,15 +525,15 @@ pre code {
 
 // ── Consent placeholders (third-party embeds) ──
 .consent-placeholder {
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  border: 1px solid var(--border-default, #ddd);
+  border-radius: var(--radius-md);
   padding: 2em;
   text-align: center;
-  background: #fafafa;
+  background: var(--bg-secondary, #fafafa);
   margin: 1em 0;
 
   p { margin: 0 0 .5em !important; }
-  .consent-detail { font-size: .9em; color: #666; margin: 0 0 1em !important; }
+  .consent-detail { font-size: .9em; color: var(--fg-muted, #666); margin: 0 0 1em !important; }
 }
 
 // ── Privacy notice bar ──
@@ -404,7 +556,7 @@ pre code {
   gap: .5em;
   flex-wrap: wrap;
 
-  a { color: #bb99ff; margin-left: .5em; }
+  a { color: $curiosity-main-light; margin-left: .5em; }
   .privacy-ok-btn {
     margin-left: 1em;
     padding: .2em .8em;
@@ -412,7 +564,7 @@ pre code {
     background: $curiosity-main;
     color: #fff;
     border: none;
-    border-radius: 3px;
+    border-radius: var(--radius-sm);
     font-size: .9em;
     &:hover { background: $curiosity-main-dark; }
   }
@@ -430,29 +582,46 @@ pre code {
     flex: 1 1 45%;
     min-width: 0;
     padding: .75em 1em;
-    border: 1px solid #eee;
-    border-radius: 6px;
+    border: 1px solid var(--border-subtle, #eee);
+    border-radius: var(--radius-md);
     text-decoration: none;
-    transition: border-color 0.15s;
-    &:hover { border-color: $curiosity-main-light; }
+    overflow-wrap: break-word;
+    word-break: break-word;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    &:hover { border-color: $curiosity-main-light; box-shadow: var(--shadow-sm); }
   }
   .previous_page { text-align: left; }
   .next_page { text-align: right; }
+
+  @media screen and (max-width: $on-palm) {
+    flex-direction: column;
+    gap: 0.5em;
+    .previous_page, .next_page { flex-basis: 100%; }
+  }
 }
 
 // ── Load comments button ──
 #load-comments {
   display: block;
   margin: 1.5em auto;
-  padding: .6em 1.5em;
+  padding: 5px 16px;
+  min-height: 32px;
   cursor: pointer;
+  font-weight: 500;
+  font-size: 14px;
+  border: 1px solid var(--border-default, #d1d9e0);
+  border-radius: var(--radius-md);
+  background-color: var(--bg-secondary, #f6f8fa);
+  color: var(--fg-primary, #1f2328);
+  transition: background-color 80ms;
+  &:hover { background-color: var(--bg-inset, #f3f4f6); }
 }
 
 // ── Post separator after share buttons ──
 .post-content + hr {
   margin: 2em 0;
   border: 0;
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--border-subtle, #eee);
 }
 
 // ── Tag cloud ──
@@ -464,7 +633,7 @@ pre code {
     display: inline-block;
     margin: 0.15em 0.3em;
     padding: 0.1em 0.5em;
-    border-radius: 4px;
+    border-radius: var(--radius-sm);
     text-decoration: none;
     transition: opacity 0.15s, transform 0.15s;
     cursor: pointer;
@@ -485,7 +654,7 @@ pre code {
 .wordcloud-section {
   margin-top: 2em;
   padding-top: 1.5em;
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--border-subtle, #eee);
   h2 {
     text-align: center;
     margin-bottom: 0.5em !important;
@@ -496,45 +665,45 @@ pre code {
 // ── Breadcrumbs ──
 .breadcrumbs {
   font-size: 0.8em;
-  color: #999;
+  color: var(--fg-muted, #999);
   margin-bottom: 0.75em;
   text-align: left;
   a {
-    color: $curiosity-main-dark;
+    color: var(--color-primary-dark, $curiosity-main-dark);
     text-decoration: none;
     &:hover { text-decoration: underline; }
   }
-  span { color: #666; }
+  span { color: var(--fg-secondary, #666); }
 }
 
-// ── Category chips (homepage) ──
+// ── Category filter chips (homepage) — matches post tag label style ──
 .category-nav {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5em;
+  gap: 0.4em;
   margin-bottom: 1.5em;
 }
 .category-chip {
   display: inline-block;
-  padding: 0.35em 1em;
-  border: 1px solid #ddd;
-  border-radius: 20px;
-  font-size: 0.85em;
+  padding: 0.15em 0.6em;
+  border: 1px solid var(--border-default, #d1d9e0);
+  border-radius: 2em;
+  font-size: 0.78em;
   font-weight: 500;
   text-decoration: none;
-  color: $post-content-color;
+  color: var(--fg-secondary, #656d76);
+  background: var(--bg-secondary, #f6f8fa);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.15s ease;
   &:hover {
-    border-color: $curiosity-main;
-    color: $curiosity-main;
-    background-color: rgba($curiosity-main, 0.04);
+    border-color: var(--color-primary, $curiosity-main);
+    color: var(--color-primary, $curiosity-main);
   }
   &.active {
-    background-color: $curiosity-main;
+    background-color: var(--color-primary, $curiosity-main);
     color: white;
-    border-color: $curiosity-main;
-    &:hover { background-color: $curiosity-main-dark; border-color: $curiosity-main-dark; }
+    border-color: var(--color-primary, $curiosity-main);
+    &:hover { opacity: 0.9; }
   }
 }
 
@@ -545,24 +714,18 @@ pre code {
 }
 
 // ── h5/h6 sizes (from minima) ──
-h5 { font-size: 1em !important; margin-top: 1.2rem !important; }
-h6 { font-size: 0.9em !important; margin-top: 1rem !important; }
+h5 { font-size: 0.875rem !important; font-weight: 600 !important; margin-top: 1.2rem !important; }
+h6 { font-size: 0.85rem !important; font-weight: 600 !important; margin-top: 1rem !important; color: var(--fg-secondary, #656d76); }
 
-// ── Prevent horizontal overflow from math, tables, code ──
-.katex-display { overflow-x: auto; overflow-y: hidden; }
-.post-content { overflow-x: clip; }
-.post-content pre { overflow-x: auto; }
-.post-content table { display: block; overflow-x: auto; }
-
-// ── Better blockquote readability ──
+// ── Better blockquote readability — Primer-inspired ──
 blockquote {
-  border-left: 4px solid $curiosity-main-light;
-  padding: 1em 1.2em;
+  border-left: 3px solid var(--border-default, #d1d9e0);
+  padding: 0.75em 1em;
   margin: 1.5em 0;
-  color: #555;
+  color: var(--fg-secondary, #656d76);
   font-style: italic;
-  background: #fafafa;
-  border-radius: 0 8px 8px 0;
+  background: transparent;
+  border-radius: 0;
   p { margin-bottom: 0.5em !important; &:last-child { margin-bottom: 0 !important; } }
   cite {
     display: block;
@@ -590,24 +753,70 @@ blockquote {
   list-style: none;
   margin-left: 0;
   > li {
-    margin-bottom: 1.5em;
+    margin-bottom: 1em;
   }
   .Box {
-    border: 1px solid #eaeaea !important;
-    border-radius: 12px;
+    border: 1px solid var(--border-subtle, #eaeef2) !important;
+    border-radius: var(--radius-lg);
     overflow: hidden;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-    transition: box-shadow 0.25s ease, transform 0.25s ease;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
     &:hover {
-      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
-      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
     }
   }
 }
 
+// ── Post cards — 2-column: image left, text right ──
+// Fixed height for uniform card sizing; overflow hidden clips long text
+.post-card {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  height: 200px;
+  overflow: hidden;
+}
+.post-card-image {
+  width: 30%;
+  min-width: 30%;
+  max-width: 30%;
+  overflow: hidden;
+  line-height: 0;
+  flex-shrink: 0;
+}
+.post-card-body {
+  flex: 1;
+  padding: 0.8em 1em;
+  min-width: 0;
+  overflow: hidden;
+}
 .image-preview {
-  border-radius: 8px;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  display: block;
+}
+@media screen and (max-width: $on-palm) {
+  .post-card { flex-direction: column; height: auto; max-height: 360px; }
+  .post-card-image { width: 100%; min-width: 100%; max-width: 100%; height: 160px; }
+  .image-preview { height: 160px; }
+}
+
+// ── Featured post styling ──
+.featured-post .post-card {
+  border-left: 3px solid #cc8800;
+}
+.featured-badge {
+  display: inline-block;
+  font-size: 0.7em;
+  font-weight: 600;
+  color: #cc8800;
+  background: rgba(204, 136, 0, 0.08);
+  padding: 0.1em 0.5em;
+  border-radius: 2em;
+  margin-bottom: 0.3em;
+  i { margin-right: 0.2em; font-size: 0.85em; }
 }
 
 // ── Post title link — bolder ──
@@ -623,37 +832,43 @@ blockquote {
   text-decoration: underline;
 }
 
-// ── Related posts grid ──
+// ── Related posts grid — single column like homepage ──
 .related-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  flex-direction: column;
   gap: 1em;
-  @media (max-width: $on-palm) {
-    grid-template-columns: 1fr;
-  }
 }
 .relatedPosts h3 {
   margin-bottom: 0.8em;
+  border-bottom: none !important;
 }
 
-// ── Compact card variant (related posts, inline ads) ──
+// ── Compact card variant (related posts) — same horizontal layout, slightly smaller ──
 .card-compact {
-  h3 { font-size: 1em !important; margin-bottom: 0.1em !important; }
+  height: 150px;
+  .post-card-image { width: 25%; min-width: 25%; max-width: 25%; }
+  .image-preview { height: 100%; }
+  h3 { font-size: 0.95em !important; margin-bottom: 0.1em !important; border-bottom: none !important; }
   .post-meta { font-size: 0.8em !important; margin-top: 0.1em !important; }
   .category-tags { font-size: 0.8em !important; margin-top: 0.1em !important; }
-  .p-3 { padding: 0.6em !important; }
-  .image-preview { max-height: 100px; }
+  .post-card-body { padding: 0.5em 0.8em; }
+  .post-meta-description { display: none; }
+  @media screen and (max-width: $on-palm) {
+    height: auto;
+    max-height: 300px;
+    .post-card-image { width: 100%; min-width: 100%; max-width: 100%; height: 120px; }
+  }
 }
 
 // ── Inline post callout (replaces blockquote-style internal link ads) ──
 .inline-post-callout {
   margin: 1.5em 0;
-  border-radius: 10px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--border-default, #e0e0e0);
   transition: box-shadow 0.2s ease, transform 0.2s ease;
   &:hover {
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    box-shadow: var(--shadow-md);
     transform: translateY(-1px);
   }
 }
@@ -664,7 +879,7 @@ blockquote {
   text-decoration: none !important;
   color: inherit !important;
   gap: 1em;
-  background: #fafafa;
+  background: var(--bg-secondary, #fafafa);
 }
 .inline-post-callout-icon {
   font-size: 1.5em;
@@ -678,7 +893,7 @@ blockquote {
 .inline-post-callout-prefix {
   display: block;
   font-size: 0.8em;
-  color: #888;
+  color: var(--fg-muted, #888);
   margin-bottom: 0.15em;
 }
 .inline-post-callout-title {
@@ -689,51 +904,50 @@ blockquote {
   line-height: 1.3;
 }
 .inline-post-callout-arrow {
-  color: #ccc;
+  color: var(--border-default, #ccc);
   font-size: 1.1em;
   flex-shrink: 0;
   transition: color 0.15s;
 }
 .inline-post-callout:hover .inline-post-callout-arrow { color: $curiosity-main; }
 
-// ── Page heading — larger ──
+// ── Page heading — Primer-inspired prominent heading ──
 .page-heading, .post-list-heading {
-  font-size: 1.8em;
+  font-size: 2rem;
   font-weight: 700 !important;
-  letter-spacing: -0.02em;
-  margin-bottom: 0.5em !important;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.75em !important;
+  border-bottom: none !important;
 }
 
-// ── Tables — auto overflow for wide tables ──
-.post-content table {
-  display: block;
-  overflow-x: auto;
-}
-
-// ── HR — subtle ──
+// ── Page heading — Primer-inspired prominent heading ──
 hr {
   border: 0;
-  border-top: 1px solid #eee;
-  margin: 2em 0;
+  height: 1px;
+  background-color: var(--border-subtle, #eaeef2);
+  margin: 2.5em 0;
 }
 
 // ── Topic sections (homepage collection layout) ──
 .topic-section {
-  margin-bottom: 2.5em;
-  padding-bottom: 1em;
-  border-bottom: 1px solid #eee;
+  margin-bottom: 3.5em;
+  padding-bottom: 2em;
+  border-bottom: 1px solid var(--border-subtle, #eaeef2);
   &:last-child { border-bottom: none; }
 }
 .topic-section-header {
-  margin-bottom: 1em;
+  margin-bottom: 1.5em;
   h2 {
     margin-bottom: 0.2em !important;
-    i { opacity: 0.6; margin-right: 0.2em; }
+    font-size: 1.5em;
+    border-bottom: none !important;
+    i { opacity: 0.5; margin-right: 0.3em; font-size: 0.85em; }
   }
 }
 .topic-description {
-  color: #888;
+  color: var(--fg-muted, #8b949e);
   font-size: 0.9em;
+  font-style: italic;
   margin-top: 0 !important;
   margin-bottom: 0.8em !important;
 }
@@ -744,18 +958,25 @@ hr {
 
 .section-toggle-wrap {
   text-align: center;
-  margin: 0.5em 0 1em;
+  margin: 0.75em 0 1em;
 }
 .section-toggle {
-  font-size: 0.9em;
+  font-size: 0.85em;
   cursor: pointer;
+  color: var(--color-primary, $curiosity-main);
+  border: 1px solid var(--color-primary, $curiosity-main);
+  border-radius: var(--radius-md);
+  padding: 5px 16px;
+  background: transparent;
+  font-weight: 500;
+  transition: background-color 80ms;
+  &:hover { background-color: rgba($curiosity-main, 0.06); }
 }
 
 // ── Inline header search ──
 .header-search {
   display: inline-block;
   position: relative;
-  margin-left: 1em;
   vertical-align: middle;
   line-height: 1;
 }
@@ -763,17 +984,17 @@ hr {
   width: 140px;
   height: 28px;
   padding: 0 0.5em 0 1.8em;
-  border: 1px solid #ddd;
-  border-radius: 14px;
+  border: 1px solid var(--border-default, #ddd);
+  border-radius: var(--radius-full);
   font-size: 0.8em;
-  background: #f8f8f8;
+  background: var(--bg-secondary, #f8f8f8);
   transition: width 0.25s ease, border-color 0.2s;
   box-sizing: border-box;
   &:focus {
     width: 220px;
     outline: none;
     border-color: $curiosity-main-light;
-    background: white;
+    background: var(--bg-primary, white);
   }
 }
 .header-search-icon {
@@ -794,10 +1015,10 @@ hr {
   min-width: 300px;
   max-height: 400px;
   overflow-y: auto;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+  background: var(--bg-primary, white);
+  border: 1px solid var(--border-default, #ddd);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
   z-index: 2000;
   &.active { display: block; }
   a {
@@ -805,10 +1026,10 @@ hr {
     padding: 0.6em 0.8em;
     text-decoration: none;
     color: $post-content-color;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid var(--border-subtle, #f0f0f0);
     &:last-child { border-bottom: none; }
     &:hover, &.active {
-      background: #f5f5f5;
+      background: var(--bg-secondary, #f5f5f5);
     }
   }
   .search-result-title {
@@ -818,11 +1039,154 @@ hr {
   }
   .search-result-preview {
     font-size: 0.8em;
-    color: #777;
+    color: var(--fg-muted, #777);
     margin-top: 0.2em;
   }
   .search-result-highlight {
     font-weight: bold;
     color: $curiosity-main;
   }
+}
+
+// ── Back to top button ──
+.back-to-top {
+  position: fixed;
+  bottom: 2em;
+  right: 2em;
+  z-index: 999;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--fg-primary, #333);
+  border: 2px solid var(--fg-primary, #333);
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none;
+  transition: background 0.2s, color 0.2s, border-color 0.2s, bottom 0.3s;
+  font-size: 1.1em;
+  &:hover {
+    background: var(--color-primary, $curiosity-main);
+    color: white;
+    border-color: var(--color-primary, $curiosity-main);
+  }
+  &.visible { display: flex; }
+  // When privacy banner is visible, push button up
+  &.above-banner { bottom: 5em; }
+}
+
+// ── Tweet embeds — center aligned ──
+.twitter-tweet, twitter-widget,
+.consent-embed[data-provider="twitter"] {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+// Center the iframe Twitter generates
+twitter-widget { display: block !important; margin: 0 auto !important; }
+
+// ── OWID iframes dark mode ──
+// Applied via JS class toggle; CSS filter inverts the white charts
+.owid-dark {
+  filter: invert(0.88) hue-rotate(180deg);
+}
+
+// ── Improved vertical spacing ──
+.post-content {
+  > p + p { margin-top: 1.25em !important; }
+  > p + h2, > p + h3, > p + h4 { margin-top: 2em !important; }
+  > ul, > ol { margin-bottom: 1.25em; }
+  > blockquote + p { margin-top: 1.25em !important; }
+  > pre + p { margin-top: 1.25em !important; }
+}
+
+// ── Copy code button ──
+.copy-code-btn {
+  position: absolute;
+  top: 0.4em;
+  right: 0.4em;
+  padding: 0.25em;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: rgba(128, 128, 128, 0.15);
+  color: #666;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s, background 0.15s;
+  line-height: 0;
+  &:hover { background: rgba(128, 128, 128, 0.3); }
+}
+pre:hover .copy-code-btn { opacity: 1; }
+
+// ── Table of Contents — Primer-style sticky sidebar ──
+// ToC floats to the right outside the content area so it never eats content space
+.post-layout {
+  position: relative;
+}
+.toc-sidebar {
+  display: none;
+  @media screen and (min-width: $on-large) {
+    display: block;
+    position: absolute;
+    left: 100%;
+    top: 0;
+    width: 220px;
+    margin-left: var(--space-5);
+  }
+}
+.toc-nav {
+  position: sticky;
+  top: 80px;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+  border-left: 1px solid var(--border-subtle, #eaeef2);
+  padding-left: 0;
+  font-size: 13px;
+}
+.toc-heading {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--fg-muted, #656d76);
+  padding: 4px 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 4px;
+  border-bottom: none !important;
+}
+.toc-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.toc-nav li {
+  margin: 0;
+}
+.toc-nav .toc-link {
+  display: block;
+  padding: 4px 16px;
+  line-height: 1.5;
+  color: var(--fg-muted, #656d76);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  margin-left: -1px;
+  transition: color 0.1s, border-color 0.1s;
+  &:hover {
+    color: var(--fg-primary, #1f2328);
+    text-decoration: none;
+  }
+  &.active {
+    color: var(--fg-primary, #1f2328);
+    font-weight: 600;
+    border-left-color: var(--color-primary, $curiosity-main);
+  }
+}
+// Sub-items (h3, h4 nested under h2)
+.toc-nav ul ul .toc-link {
+  padding-left: 28px;
+  font-size: 12px;
+}
+.toc-nav ul ul ul .toc-link {
+  padding-left: 40px;
+  font-size: 11px;
 }
