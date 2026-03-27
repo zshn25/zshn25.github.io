@@ -80,7 +80,7 @@ layout: default
       {% assign idx = 0 %}
       {% for post in tech_posts %}{% if post.featured %}{% assign idx = idx | plus: 1 %}
       <li class="featured-post{% if idx > posts_per_section %} section-hidden{% endif %}" data-categories="{{ post.categories | join: ',' | downcase }}">
-        {%- include post_list_image_card.html -%}
+        {%- if idx == 1 -%}{%- include post_list_image_card.html eager=true -%}{%- else -%}{%- include post_list_image_card.html -%}{%- endif -%}
       </li>
       {% endif %}{% endfor %}
       {% for post in tech_posts %}{% unless post.featured %}{% assign idx = idx | plus: 1 %}

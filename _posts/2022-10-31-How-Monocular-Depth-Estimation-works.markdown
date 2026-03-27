@@ -121,7 +121,7 @@ $$\left(\begin{array}{c}x_{t+1} \\\\ y_{t+1} \\\\ 1 \end{array} \right) \stackre
 where the camera intrinsics matrix $K = \Bigl[\begin{smallmatrix}k_x&0&p_x \\\\ 0&k_y&p_y \\\\ 0&0&1\end{smallmatrix} \Bigr]$, with focal lengths $f_x, f_y$ and principal point $p_x, p_y$ is assumed to be known. Next, we will see how this makes sense
 
 {:refdef: style="text-align: center;"}
-![s]({{site.baseurl}}/images/3dreco/2011_09_26_drive_0022_sync 226_cam_t.png){: width="90%" .shadow}
+![s]({{site.baseurl}}/images/3dreco/2011_09_26_drive_0022_sync 226_cam_t.webp){: width="90%" .shadow}
 {: refdef}
 {:refdef: style="text-align: center;"}
 $K^{-1}d_{xy} \left(\begin{array}{c}x_t \\\\ y_t \\\\ 1 \end{array} \right)$
@@ -130,7 +130,7 @@ $K^{-1}d_{xy} \left(\begin{array}{c}x_t \\\\ y_t \\\\ 1 \end{array} \right)$
 Intiutively, given the depth $D$, one could unproject the image coordinates using the depth and the inverse camera intrinsics onto 3D.
 
 {:refdef: style="text-align: center;"}
-![s]({{site.baseurl}}/images/3dreco/2011_09_26_drive_0022_sync 226_both_cams.png){: width="90%" .shadow}
+![s]({{site.baseurl}}/images/3dreco/2011_09_26_drive_0022_sync 226_both_cams.webp){: width="90%" .shadow}
 {: refdef}
 {:refdef: style="text-align: center;"}
 $TK^{-1}d_{xy} \left(\begin{array}{c}x_t \\\\ y_t \\\\ 1 \end{array} \right)$
@@ -139,7 +139,7 @@ $TK^{-1}d_{xy} \left(\begin{array}{c}x_t \\\\ y_t \\\\ 1 \end{array} \right)$
 Then, the camera is transformed to that at time $t+1$.
 
 {:refdef: style="text-align: center;"}
-![s]({{site.baseurl}}/images/3dreco/2011_09_26_drive_0022_sync 226_cam_tplus1.png){: width="90%" .shadow}
+![s]({{site.baseurl}}/images/3dreco/2011_09_26_drive_0022_sync 226_cam_tplus1.webp){: width="90%" .shadow}
 {: refdef}
 {:refdef: style="text-align: center;"}
 $TK^{-1}d_{xy} \left(\begin{array}{c}x_t \\\\ y_t \\\\ 1 \end{array} \right)$

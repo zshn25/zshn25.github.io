@@ -2,12 +2,13 @@
 layout: post
 title: "Self-supervised learning for vision foundation models"
 description: "How self-supervised learning enables large-scale vision foundation models by learning from unlabeled data through pretext tasks like contrastive learning and masked image modeling."
-image: images/foundation.jpeg
+image: images/foundation.webp
 date: 2023-05-11 20:21:23 -0700
 categories: computer-vision large-neural-networks foundation-models self-supervision
 author: Zeeshan Khan Suri
 published: true
 comments: true
+featured: true
 ---
 
 
@@ -70,14 +71,14 @@ With the rise of deep learning, features and their descriptors are no longer han
 {:.no_toc}
 
 {:refdef: style="text-align: center;"}
-[![feature-learning](https://upload.wikimedia.org/wikipedia/commons/1/18/Denoising-autoencoder.png)](https://commons.wikimedia.org/wiki/File:Denoising-autoencoder.png)
+[![feature-learning](https://upload.wikimedia.org/wikipedia/commons/1/18/Denoising-autoencoder.png){: data-invert-dark="true"}](https://commons.wikimedia.org/wiki/File:Denoising-autoencoder.png)
 {: refdef}
 {:refdef: style="text-align: center;"}
 <sub><sup>. Image from [neerajkrbansal1996](https://commons.wikimedia.org/wiki/File:Denoising-autoencoder.png), CC0, via Wikimedia Commons*
 </sup></sub>
 {: refdef}
 
-As early as in 2009, the idea to use self-supervised learning for
+As early as 2009, the idea of using self-supervised learning for feature extraction emerged with denoising autoencoders[^9], which learn to reconstruct input images from corrupted versions. This planted the seed for what would become one of the most productive research directions in deep learning — learning representations from unlabeled data.
 
 ## The need for foundation models
 
@@ -112,8 +113,8 @@ Is it possible to make machines learn general concepts without explicit supervis
 
 If we are able formulate **pretext tasks**, we can use <mark>self-supervised learning</mark> to <mark>learn good data representations and general concepts from massively-available, unlabelled data</mark>, we can use such models directly (without fine-tuning, Zero-Shot) for multiple **downstream tasks**. (atleast, that's the hope).
 
-{:refdef: style="text-align: center;"}
-[![feature-learning](https://upload.wikimedia.org/wikipedia/commons/0/0b/Feature_Learning_Diagram.png)](https://en.wikipedia.org/wiki/Feature_learning#/media/File:Feature_Learning_Diagram.png)
+{:refdef: style="text-align: center; "}
+[![feature-learning](https://upload.wikimedia.org/wikipedia/commons/0/0b/Feature_Learning_Diagram.png){: data-invert-dark="true"}](https://en.wikipedia.org/wiki/Feature_learning#/media/File:Feature_Learning_Diagram.png)
 {: refdef}
 {:refdef: style="text-align: center;"}
 <sub><sup>Implicit feature representations are learned via pretext tasks and can be used as input for specific downstream tasks. Image from [Fgpacini](https://commons.wikimedia.org/wiki/File:Feature_Learning_Diagram.png), [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons*
@@ -125,7 +126,7 @@ If we are able formulate **pretext tasks**, we can use <mark>self-supervised lea
 
 Any task that doesn't require explitcit labels can be used as a pretext task. The goal is to be able to make use of as much data as possible. This task is not actually the task what the model would finally be required to do, but this task would allow to use much more data via self-supervised learning.
 
-{% include info.html content="For a more comprehensive list of self-supervised pretext tasks, checkout [this page from Papers with Code](https://paperswithcode.com/methods/category/self-supervised-learning), and [this curated list](https://github.com/jason718/awesome-self-supervised-learning) of research in self-supervised learning"%}
+{% include tip.html content="For a more comprehensive list of self-supervised pretext tasks, checkout [this page from Papers with Code](https://paperswithcode.com/methods/category/self-supervised-learning), and [this curated list](https://github.com/jason718/awesome-self-supervised-learning) of research in self-supervised learning"%}
 
 Prediction/Generation and Similarity are the two main concepts that can be exploited to design self-supervised pretext tasks. 
 
@@ -146,7 +147,8 @@ These methods involve artificially manipulating the input and teaching the netwo
 -->
 
 
-> Tasks such as Jigsaw puzzle and transformations of the image are not exactly generative. But, I still like to generalize them as generative. Only that the generation is parameterized to a low dimension, for e.g. classification on hash table for Jigsaw puzzle and regression of angles for rotation.
+{% include info.html content="Tasks such as Jigsaw puzzle and transformations of the image are not exactly generative. But, I still like to generalize them as generative. Only that the generation is parameterized to a low dimension, for e.g. classification on hash table for Jigsaw puzzle and regression of angles for rotation." %}
+
 
 The difficulty in these methods is the parameterization of degradation is dependent on the exact degradation method, making it hard to combine with other manipulations. For example, the parameters of adding gaussian noise are the mean and standard deviation of the gaussian noise function, which can be estimated by the network to subtract and recover the original image. For rotation, this would be the angle, which means there should now be another head to predict the angle if these both are to be combined.
 
@@ -154,18 +156,17 @@ The difficulty in these methods is the parameterization of degradation is depend
 
 Since the main objective in this tasks is to rely on existing unlabeled data for pre-training, one of the main similarities in these tasks is to degrade the input and define a task for the network to reconstruct the original input. For example, \cite{8579073} shuffle and \cite{9879206} remove patches from the image, \cite{rombach2021highresolution} successively apply Gaussian noise to the image -->
 
-Recent notable generative text-to-image models based on denoising diffusion have also been shown to understand and learn feature representations of the objects. 
+Recent notable generative text-to-image models based on denoising diffusion have also been shown to understand and learn feature representations of objects. [A Tale of Two Features](https://sd-complements-dino.github.io/) shows that Stable Diffusion features complement DINO features for zero-shot semantic correspondence, suggesting that generative and discriminative models capture different but complementary aspects of visual understanding.
 
+{:refdef: style="text-align: center;"}
 ![](https://sd-complements-dino.github.io/sd_dino_files/sd_features.png)
-[A Tale of Two Features: Stable Diffusion Complements DINO for Zero-Shot Semantic Correspondence](https://sd-complements-dino.github.io/)
+{: refdef}
+{:refdef: style="text-align: center;"}
+<sub><sup>Diffusion features capture rich semantic information. Source: [A Tale of Two Features](https://sd-complements-dino.github.io/)
+</sup></sub>
+{: refdef}
 
-Concurrently, several impressive studies also leverage diffusion features for semantic correspondence:
-
-Emergent Correspondence from Image Diffusion extracts diffusion features for semantic, geometric, and temporal correspondences.
-
-Unsupervised Semantic Correspondence Using Stable Diffusion optimizes the prompt embedding to highlight regions of interest, and then utilizes it for semantic correspondence.
-
-Diffusion Hyperfeatures: Searching Through Time and Space for Semantic Correspondence employs a trained aggregation network to consolidate multi-scale and multi-timestep diffusion features for semantic correspondence.
+Several concurrent studies further explore diffusion features for semantic understanding: [Emergent Correspondence from Image Diffusion](https://diffusion-correspondence.github.io/) extracts diffusion features for semantic, geometric, and temporal correspondences; [Unsupervised Semantic Correspondence Using Stable Diffusion](https://arxiv.org/abs/2305.15581){:target="_blank"} optimizes prompt embeddings to highlight regions of interest; and [Diffusion Hyperfeatures](https://diffusion-hyperfeatures.github.io/) employs a trained aggregation network to consolidate multi-scale and multi-timestep diffusion features.
 
 ### Feature similarity as a pretext task
 
@@ -189,7 +190,7 @@ Data sampling of the positives and the negatives becomes the key here and differ
 
 One could also sample other images as positives based on methods such as clustering in the feature space or if some kind of labels or GT is known.
 
-Different approaches within the contrastive framework include [iBOT](https://arxiv.org/pdf/2111.07832.pdf) DINO, SEER, MoCo [22], SimCLR [8], BYOL [20] and SwAV [7], [flow equivariance](https://arxiv.org/pdf/2101.06553.pdf)
+Different approaches within the contrastive framework include [iBOT](https://arxiv.org/abs/2111.07832){:target="_blank"}, [DINO](https://arxiv.org/abs/2104.14294){:target="_blank"} (self-distillation with no labels), [SEER](https://arxiv.org/abs/2103.01988){:target="_blank"}[^10] (scaling to billions of images), MoCo[^22] (momentum contrast), SimCLR[^17] (simple contrastive learning), BYOL (bootstrap your own latent, which removes the need for negative samples entirely), SwAV (swapped assignments between views), and approaches using [flow equivariance](https://arxiv.org/abs/2101.06553){:target="_blank"} for learning correspondences. [DINOv2](https://dinov2.metademolab.com/){:target="_blank"} combined self-distillation from DINO with masked image modeling from iBOT, trained on 142 million curated images. It achieved state-of-the-art results on ImageNet linear probing (86.3% with ViT-g/14), segmentation, and depth estimation — all *without any fine-tuning*, using frozen features with simple linear heads.
 
 ### Feature similarity vs. Generative pretext tasks
 
@@ -209,46 +210,60 @@ There have also been efforts to unify different approaches.
 
 The generative pretext tasks can be combined with contrastive pretext tasks. For e.g., [Learning to See by Looking at Noise](https://mbaradad.github.io/learning_with_noise/) combines the generative and feature similarity by generating synthetic images from random processes and having a contrastive loss between crops of synthetic images and real ones.
 
-Other modalities: Contrastive Multiview Coding
+Other modalities can also provide supervision signals. [Contrastive Multiview Coding](https://arxiv.org/abs/1906.05849){:target="_blank"}[^18] uses different sensor modalities (e.g., depth, surface normals) of the same scene as positive pairs, leveraging the inherent multi-view structure of real-world data without any explicit labels.
 
-# Applications
-
-The learnt features can be applied to a huge range of downstream tasks. Generic tasks include image classification, object detection, segmentation, depth estimation, etc. Here, I will mention some less-known but very interesting downstream applications.
-
-<!--
-<div>
-    <img src="https://contrastive-learning.github.io/intriguing/assets/img/multi/img_methods_bi.jpeg" alt="" style="object-fit: cover; object-position: 0 0; text-align: center;">
-</div>
--->
+# Downstream tasks
 
 {:refdef: style="text-align: center;"}
-![multi-task](https://contrastive-learning.github.io/intriguing/assets/img/multi/img_methods_bi.jpeg)
+![multi-task]({{site.baseurl}}/images/multi-task-methods.webp)
 {: refdef}
 {:refdef: style="text-align: center;"}
 <sub><sup> Local regions grouped together after applying K-means on contrastively learnt features. Source: [Intriguing Properties of Contrastive Losses](https://contrastive-learning.github.io/intriguing/)[^14]
 </sup></sub>
 {: refdef}
 
-Semantic Similarity [Deep Features as a Perceptual Metric](The Unreasonable Effectiveness of Deep Features as a Perceptual Metric)[^11]
+The model, trained on a pretext task, can now be used as an image encoder or feature extractor. The encoder is typically frozen and an additional decoder or task head is attached and trained on various downstream tasks, including the following:
 
-Socretic models https://socraticmodels.github.io/
+### Semantic similarity and perceptual metrics
 
-{In-context learning} enables users to provide a query and a few examples from which a model derives an answer without being trained on such queries. https://www.semanticscholar.org/paper/Foundation-models-in-brief%3A-A-historical%2C-focus-Schneider/775b2dc88cf04993f8596332444a906bec2db807 
+Self-supervised features have proven remarkably effective as perceptual metrics. [Deep Features as a Perceptual Metric](https://arxiv.org/abs/1801.03924){:target="_blank"}[^11] demonstrates that distances in deep feature space correlate better with human perception of image similarity than traditional metrics like PSNR or SSIM. This has practical applications in image quality assessment, style transfer, and generative model evaluation.
+
+### Medical imaging
+
+Foundation models have had a transformative impact in medical imaging, where labeled data is expensive and rare. [RETFound](https://www.nature.com/articles/s41586-023-06555-x){:target="_blank"} (Nature, 2023) pre-trained with masked autoencoders on 1.6 million retinal images and demonstrated that self-supervised pre-training can diagnose eye diseases and even systemic conditions from retinal images, outperforming supervised approaches. [UNI](https://www.nature.com/articles/s41591-024-02857-3){:target="_blank"} (Nature Medicine, 2024), a DINOv2-based pathology foundation model trained on over 100,000 diagnostic slides, achieved state-of-the-art on 34 pathology tasks.
+
+### Depth estimation and 3D understanding
+
+[Depth Anything](https://depth-anything.github.io/){:target="_blank"} (2024) used DINOv2 as its backbone encoder and achieved state-of-the-art monocular depth estimation, demonstrating that DINOv2's frozen features capture rich geometric understanding despite being trained on general web images without any depth supervision.
+
+### Autonomous driving and robotics
+
+Multiple works have demonstrated DINOv2 features for 3D object detection, lane detection, and bird's-eye-view perception. In robotics, models like [Theia](https://arxiv.org/abs/2407.20179){:target="_blank"} (2024) distill from multiple self-supervised models (DINOv2, DPT, SAM) to create vision backbones optimized for robotic manipulation tasks.
+
+### Scientific discovery
+
+Self-supervised learning has driven breakthroughs beyond computer vision. [ESM-2](https://www.science.org/doi/10.1126/science.ade2574){:target="_blank"} (Meta, 2023), a protein language model trained with masked language modeling on protein sequences, learned to predict protein structure from sequence alone. In climate science, [Prithvi](https://huggingface.co/ibm-nasa-geospatial){:target="_blank"} (NASA/IBM, 2024) is a geospatial foundation model pre-trained with masked autoencoding on satellite data, enabling flood detection, wildfire mapping, and crop classification.
+
+### Multimodal and compositional models
+
+[Socratic Models](https://socraticmodels.github.io/){:target="_blank"} demonstrate how different pre-trained foundation models can be composed through language to solve complex multimodal tasks — without fine-tuning. In-context learning, where users provide a query and a few examples from which a model derives an answer *without being explicitly trained on such queries*, has emerged as a key capability of foundation models[^19].
 
 
-# Risks, Challanges
+# Risks and Challenges
 
-- {homogenization} of models might replace a myriad of task-specific models with fewer very large models controlled by few corporations leading to a shift in power and control over AI 
+- **Homogenization** of models might replace a myriad of task-specific models with fewer very large models controlled by few corporations, leading to a shift in power and control over AI. If one foundation model has a systematic bias, every downstream application inherits it.
 
 - Modelling pretext tasks involves manual selection of data augmentation techniques which is based on our expert heuristics and introduces human biases into the model. Best would be to design methods that just take a bunch of data and decide for themselves which ones are similar, which ones are not. Like real unsupervised learning. But, that is difficult to design.
 
-- Most research is done on curated object-centric datasets, where the whole image consists of a single object instance. While there is some evidence that it also works for multiple objects[^14], further investigation is needed to check how good the techniques work for generic scenes. Works such as DetCon[^15] and it's follow-up: ODIN[^16], work towards this goal by relying on pre-processing the whole image into object centric ones.
+- Most research is done on curated object-centric datasets, where the whole image consists of a single object instance. While there is some evidence that it also works for multiple objects[^14], further investigation is needed to check how good the techniques work for generic scenes. Works such as DetCon[^15] and its follow-up ODIN[^16] work towards this goal by relying on pre-processing the whole image into object-centric ones.
 
 - Mining positive and negative samples for contrastive learning is crucial for its performance.
 
 - Large amounts of quality data will enable better performance and generalizability to downstream tasks. Different modalities can be used to mine such data, including synthetic data. For filtering high quality data, methods such as active learning need to be incorporated.
 
-TODO: check https://arxiv.org/pdf/2305.15614.pdf
+- **Training data concerns:** Web-crawled datasets contain geographic, demographic, and cultural biases. Copyright and consent issues remain unresolved — many training images were collected without explicit consent. The LAION-5B dataset was temporarily taken down in 2023-2024 after researchers found it contained harmful material, highlighting the challenges of data curation at scale.
+
+- **Scaling efficiency:** Training a ViT-g with DINOv2 requires thousands of GPU-hours on A100s. Methods to address this include progressive resizing, data pruning, and distillation from large teachers to smaller students — but the compute cost remains a significant barrier for academic research groups.
 
 > Checkout my blog post on [Continuous improvement (Active learning) pipeline for scaling with data]({{ site.baseurl }}{% post_url 2022-12-1-Software-2 %})
 {:.no_toc}
@@ -336,6 +351,7 @@ If this article was helpful to you, consider citing
 [^19]: Bommasani, Rishi, et al. ["On the opportunities and risks of foundation models."](https://crfm.stanford.edu/report.html) arXiv preprint arXiv:2108.07258 (2021).
 [^20]: Park, Namuk, et al. "[What Do Self-Supervised Vision Transformers Learn?.](https://arxiv.org/abs/2305.00729)" arXiv preprint arXiv:2305.00729 (2023).
 [^21]: Radford, Alec, Luke Metz, and Soumith Chintala. "[Unsupervised representation learning with deep convolutional generative adversarial networks.](https://arxiv.org/abs/1511.06434)" arXiv preprint arXiv:1511.06434 (2015).
+[^22]: He, Kaiming, et al. "[Momentum contrast for unsupervised visual representation learning.](https://arxiv.org/abs/1911.05722)" Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (2020).
 
 
 *[SIFT]: Scale-invariant feature transform

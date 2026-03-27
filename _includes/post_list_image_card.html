@@ -2,7 +2,7 @@
   {%- if post.image -%}
   <div class="post-card-image">
     <a href="{{ post.url | relative_url }}">
-    <img class="image-preview" src="{{ post.image | relative_url }}" loading="lazy" alt="{{ post.title | escape }}" /></a>
+    <img class="image-preview" src="{{ post.image | relative_url }}" {% if include.eager %}fetchpriority="high"{% else %}loading="lazy"{% endif %} alt="{{ post.title | escape }}" /></a>
   </div>
   {%- endif -%}
   <div class="post-card-body">

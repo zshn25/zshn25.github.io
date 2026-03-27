@@ -8,12 +8,12 @@
 
 {% block input_group -%}
 {%- if cell.metadata.collapse_show -%}
-    <details class="description" open>
+    <details class="description" open markdown="1">
       <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
         <p>{{ super() }}</p>
     </details>
 {%- elif cell.metadata.collapse_hide -%}
-    <details class="description">
+    <details class="description" markdown="1">
       <summary class="btn btn-sm" data-open="Hide Code" data-close="Show Code"></summary>
         <p>{{ super() }}</p>
     </details>

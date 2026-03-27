@@ -64,7 +64,7 @@ search_exclude: true
           <a class="page-meta" href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
           • {{ post.date | date: date_format }}
           {% for category in post.categories %}
-            <a class="category-tags-link label label-default" href="{{site.baseurl}}/categories/#{{category|slugize}}">#{{category}}</a>
+            <a class="category-tags-link label label-default" href="{{site.baseurl}}/categories/#{{category|slugify}}">#{{category}}</a>
           {% endfor %}
         </p>
         {% if post.description %}<p class="post-meta-description">{{ post.description }}</p>{% endif %}

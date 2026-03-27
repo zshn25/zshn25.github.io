@@ -2,7 +2,7 @@
 layout: post
 title:  "Convolution vs. Attention"
 description: "Similarities and differences between convolutions and attention module of Transformers"
-image: https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Vision_Transformer.gif/330px-Vision_Transformer.gif
+image: images/vision_transformer.gif
 date:   2023-03-09 19:21:23 -0700
 categories: deep-learning convolution attention
 author: Zeeshan Khan Suri

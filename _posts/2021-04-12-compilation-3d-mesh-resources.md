@@ -2,7 +2,7 @@
 layout: post
 title:  "Compilation of 3D mesh models"
 description: "Awesome compilation of 3D mesh model datasets and resources for research purposes."
-image: https://deep-geometry.github.io/abc-dataset/assets/images/header.png
+image: images/abc_dataset.webp
 date:   2021-04-14 15:21:23 -0700
 categories: 3d-mesh datasets computer-vision
 author: Zeeshan Khan Suri

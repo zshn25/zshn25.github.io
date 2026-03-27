@@ -2,7 +2,7 @@
 layout: post
 title:  "Is convolution linear?"
 description: "Proof of 1D convolution being a linear operator"
-image: https://upload.wikimedia.org/wikipedia/commons/6/6a/Convolution_of_box_signal_with_itself2.gif
+image: images/convolution_box.gif
 date:   2021-03-11 15:21:23 -0700
 categories: mathematics computer-vision  
 author: Zeeshan Khan Suri

@@ -2,7 +2,7 @@
 layout: post
 title:  "Privacy"
 description: "Why privacy matters? How is your online privacy getting infringed? What can you do about it?"
-image: images/privacy.jpg
+image: images/privacy.webp
 date:   2021-05-13 15:21:23 -0700
 categories: privacy
 author: Zeeshan Khan Suri

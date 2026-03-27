@@ -4,7 +4,7 @@ title:  "Notes on Justice from Plato's Republic"
 description: "What is justice? Is a just person good? Even when the consequences of  being unjust are taken away? Even when the advantages of having the reputation of being just are taken away?"
 date:   2022-02-09 22:21:23 -0700
 comments: true
-image: https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/David_-_The_Death_of_Socrates_-_detail2.jpg/330px-David_-_The_Death_of_Socrates_-_detail2.jpg
+image: images/death_of_socrates.webp
 categories: politics philosophy justice
 author: Zeeshan Khan Suri
 ---

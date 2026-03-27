@@ -48,36 +48,11 @@
     </script>
 {% endif %}
 
-<script>
-function wrap_img(fn) {
-    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
-        var elements = document.querySelectorAll(".post img");
-        Array.prototype.forEach.call(elements, function(el, i) {
-            // Add lazy loading to all post images
-            if (!el.getAttribute("loading")) el.setAttribute("loading", "lazy");
-            if (el.getAttribute("title") && (el.className != "emoji")) {
-                const caption = document.createElement('figcaption');
-                var node = document.createTextNode(el.getAttribute("title"));
-                caption.appendChild(node);
-                const wrapper = document.createElement('figure');
-                wrapper.className = 'image';
-                el.parentNode.insertBefore(wrapper, el);
-                el.parentNode.removeChild(el);
-                wrapper.appendChild(el);
-                wrapper.appendChild(caption);
-            }
-        });
-    } else { document.addEventListener('DOMContentLoaded', fn); }
-}
-window.onload = wrap_img;
-</script>
-
 {% comment %}
-<!-- Dark mode -->
+<!-- Dark mode CSS must come before applytheme.js so it can find #dark-css -->
 {% endcomment %}
+<link id="dark-css" href="{{ '/assets/css/dark.css' | relative_url }}" rel="stylesheet" media="(prefers-color-scheme: dark)">
 <script src="{{ '/assets/js/applytheme.js' | relative_url }}"></script>
 <script src="{{ '/assets/js/consent-gate.js' | relative_url }}"></script>
 <script src="{{ '/assets/js/vendor/lunr.min.js' | relative_url }}" defer></script>
 <script src="{{ '/assets/js/main.js' | relative_url }}" defer></script>
-
-<link id="dark-css" href="{{ '/assets/css/dark.css' | relative_url }}" rel="stylesheet" media="(prefers-color-scheme: dark)">

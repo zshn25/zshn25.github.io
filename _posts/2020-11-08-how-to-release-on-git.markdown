@@ -2,7 +2,7 @@
 layout: post
 title:  "How to Release on Github"
 description: "Create releases of your repository and deliver versions of code deployments on GitHub"
-image: https://octodex.github.com/images/octonaut.jpg
+image: images/octonaut.webp
 date:   2020-11-08 18:44:35 -0500
 categories: github tags releases
 author: Zeeshan Khan Suri

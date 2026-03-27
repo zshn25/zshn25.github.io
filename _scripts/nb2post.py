@@ -134,16 +134,17 @@ def process_collapse_directives(content):
         code = m.group(3)
         fence_close = m.group(4)
 
+        # markdown="1" tells kramdown to parse markdown (fenced code) inside <details>
         if mode == "hide":
             return (
-                f'<details class="cell-collapse">\n'
+                f'<details class="cell-collapse" markdown="1">\n'
                 f'<summary>Show code</summary>\n\n'
                 f'{fence_open}\n{code}{fence_close}\n\n'
                 f'</details>'
             )
         else:  # show
             return (
-                f'<details class="cell-collapse" open>\n'
+                f'<details class="cell-collapse" open markdown="1">\n'
                 f'<summary>Hide code</summary>\n\n'
                 f'{fence_open}\n{code}{fence_close}\n\n'
                 f'</details>'

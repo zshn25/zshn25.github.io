@@ -70,7 +70,9 @@ if (typeof loadYouTube === 'undefined') {
         container.appendChild(iframe);
         el.innerHTML = '';
         el.appendChild(container);
-        iframe.src = 'https://www.youtube-nocookie.com/embed/' + embedPath;
+        // Use origin=location.origin to prevent 153 errors on mobile
+        var sep = embedPath.indexOf('?') > -1 ? '&' : '?';
+        iframe.src = 'https://www.youtube-nocookie.com/embed/' + embedPath + sep + 'origin=' + encodeURIComponent(location.origin);
     }
 }
 </script>
