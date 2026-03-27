@@ -58,42 +58,17 @@
     </script>
 
 
-<script>
-function wrap_img(fn) {
-    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
-        var elements = document.querySelectorAll(".post img");
-        Array.prototype.forEach.call(elements, function(el, i) {
-            // Add lazy loading to all post images
-            if (!el.getAttribute("loading")) el.setAttribute("loading", "lazy");
-            if (el.getAttribute("title") && (el.className != "emoji")) {
-                const caption = document.createElement('figcaption');
-                var node = document.createTextNode(el.getAttribute("title"));
-                caption.appendChild(node);
-                const wrapper = document.createElement('figure');
-                wrapper.className = 'image';
-                el.parentNode.insertBefore(wrapper, el);
-                el.parentNode.removeChild(el);
-                wrapper.appendChild(el);
-                wrapper.appendChild(caption);
-            }
-        });
-    } else { document.addEventListener('DOMContentLoaded', fn); }
-}
-window.onload = wrap_img;
-</script>
 
-
+<link id="dark-css" href="/assets/css/dark.css" rel="stylesheet" media="(prefers-color-scheme: dark)">
 <script src="/assets/js/applytheme.js"></script>
 <script src="/assets/js/consent-gate.js"></script>
 <script src="/assets/js/vendor/lunr.min.js" defer></script>
 <script src="/assets/js/main.js" defer></script>
-
-<link id="dark-css" href="/assets/css/dark.css" rel="stylesheet" media="(prefers-color-scheme: dark)">
 </head>
 <body><header class="site-header fixed-top">
   <div class="wrapper header-wrapper">
     <a class="site-title no-underline" rel="author" href="/">
-      <img src="/images/logo.png" style="max-width:40px;" alt="Curiosity logo" width="40" height="40">
+      <img src="/images/logo.webp" style="max-width:40px;" alt="Curiosity logo" width="40" height="40">
       Curiosity
     </a><nav class="site-nav">
       <input type="checkbox" id="nav-trigger" class="nav-trigger" />
@@ -142,6 +117,14 @@ window.onload = wrap_img;
 
 
   
+    
+      
+      
+      
+    
+      
+      
+      
     
       
         
@@ -346,21 +329,17 @@ window.onload = wrap_img;
     <li>
       <article class="archive-item">
         <p class="post-meta post-meta-title">
-          <a class="page-meta" href="/inference_optimizations_benchmark/">Inference Speedup Benchmark — Depth Anything v3 (Metric-Large)</a>
+          <a class="page-meta" href="/inference_optimizations_benchmark/">Inference Speedup Benchmark</a>
           • Mar 24, 2026
           
-            <a class="category-tags-link label label-default" href="/categories/#pytorch">#pytorch</a>
-          
-            <a class="category-tags-link label label-default" href="/categories/#inference">#inference</a>
-          
-            <a class="category-tags-link label label-default" href="/categories/#optimization">#optimization</a>
+            <a class="category-tags-link label label-default" href="/categories/#runtime-optimization">#runtime-optimization</a>
           
             <a class="category-tags-link label label-default" href="/categories/#gpu">#gpu</a>
           
-            <a class="category-tags-link label label-default" href="/categories/#depth-estimation">#depth-estimation</a>
+            <a class="category-tags-link label label-default" href="/categories/#deep-learning">#deep-learning</a>
           
         </p>
-        <p class="post-meta-description">benchmarked on a real depth estimation model.</p>
+        <p class="post-meta-description">Guide to CUDA GPU inference optimizations, benchmarked on a state-of-the-art Pytorch depth estimation model.</p>
       </article>
     </li>
     
@@ -465,7 +444,7 @@ window.onload = wrap_img;
           <a class="page-meta" href="/c++-vector-mwe-tutorial/">A minimal working example of a custom Vector class in C++</a>
           • May 13, 2021
           
-            <a class="category-tags-link label label-default" href="/categories/#c++">#c++</a>
+            <a class="category-tags-link label label-default" href="/categories/#c">#c++</a>
           
             <a class="category-tags-link label label-default" href="/categories/#vector">#vector</a>
           
@@ -499,7 +478,7 @@ window.onload = wrap_img;
           
             <a class="category-tags-link label label-default" href="/categories/#pytorch">#pytorch</a>
           
-            <a class="category-tags-link label label-default" href="/categories/#fast-inference">#fast-inference</a>
+            <a class="category-tags-link label label-default" href="/categories/#runtime-optimization">#runtime-optimization</a>
           
         </p>
         <p class="post-meta-description">How to fuse all convolution and batch normalization layers in a Pytorch model during test time for faster inference</p>
@@ -680,7 +659,7 @@ window.onload = wrap_img;
           
             <a class="category-tags-link label label-default" href="/categories/#religion">#religion</a>
           
-            <a class="category-tags-link label label-default" href="/categories/#Islam">#Islam</a>
+            <a class="category-tags-link label label-default" href="/categories/#islam">#Islam</a>
           
             <a class="category-tags-link label label-default" href="/categories/#philosophy">#philosophy</a>
           
@@ -805,8 +784,8 @@ window.onload = wrap_img;
         </p>
         <ul class="contact-list">
           <li class="p-name">© Zeeshan Khan Suri </li>
-          <li><div xmlns:cc="http://creativecommons.org/ns#" > Text under  <a href="http://creativecommons.org/licenses/by-nc/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/cc.svg" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/by.svg" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/nc.svg" alt="NC"></a> unless stated otherwise. Images and other media have their own copyright. </div></li>
-          <li><a class="u-email" href="mailto:zshn25[at]gmail[dot]com">zshn25[at]gmail[dot]com</a></li>
+          <li><div xmlns:cc="http://creativecommons.org/ns#" > Text under  <a href="https://creativecommons.org/licenses/by-nc/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/cc.svg" alt="CC" width="22" height="22"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/by.svg" alt="BY" width="22" height="22"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/nc.svg" alt="NC" width="22" height="22"></a> unless stated otherwise. Images and other media have their own copyright. </div></li>
+          <li><span class="u-email">zshn25[at]gmail[dot]com</span></li>
         </ul>
       </div>
       <div class="footer-col">

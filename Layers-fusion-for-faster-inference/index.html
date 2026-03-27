@@ -61,42 +61,17 @@
     </script>
 
 
-<script>
-function wrap_img(fn) {
-    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
-        var elements = document.querySelectorAll(".post img");
-        Array.prototype.forEach.call(elements, function(el, i) {
-            // Add lazy loading to all post images
-            if (!el.getAttribute("loading")) el.setAttribute("loading", "lazy");
-            if (el.getAttribute("title") && (el.className != "emoji")) {
-                const caption = document.createElement('figcaption');
-                var node = document.createTextNode(el.getAttribute("title"));
-                caption.appendChild(node);
-                const wrapper = document.createElement('figure');
-                wrapper.className = 'image';
-                el.parentNode.insertBefore(wrapper, el);
-                el.parentNode.removeChild(el);
-                wrapper.appendChild(el);
-                wrapper.appendChild(caption);
-            }
-        });
-    } else { document.addEventListener('DOMContentLoaded', fn); }
-}
-window.onload = wrap_img;
-</script>
 
-
+<link id="dark-css" href="/assets/css/dark.css" rel="stylesheet" media="(prefers-color-scheme: dark)">
 <script src="/assets/js/applytheme.js"></script>
 <script src="/assets/js/consent-gate.js"></script>
 <script src="/assets/js/vendor/lunr.min.js" defer></script>
 <script src="/assets/js/main.js" defer></script>
-
-<link id="dark-css" href="/assets/css/dark.css" rel="stylesheet" media="(prefers-color-scheme: dark)">
 </head>
 <body><header class="site-header fixed-top">
   <div class="wrapper header-wrapper">
     <a class="site-title no-underline" rel="author" href="/">
-      <img src="/images/logo.png" style="max-width:40px;" alt="Curiosity logo" width="40" height="40">
+      <img src="/images/logo.webp" style="max-width:40px;" alt="Curiosity logo" width="40" height="40">
       Curiosity
     </a><nav class="site-nav">
       <input type="checkbox" id="nav-trigger" class="nav-trigger" />
@@ -150,7 +125,7 @@ window.onload = wrap_img;
       "@id": "https://zshn25.github.io/Layers-fusion-for-faster-inference/"
     },
     "image": "https://zshn25.github.io/images/neural-network-3816319.svg",
-    "keywords": ["deep-learning","pytorch","fast-inference"]
+    "keywords": ["deep-learning","pytorch","runtime-optimization"]
   }
   </script>
   
@@ -204,7 +179,7 @@ window.onload = wrap_img;
         <a class="category-tags-link label label-default" href="/?tag=pytorch">#pytorch</a>
         &nbsp;
       
-        <a class="category-tags-link label label-default" href="/?tag=fast-inference">#fast-inference</a>
+        <a class="category-tags-link label label-default" href="/?tag=runtime-optimization">#runtime-optimization</a>
         
       
       </p>
@@ -248,7 +223,7 @@ window.onload = wrap_img;
     
 
     <div class="post-content e-content" itemprop="articleBody">
-      <p>In the <a href="/is-convolution-linear/">previous post</a>, we proved that convolutions are linear. There are other linear layers in a neural network such as a batch normalization layer. A batch normalization layer [normalizes](https://en.wikipedia.org/wiki/Normalization_(statistics) its input batch to have zero mean and unit standard deviation, which are calculated from the input batch.<sup id="fnref-1" class="footnote-ref"><a href="#fn-1">1</a></sup> It basically translates/shifts and scales the input batch, thus being a linear operation. In many network architectures such as ResNets<sup id="fnref-2" class="footnote-ref"><a href="#fn-2">2</a></sup> and DenseNets<sup id="fnref-3" class="footnote-ref"><a href="#fn-3">3</a></sup>, a convolutional layer followed by a batch norm layer is used.</p>
+      <p>In the <a href="/is-convolution-linear/">previous post</a>, we proved that convolutions are linear. There are other linear layers in a neural network such as a batch normalization layer. A batch normalization layer <a href="https://en.wikipedia.org/wiki/Normalization_(statistics)">normalizes</a> its input batch to have zero mean and unit standard deviation, which are calculated from the input batch.<sup id="fnref-1" class="footnote-ref"><a href="#fn-1">1</a></sup> It basically translates/shifts and scales the input batch, thus being a linear operation. In many network architectures such as ResNets<sup id="fnref-2" class="footnote-ref"><a href="#fn-2">2</a></sup> and DenseNets<sup id="fnref-3" class="footnote-ref"><a href="#fn-3">3</a></sup>, a convolutional layer followed by a batch norm layer is used.</p>
 
 <p>During training, the mean and standard deviation of the input batch are used in the batch normalization and are eventually learnt. During inference, these estimates of mean and standard deviation are used instead. The idea of this post is to fuse these two consecutive layers during inference, thereby reducing computation and thus inference time.</p>
 
@@ -288,29 +263,28 @@ window.onload = wrap_img;
 <p>Fusing all convolution and batch norm layers of ResNet101 makes the resulting model <strong>~25% faster</strong> with negligible difference in the model’s output.</p>
 
 <details class="cell-collapse" open="">
-<summary>Hide code</summary>
+  <summary>Hide code</summary>
 
-```python
-import torch
-from torchvision.models.resnet import resnet101
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">torch</span>
+<span class="kn">from</span> <span class="n">torchvision.models.resnet</span> <span class="kn">import</span> <span class="n">resnet101</span>
 
-model=resnet101(pretrained=True).to('cuda')
-model.eval()
-rand_input = torch.randn((1,3,256,256)).to('cuda')
+<span class="n">model</span><span class="o">=</span><span class="nf">resnet101</span><span class="p">(</span><span class="n">pretrained</span><span class="o">=</span><span class="bp">True</span><span class="p">).</span><span class="nf">to</span><span class="p">(</span><span class="sh">'</span><span class="s">cuda</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">model</span><span class="p">.</span><span class="nf">eval</span><span class="p">()</span>
+<span class="n">rand_input</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nf">randn</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">256</span><span class="p">,</span><span class="mi">256</span><span class="p">)).</span><span class="nf">to</span><span class="p">(</span><span class="sh">'</span><span class="s">cuda</span><span class="sh">'</span><span class="p">)</span>
 
-# Forward pass
-output = model(rand_input)
-print("Inference time before fusion:")
-%timeit model(rand_input)
+<span class="c1"># Forward pass
+</span><span class="n">output</span> <span class="o">=</span> <span class="nf">model</span><span class="p">(</span><span class="n">rand_input</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Inference time before fusion:</span><span class="sh">"</span><span class="p">)</span>
+<span class="o">%</span><span class="n">timeit</span> <span class="nf">model</span><span class="p">(</span><span class="n">rand_input</span><span class="p">)</span>
 
-# Fuse Conv BN
-fuse_all_conv_bn(model)
-print("\nInference time after fusion:")
-%timeit model(rand_input)
-# compare result
-print("\nError between outputs before and after fusion:")
-torch.norm(torch.abs(output - model(rand_input))).data
-```
+<span class="c1"># Fuse Conv BN
+</span><span class="nf">fuse_all_conv_bn</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="se">\n</span><span class="s">Inference time after fusion:</span><span class="sh">"</span><span class="p">)</span>
+<span class="o">%</span><span class="n">timeit</span> <span class="nf">model</span><span class="p">(</span><span class="n">rand_input</span><span class="p">)</span>
+<span class="c1"># compare result
+</span><span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="se">\n</span><span class="s">Error between outputs before and after fusion:</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">torch</span><span class="p">.</span><span class="nf">norm</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="nf">abs</span><span class="p">(</span><span class="n">output</span> <span class="o">-</span> <span class="nf">model</span><span class="p">(</span><span class="n">rand_input</span><span class="p">))).</span><span class="n">data</span>
+</code></pre></div>  </div>
 
 </details>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Inference time before fusion:
@@ -391,7 +365,7 @@ Copyright (c) 2020 Usecue BV -->
 <div style="text-align: center;">
     <span style="color: rgb(134, 134, 134);">Share on : </span>
     <div id="share-buttons">
-        <div class="facebook" title="Share this on Facebook" onclick="window.open('http://www.facebook.com/share.php?u=https://zshn25.github.io/Layers-fusion-for-faster-inference/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
+        <div class="facebook" title="Share this on Facebook" onclick="window.open('https://www.facebook.com/share.php?u=https://zshn25.github.io/Layers-fusion-for-faster-inference/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
         <div class="twitter" title="Share this on Twitter" onclick="window.open('https://twitter.com/intent/tweet?text=Layers fusion for faster neural network inference&url=https://zshn25.github.io/Layers-fusion-for-faster-inference/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></div>
         <div class="linkedin" title="Share this on Linkedin" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=https://zshn25.github.io/Layers-fusion-for-faster-inference/&title=&summary=&source=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></div>
         <!-- <div class="pinterest" title="Share this on Pinterest" onclick="window.open('https://pinterest.com/pin/create/button/?url=&media=https://zshn25.github.ioimages/neural-network-3816319.svg&description=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M256 597q0-108 37.5-203.5t103.5-166.5 152-123 185-78 202-26q158 0 294 66.5t221 193.5 85 287q0 96-19 188t-60 177-100 149.5-145 103-189 38.5q-68 0-135-32t-96-88q-10 39-28 112.5t-23.5 95-20.5 71-26 71-32 62.5-46 77.5-62 86.5l-14 5-9-10q-15-157-15-188 0-92 21.5-206.5t66.5-287.5 52-203q-32-65-32-169 0-83 52-156t132-73q61 0 95 40.5t34 102.5q0 66-44 191t-44 187q0 63 45 104.5t109 41.5q55 0 102-25t78.5-68 56-95 38-110.5 20-111 6.5-99.5q0-173-109.5-269.5t-285.5-96.5q-200 0-334 129.5t-134 328.5q0 44 12.5 85t27 65 27 45.5 12.5 30.5q0 28-15 73t-37 45q-2 0-17-3-51-15-90.5-56t-61-94.5-32.5-108-11-106.5z"/></svg></div> -->
@@ -422,14 +396,17 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
             
 
             
-                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-body">
+                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
+    <a href="/inference_optimizations_benchmark/">
+    <img class="image-preview" src="/images%5C2026-03-24-inference_optimizations_benchmark%5Coutput_80_1.png" loading="lazy" alt="Inference Speedup Benchmark" /></a>
+  </div><div class="post-card-body">
       <h3>
         
         
           
       
       <a class="post-link" href="/inference_optimizations_benchmark/">
-        Inference Speedup Benchmark — Depth Anything v3 (Metric-Large)
+        Inference Speedup Benchmark
       </a>
       
     
@@ -442,7 +419,7 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
       • <i class="far fa-clock"></i> <span class="read-time" title="Estimated read time">
     
     
-      89 mins read
+      42 mins read
     
 </span>
 </p>
@@ -450,19 +427,13 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
         
         <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link" href="/?tag=pytorch">#pytorch</a>
-          &nbsp;
-          
-          <a class="category-tags-link" href="/?tag=inference">#inference</a>
-          &nbsp;
-          
-          <a class="category-tags-link" href="/?tag=optimization">#optimization</a>
+          <a class="category-tags-link" href="/?tag=runtime-optimization">#runtime-optimization</a>
           &nbsp;
           
           <a class="category-tags-link" href="/?tag=gpu">#gpu</a>
           &nbsp;
           
-          <a class="category-tags-link" href="/?tag=depth-estimation">#depth-estimation</a>
+          <a class="category-tags-link" href="/?tag=deep-learning">#deep-learning</a>
           
           
         </p>
@@ -497,7 +468,7 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
             
                 <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
     <a href="/pc4consistentdepth/">
-    <img class="image-preview" src="/images/3dreco/out-poster.jpg" loading="lazy" alt="Pose Constraints for Self-supervised Monocular Depth and Ego-Motion" /></a>
+    <img class="image-preview" src="/images/3dreco/out-poster.webp" loading="lazy" alt="Pose Constraints for Self-supervised Monocular Depth and Ego-Motion" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -564,7 +535,7 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
             
                 <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
     <a href="/CNNs-vs-Transformers/">
-    <img class="image-preview" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Vision_Transformer.gif/330px-Vision_Transformer.gif" loading="lazy" alt="Convolution vs. Attention" /></a>
+    <img class="image-preview" src="/images/vision_transformer.gif" loading="lazy" alt="Convolution vs. Attention" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -791,8 +762,8 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
         </p>
         <ul class="contact-list">
           <li class="p-name">© Zeeshan Khan Suri </li>
-          <li><div xmlns:cc="http://creativecommons.org/ns#" > Text under  <a href="http://creativecommons.org/licenses/by-nc/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/cc.svg" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/by.svg" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/nc.svg" alt="NC"></a> unless stated otherwise. Images and other media have their own copyright. </div></li>
-          <li><a class="u-email" href="mailto:zshn25[at]gmail[dot]com">zshn25[at]gmail[dot]com</a></li>
+          <li><div xmlns:cc="http://creativecommons.org/ns#" > Text under  <a href="https://creativecommons.org/licenses/by-nc/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/cc.svg" alt="CC" width="22" height="22"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/by.svg" alt="BY" width="22" height="22"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/nc.svg" alt="NC" width="22" height="22"></a> unless stated otherwise. Images and other media have their own copyright. </div></li>
+          <li><span class="u-email">zshn25[at]gmail[dot]com</span></li>
         </ul>
       </div>
       <div class="footer-col">

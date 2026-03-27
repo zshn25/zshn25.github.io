@@ -17,14 +17,14 @@
 <link rel="canonical" href="https://zshn25.github.io/self-supervision-for-foundation-models/" />
 <meta property="og:url" content="https://zshn25.github.io/self-supervision-for-foundation-models/" />
 <meta property="og:site_name" content="Curiosity" />
-<meta property="og:image" content="https://zshn25.github.io/images/foundation.jpeg" />
+<meta property="og:image" content="https://zshn25.github.io/images/foundation.webp" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2023-05-12T03:21:23+00:00" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta property="twitter:image" content="https://zshn25.github.io/images/foundation.jpeg" />
+<meta property="twitter:image" content="https://zshn25.github.io/images/foundation.webp" />
 <meta property="twitter:title" content="Self-supervised learning for vision foundation models" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Zeeshan Khan Suri"},"dateModified":"2023-05-12T03:21:23+00:00","datePublished":"2023-05-12T03:21:23+00:00","description":"How self-supervised learning enables large-scale vision foundation models by learning from unlabeled data through pretext tasks like contrastive learning and masked image modeling.","headline":"Self-supervised learning for vision foundation models","image":"https://zshn25.github.io/images/foundation.jpeg","mainEntityOfPage":{"@type":"WebPage","@id":"https://zshn25.github.io/self-supervision-for-foundation-models/"},"url":"https://zshn25.github.io/self-supervision-for-foundation-models/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Zeeshan Khan Suri"},"dateModified":"2023-05-12T03:21:23+00:00","datePublished":"2023-05-12T03:21:23+00:00","description":"How self-supervised learning enables large-scale vision foundation models by learning from unlabeled data through pretext tasks like contrastive learning and masked image modeling.","headline":"Self-supervised learning for vision foundation models","image":"https://zshn25.github.io/images/foundation.webp","mainEntityOfPage":{"@type":"WebPage","@id":"https://zshn25.github.io/self-supervision-for-foundation-models/"},"url":"https://zshn25.github.io/self-supervision-for-foundation-models/"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><!-- Self-hosted vendor CSS (no cross-origin requests for privacy) -->
 <!-- Primer utility classes are now inlined via _sass/minima/_primer-utilities.scss -->
@@ -61,42 +61,17 @@
     </script>
 
 
-<script>
-function wrap_img(fn) {
-    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
-        var elements = document.querySelectorAll(".post img");
-        Array.prototype.forEach.call(elements, function(el, i) {
-            // Add lazy loading to all post images
-            if (!el.getAttribute("loading")) el.setAttribute("loading", "lazy");
-            if (el.getAttribute("title") && (el.className != "emoji")) {
-                const caption = document.createElement('figcaption');
-                var node = document.createTextNode(el.getAttribute("title"));
-                caption.appendChild(node);
-                const wrapper = document.createElement('figure');
-                wrapper.className = 'image';
-                el.parentNode.insertBefore(wrapper, el);
-                el.parentNode.removeChild(el);
-                wrapper.appendChild(el);
-                wrapper.appendChild(caption);
-            }
-        });
-    } else { document.addEventListener('DOMContentLoaded', fn); }
-}
-window.onload = wrap_img;
-</script>
 
-
+<link id="dark-css" href="/assets/css/dark.css" rel="stylesheet" media="(prefers-color-scheme: dark)">
 <script src="/assets/js/applytheme.js"></script>
 <script src="/assets/js/consent-gate.js"></script>
 <script src="/assets/js/vendor/lunr.min.js" defer></script>
 <script src="/assets/js/main.js" defer></script>
-
-<link id="dark-css" href="/assets/css/dark.css" rel="stylesheet" media="(prefers-color-scheme: dark)">
 </head>
 <body><header class="site-header fixed-top">
   <div class="wrapper header-wrapper">
     <a class="site-title no-underline" rel="author" href="/">
-      <img src="/images/logo.png" style="max-width:40px;" alt="Curiosity logo" width="40" height="40">
+      <img src="/images/logo.webp" style="max-width:40px;" alt="Curiosity logo" width="40" height="40">
       Curiosity
     </a><nav class="site-nav">
       <input type="checkbox" id="nav-trigger" class="nav-trigger" />
@@ -149,7 +124,7 @@ window.onload = wrap_img;
       "@type": "WebPage",
       "@id": "https://zshn25.github.io/self-supervision-for-foundation-models/"
     },
-    "image": "https://zshn25.github.io/images/foundation.jpeg",
+    "image": "https://zshn25.github.io/images/foundation.webp",
     "keywords": ["computer-vision","large-neural-networks","foundation-models","self-supervision"]
   }
   </script>
@@ -190,7 +165,7 @@ window.onload = wrap_img;
        • <i class="far fa-clock"></i> <span class="read-time" title="Estimated read time">
     
     
-      16 mins read
+      20 mins read
     
 </span>
 </p>
@@ -237,7 +212,7 @@ window.onload = wrap_img;
         
       </h2>
     
-        <ul><li><a href="#what-are-foundation-models" class="toc-link">What are foundation models?</a></li><li><a href="#history-feature-representations-of-images" class="toc-link">History: Feature representations of images</a><ul><li><a href="#features-of-good-features" class="toc-link">Features of good features</a></li></ul></li><li><a href="#learning-features" class="toc-link">Learning features</a></li><li><a href="#the-need-for-foundation-models" class="toc-link">The need for foundation models</a></li><li><a href="#pretext-tasks-for-images" class="toc-link">Pretext tasks for images</a><ul><li><a href="#generative-pretext-tasks-based-on-restoration" class="toc-link">Generative pretext tasks based on restoration</a></li><li><a href="#feature-similarity-as-a-pretext-task" class="toc-link">Feature similarity as a pretext task</a><ul><li><a href="#contrastive-learning" class="toc-link">Contrastive learning</a></li></ul></li><li><a href="#feature-similarity-vs-generative-pretext-tasks" class="toc-link">Feature similarity vs. Generative pretext tasks</a></li><li><a href="#other-pretext-tasks" class="toc-link">Other pretext tasks</a></li></ul></li><li><a href="#language-foundation-models-llm-and-beyond" class="toc-link">Language Foundation models (LLM) and beyond</a></li><li><a href="#lectures--videos" class="toc-link">Lectures / Videos</a></li><li><a href="#libraries" class="toc-link">Libraries</a></li><li><a href="#read" class="toc-link">Read</a></li><li><a href="#data" class="toc-link">Data</a></li></ul>
+        <ul><li><a href="#what-are-foundation-models" class="toc-link">What are foundation models?</a></li><li><a href="#history-feature-representations-of-images" class="toc-link">History: Feature representations of images</a><ul><li><a href="#features-of-good-features" class="toc-link">Features of good features</a></li></ul></li><li><a href="#learning-features" class="toc-link">Learning features</a></li><li><a href="#the-need-for-foundation-models" class="toc-link">The need for foundation models</a></li><li><a href="#pretext-tasks-for-images" class="toc-link">Pretext tasks for images</a><ul><li><a href="#generative-pretext-tasks-based-on-restoration" class="toc-link">Generative pretext tasks based on restoration</a></li><li><a href="#feature-similarity-as-a-pretext-task" class="toc-link">Feature similarity as a pretext task</a><ul><li><a href="#contrastive-learning" class="toc-link">Contrastive learning</a></li></ul></li><li><a href="#feature-similarity-vs-generative-pretext-tasks" class="toc-link">Feature similarity vs. Generative pretext tasks</a></li><li><a href="#other-pretext-tasks" class="toc-link">Other pretext tasks</a></li><li><a href="#semantic-similarity-and-perceptual-metrics" class="toc-link">Semantic similarity and perceptual metrics</a></li><li><a href="#medical-imaging" class="toc-link">Medical imaging</a></li><li><a href="#depth-estimation-and-3d-understanding" class="toc-link">Depth estimation and 3D understanding</a></li><li><a href="#autonomous-driving-and-robotics" class="toc-link">Autonomous driving and robotics</a></li><li><a href="#scientific-discovery" class="toc-link">Scientific discovery</a></li><li><a href="#multimodal-and-compositional-models" class="toc-link">Multimodal and compositional models</a></li></ul></li><li><a href="#language-foundation-models-llm-and-beyond" class="toc-link">Language Foundation models (LLM) and beyond</a></li><li><a href="#lectures--videos" class="toc-link">Lectures / Videos</a></li><li><a href="#libraries" class="toc-link">Libraries</a></li><li><a href="#read" class="toc-link">Read</a></li><li><a href="#data" class="toc-link">Data</a></li></ul>
       </nav>
     </aside>
     
@@ -317,11 +292,11 @@ window.onload = wrap_img;
   <p>Checkout my blog post on <a href="/ResNet-feature-pyramid-in-Pytorch/">How to extract Feature Pyramids from torchvison models</a></p>
 </blockquote>
 
-<p style="text-align: center;"><a href="https://commons.wikimedia.org/wiki/File:Denoising-autoencoder.png"><img src="https://upload.wikimedia.org/wikipedia/commons/1/18/Denoising-autoencoder.png" alt="feature-learning" /></a></p>
+<p style="text-align: center;"><a href="https://commons.wikimedia.org/wiki/File:Denoising-autoencoder.png"><img src="https://upload.wikimedia.org/wikipedia/commons/1/18/Denoising-autoencoder.png" alt="feature-learning" data-invert-dark="true" /></a></p>
 <p style="text-align: center;"><sub><sup>. Image from <a href="https://commons.wikimedia.org/wiki/File:Denoising-autoencoder.png">neerajkrbansal1996</a>, CC0, via Wikimedia Commons*
 </sup></sub></p>
 
-<p>As early as in 2009, the idea to use self-supervised learning for</p>
+<p>As early as 2009, the idea of using self-supervised learning for feature extraction emerged with denoising autoencoders<sup id="fnref:9"><a href="#fn:9" class="footnote" rel="footnote" role="doc-noteref">4</a></sup>, which learn to reconstruct input images from corrupted versions. This planted the seed for what would become one of the most productive research directions in deep learning — learning representations from unlabeled data.</p>
       <h2 id="the-need-for-foundation-models">
         
         
@@ -333,7 +308,7 @@ window.onload = wrap_img;
 
 <p>If you’re thinking, if existing models already extract features, why is there a need for foundation models?</p>
 
-<p>You are absolutely right. Existing models such as YOLO<sup id="fnref:3"><a href="#fn:3" class="footnote" rel="footnote" role="doc-noteref">4</a></sup> object detection, extract features, which are further passed to the object-detection head. But, there are two reasons where foundation models come into play.</p>
+<p>You are absolutely right. Existing models such as YOLO<sup id="fnref:3"><a href="#fn:3" class="footnote" rel="footnote" role="doc-noteref">5</a></sup> object detection, extract features, which are further passed to the object-detection head. But, there are two reasons where foundation models come into play.</p>
 
 <ol>
   <li>The features extracted from Yolo are <strong>task-specific</strong>. Features that are useful for object-detection, might not be useful or optimal for other tasks, for example, for depth estimation. We want our ideal features to be <strong>task-agnostic</strong>. The reasoning behind this is the underlying assumption that there exist features that are useful for all kinds of tasks, just as we saw in the traditional feature detectors and descriptors like <abbr title="Scale-invariant feature transform">SIFT</abbr>.</li>
@@ -397,7 +372,9 @@ if (typeof loadYouTube === 'undefined') {
         container.appendChild(iframe);
         el.innerHTML = '';
         el.appendChild(container);
-        iframe.src = 'https://www.youtube-nocookie.com/embed/' + embedPath;
+        // Use origin=location.origin to prevent 153 errors on mobile
+        var sep = embedPath.indexOf('?') > -1 ? '&' : '?';
+        iframe.src = 'https://www.youtube-nocookie.com/embed/' + embedPath + sep + 'origin=' + encodeURIComponent(location.origin);
     }
 }
 </script>
@@ -415,7 +392,7 @@ if (typeof loadYouTube === 'undefined') {
 
 <p>If we are able formulate <strong>pretext tasks</strong>, we can use <mark>self-supervised learning</mark> to <mark>learn good data representations and general concepts from massively-available, unlabelled data</mark>, we can use such models directly (without fine-tuning, Zero-Shot) for multiple <strong>downstream tasks</strong>. (atleast, that’s the hope).</p>
 
-<p style="text-align: center;"><a href="https://en.wikipedia.org/wiki/Feature_learning#/media/File:Feature_Learning_Diagram.png"><img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Feature_Learning_Diagram.png" alt="feature-learning" /></a></p>
+<p style="text-align: center;"><a href="https://en.wikipedia.org/wiki/Feature_learning#/media/File:Feature_Learning_Diagram.png"><img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Feature_Learning_Diagram.png" alt="feature-learning" data-invert-dark="true" /></a></p>
 <p style="text-align: center;"><sub><sup>Implicit feature representations are learned via pretext tasks and can be used as input for specific downstream tasks. Image from <a href="https://commons.wikimedia.org/wiki/File:Feature_Learning_Diagram.png">Fgpacini</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>, via Wikimedia Commons*
 </sup></sub></p>
       <h2 id="pretext-tasks-for-images">
@@ -429,8 +406,8 @@ if (typeof loadYouTube === 'undefined') {
 
 <p>Any task that doesn’t require explitcit labels can be used as a pretext task. The goal is to be able to make use of as much data as possible. This task is not actually the task what the model would finally be required to do, but this task would allow to use much more data via self-supervised learning.</p>
 
-<div class="markdown-alert markdown-alert-note" role="alert">
-  <p class="markdown-alert-title"><svg viewBox="0 0 16 16" width="16" height="16" style="display:inline-block;vertical-align:text-bottom;margin-right:0.4em"><path fill="#0969da" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<div class="markdown-alert markdown-alert-tip" role="alert">
+  <p class="markdown-alert-title"><svg viewBox="0 0 16 16" width="16" height="16" style="display:inline-block;vertical-align:text-bottom;margin-right:0.4em"><path fill="#1a7f37" d="M8 1.5c-2.363 0-4 1.69-4 3.75 0 .984.424 1.625.984 2.304l.214.253c.223.264.47.556.673.848.284.411.537.896.621 1.49a.75.75 0 0 1-1.484.211c-.04-.282-.163-.547-.37-.847a8.456 8.456 0 0 0-.542-.68c-.084-.1-.173-.205-.268-.32C3.201 7.75 2.5 6.766 2.5 5.25 2.5 2.31 4.863 0 8 0s5.5 2.31 5.5 5.25c0 1.516-.701 2.5-1.328 3.259-.095.115-.184.22-.268.319-.207.245-.383.453-.541.681-.208.3-.33.565-.37.847a.751.751 0 0 1-1.485-.212c.084-.593.337-1.078.621-1.489.203-.292.45-.584.673-.848.075-.088.147-.173.213-.253.561-.679.985-1.32.985-2.304 0-2.06-1.637-3.75-4-3.75ZM5.75 12h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1 0-1.5ZM6 15.25a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Z"></path></svg>Tip</p>
   <p>For a more comprehensive list of self-supervised pretext tasks, checkout <a href="https://paperswithcode.com/methods/category/self-supervised-learning">this page from Papers with Code</a>, and <a href="https://github.com/jason718/awesome-self-supervised-learning">this curated list</a> of research in self-supervised learning</p>
 
 </div>
@@ -445,7 +422,7 @@ if (typeof loadYouTube === 'undefined') {
       </h3>
     
 
-<p>These methods involve artificially manipulating the input and teaching the network to undo the manipulation. The hope is that in order to restore large a variety of training data, the network learns robust image representations. Examples of such input manipulations include masking out image regions<sup id="fnref:6"><a href="#fn:6" class="footnote" rel="footnote" role="doc-noteref">5</a></sup>, adding Gaussian noise<sup id="fnref:9"><a href="#fn:9" class="footnote" rel="footnote" role="doc-noteref">6</a></sup>, reordering/permuting patches as a Jigsaw puzzle<sup id="fnref:5"><a href="#fn:5" class="footnote" rel="footnote" role="doc-noteref">7</a></sup>, transformations of the image, such as rotation, and viewpoint change<sup id="fnref:7"><a href="#fn:7" class="footnote" rel="footnote" role="doc-noteref">8</a></sup>, removing color<sup id="fnref:8"><a href="#fn:8" class="footnote" rel="footnote" role="doc-noteref">9</a></sup>, etc. There is no explicit need to manipulate the original image, for e.g. a <abbr title="Generative adversarial network">GAN</abbr> was used to regenerate the input image from compressed latent features<sup id="fnref:21"><a href="#fn:21" class="footnote" rel="footnote" role="doc-noteref">10</a></sup>.</p>
+<p>These methods involve artificially manipulating the input and teaching the network to undo the manipulation. The hope is that in order to restore large a variety of training data, the network learns robust image representations. Examples of such input manipulations include masking out image regions<sup id="fnref:6"><a href="#fn:6" class="footnote" rel="footnote" role="doc-noteref">6</a></sup>, adding Gaussian noise<sup id="fnref:9:1"><a href="#fn:9" class="footnote" rel="footnote" role="doc-noteref">4</a></sup>, reordering/permuting patches as a Jigsaw puzzle<sup id="fnref:5"><a href="#fn:5" class="footnote" rel="footnote" role="doc-noteref">7</a></sup>, transformations of the image, such as rotation, and viewpoint change<sup id="fnref:7"><a href="#fn:7" class="footnote" rel="footnote" role="doc-noteref">8</a></sup>, removing color<sup id="fnref:8"><a href="#fn:8" class="footnote" rel="footnote" role="doc-noteref">9</a></sup>, etc. There is no explicit need to manipulate the original image, for e.g. a <abbr title="Generative adversarial network">GAN</abbr> was used to regenerate the input image from compressed latent features<sup id="fnref:21"><a href="#fn:21" class="footnote" rel="footnote" role="doc-noteref">10</a></sup>.</p>
 
 <p style="text-align: center;"><img src="/images/generative_cat.png" alt="multi-task" /></p>
 <p style="text-align: center;"><sub><sup>Examples of image degradations: masking, noising, permuting, rotating, grey-scaling. The pretext task is to recover the original image.
@@ -455,9 +432,11 @@ if (typeof loadYouTube === 'undefined') {
 > **Note:** Tasks such as Jigsaw puzzle and transformations of the image are not exactly generative. But, I still like to generalize them as generative. Only that the generation is parameterized to a low dimension, for e.g. classification on hash table for Jigsaw puzzle and regression of angles for rotation.
 -->
 
-<blockquote>
+<div class="markdown-alert markdown-alert-note" role="alert">
+  <p class="markdown-alert-title"><svg viewBox="0 0 16 16" width="16" height="16" style="display:inline-block;vertical-align:text-bottom;margin-right:0.4em"><path fill="#0969da" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
   <p>Tasks such as Jigsaw puzzle and transformations of the image are not exactly generative. But, I still like to generalize them as generative. Only that the generation is parameterized to a low dimension, for e.g. classification on hash table for Jigsaw puzzle and regression of angles for rotation.</p>
-</blockquote>
+
+</div>
 
 <p>The difficulty in these methods is the parameterization of degradation is dependent on the exact degradation method, making it hard to combine with other manipulations. For example, the parameters of adding gaussian noise are the mean and standard deviation of the gaussian noise function, which can be estimated by the network to subtract and recover the original image. For rotation, this would be the angle, which means there should now be another head to predict the angle if these both are to be combined.</p>
 
@@ -465,18 +444,13 @@ if (typeof loadYouTube === 'undefined') {
 
 Since the main objective in this tasks is to rely on existing unlabeled data for pre-training, one of the main similarities in these tasks is to degrade the input and define a task for the network to reconstruct the original input. For example, \cite{8579073} shuffle and \cite{9879206} remove patches from the image, \cite{rombach2021highresolution} successively apply Gaussian noise to the image -->
 
-<p>Recent notable generative text-to-image models based on denoising diffusion have also been shown to understand and learn feature representations of the objects.</p>
+<p>Recent notable generative text-to-image models based on denoising diffusion have also been shown to understand and learn feature representations of objects. <a href="https://sd-complements-dino.github.io/">A Tale of Two Features</a> shows that Stable Diffusion features complement DINO features for zero-shot semantic correspondence, suggesting that generative and discriminative models capture different but complementary aspects of visual understanding.</p>
 
-<p><img src="https://sd-complements-dino.github.io/sd_dino_files/sd_features.png" alt="" />
-<a href="https://sd-complements-dino.github.io/">A Tale of Two Features: Stable Diffusion Complements DINO for Zero-Shot Semantic Correspondence</a></p>
+<p style="text-align: center;"><img src="https://sd-complements-dino.github.io/sd_dino_files/sd_features.png" alt="" /></p>
+<p style="text-align: center;"><sub><sup>Diffusion features capture rich semantic information. Source: <a href="https://sd-complements-dino.github.io/">A Tale of Two Features</a>
+</sup></sub></p>
 
-<p>Concurrently, several impressive studies also leverage diffusion features for semantic correspondence:</p>
-
-<p>Emergent Correspondence from Image Diffusion extracts diffusion features for semantic, geometric, and temporal correspondences.</p>
-
-<p>Unsupervised Semantic Correspondence Using Stable Diffusion optimizes the prompt embedding to highlight regions of interest, and then utilizes it for semantic correspondence.</p>
-
-<p>Diffusion Hyperfeatures: Searching Through Time and Space for Semantic Correspondence employs a trained aggregation network to consolidate multi-scale and multi-timestep diffusion features for semantic correspondence.</p>
+<p>Several concurrent studies further explore diffusion features for semantic understanding: <a href="https://diffusion-correspondence.github.io/">Emergent Correspondence from Image Diffusion</a> extracts diffusion features for semantic, geometric, and temporal correspondences; <a href="https://arxiv.org/abs/2305.15581" target="_blank">Unsupervised Semantic Correspondence Using Stable Diffusion</a> optimizes prompt embeddings to highlight regions of interest; and <a href="https://diffusion-hyperfeatures.github.io/">Diffusion Hyperfeatures</a> employs a trained aggregation network to consolidate multi-scale and multi-timestep diffusion features.</p>
       <h3 id="feature-similarity-as-a-pretext-task">
         
         
@@ -508,7 +482,7 @@ Since the main objective in this tasks is to rely on existing unlabeled data for
 
 <p>One could also sample other images as positives based on methods such as clustering in the feature space or if some kind of labels or GT is known.</p>
 
-<p>Different approaches within the contrastive framework include <a href="https://arxiv.org/pdf/2111.07832.pdf">iBOT</a> DINO, SEER, MoCo [22], SimCLR [8], BYOL [20] and SwAV [7], <a href="https://arxiv.org/pdf/2101.06553.pdf">flow equivariance</a></p>
+<p>Different approaches within the contrastive framework include <a href="https://arxiv.org/abs/2111.07832" target="_blank">iBOT</a>, <a href="https://arxiv.org/abs/2104.14294" target="_blank">DINO</a> (self-distillation with no labels), <a href="https://arxiv.org/abs/2103.01988" target="_blank">SEER</a><sup id="fnref:10"><a href="#fn:10" class="footnote" rel="footnote" role="doc-noteref">12</a></sup> (scaling to billions of images), MoCo<sup id="fnref:22"><a href="#fn:22" class="footnote" rel="footnote" role="doc-noteref">13</a></sup> (momentum contrast), SimCLR<sup id="fnref:17:1"><a href="#fn:17" class="footnote" rel="footnote" role="doc-noteref">11</a></sup> (simple contrastive learning), BYOL (bootstrap your own latent, which removes the need for negative samples entirely), SwAV (swapped assignments between views), and approaches using <a href="https://arxiv.org/abs/2101.06553" target="_blank">flow equivariance</a> for learning correspondences. <a href="https://dinov2.metademolab.com/" target="_blank">DINOv2</a> combined self-distillation from DINO with masked image modeling from iBOT, trained on 142 million curated images. It achieved state-of-the-art results on ImageNet linear probing (86.3% with ViT-g/14), segmentation, and depth estimation — all <em>without any fine-tuning</em>, using frozen features with simple linear heads.</p>
       <h3 id="feature-similarity-vs-generative-pretext-tasks">
         
         
@@ -520,7 +494,7 @@ Since the main objective in this tasks is to rely on existing unlabeled data for
 
 <p>The advantage of feature similarity based methods is that there is no need for exact pixel to pixel mapping of the input and output, as opposed to generative pretext tasks, where the restored output is a one-to-one mapping of the manipulated/distorted input. One could use non-exact data (for example neighboring frames of a video) for sampling feature learning. One could also combine various augmentation methods mentioned in generaive pretext tasks. Feature similarity would essentially be a way to automatically incorporate various handcrafted ad-hoc heuristics via augmentations and positive-negative sampling.</p>
 
-<p>Recent work titled “What Do Self-Supervised Vision Transformers Learn?” compares contrastive learning with a prominant generative pretext task called Masked Image Modeling (<abbr title="Masked image modeling">MIM</abbr>)<sup id="fnref:6:1"><a href="#fn:6" class="footnote" rel="footnote" role="doc-noteref">5</a></sup> and finds:</p>
+<p>Recent work titled “What Do Self-Supervised Vision Transformers Learn?” compares contrastive learning with a prominant generative pretext task called Masked Image Modeling (<abbr title="Masked image modeling">MIM</abbr>)<sup id="fnref:6:1"><a href="#fn:6" class="footnote" rel="footnote" role="doc-noteref">6</a></sup> and finds:</p>
 
 <ol>
   <li>
@@ -545,37 +519,85 @@ Since the main objective in this tasks is to rely on existing unlabeled data for
 
 <p>The generative pretext tasks can be combined with contrastive pretext tasks. For e.g., <a href="https://mbaradad.github.io/learning_with_noise/">Learning to See by Looking at Noise</a> combines the generative and feature similarity by generating synthetic images from random processes and having a contrastive loss between crops of synthetic images and real ones.</p>
 
-<p>Other modalities: Contrastive Multiview Coding</p>
-      <h1 id="applications">
+<p>Other modalities can also provide supervision signals. <a href="https://arxiv.org/abs/1906.05849" target="_blank">Contrastive Multiview Coding</a><sup id="fnref:18"><a href="#fn:18" class="footnote" rel="footnote" role="doc-noteref">14</a></sup> uses different sensor modalities (e.g., depth, surface normals) of the same scene as positive pairs, leveraging the inherent multi-view structure of real-world data without any explicit labels.</p>
+      <h1 id="downstream-tasks">
         
         
-          <a href="#applications" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Applications
+          <a href="#downstream-tasks" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Downstream tasks
         
         
       </h1>
     
 
-<p>The learnt features can be applied to a huge range of downstream tasks. Generic tasks include image classification, object detection, segmentation, depth estimation, etc. Here, I will mention some less-known but very interesting downstream applications.</p>
-
-<!--
-<div>
-    <img src="https://contrastive-learning.github.io/intriguing/assets/img/multi/img_methods_bi.jpeg" alt="" style="object-fit: cover; object-position: 0 0; text-align: center;">
-</div>
--->
-
-<p style="text-align: center;"><img src="https://contrastive-learning.github.io/intriguing/assets/img/multi/img_methods_bi.jpeg" alt="multi-task" /></p>
-<p style="text-align: center;"><sub><sup> Local regions grouped together after applying K-means on contrastively learnt features. Source: <a href="https://contrastive-learning.github.io/intriguing/">Intriguing Properties of Contrastive Losses</a><sup id="fnref:14"><a href="#fn:14" class="footnote" rel="footnote" role="doc-noteref">12</a></sup>
+<p style="text-align: center;"><img src="/images/multi-task-methods.webp" alt="multi-task" /></p>
+<p style="text-align: center;"><sub><sup> Local regions grouped together after applying K-means on contrastively learnt features. Source: <a href="https://contrastive-learning.github.io/intriguing/">Intriguing Properties of Contrastive Losses</a><sup id="fnref:14"><a href="#fn:14" class="footnote" rel="footnote" role="doc-noteref">15</a></sup>
 </sup></sub></p>
 
-<p>Semantic Similarity <a href="The Unreasonable Effectiveness of Deep Features as a Perceptual Metric">Deep Features as a Perceptual Metric</a><sup id="fnref:11"><a href="#fn:11" class="footnote" rel="footnote" role="doc-noteref">13</a></sup></p>
-
-<p>Socretic models https://socraticmodels.github.io/</p>
-
-<p>{In-context learning} enables users to provide a query and a few examples from which a model derives an answer without being trained on such queries. https://www.semanticscholar.org/paper/Foundation-models-in-brief%3A-A-historical%2C-focus-Schneider/775b2dc88cf04993f8596332444a906bec2db807</p>
-      <h1 id="risks-challanges">
+<p>The model, trained on a pretext task, can now be used as an image encoder or feature extractor. The encoder is typically frozen and an additional decoder or task head is attached and trained on various downstream tasks, including the following:</p>
+      <h3 id="semantic-similarity-and-perceptual-metrics">
         
         
-          <a href="#risks-challanges" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Risks, Challanges
+          <a href="#semantic-similarity-and-perceptual-metrics" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Semantic similarity and perceptual metrics
+        
+        
+      </h3>
+    
+
+<p>Self-supervised features have proven remarkably effective as perceptual metrics. <a href="https://arxiv.org/abs/1801.03924" target="_blank">Deep Features as a Perceptual Metric</a><sup id="fnref:11"><a href="#fn:11" class="footnote" rel="footnote" role="doc-noteref">16</a></sup> demonstrates that distances in deep feature space correlate better with human perception of image similarity than traditional metrics like PSNR or SSIM. This has practical applications in image quality assessment, style transfer, and generative model evaluation.</p>
+      <h3 id="medical-imaging">
+        
+        
+          <a href="#medical-imaging" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Medical imaging
+        
+        
+      </h3>
+    
+
+<p>Foundation models have had a transformative impact in medical imaging, where labeled data is expensive and rare. <a href="https://www.nature.com/articles/s41586-023-06555-x" target="_blank">RETFound</a> (Nature, 2023) pre-trained with masked autoencoders on 1.6 million retinal images and demonstrated that self-supervised pre-training can diagnose eye diseases and even systemic conditions from retinal images, outperforming supervised approaches. <a href="https://www.nature.com/articles/s41591-024-02857-3" target="_blank">UNI</a> (Nature Medicine, 2024), a DINOv2-based pathology foundation model trained on over 100,000 diagnostic slides, achieved state-of-the-art on 34 pathology tasks.</p>
+      <h3 id="depth-estimation-and-3d-understanding">
+        
+        
+          <a href="#depth-estimation-and-3d-understanding" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Depth estimation and 3D understanding
+        
+        
+      </h3>
+    
+
+<p><a href="https://depth-anything.github.io/" target="_blank">Depth Anything</a> (2024) used DINOv2 as its backbone encoder and achieved state-of-the-art monocular depth estimation, demonstrating that DINOv2’s frozen features capture rich geometric understanding despite being trained on general web images without any depth supervision.</p>
+      <h3 id="autonomous-driving-and-robotics">
+        
+        
+          <a href="#autonomous-driving-and-robotics" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Autonomous driving and robotics
+        
+        
+      </h3>
+    
+
+<p>Multiple works have demonstrated DINOv2 features for 3D object detection, lane detection, and bird’s-eye-view perception. In robotics, models like <a href="https://arxiv.org/abs/2407.20179" target="_blank">Theia</a> (2024) distill from multiple self-supervised models (DINOv2, DPT, SAM) to create vision backbones optimized for robotic manipulation tasks.</p>
+      <h3 id="scientific-discovery">
+        
+        
+          <a href="#scientific-discovery" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Scientific discovery
+        
+        
+      </h3>
+    
+
+<p>Self-supervised learning has driven breakthroughs beyond computer vision. <a href="https://www.science.org/doi/10.1126/science.ade2574" target="_blank">ESM-2</a> (Meta, 2023), a protein language model trained with masked language modeling on protein sequences, learned to predict protein structure from sequence alone. In climate science, <a href="https://huggingface.co/ibm-nasa-geospatial" target="_blank">Prithvi</a> (NASA/IBM, 2024) is a geospatial foundation model pre-trained with masked autoencoding on satellite data, enabling flood detection, wildfire mapping, and crop classification.</p>
+      <h3 id="multimodal-and-compositional-models">
+        
+        
+          <a href="#multimodal-and-compositional-models" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Multimodal and compositional models
+        
+        
+      </h3>
+    
+
+<p><a href="https://socraticmodels.github.io/" target="_blank">Socratic Models</a> demonstrate how different pre-trained foundation models can be composed through language to solve complex multimodal tasks — without fine-tuning. In-context learning, where users provide a query and a few examples from which a model derives an answer <em>without being explicitly trained on such queries</em>, has emerged as a key capability of foundation models<sup id="fnref:19:1"><a href="#fn:19" class="footnote" rel="footnote" role="doc-noteref">3</a></sup>.</p>
+      <h1 id="risks-and-challenges">
+        
+        
+          <a href="#risks-and-challenges" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Risks and Challenges
         
         
       </h1>
@@ -583,13 +605,13 @@ Since the main objective in this tasks is to rely on existing unlabeled data for
 
 <ul>
   <li>
-    <p>{homogenization} of models might replace a myriad of task-specific models with fewer very large models controlled by few corporations leading to a shift in power and control over AI</p>
+    <p><strong>Homogenization</strong> of models might replace a myriad of task-specific models with fewer very large models controlled by few corporations, leading to a shift in power and control over AI. If one foundation model has a systematic bias, every downstream application inherits it.</p>
   </li>
   <li>
     <p>Modelling pretext tasks involves manual selection of data augmentation techniques which is based on our expert heuristics and introduces human biases into the model. Best would be to design methods that just take a bunch of data and decide for themselves which ones are similar, which ones are not. Like real unsupervised learning. But, that is difficult to design.</p>
   </li>
   <li>
-    <p>Most research is done on curated object-centric datasets, where the whole image consists of a single object instance. While there is some evidence that it also works for multiple objects<sup id="fnref:14:1"><a href="#fn:14" class="footnote" rel="footnote" role="doc-noteref">12</a></sup>, further investigation is needed to check how good the techniques work for generic scenes. Works such as DetCon<sup id="fnref:15"><a href="#fn:15" class="footnote" rel="footnote" role="doc-noteref">14</a></sup> and it’s follow-up: ODIN<sup id="fnref:16"><a href="#fn:16" class="footnote" rel="footnote" role="doc-noteref">15</a></sup>, work towards this goal by relying on pre-processing the whole image into object centric ones.</p>
+    <p>Most research is done on curated object-centric datasets, where the whole image consists of a single object instance. While there is some evidence that it also works for multiple objects<sup id="fnref:14:1"><a href="#fn:14" class="footnote" rel="footnote" role="doc-noteref">15</a></sup>, further investigation is needed to check how good the techniques work for generic scenes. Works such as DetCon<sup id="fnref:15"><a href="#fn:15" class="footnote" rel="footnote" role="doc-noteref">17</a></sup> and its follow-up ODIN<sup id="fnref:16"><a href="#fn:16" class="footnote" rel="footnote" role="doc-noteref">18</a></sup> work towards this goal by relying on pre-processing the whole image into object-centric ones.</p>
   </li>
   <li>
     <p>Mining positive and negative samples for contrastive learning is crucial for its performance.</p>
@@ -597,9 +619,13 @@ Since the main objective in this tasks is to rely on existing unlabeled data for
   <li>
     <p>Large amounts of quality data will enable better performance and generalizability to downstream tasks. Different modalities can be used to mine such data, including synthetic data. For filtering high quality data, methods such as active learning need to be incorporated.</p>
   </li>
+  <li>
+    <p><strong>Training data concerns:</strong> Web-crawled datasets contain geographic, demographic, and cultural biases. Copyright and consent issues remain unresolved — many training images were collected without explicit consent. The LAION-5B dataset was temporarily taken down in 2023-2024 after researchers found it contained harmful material, highlighting the challenges of data curation at scale.</p>
+  </li>
+  <li>
+    <p><strong>Scaling efficiency:</strong> Training a ViT-g with DINOv2 requires thousands of GPU-hours on A100s. Methods to address this include progressive resizing, data pruning, and distillation from large teachers to smaller students — but the compute cost remains a significant barrier for academic research groups.</p>
+  </li>
 </ul>
-
-<p>TODO: check https://arxiv.org/pdf/2305.15614.pdf</p>
 
 <blockquote class="no_toc">
   <p>Checkout my blog post on <a href="/Software-2/">Continuous improvement (Active learning) pipeline for scaling with data</a></p>
@@ -726,16 +752,16 @@ Since the main objective in this tasks is to rely on existing unlabeled data for
       <p>Schmidt, Ludwig, et al. “<a href="https://proceedings.neurips.cc/paper/2018/file/f708f064faaf32a43e4d3c784e6af9ea-Paper.pdf">Adversarially robust generalization requires more data.</a>” Advances in neural information processing systems 31 (2018). <a href="#fnref:12" class="reversefootnote" role="doc-backlink">&#8617;</a> <a href="#fnref:12:1" class="reversefootnote" role="doc-backlink">&#8617;<sup>2</sup></a></p>
     </li>
     <li id="fn:19">
-      <p>Bommasani, Rishi, et al. <a href="https://crfm.stanford.edu/report.html">“On the opportunities and risks of foundation models.”</a> arXiv preprint arXiv:2108.07258 (2021). <a href="#fnref:19" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+      <p>Bommasani, Rishi, et al. <a href="https://crfm.stanford.edu/report.html">“On the opportunities and risks of foundation models.”</a> arXiv preprint arXiv:2108.07258 (2021). <a href="#fnref:19" class="reversefootnote" role="doc-backlink">&#8617;</a> <a href="#fnref:19:1" class="reversefootnote" role="doc-backlink">&#8617;<sup>2</sup></a></p>
+    </li>
+    <li id="fn:9">
+      <p>Xiang, W., Yang, H., Huang, D., &amp; Wang, Y. (2023). <a href="https://arxiv.org/abs/2303.09769">Denoising Diffusion Autoencoders are Unified Self-supervised Learners</a>. ArXiv, abs/2303.09769. <a href="#fnref:9" class="reversefootnote" role="doc-backlink">&#8617;</a> <a href="#fnref:9:1" class="reversefootnote" role="doc-backlink">&#8617;<sup>2</sup></a></p>
     </li>
     <li id="fn:3">
       <p>Redmon, Joseph (2016). “You only look once: Unified, real-time object detection”. Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition. <a href="https://arxiv.org/abs/1506.02640">arXiv:1506.02640</a> <a href="#fnref:3" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
     <li id="fn:6">
       <p>K. He, X. Chen, S. Xie, Y. Li, P. Dollár and R. Girshick, “<a href="https://openaccess.thecvf.com/content/CVPR2022/html/He_Masked_Autoencoders_Are_Scalable_Vision_Learners_CVPR_2022_paper.html">Masked Autoencoders Are Scalable Vision Learners</a>,” 2022 IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR), New Orleans, LA, USA, 2022, pp. 15979-15988, doi: 10.1109/CVPR52688.2022.01553. <a href="#fnref:6" class="reversefootnote" role="doc-backlink">&#8617;</a> <a href="#fnref:6:1" class="reversefootnote" role="doc-backlink">&#8617;<sup>2</sup></a></p>
-    </li>
-    <li id="fn:9">
-      <p>Xiang, W., Yang, H., Huang, D., &amp; Wang, Y. (2023). <a href="https://arxiv.org/abs/2303.09769">Denoising Diffusion Autoencoders are Unified Self-supervised Learners</a>. ArXiv, abs/2303.09769. <a href="#fnref:9" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
     <li id="fn:5">
       <p>M. Noroozi and P. Favaro. <a href="https://arxiv.org/pdf/1603.09246.pdf">Unsupervised learning of visual representations by solving jigsaw puzzles</a>. In ECCV, 2016. <a href="#fnref:5" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
@@ -750,7 +776,16 @@ Since the main objective in this tasks is to rely on existing unlabeled data for
       <p>Radford, Alec, Luke Metz, and Soumith Chintala. “<a href="https://arxiv.org/abs/1511.06434">Unsupervised representation learning with deep convolutional generative adversarial networks.</a>” arXiv preprint arXiv:1511.06434 (2015). <a href="#fnref:21" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
     <li id="fn:17">
-      <p>Ting Chen, Simon Kornblith, Mohammad Norouzi, and Geoffrey Hinton. 2020. <a href="https://dl.acm.org/doi/pdf/10.5555/3524938.3525087">A simple framework for contrastive learning of visual representations.</a> In Proceedings of the 37th International Conference on Machine Learning (ICML’20), Vol. 119. JMLR.org, Article 149, 1597–1607. <a href="#fnref:17" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+      <p>Ting Chen, Simon Kornblith, Mohammad Norouzi, and Geoffrey Hinton. 2020. <a href="https://dl.acm.org/doi/pdf/10.5555/3524938.3525087">A simple framework for contrastive learning of visual representations.</a> In Proceedings of the 37th International Conference on Machine Learning (ICML’20), Vol. 119. JMLR.org, Article 149, 1597–1607. <a href="#fnref:17" class="reversefootnote" role="doc-backlink">&#8617;</a> <a href="#fnref:17:1" class="reversefootnote" role="doc-backlink">&#8617;<sup>2</sup></a></p>
+    </li>
+    <li id="fn:10">
+      <p>Goyal, P., Caron, M., Lefaudeux, B., Xu, M., Wang, P., Pai, V.M., Singh, M., Liptchinsky, V., Misra, I., Joulin, A., &amp; Bojanowski, P. (2021). <a href="https://arxiv.org/abs/2103.01988">Self-supervised Pretraining of Visual Features in the Wild</a>. ArXiv, abs/2103.01988. <a href="#fnref:10" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:22">
+      <p>He, Kaiming, et al. “<a href="https://arxiv.org/abs/1911.05722">Momentum contrast for unsupervised visual representation learning.</a>” Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (2020). <a href="#fnref:22" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:18">
+      <p>Tian, Y., Krishnan, D., Isola, P. (2020). <a href="https://arxiv.org/abs/1906.05849">Contrastive Multiview Coding.</a> In: Vedaldi, A., Bischof, H., Brox, T., Frahm, JM. (eds) Computer Vision – ECCV 2020. ECCV 2020. Lecture Notes in Computer Science(), vol 12356. Springer, Cham. <a href="#fnref:18" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
     <li id="fn:14">
       <p>Chen, Ting and Lala Li. “<a href="https://proceedings.neurips.cc/paper/2021/hash/628f16b29939d1b060af49f66ae0f7f8-Abstract.html">Intriguing Properties of Contrastive Losses.</a>” Neural Information Processing Systems (2020). <a href="#fnref:14" class="reversefootnote" role="doc-backlink">&#8617;</a> <a href="#fnref:14:1" class="reversefootnote" role="doc-backlink">&#8617;<sup>2</sup></a></p>
@@ -778,10 +813,10 @@ Copyright (c) 2020 Usecue BV -->
 <div style="text-align: center;">
     <span style="color: rgb(134, 134, 134);">Share on : </span>
     <div id="share-buttons">
-        <div class="facebook" title="Share this on Facebook" onclick="window.open('http://www.facebook.com/share.php?u=https://zshn25.github.io/self-supervision-for-foundation-models/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
+        <div class="facebook" title="Share this on Facebook" onclick="window.open('https://www.facebook.com/share.php?u=https://zshn25.github.io/self-supervision-for-foundation-models/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
         <div class="twitter" title="Share this on Twitter" onclick="window.open('https://twitter.com/intent/tweet?text=Self-supervised learning for vision foundation models&url=https://zshn25.github.io/self-supervision-for-foundation-models/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></div>
         <div class="linkedin" title="Share this on Linkedin" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url=https://zshn25.github.io/self-supervision-for-foundation-models/&title=&summary=&source=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></div>
-        <!-- <div class="pinterest" title="Share this on Pinterest" onclick="window.open('https://pinterest.com/pin/create/button/?url=&media=https://zshn25.github.ioimages/foundation.jpeg&description=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M256 597q0-108 37.5-203.5t103.5-166.5 152-123 185-78 202-26q158 0 294 66.5t221 193.5 85 287q0 96-19 188t-60 177-100 149.5-145 103-189 38.5q-68 0-135-32t-96-88q-10 39-28 112.5t-23.5 95-20.5 71-26 71-32 62.5-46 77.5-62 86.5l-14 5-9-10q-15-157-15-188 0-92 21.5-206.5t66.5-287.5 52-203q-32-65-32-169 0-83 52-156t132-73q61 0 95 40.5t34 102.5q0 66-44 191t-44 187q0 63 45 104.5t109 41.5q55 0 102-25t78.5-68 56-95 38-110.5 20-111 6.5-99.5q0-173-109.5-269.5t-285.5-96.5q-200 0-334 129.5t-134 328.5q0 44 12.5 85t27 65 27 45.5 12.5 30.5q0 28-15 73t-37 45q-2 0-17-3-51-15-90.5-56t-61-94.5-32.5-108-11-106.5z"/></svg></div> -->
+        <!-- <div class="pinterest" title="Share this on Pinterest" onclick="window.open('https://pinterest.com/pin/create/button/?url=&media=https://zshn25.github.ioimages/foundation.webp&description=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M256 597q0-108 37.5-203.5t103.5-166.5 152-123 185-78 202-26q158 0 294 66.5t221 193.5 85 287q0 96-19 188t-60 177-100 149.5-145 103-189 38.5q-68 0-135-32t-96-88q-10 39-28 112.5t-23.5 95-20.5 71-26 71-32 62.5-46 77.5-62 86.5l-14 5-9-10q-15-157-15-188 0-92 21.5-206.5t66.5-287.5 52-203q-32-65-32-169 0-83 52-156t132-73q61 0 95 40.5t34 102.5q0 66-44 191t-44 187q0 63 45 104.5t109 41.5q55 0 102-25t78.5-68 56-95 38-110.5 20-111 6.5-99.5q0-173-109.5-269.5t-285.5-96.5q-200 0-334 129.5t-134 328.5q0 44 12.5 85t27 65 27 45.5 12.5 30.5q0 28-15 73t-37 45q-2 0-17-3-51-15-90.5-56t-61-94.5-32.5-108-11-106.5z"/></svg></div> -->
         <div class="mail" title="Share this through Email" onclick="window.open('mailto:?&body=https://zshn25.github.io/self-supervision-for-foundation-models/');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1792 710v794q0 66-47 113t-113 47h-1472q-66 0-113-47t-47-113v-794q44 49 101 87 362 246 497 345 57 42 92.5 65.5t94.5 48 110 24.5h2q51 0 110-24.5t94.5-48 92.5-65.5q170-123 498-345 57-39 100-87zm0-294q0 79-49 151t-122 123q-376 261-468 325-10 7-42.5 30.5t-54 38-52 32.5-57.5 27-50 9h-2q-23 0-50-9t-57.5-27-52-32.5-54-38-42.5-30.5q-91-64-262-182.5t-205-142.5q-62-42-117-115.5t-55-136.5q0-78 41.5-130t118.5-52h1472q65 0 112.5 47t47.5 113z"/></svg></div>
     </div>
 </div>
@@ -833,7 +868,7 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
             
                 <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
     <a href="/pc4consistentdepth/">
-    <img class="image-preview" src="/images/3dreco/out-poster.jpg" loading="lazy" alt="Pose Constraints for Self-supervised Monocular Depth and Ego-Motion" /></a>
+    <img class="image-preview" src="/images/3dreco/out-poster.webp" loading="lazy" alt="Pose Constraints for Self-supervised Monocular Depth and Ego-Motion" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -1074,7 +1109,7 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
             
                 <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
     <a href="/compilation-3d-mesh-resources/">
-    <img class="image-preview" src="https://deep-geometry.github.io/abc-dataset/assets/images/header.png" loading="lazy" alt="Compilation of 3D mesh models" /></a>
+    <img class="image-preview" src="/images/abc_dataset.webp" loading="lazy" alt="Compilation of 3D mesh models" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -1152,7 +1187,7 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
             
                 <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
     <a href="/is-convolution-linear/">
-    <img class="image-preview" src="https://upload.wikimedia.org/wikipedia/commons/6/6a/Convolution_of_box_signal_with_itself2.gif" loading="lazy" alt="Is convolution linear?" /></a>
+    <img class="image-preview" src="/images/convolution_box.gif" loading="lazy" alt="Is convolution linear?" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -1218,7 +1253,7 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
 </a>
       
       
-        <a class="next_page" rel="next" aria-label="Next Page" href="/inference_optimizations_benchmark/"><b>Next: &rarr;</b><br>Inference Speedup Benchmark — Depth Anything v3 (Metric-Large)
+        <a class="next_page" rel="next" aria-label="Next Page" href="/inference_optimizations_benchmark/"><b>Next: &rarr;</b><br>Inference Speedup Benchmark
 </a>
       
   </div>
@@ -1297,8 +1332,8 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
         </p>
         <ul class="contact-list">
           <li class="p-name">© Zeeshan Khan Suri </li>
-          <li><div xmlns:cc="http://creativecommons.org/ns#" > Text under  <a href="http://creativecommons.org/licenses/by-nc/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/cc.svg" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/by.svg" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/nc.svg" alt="NC"></a> unless stated otherwise. Images and other media have their own copyright. </div></li>
-          <li><a class="u-email" href="mailto:zshn25[at]gmail[dot]com">zshn25[at]gmail[dot]com</a></li>
+          <li><div xmlns:cc="http://creativecommons.org/ns#" > Text under  <a href="https://creativecommons.org/licenses/by-nc/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/cc.svg" alt="CC" width="22" height="22"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/by.svg" alt="BY" width="22" height="22"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/nc.svg" alt="NC" width="22" height="22"></a> unless stated otherwise. Images and other media have their own copyright. </div></li>
+          <li><span class="u-email">zshn25[at]gmail[dot]com</span></li>
         </ul>
       </div>
       <div class="footer-col">

@@ -9,6 +9,20 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
+  // Wrap titled images in figure/figcaption (moved from inline script in custom-head.html)
+  document.querySelectorAll('.post img').forEach(function(el) {
+    if (!el.getAttribute('loading')) el.setAttribute('loading', 'lazy');
+    if (el.getAttribute('title') && !el.classList.contains('emoji')) {
+      var caption = document.createElement('figcaption');
+      caption.textContent = el.getAttribute('title');
+      var wrapper = document.createElement('figure');
+      wrapper.className = 'image';
+      el.parentNode.insertBefore(wrapper, el);
+      wrapper.appendChild(el);
+      wrapper.appendChild(caption);
+    }
+  });
+
   // Open external links in a new window
   document.querySelectorAll('a[href]').forEach(function(b) {
     if (b.hostname && b.hostname !== location.hostname) {
@@ -101,8 +115,8 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // ── Dark mode: image handling ──
+  // data-transparent-dark="true"  → light card background (preserves text readability, works on GIFs/videos)
   // data-invert-dark="true"       → invert filter
-  // data-transparent-dark="true"  → replace white pixels with transparent via canvas
   // data-no-invert                → skip entirely
   // No attribute                  → auto-detect via canvas sampling
   var isDark = typeof window.isDarkMode === 'function' ? window.isDarkMode() : false;
@@ -113,30 +127,13 @@ document.addEventListener('DOMContentLoaded', function() {
     sampleCanvas.height = 50;
     var sampleCtx = sampleCanvas.getContext('2d');
 
-    function makeWhiteTransparent(img) {
-      var c = document.createElement('canvas');
-      c.width = img.naturalWidth;
-      c.height = img.naturalHeight;
-      var ctx = c.getContext('2d');
-      ctx.drawImage(img, 0, 0);
-      try {
-        var imageData = ctx.getImageData(0, 0, c.width, c.height);
-        var d = imageData.data;
-        for (var i = 0; i < d.length; i += 4) {
-          if (d[i] > 240 && d[i+1] > 240 && d[i+2] > 240) {
-            d[i+3] = 0;
-          }
-        }
-        ctx.putImageData(imageData, 0, 0);
-        img.src = c.toDataURL('image/png');
-        img.style.background = 'transparent';
-      } catch(e) { /* cross-origin — cannot process pixels */ }
-    }
-
     function analyzeAndInvert(img) {
       if (img.hasAttribute('data-no-invert')) return;
       if (img.getAttribute('data-transparent-dark') === 'true') {
-        makeWhiteTransparent(img);
+        // CSS-only: light card background — works on img, GIF, video, cross-origin
+        img.style.background = 'rgba(255, 255, 255, 0.92)';
+        img.style.borderRadius = 'var(--radius-md, 6px)';
+        img.style.padding = '4px';
         return;
       }
       if (img.getAttribute('data-invert-dark') === 'true') {

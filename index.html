@@ -32,42 +32,17 @@
 <noscript><link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css"></noscript>
 <link rel="stylesheet" href="/assets/vendor/academicons/css/academicons.min.css" media="print" onload="this.media='all'">
 
-<script>
-function wrap_img(fn) {
-    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
-        var elements = document.querySelectorAll(".post img");
-        Array.prototype.forEach.call(elements, function(el, i) {
-            // Add lazy loading to all post images
-            if (!el.getAttribute("loading")) el.setAttribute("loading", "lazy");
-            if (el.getAttribute("title") && (el.className != "emoji")) {
-                const caption = document.createElement('figcaption');
-                var node = document.createTextNode(el.getAttribute("title"));
-                caption.appendChild(node);
-                const wrapper = document.createElement('figure');
-                wrapper.className = 'image';
-                el.parentNode.insertBefore(wrapper, el);
-                el.parentNode.removeChild(el);
-                wrapper.appendChild(el);
-                wrapper.appendChild(caption);
-            }
-        });
-    } else { document.addEventListener('DOMContentLoaded', fn); }
-}
-window.onload = wrap_img;
-</script>
 
-
+<link id="dark-css" href="/assets/css/dark.css" rel="stylesheet" media="(prefers-color-scheme: dark)">
 <script src="/assets/js/applytheme.js"></script>
 <script src="/assets/js/consent-gate.js"></script>
 <script src="/assets/js/vendor/lunr.min.js" defer></script>
 <script src="/assets/js/main.js" defer></script>
-
-<link id="dark-css" href="/assets/css/dark.css" rel="stylesheet" media="(prefers-color-scheme: dark)">
 </head>
 <body><header class="site-header fixed-top">
   <div class="wrapper header-wrapper">
     <a class="site-title no-underline" rel="author" href="/">
-      <img src="/images/logo.png" style="max-width:40px;" alt="Curiosity logo" width="40" height="40">
+      <img src="/images/logo.webp" style="max-width:40px;" alt="Curiosity logo" width="40" height="40">
       Curiosity
     </a><nav class="site-nav">
       <input type="checkbox" id="nav-trigger" class="nav-trigger" />
@@ -101,6 +76,14 @@ window.onload = wrap_img;
   
   
     
+      
+        
+        
+        
+      
+        
+        
+        
       
         
           
@@ -332,15 +315,11 @@ window.onload = wrap_img;
       
         <a href="#" class="category-chip" data-tag="depth-estimation">depth-estimation</a>
       
-        <a href="#" class="category-chip" data-tag="fast-inference">fast-inference</a>
-      
         <a href="#" class="category-chip" data-tag="foundation-models">foundation-models</a>
       
         <a href="#" class="category-chip" data-tag="github">github</a>
       
         <a href="#" class="category-chip" data-tag="gpu">gpu</a>
-      
-        <a href="#" class="category-chip" data-tag="inference">inference</a>
       
         <a href="#" class="category-chip" data-tag="large-neural-networks">large-neural-networks</a>
       
@@ -348,13 +327,13 @@ window.onload = wrap_img;
       
         <a href="#" class="category-chip" data-tag="mlops">mlops</a>
       
-        <a href="#" class="category-chip" data-tag="optimization">optimization</a>
-      
         <a href="#" class="category-chip" data-tag="privacy">privacy</a>
       
         <a href="#" class="category-chip" data-tag="pytorch">pytorch</a>
       
         <a href="#" class="category-chip" data-tag="releases">releases</a>
+      
+        <a href="#" class="category-chip" data-tag="runtime-optimization">runtime-optimization</a>
       
         <a href="#" class="category-chip" data-tag="self-supervision">self-supervision</a>
       
@@ -372,9 +351,59 @@ window.onload = wrap_img;
     <ul class="post-list" data-section="tech">
       
       
+      <li class="featured-post" data-categories="computer-vision,large-neural-networks,foundation-models,self-supervision"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
+    <a href="/self-supervision-for-foundation-models/">
+    <img class="image-preview" src="/images/foundation.webp" fetchpriority="high" alt="Self-supervised learning for vision foundation models" /></a>
+  </div><div class="post-card-body">
+    <span class="featured-badge"><i class="fas fa-star"></i> Featured</span>
+      <h3>
+        
+        
+          
+      
+      <a class="post-link" href="/self-supervision-for-foundation-models/">
+        Self-supervised learning for vision foundation models
+      </a>
+      
+    
+        
+        
+      </h3>
+    
+    <p class="post-meta-description">How self-supervised learning enables large-scale vision foundation models by learning from unlabeled data through pretext tasks like contrastive learning and masked image modeling.</p>
+    <p class="post-meta"><i class="far fa-calendar-alt"></i>  May 12, 2023
+      • <i class="far fa-clock"></i> <span class="read-time" title="Estimated read time">
+    
+    
+      20 mins read
+    
+</span>
+</p>
+
+        
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
+          
+          <a class="category-tags-link" href="/?tag=computer-vision">#computer-vision</a>
+          &nbsp;
+          
+          <a class="category-tags-link" href="/?tag=large-neural-networks">#large-neural-networks</a>
+          &nbsp;
+          
+          <a class="category-tags-link" href="/?tag=foundation-models">#foundation-models</a>
+          &nbsp;
+          
+          <a class="category-tags-link" href="/?tag=self-supervision">#self-supervision</a>
+          
+          
+        </p>
+        
+  </div>
+</div>
+</li>
+      
       <li class="featured-post" data-categories="privacy"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/why-privacy-matters/">
-    <img class="image-preview" src="/images/privacy.jpg" loading="lazy" alt="Privacy" /></a>
+    <img class="image-preview" src="/images/privacy.webp" loading="lazy" alt="Privacy" /></a>
   </div><div class="post-card-body">
     <span class="featured-badge"><i class="fas fa-star"></i> Featured</span>
       <h3>
@@ -414,66 +443,17 @@ window.onload = wrap_img;
 </li>
       
       
-      <li class="" data-categories="pytorch,inference,optimization,gpu,depth-estimation"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-body">
-      <h3>
-        
-        
-          
-      
-      <a class="post-link" href="/inference_optimizations_benchmark/">
-        Inference Speedup Benchmark — Depth Anything v3 (Metric-Large)
-      </a>
-      
-    
-        
-        
-      </h3>
-    
-    <p class="post-meta-description">benchmarked on a real depth estimation model.</p>
-    <p class="post-meta"><i class="far fa-calendar-alt"></i>  Mar 24, 2026
-      • <i class="far fa-clock"></i> <span class="read-time" title="Estimated read time">
-    
-    
-      92 mins read
-    
-</span>
-</p>
-
-        
-        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
-          
-          <a class="category-tags-link" href="/?tag=pytorch">#pytorch</a>
-          &nbsp;
-          
-          <a class="category-tags-link" href="/?tag=inference">#inference</a>
-          &nbsp;
-          
-          <a class="category-tags-link" href="/?tag=optimization">#optimization</a>
-          &nbsp;
-          
-          <a class="category-tags-link" href="/?tag=gpu">#gpu</a>
-          &nbsp;
-          
-          <a class="category-tags-link" href="/?tag=depth-estimation">#depth-estimation</a>
-          
-          
-        </p>
-        
-  </div>
-</div>
-</li>
-      
-      <li class="" data-categories="computer-vision,large-neural-networks,foundation-models,self-supervision"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
-    <a href="/self-supervision-for-foundation-models/">
-    <img class="image-preview" src="/images/foundation.jpeg" loading="lazy" alt="Self-supervised learning for vision foundation models" /></a>
+      <li class="" data-categories="runtime-optimization,gpu,deep-learning"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
+    <a href="/inference_optimizations_benchmark/">
+    <img class="image-preview" src="/images%5C2026-03-24-inference_optimizations_benchmark%5Coutput_80_1.png" loading="lazy" alt="Inference Speedup Benchmark" /></a>
   </div><div class="post-card-body">
       <h3>
         
         
           
       
-      <a class="post-link" href="/self-supervision-for-foundation-models/">
-        Self-supervised learning for vision foundation models
+      <a class="post-link" href="/inference_optimizations_benchmark/">
+        Inference Speedup Benchmark
       </a>
       
     
@@ -481,12 +461,12 @@ window.onload = wrap_img;
         
       </h3>
     
-    <p class="post-meta-description">How self-supervised learning enables large-scale vision foundation models by learning from unlabeled data through pretext tasks like contrastive learning and masked image modeling.</p>
-    <p class="post-meta"><i class="far fa-calendar-alt"></i>  May 12, 2023
+    <p class="post-meta-description">Guide to CUDA GPU inference optimizations, benchmarked on a state-of-the-art Pytorch depth estimation model.</p>
+    <p class="post-meta"><i class="far fa-calendar-alt"></i>  Mar 24, 2026
       • <i class="far fa-clock"></i> <span class="read-time" title="Estimated read time">
     
     
-      16 mins read
+      53 mins read
     
 </span>
 </p>
@@ -494,16 +474,13 @@ window.onload = wrap_img;
         
         <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
           
-          <a class="category-tags-link" href="/?tag=computer-vision">#computer-vision</a>
+          <a class="category-tags-link" href="/?tag=runtime-optimization">#runtime-optimization</a>
           &nbsp;
           
-          <a class="category-tags-link" href="/?tag=large-neural-networks">#large-neural-networks</a>
+          <a class="category-tags-link" href="/?tag=gpu">#gpu</a>
           &nbsp;
           
-          <a class="category-tags-link" href="/?tag=foundation-models">#foundation-models</a>
-          &nbsp;
-          
-          <a class="category-tags-link" href="/?tag=self-supervision">#self-supervision</a>
+          <a class="category-tags-link" href="/?tag=deep-learning">#deep-learning</a>
           
           
         </p>
@@ -514,7 +491,7 @@ window.onload = wrap_img;
       
       <li class="" data-categories="deep-learning,self-supervision,3d-reconstruction,structure-from-motion,visual-odometry,depth-estimation"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/pc4consistentdepth/">
-    <img class="image-preview" src="/images/3dreco/out-poster.jpg" loading="lazy" alt="Pose Constraints for Self-supervised Monocular Depth and Ego-Motion" /></a>
+    <img class="image-preview" src="/images/3dreco/out-poster.webp" loading="lazy" alt="Pose Constraints for Self-supervised Monocular Depth and Ego-Motion" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -569,7 +546,7 @@ window.onload = wrap_img;
       
       <li class="" data-categories="deep-learning,convolution,attention"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/CNNs-vs-Transformers/">
-    <img class="image-preview" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Vision_Transformer.gif/330px-Vision_Transformer.gif" loading="lazy" alt="Convolution vs. Attention" /></a>
+    <img class="image-preview" src="/images/vision_transformer.gif" loading="lazy" alt="Convolution vs. Attention" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -754,7 +731,7 @@ window.onload = wrap_img;
 </div>
 </li>
       
-      <li class="section-hidden" data-categories="deep-learning,pytorch,fast-inference"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
+      <li class="section-hidden" data-categories="deep-learning,pytorch,runtime-optimization"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/Layers-fusion-for-faster-inference/">
     <img class="image-preview" src="/images/neural-network-3816319.svg" loading="lazy" alt="Layers fusion for faster neural network inference" /></a>
   </div><div class="post-card-body">
@@ -791,7 +768,7 @@ window.onload = wrap_img;
           <a class="category-tags-link" href="/?tag=pytorch">#pytorch</a>
           &nbsp;
           
-          <a class="category-tags-link" href="/?tag=fast-inference">#fast-inference</a>
+          <a class="category-tags-link" href="/?tag=runtime-optimization">#runtime-optimization</a>
           
           
         </p>
@@ -802,7 +779,7 @@ window.onload = wrap_img;
       
       <li class="section-hidden" data-categories="3d-mesh,datasets,computer-vision"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/compilation-3d-mesh-resources/">
-    <img class="image-preview" src="https://deep-geometry.github.io/abc-dataset/assets/images/header.png" loading="lazy" alt="Compilation of 3D mesh models" /></a>
+    <img class="image-preview" src="/images/abc_dataset.webp" loading="lazy" alt="Compilation of 3D mesh models" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -848,7 +825,7 @@ window.onload = wrap_img;
       
       <li class="section-hidden" data-categories="mathematics,computer-vision"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/is-convolution-linear/">
-    <img class="image-preview" src="https://upload.wikimedia.org/wikipedia/commons/6/6a/Convolution_of_box_signal_with_itself2.gif" loading="lazy" alt="Is convolution linear?" /></a>
+    <img class="image-preview" src="/images/convolution_box.gif" loading="lazy" alt="Is convolution linear?" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -937,7 +914,7 @@ window.onload = wrap_img;
       
       <li class="section-hidden" data-categories="github,tags,releases"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/how-to-release-on-git/">
-    <img class="image-preview" src="https://octodex.github.com/images/octonaut.jpg" loading="lazy" alt="How to Release on Github" /></a>
+    <img class="image-preview" src="/images/octonaut.webp" loading="lazy" alt="How to Release on Github" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -1034,7 +1011,7 @@ window.onload = wrap_img;
       
       <li class="" data-categories="politics,philosophy,social-contract"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/the-necessity-of-the-state/">
-    <img class="image-preview" src="https://www.mises.org.es/wp-content/uploads/2017/04/Leviathan_by_Thomas_Hobbes-e1416438094895.jpg" loading="lazy" alt="Trading Freedom for Peace: The necessity of the state" /></a>
+    <img class="image-preview" src="/images/leviathan.webp" loading="lazy" alt="Trading Freedom for Peace: The necessity of the state" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -1080,7 +1057,7 @@ window.onload = wrap_img;
       
       <li class="" data-categories="politics,philosophy,justice,regime"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/Aristotle-definitions/">
-    <img class="image-preview" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Aristotle_Altemps_Inv8575.jpg/250px-Aristotle_Altemps_Inv8575.jpg" loading="lazy" alt="Aristotle’s regime, the good citizen and justice" /></a>
+    <img class="image-preview" src="/images/aristotle.webp" loading="lazy" alt="Aristotle’s regime, the good citizen and justice" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -1129,7 +1106,7 @@ window.onload = wrap_img;
       
       <li class="" data-categories="politics,philosophy,greed,wealth"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/kinds-of-wealth-getting-Aristotle/">
-    <img class="image-preview" src="/images/aristotle_wallstreet.jpeg" loading="lazy" alt="Reasons for earning money: The good and the ugly" /></a>
+    <img class="image-preview" src="/images/aristotle_wallstreet.webp" loading="lazy" alt="Reasons for earning money: The good and the ugly" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -1178,7 +1155,7 @@ window.onload = wrap_img;
       
       <li class="" data-categories="politics,philosophy,justice"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/plato-republic/">
-    <img class="image-preview" src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/David_-_The_Death_of_Socrates_-_detail2.jpg/330px-David_-_The_Death_of_Socrates_-_detail2.jpg" loading="lazy" alt="Notes on Justice from Plato&#39;s Republic" /></a>
+    <img class="image-preview" src="/images/death_of_socrates.webp" loading="lazy" alt="Notes on Justice from Plato&#39;s Republic" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -1224,7 +1201,7 @@ window.onload = wrap_img;
       
       <li class="" data-categories="philosophy,meaning"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/purpose/">
-    <img class="image-preview" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/NASA-Apollo8-Dec24-Earthrise.jpg/1200px-NASA-Apollo8-Dec24-Earthrise.jpg" loading="lazy" alt="The purpose in life" /></a>
+    <img class="image-preview" src="/images/earthrise.webp" loading="lazy" alt="The purpose in life" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -1665,14 +1642,14 @@ window.onload = wrap_img;
         
         
         
-        <a class="tag-4 tag-color-tech" href="#" data-wc-tag="deep-learning">deep-learning&nbsp;(6)</a>
+        <a class="tag-4 tag-color-tech" href="#" data-wc-tag="deep-learning">deep-learning&nbsp;(7)</a>
       
         
         
         
         
         
-        <a class="tag-2 tag-color-tech" href="#" data-wc-tag="depth-estimation">depth-estimation&nbsp;(2)</a>
+        <a class="tag-1 tag-color-tech" href="#" data-wc-tag="depth-estimation">depth-estimation&nbsp;(1)</a>
       
         
         
@@ -1687,13 +1664,6 @@ window.onload = wrap_img;
         
         
         <a class="tag-1 tag-color-life" href="#" data-wc-tag="external-link">external-link&nbsp;(1)</a>
-      
-        
-        
-        
-        
-        
-        <a class="tag-1 tag-color-tech" href="#" data-wc-tag="fast-inference">fast-inference&nbsp;(1)</a>
       
         
         
@@ -1756,13 +1726,6 @@ window.onload = wrap_img;
         
         
         
-        <a class="tag-1 tag-color-life" href="#" data-wc-tag="inference">inference&nbsp;(1)</a>
-      
-        
-        
-        
-        
-        
         <a class="tag-1 tag-color-life" href="#" data-wc-tag="investing">investing&nbsp;(1)</a>
       
         
@@ -1819,13 +1782,6 @@ window.onload = wrap_img;
         
         
         
-        <a class="tag-1 tag-color-life" href="#" data-wc-tag="optimization">optimization&nbsp;(1)</a>
-      
-        
-        
-        
-        
-        
         <a class="tag-4 tag-color-philosophy" href="#" data-wc-tag="philosophy">philosophy&nbsp;(7)</a>
       
         
@@ -1847,7 +1803,7 @@ window.onload = wrap_img;
         
         
         
-        <a class="tag-3 tag-color-tech" href="#" data-wc-tag="pytorch">pytorch&nbsp;(3)</a>
+        <a class="tag-2 tag-color-tech" href="#" data-wc-tag="pytorch">pytorch&nbsp;(2)</a>
       
         
         
@@ -1876,6 +1832,13 @@ window.onload = wrap_img;
         
         
         <a class="tag-1 tag-color-philosophy" href="#" data-wc-tag="religion">religion&nbsp;(1)</a>
+      
+        
+        
+        
+        
+        
+        <a class="tag-2 tag-color-life" href="#" data-wc-tag="runtime-optimization">runtime-optimization&nbsp;(2)</a>
       
         
         
@@ -2101,8 +2064,8 @@ document.addEventListener('DOMContentLoaded', function() {
         </p>
         <ul class="contact-list">
           <li class="p-name">© Zeeshan Khan Suri </li>
-          <li><div xmlns:cc="http://creativecommons.org/ns#" > Text under  <a href="http://creativecommons.org/licenses/by-nc/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/cc.svg" alt="CC"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/by.svg" alt="BY"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/nc.svg" alt="NC"></a> unless stated otherwise. Images and other media have their own copyright. </div></li>
-          <li><a class="u-email" href="mailto:zshn25[at]gmail[dot]com">zshn25[at]gmail[dot]com</a></li>
+          <li><div xmlns:cc="http://creativecommons.org/ns#" > Text under  <a href="https://creativecommons.org/licenses/by-nc/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/cc.svg" alt="CC" width="22" height="22"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/by.svg" alt="BY" width="22" height="22"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/nc.svg" alt="NC" width="22" height="22"></a> unless stated otherwise. Images and other media have their own copyright. </div></li>
+          <li><span class="u-email">zshn25[at]gmail[dot]com</span></li>
         </ul>
       </div>
       <div class="footer-col">
