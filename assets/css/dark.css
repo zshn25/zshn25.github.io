@@ -110,14 +110,13 @@ blockquote cite, blockquote .bq-attribution {
 .site-nav .page-link {
   color: rgba(255, 255, 255, 0.87) !important;
 }
-@media screen and (max-width: 800px) {
-  .site-nav .nav-items {
-    background-color: #181818 !important;
-    border-color: #444444 !important;
-  }
-}
-.site-nav .nav-item:hover {
+
+.nav-dialog-link:hover {
   background-color: #1e1e1e !important;
+}
+
+.nav-mobile-actions .header-icon-btn {
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .page-content, .wrapper {
@@ -450,46 +449,56 @@ hr {
   background-color: #363636 !important;
 }
 
-.header-search-input {
-  background-color: #1e1e1e !important;
+.search-dialog {
+  background: #1e1e1e !important;
   color: rgba(255, 255, 255, 0.87) !important;
-  border-color: #363636 !important;
 }
-.header-search-input:focus {
-  background-color: #222222 !important;
-}
-
-.header-search-input::placeholder {
-  color: rgba(255, 255, 255, 0.38);
+.search-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.7);
 }
 
-.search-results-dropdown {
-  background-color: #222222 !important;
-  border-color: #363636 !important;
-}
-.search-results-dropdown a {
+.search-dialog-header {
   border-bottom-color: #363636 !important;
 }
 
-.search-results-dropdown a {
+.search-dialog-input {
+  color: rgba(255, 255, 255, 0.87) !important;
+}
+
+.search-dialog-item:hover, .search-dialog-item.active {
+  background: #222222 !important;
+}
+
+.search-dialog-item-title {
+  color: rgba(255, 255, 255, 0.87) !important;
+}
+
+.search-dialog-footer {
+  border-top-color: #363636 !important;
+}
+
+.search-dialog-kbd {
+  background: #222222 !important;
+  border-color: #363636 !important;
+}
+
+.nav-dialog {
+  background: #181818 !important;
+}
+
+.nav-dialog-header {
+  border-bottom-color: #363636 !important;
+}
+
+.nav-dialog-link {
+  color: rgba(255, 255, 255, 0.87) !important;
+}
+.nav-dialog-link:hover {
+  background: #1e1e1e !important;
+}
+
+.nav-dialog-close {
   color: rgba(255, 255, 255, 0.7) !important;
-}
-
-.search-results-dropdown a:hover,
-.search-results-dropdown .search-result.active {
-  background-color: #1e1e1e !important;
-}
-
-.search-result-title {
-  color: #5691cd !important;
-}
-
-.search-result-preview {
-  color: rgba(255, 255, 255, 0.38) !important;
-}
-
-.search-result-highlight {
-  color: #5691cd !important;
 }
 
 .search-results-list-item .search-result-title {

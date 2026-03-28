@@ -1,6 +1,25 @@
 // Back button after anchor link should return to previous page and not to same page
 // From https://github.com/allejo/jekyll-anchor-headings/discussions/31#discussioncomment-564411
+
+// ── Shared utilities ──
+var _escDiv = document.createElement('div');
+function escapeHtml(t) { _escDiv.textContent = t; return _escDiv.innerHTML; }
+
+function closeOnBackdropClick(dialog) {
+  dialog.addEventListener('click', function(e) {
+    if (e.target === dialog) dialog.close();
+  });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
+
+  // ── Privacy notice (moved from inline script) ──
+  var privacyEl = document.getElementById('privacy-notice');
+  if (privacyEl && !localStorage.getItem('privacyOK')) {
+    privacyEl.style.display = 'flex';
+    document.body.style.paddingBottom = '3em';
+  }
+
   document.querySelectorAll('.heading-anchor').forEach(function (el) {
     el.addEventListener('click', function (event) {
       event.preventDefault();
@@ -24,39 +43,54 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   // Open external links in a new window
-  document.querySelectorAll('a[href]').forEach(function(b) {
+  document.querySelectorAll('.page-content a[href]').forEach(function(b) {
     if (b.hostname && b.hostname !== location.hostname) {
       b.target = '_blank';
       b.rel = 'noopener noreferrer';
     }
   });
 
-  // ── Close hamburger menu on outside click ──
-  var navTrigger = document.getElementById('nav-trigger');
-  if (navTrigger) {
-    document.addEventListener('click', function(e) {
-      if (navTrigger.checked && !e.target.closest('.site-nav')) {
-        navTrigger.checked = false;
-      }
+  // ── Mobile nav dialog ──
+  var navDialog = document.getElementById('nav-dialog');
+  var hamburgerBtn = document.querySelector('.nav-hamburger');
+  var navCloseBtn = document.querySelector('.nav-dialog-close');
+
+  if (navDialog && hamburgerBtn) {
+    hamburgerBtn.addEventListener('click', function() {
+      navDialog.showModal();
+      hamburgerBtn.setAttribute('aria-expanded', 'true');
+    });
+    if (navCloseBtn) {
+      navCloseBtn.addEventListener('click', function() {
+        navDialog.close();
+      });
+    }
+    navDialog.addEventListener('close', function() {
+      hamburgerBtn.setAttribute('aria-expanded', 'false');
+    });
+    closeOnBackdropClick(navDialog);
+    // Close dialog when a nav link is clicked
+    navDialog.querySelectorAll('.nav-dialog-link[href]').forEach(function(link) {
+      link.addEventListener('click', function() { navDialog.close(); });
     });
   }
 
-  // ── Detect blockquote attributions and style them ──
+  // ── Detect blockquote attributions and reformat callouts (single pass) ──
   document.querySelectorAll('.post-content blockquote').forEach(function(bq) {
+    // Attribution detection
     var lastP = bq.querySelector('p:last-child');
-    if (!lastP) return;
-    var text = lastP.textContent.trim();
-    if (/^[-–—]/.test(text)) {
-      lastP.innerHTML = lastP.innerHTML.replace(/^[-–—]+\s*/, '— ');
-      lastP.classList.add('bq-attribution');
-    } else if (lastP.children.length === 1 && lastP.children[0].tagName === 'EM' && bq.querySelectorAll('p').length > 1) {
-      lastP.innerHTML = '— ' + lastP.innerHTML;
-      lastP.classList.add('bq-attribution');
+    if (lastP) {
+      var attrText = lastP.textContent.trim();
+      if (/^[-–—]/.test(attrText)) {
+        lastP.innerHTML = lastP.innerHTML.replace(/^[-–—]+\s*/, '— ');
+        lastP.classList.add('bq-attribution');
+      } else if (lastP.children.length === 1 && lastP.children[0].tagName === 'EM' && bq.querySelectorAll('p').length > 1) {
+        lastP.innerHTML = '— ' + lastP.innerHTML;
+        lastP.classList.add('bq-attribution');
+      }
     }
-  });
 
-  // ── Reformat internal-link blockquotes as styled callout cards ──
-  document.querySelectorAll('.post-content blockquote').forEach(function(bq) {
+    // Internal-link callout card transformation
     if (bq.querySelector('.katex, .katex-display') || bq.textContent.indexOf('$$') !== -1) return;
     var paras = bq.querySelectorAll('p');
     if (paras.length > 2) return;
@@ -82,11 +116,11 @@ document.addEventListener('DOMContentLoaded', function() {
     var callout = document.createElement('div');
     callout.className = 'inline-post-callout';
     callout.innerHTML =
-      '<a href="' + href + '" class="inline-post-callout-link">' +
+      '<a href="' + escapeHtml(href) + '" class="inline-post-callout-link">' +
         '<span class="inline-post-callout-icon"><i class="fas fa-book-reader"></i></span>' +
         '<span class="inline-post-callout-body">' +
-          (prefix ? '<span class="inline-post-callout-prefix">' + prefix + '</span>' : '') +
-          '<span class="inline-post-callout-title">' + text + '</span>' +
+          (prefix ? '<span class="inline-post-callout-prefix">' + escapeHtml(prefix) + '</span>' : '') +
+          '<span class="inline-post-callout-title">' + escapeHtml(text) + '</span>' +
         '</span>' +
         '<span class="inline-post-callout-arrow"><i class="fas fa-arrow-right"></i></span>' +
       '</a>';
@@ -96,18 +130,18 @@ document.addEventListener('DOMContentLoaded', function() {
   // ── Back to top button ──
   var backBtn = document.getElementById('back-to-top');
   if (backBtn) {
-    var privacyNotice = document.getElementById('privacy-notice');
+    var ticking = false;
+    var bannerVisible = !!(privacyEl && privacyEl.style.display === 'flex');
     function updateBackBtn() {
       if (window.scrollY > 400) backBtn.classList.add('visible');
       else backBtn.classList.remove('visible');
-      // Push above privacy banner if it's visible
-      if (privacyNotice && privacyNotice.style.display === 'flex') {
-        backBtn.classList.add('above-banner');
-      } else {
-        backBtn.classList.remove('above-banner');
-      }
+      if (bannerVisible) backBtn.classList.add('above-banner');
+      else backBtn.classList.remove('above-banner');
+      ticking = false;
     }
-    window.addEventListener('scroll', updateBackBtn, { passive: true });
+    window.addEventListener('scroll', function() {
+      if (!ticking) { ticking = true; requestAnimationFrame(updateBackBtn); }
+    }, { passive: true });
     updateBackBtn();
     backBtn.addEventListener('click', function() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -115,22 +149,21 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // ── Dark mode: image handling ──
-  // data-transparent-dark="true"  → light card background (preserves text readability, works on GIFs/videos)
-  // data-invert-dark="true"       → invert filter
-  // data-no-invert                → skip entirely
-  // No attribute                  → auto-detect via canvas sampling
-  var isDark = typeof window.isDarkMode === 'function' ? window.isDarkMode() : false;
+  var isDark = window.isDarkMode ? window.isDarkMode() : false;
   if (isDark) {
     var INVERT_FILTER = 'invert(0.88) hue-rotate(180deg)';
-    var sampleCanvas = document.createElement('canvas');
-    sampleCanvas.width = 50;
-    sampleCanvas.height = 50;
-    var sampleCtx = sampleCanvas.getContext('2d');
+    var darkImages = document.querySelectorAll('.post-content img');
+    var sampleCanvas, sampleCtx;
+    if (darkImages.length) {
+      sampleCanvas = document.createElement('canvas');
+      sampleCanvas.width = 50;
+      sampleCanvas.height = 50;
+      sampleCtx = sampleCanvas.getContext('2d');
+    }
 
     function analyzeAndInvert(img) {
       if (img.hasAttribute('data-no-invert')) return;
       if (img.getAttribute('data-transparent-dark') === 'true') {
-        // CSS-only: light card background — works on img, GIF, video, cross-origin
         img.style.background = 'rgba(255, 255, 255, 0.92)';
         img.style.borderRadius = 'var(--radius-md, 6px)';
         img.style.padding = '4px';
@@ -156,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function() {
       } catch(e) { /* cross-origin images — skip */ }
     }
 
-    document.querySelectorAll('.post-content img').forEach(function(img) {
+    darkImages.forEach(function(img) {
       if (img.complete && img.naturalWidth > 0) analyzeAndInvert(img);
       else img.addEventListener('load', function() { analyzeAndInvert(img); });
     });
@@ -166,8 +199,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // ── Inline header search (lunr.js) ──
-  initHeaderSearch();
+  // ── Search dialog (lunr.js) ──
+  initSearchDialog();
 
   // ── Copy button for all code blocks ──
   var COPY_SVG = '<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/></svg>';
@@ -223,13 +256,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
 }, false);
 
-function initHeaderSearch() {
+function initSearchDialog() {
+  var dialog = document.getElementById('search-dialog');
+  var input = document.getElementById('search-dialog-input');
+  var resultsEl = document.getElementById('search-dialog-results');
+  if (!dialog || !input || !resultsEl) return;
   if (typeof lunr === 'undefined') return;
-  var containers = document.querySelectorAll('.header-search');
-  if (!containers.length) return;
 
-  var searchData = null;
-  var searchIndex = null;
+  var searchData = null, searchIndex = null;
 
   function loadSearchData(cb) {
     if (searchData) { if (cb) cb(); return; }
@@ -237,8 +271,7 @@ function initHeaderSearch() {
     req.open('GET', '/assets/js/search-data.json', true);
     req.onload = function() {
       if (req.status >= 200 && req.status < 400) {
-        try { searchData = JSON.parse(req.responseText); }
-        catch (e) { console.error('Search data parse error:', e); return; }
+        try { searchData = JSON.parse(req.responseText); } catch(e) { return; }
         searchIndex = lunr(function() {
           this.ref('id');
           this.field('title', { boost: 200 });
@@ -254,79 +287,80 @@ function initHeaderSearch() {
     req.send();
   }
 
-  function hideAllDropdowns() {
-    containers.forEach(function(c) {
-      var dd = c.querySelector('.search-results-dropdown');
-      if (dd) { dd.innerHTML = ''; dd.classList.remove('active'); }
-    });
-  }
-
-  function showResults(dropdown, query) {
-    dropdown.innerHTML = '';
-    dropdown.classList.remove('active');
-    if (!query || !searchIndex) return;
+  function showResults(query) {
+    resultsEl.innerHTML = '';
+    if (!query) return;
+    if (!searchIndex) { loadSearchData(function() { showResults(query); }); return; }
     var results = searchIndex.query(function(q) {
       var tokens = lunr.tokenizer(query);
       q.term(tokens, { boost: 10 });
       q.term(tokens, { wildcard: lunr.Query.wildcard.TRAILING });
     });
-    if (results.length === 0) return;
-    dropdown.classList.add('active');
-    var shown = Math.min(results.length, 8);
+    if (!results.length) {
+      resultsEl.innerHTML = '<div class="search-dialog-empty">No results found.</div>';
+      return;
+    }
+    var shown = Math.min(results.length, 10);
     for (var i = 0; i < shown; i++) {
       var doc = searchData[results[i].ref];
       if (!doc) continue;
       var a = document.createElement('a');
       a.href = doc.url;
-      var title = document.createElement('div');
-      title.className = 'search-result-title';
-      title.textContent = doc.title;
-      a.appendChild(title);
-      if (doc.date) {
-        var date = document.createElement('span');
-        date.className = 'search-result-preview';
-        date.textContent = doc.date;
-        a.appendChild(date);
-      }
-      dropdown.appendChild(a);
+      a.className = 'search-dialog-item';
+      a.setAttribute('role', 'option');
+      a.innerHTML = '<div class="search-dialog-item-title">' + escapeHtml(doc.title) + '</div>' +
+        (doc.date ? '<div class="search-dialog-item-meta">' + escapeHtml(doc.date) + '</div>' : '');
+      resultsEl.appendChild(a);
     }
   }
 
-  containers.forEach(function(container) {
-    var input = container.querySelector('.header-search-input');
-    var dropdown = container.querySelector('.search-results-dropdown');
-    if (!input || !dropdown) return;
+  function openSearch() {
+    dialog.showModal();
+    input.value = '';
+    resultsEl.innerHTML = '';
+    input.focus();
+    // Close nav dialog if open
+    var navDialog = document.getElementById('nav-dialog');
+    if (navDialog && navDialog.open) navDialog.close();
+  }
 
-    input.addEventListener('focus', function() { loadSearchData(); });
-
-    var debounceTimer;
-    input.addEventListener('input', function() {
-      clearTimeout(debounceTimer);
-      debounceTimer = setTimeout(function() { showResults(dropdown, input.value); }, 150);
-    });
-
-    input.addEventListener('keydown', function(e) {
-      var items = dropdown.querySelectorAll('a');
-      var active = dropdown.querySelector('a.active');
-      if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        if (active) { active.classList.remove('active'); var next = active.nextElementSibling; if (next) next.classList.add('active'); }
-        else if (items.length) items[0].classList.add('active');
-      } else if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        if (active) { active.classList.remove('active'); var prev = active.previousElementSibling; if (prev) prev.classList.add('active'); }
-      } else if (e.key === 'Enter') {
-        e.preventDefault();
-        if (active) window.location.href = active.getAttribute('href');
-        else if (items.length) window.location.href = items[0].getAttribute('href');
-      } else if (e.key === 'Escape') {
-        hideAllDropdowns();
-        input.blur();
-      }
-    });
+  // Trigger buttons
+  document.querySelectorAll('.search-trigger').forEach(function(btn) {
+    btn.addEventListener('click', openSearch);
   });
 
-  document.addEventListener('click', function(e) {
-    if (!e.target.closest('.header-search')) hideAllDropdowns();
+  // Ctrl+K / Cmd+K global shortcut
+  document.addEventListener('keydown', function(e) {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+      e.preventDefault();
+      openSearch();
+    }
   });
+
+  // Input handler with debounce
+  var debounceTimer;
+  input.addEventListener('input', function() {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(function() { showResults(input.value); }, 150);
+  });
+
+  // Keyboard navigation within results
+  input.addEventListener('keydown', function(e) {
+    var items = resultsEl.querySelectorAll('a');
+    var active = resultsEl.querySelector('a.active');
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (active) { active.classList.remove('active'); var n = active.nextElementSibling; if (n && n.tagName === 'A') n.classList.add('active'); }
+      else if (items.length) items[0].classList.add('active');
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (active) { active.classList.remove('active'); var p = active.previousElementSibling; if (p && p.tagName === 'A') p.classList.add('active'); }
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      if (active) window.location.href = active.getAttribute('href');
+      else if (items.length) window.location.href = items[0].getAttribute('href');
+    }
+  });
+
+  closeOnBackdropClick(dialog);
 }

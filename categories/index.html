@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"><head>
+<html lang="en" class="no-js"><head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -23,17 +23,22 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Zeeshan Khan Suri"},"description":"Browse all posts by topic","headline":"Tags","url":"https://zshn25.github.io/categories/"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><!-- Self-hosted vendor CSS (no cross-origin requests for privacy) -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#181818" media="(prefers-color-scheme: dark)">
+<!-- Preload critical font -->
+<link rel="preload" href="/assets/vendor/fonts/inter/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+<!-- Self-hosted vendor CSS (no cross-origin requests for privacy) -->
 <!-- Primer utility classes are now inlined via _sass/minima/_primer-utilities.scss -->
 <link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css"></noscript>
 <link rel="stylesheet" href="/assets/vendor/academicons/css/academicons.min.css" media="print" onload="this.media='all'">
     <!-- KaTeX: only on content pages (skipped on homepage for performance) -->
-    <link rel="stylesheet" href="/assets/vendor/katex/katex.min.css">
+    <link rel="stylesheet" href="/assets/vendor/katex/katex.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="/assets/vendor/katex/katex.min.css"></noscript>
     <script defer src="/assets/vendor/katex/katex.min.js"></script>
     <script defer src="/assets/vendor/katex/contrib/auto-render.min.js"></script>
     <script>
-        function tryRenderMath() {
+        function tryRenderMath(n) {
             if (typeof renderMathInElement === 'function') {
                 renderMathInElement(document.body, {
                     delimiters: [
@@ -45,9 +50,8 @@
                     throwOnError: false,
                     trust: true
                 });
-            } else {
-                // Retry once after a short delay (deferred scripts may not have loaded yet)
-                setTimeout(tryRenderMath, 100);
+            } else if ((n || 0) < 50) {
+                setTimeout(function() { tryRenderMath((n || 0) + 1); }, 100);
             }
         }
         if (document.readyState === 'loading') {
@@ -59,40 +63,175 @@
 
 
 
-<link id="dark-css" href="/assets/css/dark.css" rel="stylesheet" media="(prefers-color-scheme: dark)">
-<script src="/assets/js/applytheme.js"></script>
-<script src="/assets/js/consent-gate.js"></script>
+<script>document.documentElement.className=document.documentElement.className.replace(/\bno-js\b/,'js');</script>
+<link id="dark-css" href="/assets/css/dark.css" rel="stylesheet" media="(prefers-color-scheme: dark)"><script>// Theme toggle: system (auto) → light → dark → system
+(function () {
+  var STORAGE_KEY = "colorScheme";
+  var darkLink = document.querySelector("#dark-css");
+
+  function getStored() {
+    try { return localStorage.getItem(STORAGE_KEY); } catch (e) { return null; }
+  }
+
+  function setStored(v) {
+    try {
+      if (v === null) localStorage.removeItem(STORAGE_KEY);
+      else localStorage.setItem(STORAGE_KEY, v);
+    } catch (e) { /* private browsing */ }
+  }
+
+  function apply(mode) {
+    if (!darkLink) return;
+    if (mode === "dark") darkLink.removeAttribute("media");
+    else if (mode === "light") darkLink.setAttribute("media", "not all");
+    else darkLink.setAttribute("media", "(prefers-color-scheme: dark)");
+    // Update theme-color meta for mobile browser chrome
+    var metas = document.querySelectorAll('meta[name="theme-color"]');
+    if (metas.length >= 2) {
+      if (mode === "dark") { metas[0].content = "#181818"; metas[1].content = "#181818"; }
+      else if (mode === "light") { metas[0].content = "#ffffff"; metas[1].content = "#ffffff"; }
+      else { metas[0].content = "#ffffff"; metas[1].content = "#181818"; }
+    }
+  }
+
+  var LABELS = { dark: "Switch to System theme", light: "Switch to Dark theme", system: "Switch to Light theme" };
+  var ICONS = { dark: "fa-sun", light: "fa-moon", system: "fa-adjust" };
+  var MODE_LABELS = { dark: "Light mode", light: "Dark mode", system: "System theme" };
+
+  function updateToggle(el, iconSel, mode, showLabel) {
+    if (!el) return;
+    var icon = el.querySelector(iconSel);
+    if (icon) {
+      icon.classList.remove("fa-moon", "fa-sun", "fa-adjust");
+      icon.classList.add(ICONS[mode] || "fa-adjust");
+    }
+    el.setAttribute("aria-label", LABELS[mode] || "Toggle theme");
+    if (!showLabel) el.title = LABELS[mode] || "Toggle theme";
+    if (showLabel) {
+      var label = el.querySelector(".nav-theme-label-mobile");
+      if (label) label.textContent = MODE_LABELS[mode] || "Theme";
+    }
+  }
+
+  function updateIcon(mode) {
+    updateToggle(document.getElementById("nav-switch-theme"), ".nav-theme-icon", mode, false);
+    updateToggle(document.getElementById("nav-switch-theme-mobile"), ".nav-theme-icon-mobile", mode, true);
+  }
+
+  function cycle() {
+    var stored = getStored();
+    var next;
+    if (stored === null) next = "light";
+    else if (stored === "light") next = "dark";
+    else next = null;
+    setStored(next);
+    apply(next || "system");
+    updateIcon(next || "system");
+  }
+
+  // Initial apply
+  var stored = getStored();
+  if (stored === "dark") apply("dark");
+  else if (stored === "light") apply("light");
+
+  function init() {
+    var toggle = document.getElementById("nav-switch-theme");
+    if (toggle) {
+      toggle.style.display = "";
+      toggle.addEventListener("click", cycle);
+    }
+    var toggleM = document.getElementById("nav-switch-theme-mobile");
+    if (toggleM) {
+      toggleM.style.display = "";
+      toggleM.addEventListener("click", cycle);
+    }
+    updateIcon(stored || "system");
+  }
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
+  else init();
+
+  // ── Shared utilities (used by main.js, consent-gate.js, utterances.html) ──
+  window.isDarkMode = function() {
+    if (!darkLink) return false;
+    return darkLink.media === '' || (darkLink.media === '(prefers-color-scheme: dark)' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  };
+})();
+</script>
+<script src="/assets/js/consent-gate.js" defer></script>
 <script src="/assets/js/vendor/lunr.min.js" defer></script>
 <script src="/assets/js/main.js" defer></script>
 </head>
-<body><header class="site-header fixed-top">
+<body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <a class="skip-link" href="#site-nav">Skip to navigation</a>
+    <a class="skip-link" href="#footer">Skip to footer</a><header class="site-header fixed-top">
   <div class="wrapper header-wrapper">
     <a class="site-title no-underline" rel="author" href="/">
       <img src="/images/logo.webp" style="max-width:40px;" alt="Curiosity logo" width="40" height="40">
       Curiosity
-    </a><nav class="site-nav">
-      <input type="checkbox" id="nav-trigger" class="nav-trigger" />
-      <label for="nav-trigger">
-        <span class="menu-icon"></span>
-      </label>
-
-      <div class="nav-items"><a class="page-link nav-item" href="/about/">About</a><div class="header-search nav-item">
-          <i class="fas fa-search header-search-icon"></i>
-          <input type="text" class="header-search-input js-search-input" placeholder="Search..." aria-label="Search Curiosity" autocomplete="off">
-          <div class="search-results-dropdown js-search-results"></div>
-        </div>
+    </a><nav id="site-nav" class="site-nav" aria-label="Main navigation">
+      <!-- Desktop nav links (hidden below breakpoint) -->
+      <div class="nav-items-desktop"><a class="page-link nav-item" href="/about/">About</a><button type="button" class="nav-item header-icon-btn search-trigger" aria-label="Search (Ctrl+K)" title="Search (Ctrl+K)">
+          <span class="fas fa-search" aria-hidden="true"></span>
+        </button>
         <a href="/feed.xml" class="nav-item header-icon-btn no-underline no_icon" title="RSS Feed" aria-label="Subscribe via RSS">
           <span class="fas fa-rss rss-icon" aria-hidden="true"></span>
         </a>
-        <span id="nav-switch-theme" class="nav-item header-icon-btn" style="display:none">
-          <span class="nav-theme-icon fas fa-fw" aria-hidden="true" title="Theme"></span>
-        </span>
+        <button id="nav-switch-theme" type="button" class="nav-item header-icon-btn" style="display:none" aria-label="Toggle theme">
+          <span class="nav-theme-icon fas fa-fw" aria-hidden="true"></span>
+        </button>
+      </div>
+
+      <!-- Mobile: search + hamburger (visible below breakpoint) -->
+      <div class="nav-mobile-actions">
+        <button type="button" class="header-icon-btn search-trigger" aria-label="Search (Ctrl+K)">
+          <span class="fas fa-search" aria-hidden="true"></span>
+        </button>
+        <button type="button" class="nav-hamburger" aria-label="Open navigation menu" aria-expanded="false" aria-controls="nav-dialog">
+          <span class="fas fa-bars" aria-hidden="true"></span>
+        </button>
       </div>
     </nav></div>
 </header>
 
-    
-    <main class="page-content" aria-label="Content">
+<!-- Mobile nav dialog -->
+<dialog id="nav-dialog" class="nav-dialog" aria-label="Navigation menu">
+  <div class="nav-dialog-header">
+    <span class="nav-dialog-title">Menu</span>
+    <button type="button" class="nav-dialog-close" aria-label="Close navigation menu">
+      <span class="fas fa-times" aria-hidden="true"></span>
+    </button>
+  </div>
+  <nav class="nav-dialog-body" aria-label="Mobile navigation"><a class="nav-dialog-link" href="/about/">About</a><button type="button" class="nav-dialog-link search-trigger" aria-label="Search">
+      <span class="fas fa-search" aria-hidden="true"></span> Search
+    </button>
+    <a href="/feed.xml" class="nav-dialog-link no_icon" aria-label="Subscribe via RSS">
+      <span class="fas fa-rss rss-icon" aria-hidden="true"></span> RSS Feed
+    </a>
+    <button type="button" id="nav-switch-theme-mobile" class="nav-dialog-link" style="display:none" aria-label="Toggle theme">
+      <span class="nav-theme-icon-mobile fas fa-fw" aria-hidden="true"></span> <span class="nav-theme-label-mobile">Theme</span>
+    </button>
+  </nav>
+</dialog>
+<dialog id="search-dialog" class="search-dialog" aria-label="Search Curiosity">
+  <form method="dialog" class="search-dialog-form">
+    <div class="search-dialog-header">
+      <span class="search-dialog-icon fas fa-search" aria-hidden="true"></span>
+      <input type="text" id="search-dialog-input" class="search-dialog-input" placeholder="Search posts..." autocomplete="off" aria-label="Search">
+      <kbd class="search-dialog-kbd">Esc</kbd>
+    </div>
+    <div id="search-dialog-results" class="search-dialog-results" role="listbox" aria-label="Search results"></div>
+    <div class="search-dialog-footer">
+      <span><kbd>&uarr;</kbd><kbd>&darr;</kbd> navigate</span>
+      <span><kbd>Enter</kbd> select</span>
+      <span><kbd>Esc</kbd> close</span>
+    </div>
+  </form>
+</dialog>
+
+
+    <main id="main-content" class="page-content" aria-label="Content">
       <div class="wrapper">
         <div class="home">
 
@@ -1116,7 +1255,7 @@
 </div>
 
       </div>
-    </main><footer class="site-footer h-card">
+    </main><footer id="footer" class="site-footer h-card">
   <data class="u-url" href="/"></data>
 
   <div class="wrapper">
@@ -1130,7 +1269,7 @@
         </p>
         <ul class="contact-list">
           <li class="p-name">© Zeeshan Khan Suri </li>
-          <li><div xmlns:cc="http://creativecommons.org/ns#" > Text under  <a href="https://creativecommons.org/licenses/by-nc/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/cc.svg" alt="CC" width="22" height="22"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/by.svg" alt="BY" width="22" height="22"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/nc.svg" alt="NC" width="22" height="22"></a> unless stated otherwise. Images and other media have their own copyright. </div></li>
+          <li><div xmlns:cc="http://creativecommons.org/ns#" > Text under  <a href="https://creativecommons.org/licenses/by-nc/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/cc.svg" alt="Creative Commons" width="22" height="22"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/by.svg" alt="Attribution" width="22" height="22"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/nc.svg" alt="Non-Commercial" width="22" height="22"></a> unless stated otherwise. Images and other media have their own copyright. </div></li>
           <li><span class="u-email">zshn25[at]gmail[dot]com</span></li>
         </ul>
       </div>
@@ -1139,28 +1278,18 @@
       </div>
     </div>
 
-    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/zshn25" target="_blank" title="GitHub"><i class="fab fa-github grey" title="GitHub"></i></a></li><li><a rel="me" href="https://twitter.com/zshn25" target="_blank" title="Twitter"><i class="fab fa-twitter grey" title="Twitter"></i></a></li><li><a rel="me" href="https://www.linkedin.com/in/zshn25" target="_blank" title="LinkedIn"><i class="fab fa-linkedin grey" title="LinkedIn"></i></a></li><li><a rel="me" href="https://scholar.google.com/citations?user=DSLVuBgAAAAJ" target="_blank" title="Google Scholar"><i class="ai ai-google-scholar grey" title="Google Scholar"></i></a></li></ul></div>
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me noopener noreferrer" href="https://github.com/zshn25" target="_blank" aria-label="GitHub (opens in new tab)"><i class="fab fa-github grey" aria-hidden="true"></i></a></li><li><a rel="me noopener noreferrer" href="https://twitter.com/zshn25" target="_blank" aria-label="Twitter (opens in new tab)"><i class="fab fa-twitter grey" aria-hidden="true"></i></a></li><li><a rel="me noopener noreferrer" href="https://www.linkedin.com/in/zshn25" target="_blank" aria-label="LinkedIn (opens in new tab)"><i class="fab fa-linkedin grey" aria-hidden="true"></i></a></li><li><a rel="me noopener noreferrer" href="https://scholar.google.com/citations?user=DSLVuBgAAAAJ" target="_blank" aria-label="Google Scholar (opens in new tab)"><i class="ai ai-google-scholar grey" aria-hidden="true"></i></a></li></ul>
+</div>
 
   </div>
 
 </footer>
 <!-- Informational privacy notice (not a cookie consent - this site does not use cookies) -->
-<div id="privacy-notice" style="display:none">
+<div id="privacy-notice" role="status" style="display:none">
     This site does not use cookies or track you. Some posts contain embedded content that connects to third parties only when you click.
     <a href="/about/#privacy">Learn more</a>
     <button class="privacy-ok-btn" onclick="localStorage.setItem('privacyOK','1');document.getElementById('privacy-notice').style.display='none';document.body.style.paddingBottom=''">OK</button>
 </div>
-<script>
-(function(){
-  if(!localStorage.getItem('privacyOK')){
-    var el=document.getElementById('privacy-notice');
-    if(el) {
-      el.style.display='flex';
-      document.body.style.paddingBottom='3em';
-    }
-  }
-})();
-</script>
 <button class="back-to-top" id="back-to-top" aria-label="Back to top">
       <i class="fas fa-chevron-up"></i>
     </button>

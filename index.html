@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"><head>
+<html lang="en" class="no-js"><head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -26,47 +26,186 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"WebSite","author":{"@type":"Person","name":"Zeeshan Khan Suri"},"description":"I am curious. Therefore I am.","headline":"Curiosity","image":"https://zshn25.github.io/images/logo.png","name":"Curiosity","url":"https://zshn25.github.io/"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><!-- Self-hosted vendor CSS (no cross-origin requests for privacy) -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#181818" media="(prefers-color-scheme: dark)">
+<!-- Preload critical font -->
+<link rel="preload" href="/assets/vendor/fonts/inter/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+<!-- Self-hosted vendor CSS (no cross-origin requests for privacy) -->
 <!-- Primer utility classes are now inlined via _sass/minima/_primer-utilities.scss -->
 <link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css"></noscript>
 <link rel="stylesheet" href="/assets/vendor/academicons/css/academicons.min.css" media="print" onload="this.media='all'">
 
 
-<link id="dark-css" href="/assets/css/dark.css" rel="stylesheet" media="(prefers-color-scheme: dark)">
-<script src="/assets/js/applytheme.js"></script>
-<script src="/assets/js/consent-gate.js"></script>
+<script>document.documentElement.className=document.documentElement.className.replace(/\bno-js\b/,'js');</script>
+<link id="dark-css" href="/assets/css/dark.css" rel="stylesheet" media="(prefers-color-scheme: dark)"><script>// Theme toggle: system (auto) → light → dark → system
+(function () {
+  var STORAGE_KEY = "colorScheme";
+  var darkLink = document.querySelector("#dark-css");
+
+  function getStored() {
+    try { return localStorage.getItem(STORAGE_KEY); } catch (e) { return null; }
+  }
+
+  function setStored(v) {
+    try {
+      if (v === null) localStorage.removeItem(STORAGE_KEY);
+      else localStorage.setItem(STORAGE_KEY, v);
+    } catch (e) { /* private browsing */ }
+  }
+
+  function apply(mode) {
+    if (!darkLink) return;
+    if (mode === "dark") darkLink.removeAttribute("media");
+    else if (mode === "light") darkLink.setAttribute("media", "not all");
+    else darkLink.setAttribute("media", "(prefers-color-scheme: dark)");
+    // Update theme-color meta for mobile browser chrome
+    var metas = document.querySelectorAll('meta[name="theme-color"]');
+    if (metas.length >= 2) {
+      if (mode === "dark") { metas[0].content = "#181818"; metas[1].content = "#181818"; }
+      else if (mode === "light") { metas[0].content = "#ffffff"; metas[1].content = "#ffffff"; }
+      else { metas[0].content = "#ffffff"; metas[1].content = "#181818"; }
+    }
+  }
+
+  var LABELS = { dark: "Switch to System theme", light: "Switch to Dark theme", system: "Switch to Light theme" };
+  var ICONS = { dark: "fa-sun", light: "fa-moon", system: "fa-adjust" };
+  var MODE_LABELS = { dark: "Light mode", light: "Dark mode", system: "System theme" };
+
+  function updateToggle(el, iconSel, mode, showLabel) {
+    if (!el) return;
+    var icon = el.querySelector(iconSel);
+    if (icon) {
+      icon.classList.remove("fa-moon", "fa-sun", "fa-adjust");
+      icon.classList.add(ICONS[mode] || "fa-adjust");
+    }
+    el.setAttribute("aria-label", LABELS[mode] || "Toggle theme");
+    if (!showLabel) el.title = LABELS[mode] || "Toggle theme";
+    if (showLabel) {
+      var label = el.querySelector(".nav-theme-label-mobile");
+      if (label) label.textContent = MODE_LABELS[mode] || "Theme";
+    }
+  }
+
+  function updateIcon(mode) {
+    updateToggle(document.getElementById("nav-switch-theme"), ".nav-theme-icon", mode, false);
+    updateToggle(document.getElementById("nav-switch-theme-mobile"), ".nav-theme-icon-mobile", mode, true);
+  }
+
+  function cycle() {
+    var stored = getStored();
+    var next;
+    if (stored === null) next = "light";
+    else if (stored === "light") next = "dark";
+    else next = null;
+    setStored(next);
+    apply(next || "system");
+    updateIcon(next || "system");
+  }
+
+  // Initial apply
+  var stored = getStored();
+  if (stored === "dark") apply("dark");
+  else if (stored === "light") apply("light");
+
+  function init() {
+    var toggle = document.getElementById("nav-switch-theme");
+    if (toggle) {
+      toggle.style.display = "";
+      toggle.addEventListener("click", cycle);
+    }
+    var toggleM = document.getElementById("nav-switch-theme-mobile");
+    if (toggleM) {
+      toggleM.style.display = "";
+      toggleM.addEventListener("click", cycle);
+    }
+    updateIcon(stored || "system");
+  }
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
+  else init();
+
+  // ── Shared utilities (used by main.js, consent-gate.js, utterances.html) ──
+  window.isDarkMode = function() {
+    if (!darkLink) return false;
+    return darkLink.media === '' || (darkLink.media === '(prefers-color-scheme: dark)' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  };
+})();
+</script>
+<script src="/assets/js/consent-gate.js" defer></script>
 <script src="/assets/js/vendor/lunr.min.js" defer></script>
 <script src="/assets/js/main.js" defer></script>
 </head>
-<body><header class="site-header fixed-top">
+<body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <a class="skip-link" href="#site-nav">Skip to navigation</a>
+    <a class="skip-link" href="#footer">Skip to footer</a><header class="site-header fixed-top">
   <div class="wrapper header-wrapper">
     <a class="site-title no-underline" rel="author" href="/">
       <img src="/images/logo.webp" style="max-width:40px;" alt="Curiosity logo" width="40" height="40">
       Curiosity
-    </a><nav class="site-nav">
-      <input type="checkbox" id="nav-trigger" class="nav-trigger" />
-      <label for="nav-trigger">
-        <span class="menu-icon"></span>
-      </label>
-
-      <div class="nav-items"><a class="page-link nav-item" href="/about/">About</a><div class="header-search nav-item">
-          <i class="fas fa-search header-search-icon"></i>
-          <input type="text" class="header-search-input js-search-input" placeholder="Search..." aria-label="Search Curiosity" autocomplete="off">
-          <div class="search-results-dropdown js-search-results"></div>
-        </div>
+    </a><nav id="site-nav" class="site-nav" aria-label="Main navigation">
+      <!-- Desktop nav links (hidden below breakpoint) -->
+      <div class="nav-items-desktop"><a class="page-link nav-item" href="/about/">About</a><button type="button" class="nav-item header-icon-btn search-trigger" aria-label="Search (Ctrl+K)" title="Search (Ctrl+K)">
+          <span class="fas fa-search" aria-hidden="true"></span>
+        </button>
         <a href="/feed.xml" class="nav-item header-icon-btn no-underline no_icon" title="RSS Feed" aria-label="Subscribe via RSS">
           <span class="fas fa-rss rss-icon" aria-hidden="true"></span>
         </a>
-        <span id="nav-switch-theme" class="nav-item header-icon-btn" style="display:none">
-          <span class="nav-theme-icon fas fa-fw" aria-hidden="true" title="Theme"></span>
-        </span>
+        <button id="nav-switch-theme" type="button" class="nav-item header-icon-btn" style="display:none" aria-label="Toggle theme">
+          <span class="nav-theme-icon fas fa-fw" aria-hidden="true"></span>
+        </button>
+      </div>
+
+      <!-- Mobile: search + hamburger (visible below breakpoint) -->
+      <div class="nav-mobile-actions">
+        <button type="button" class="header-icon-btn search-trigger" aria-label="Search (Ctrl+K)">
+          <span class="fas fa-search" aria-hidden="true"></span>
+        </button>
+        <button type="button" class="nav-hamburger" aria-label="Open navigation menu" aria-expanded="false" aria-controls="nav-dialog">
+          <span class="fas fa-bars" aria-hidden="true"></span>
+        </button>
       </div>
     </nav></div>
 </header>
 
-    
-    <main class="page-content" aria-label="Content">
+<!-- Mobile nav dialog -->
+<dialog id="nav-dialog" class="nav-dialog" aria-label="Navigation menu">
+  <div class="nav-dialog-header">
+    <span class="nav-dialog-title">Menu</span>
+    <button type="button" class="nav-dialog-close" aria-label="Close navigation menu">
+      <span class="fas fa-times" aria-hidden="true"></span>
+    </button>
+  </div>
+  <nav class="nav-dialog-body" aria-label="Mobile navigation"><a class="nav-dialog-link" href="/about/">About</a><button type="button" class="nav-dialog-link search-trigger" aria-label="Search">
+      <span class="fas fa-search" aria-hidden="true"></span> Search
+    </button>
+    <a href="/feed.xml" class="nav-dialog-link no_icon" aria-label="Subscribe via RSS">
+      <span class="fas fa-rss rss-icon" aria-hidden="true"></span> RSS Feed
+    </a>
+    <button type="button" id="nav-switch-theme-mobile" class="nav-dialog-link" style="display:none" aria-label="Toggle theme">
+      <span class="nav-theme-icon-mobile fas fa-fw" aria-hidden="true"></span> <span class="nav-theme-label-mobile">Theme</span>
+    </button>
+  </nav>
+</dialog>
+<dialog id="search-dialog" class="search-dialog" aria-label="Search Curiosity">
+  <form method="dialog" class="search-dialog-form">
+    <div class="search-dialog-header">
+      <span class="search-dialog-icon fas fa-search" aria-hidden="true"></span>
+      <input type="text" id="search-dialog-input" class="search-dialog-input" placeholder="Search posts..." autocomplete="off" aria-label="Search">
+      <kbd class="search-dialog-kbd">Esc</kbd>
+    </div>
+    <div id="search-dialog-results" class="search-dialog-results" role="listbox" aria-label="Search results"></div>
+    <div class="search-dialog-footer">
+      <span><kbd>&uarr;</kbd><kbd>&darr;</kbd> navigate</span>
+      <span><kbd>Enter</kbd> select</span>
+      <span><kbd>Esc</kbd> close</span>
+    </div>
+  </form>
+</dialog>
+
+
+    <main id="main-content" class="page-content" aria-label="Content">
       <div class="wrapper">
         <div class="home">
 
@@ -353,7 +492,7 @@
       
       <li class="featured-post" data-categories="computer-vision,large-neural-networks,foundation-models,self-supervision"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/self-supervision-for-foundation-models/">
-    <img class="image-preview" src="/images/foundation.webp" fetchpriority="high" alt="Self-supervised learning for vision foundation models" /></a>
+    <img class="image-preview" src="/images/foundation.webp" fetchpriority="high" alt="Self-supervised learning for vision foundation models" width="300" height="300" /></a>
   </div><div class="post-card-body">
     <span class="featured-badge"><i class="fas fa-star"></i> Featured</span>
       <h3>
@@ -403,7 +542,7 @@
       
       <li class="featured-post" data-categories="privacy"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/why-privacy-matters/">
-    <img class="image-preview" src="/images/privacy.webp" loading="lazy" alt="Privacy" /></a>
+    <img class="image-preview" src="/images/privacy.webp" loading="lazy" alt="Privacy" width="300" height="300" /></a>
   </div><div class="post-card-body">
     <span class="featured-badge"><i class="fas fa-star"></i> Featured</span>
       <h3>
@@ -445,7 +584,7 @@
       
       <li class="" data-categories="runtime-optimization,gpu,deep-learning"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/inference_optimizations_benchmark/">
-    <img class="image-preview" src="/images%5C2026-03-24-inference_optimizations_benchmark%5Coutput_80_1.png" loading="lazy" alt="Inference Speedup Benchmark" /></a>
+    <img class="image-preview" src="/images/2026-03-24-inference_optimizations_benchmark/output_80_1.png" loading="lazy" alt="Inference Speedup Benchmark" width="300" height="300" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -491,7 +630,7 @@
       
       <li class="" data-categories="deep-learning,self-supervision,3d-reconstruction,structure-from-motion,visual-odometry,depth-estimation"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/pc4consistentdepth/">
-    <img class="image-preview" src="/images/3dreco/out-poster.webp" loading="lazy" alt="Pose Constraints for Self-supervised Monocular Depth and Ego-Motion" /></a>
+    <img class="image-preview" src="/images/3dreco/out-poster.webp" loading="lazy" alt="Pose Constraints for Self-supervised Monocular Depth and Ego-Motion" width="300" height="300" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -546,7 +685,7 @@
       
       <li class="" data-categories="deep-learning,convolution,attention"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/CNNs-vs-Transformers/">
-    <img class="image-preview" src="/images/vision_transformer.gif" loading="lazy" alt="Convolution vs. Attention" /></a>
+    <img class="image-preview" src="/images/vision_transformer.gif" loading="lazy" alt="Convolution vs. Attention" width="300" height="300" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -592,7 +731,7 @@
       
       <li class="" data-categories="deep-learning,mlops"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/Software-2/">
-    <img class="image-preview" src="/images/loop.svg" loading="lazy" alt="Software 2.0 2.0" /></a>
+    <img class="image-preview" src="/images/loop.svg" loading="lazy" alt="Software 2.0 2.0" width="300" height="300" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -635,7 +774,7 @@
       
       <li class="section-hidden" data-categories="deep-learning,computer-vision,3d-reconstruction,structure-from-motion,visual-odometry"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/How-Monocular-Depth-Estimation-works/">
-    <img class="image-preview" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/2551b04d-fd4e-4ec9-9869-3e8c9ac5e7bf/d93a0lc-e4ecbd7d-6120-4925-be1d-1e250d7e0830.png/v1/fill/w_1024,h_576,q_80,strp/cyclops_greek_mythology_by_nilesdino_d93a0lc-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NTc2IiwicGF0aCI6IlwvZlwvMjU1MWIwNGQtZmQ0ZS00ZWM5LTk4NjktM2U4YzlhYzVlN2JmXC9kOTNhMGxjLWU0ZWNiZDdkLTYxMjAtNDkyNS1iZTFkLTFlMjUwZDdlMDgzMC5wbmciLCJ3aWR0aCI6Ijw9MTAyNCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.kEfvRjpv5KXW_HtOAtsBltiTNTF7DswBz8TwLvRVwyo" loading="lazy" alt="Self-supervised monocular depth estimation" /></a>
+    <img class="image-preview" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/2551b04d-fd4e-4ec9-9869-3e8c9ac5e7bf/d93a0lc-e4ecbd7d-6120-4925-be1d-1e250d7e0830.png/v1/fill/w_1024,h_576,q_80,strp/cyclops_greek_mythology_by_nilesdino_d93a0lc-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NTc2IiwicGF0aCI6IlwvZlwvMjU1MWIwNGQtZmQ0ZS00ZWM5LTk4NjktM2U4YzlhYzVlN2JmXC9kOTNhMGxjLWU0ZWNiZDdkLTYxMjAtNDkyNS1iZTFkLTFlMjUwZDdlMDgzMC5wbmciLCJ3aWR0aCI6Ijw9MTAyNCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.kEfvRjpv5KXW_HtOAtsBltiTNTF7DswBz8TwLvRVwyo" loading="lazy" alt="Self-supervised monocular depth estimation" width="300" height="300" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -687,7 +826,7 @@
       
       <li class="section-hidden" data-categories="c++,vector,tutorial"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/c++-vector-mwe-tutorial/">
-    <img class="image-preview" src="/images/c-coding-6205174_640.png" loading="lazy" alt="A minimal working example of a custom Vector class in C++" /></a>
+    <img class="image-preview" src="/images/c-coding-6205174_640.png" loading="lazy" alt="A minimal working example of a custom Vector class in C++" width="300" height="300" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -733,7 +872,7 @@
       
       <li class="section-hidden" data-categories="deep-learning,pytorch,runtime-optimization"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/Layers-fusion-for-faster-inference/">
-    <img class="image-preview" src="/images/neural-network-3816319.svg" loading="lazy" alt="Layers fusion for faster neural network inference" /></a>
+    <img class="image-preview" src="/images/neural-network-3816319.svg" loading="lazy" alt="Layers fusion for faster neural network inference" width="300" height="300" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -779,7 +918,7 @@
       
       <li class="section-hidden" data-categories="3d-mesh,datasets,computer-vision"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/compilation-3d-mesh-resources/">
-    <img class="image-preview" src="/images/abc_dataset.webp" loading="lazy" alt="Compilation of 3D mesh models" /></a>
+    <img class="image-preview" src="/images/abc_dataset.webp" loading="lazy" alt="Compilation of 3D mesh models" width="300" height="300" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -825,7 +964,7 @@
       
       <li class="section-hidden" data-categories="mathematics,computer-vision"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/is-convolution-linear/">
-    <img class="image-preview" src="/images/convolution_box.gif" loading="lazy" alt="Is convolution linear?" /></a>
+    <img class="image-preview" src="/images/convolution_box.gif" loading="lazy" alt="Is convolution linear?" width="300" height="300" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -868,7 +1007,7 @@
       
       <li class="section-hidden" data-categories="deep-learning,computer-vision,pytorch"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/ResNet-feature-pyramid-in-Pytorch/">
-    <img class="image-preview" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Image_pyramid.svg/1200px-Image_pyramid.svg.png" loading="lazy" alt="ResNet feature pyramid in Pytorch" /></a>
+    <img class="image-preview" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Image_pyramid.svg/1200px-Image_pyramid.svg.png" loading="lazy" alt="ResNet feature pyramid in Pytorch" width="300" height="300" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -914,7 +1053,7 @@
       
       <li class="section-hidden" data-categories="github,tags,releases"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/how-to-release-on-git/">
-    <img class="image-preview" src="/images/octonaut.webp" loading="lazy" alt="How to Release on Github" /></a>
+    <img class="image-preview" src="/images/octonaut.webp" loading="lazy" alt="How to Release on Github" width="300" height="300" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -961,7 +1100,7 @@
     </ul>
     
     <div class="section-toggle-wrap">
-      <button class="section-toggle button is-rounded" data-section="tech" data-total="13">
+      <button class="section-toggle button is-rounded" data-section="tech" data-total="13" aria-expanded="false">
         Show all 13 posts
       </button>
     </div>
@@ -1011,7 +1150,7 @@
       
       <li class="" data-categories="politics,philosophy,social-contract"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/the-necessity-of-the-state/">
-    <img class="image-preview" src="/images/leviathan.webp" loading="lazy" alt="Trading Freedom for Peace: The necessity of the state" /></a>
+    <img class="image-preview" src="/images/leviathan.webp" loading="lazy" alt="Trading Freedom for Peace: The necessity of the state" width="300" height="300" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -1057,7 +1196,7 @@
       
       <li class="" data-categories="politics,philosophy,justice,regime"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/Aristotle-definitions/">
-    <img class="image-preview" src="/images/aristotle.webp" loading="lazy" alt="Aristotle’s regime, the good citizen and justice" /></a>
+    <img class="image-preview" src="/images/aristotle.webp" loading="lazy" alt="Aristotle’s regime, the good citizen and justice" width="300" height="300" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -1106,7 +1245,7 @@
       
       <li class="" data-categories="politics,philosophy,greed,wealth"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/kinds-of-wealth-getting-Aristotle/">
-    <img class="image-preview" src="/images/aristotle_wallstreet.webp" loading="lazy" alt="Reasons for earning money: The good and the ugly" /></a>
+    <img class="image-preview" src="/images/aristotle_wallstreet.webp" loading="lazy" alt="Reasons for earning money: The good and the ugly" width="300" height="300" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -1155,7 +1294,7 @@
       
       <li class="" data-categories="politics,philosophy,justice"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/plato-republic/">
-    <img class="image-preview" src="/images/death_of_socrates.webp" loading="lazy" alt="Notes on Justice from Plato&#39;s Republic" /></a>
+    <img class="image-preview" src="/images/death_of_socrates.webp" loading="lazy" alt="Notes on Justice from Plato&#39;s Republic" width="300" height="300" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -1201,7 +1340,7 @@
       
       <li class="" data-categories="philosophy,meaning"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/purpose/">
-    <img class="image-preview" src="/images/earthrise.webp" loading="lazy" alt="The purpose in life" /></a>
+    <img class="image-preview" src="/images/earthrise.webp" loading="lazy" alt="The purpose in life" width="300" height="300" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -1244,7 +1383,7 @@
       
       <li class="" data-categories="religion,islam,philosophy"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/fasting-during-ramadan/">
-    <img class="image-preview" src="/images/crater-1853110_640.jpg" loading="lazy" alt="The virtue of fasting during Ramadan" /></a>
+    <img class="image-preview" src="/images/crater-1853110_640.jpg" loading="lazy" alt="The virtue of fasting during Ramadan" width="300" height="300" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -1290,7 +1429,7 @@
       
       <li class="section-hidden" data-categories="philosophy,gratitude"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/practicing-gratitude/">
-    <img class="image-preview" src="/images/flower-3175428_640.jpg" loading="lazy" alt="Practicing Gratitude" /></a>
+    <img class="image-preview" src="/images/flower-3175428_640.jpg" loading="lazy" alt="Practicing Gratitude" width="300" height="300" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -1334,7 +1473,7 @@
     </ul>
     
     <div class="section-toggle-wrap">
-      <button class="section-toggle button is-rounded" data-section="philosophy" data-total="7">
+      <button class="section-toggle button is-rounded" data-section="philosophy" data-total="7" aria-expanded="false">
         Show all 7 posts
       </button>
     </div>
@@ -1381,7 +1520,7 @@
       
       <li class="featured-post" data-categories="health,nutrition,cooking"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/nutrition/">
-    <img class="image-preview" src="/images/cook.jpg" loading="lazy" alt="Nutrition" /></a>
+    <img class="image-preview" src="/images/cook.jpg" loading="lazy" alt="Nutrition" width="300" height="300" /></a>
   </div><div class="post-card-body">
     <span class="featured-badge"><i class="fas fa-star"></i> Featured</span>
       <h3>
@@ -1429,14 +1568,14 @@
       
       <li class="" data-categories="external-link,dhmo-conspiracy"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/dihydrogen-monoxide/">
-    <img class="image-preview" src="/images/poison-1481596_640.jpg" loading="lazy" alt="Dihydrogen Monoxide - The Truth" /></a>
+    <img class="image-preview" src="/images/poison-1481596_640.jpg" loading="lazy" alt="Dihydrogen Monoxide - The Truth" width="300" height="300" /></a>
   </div><div class="post-card-body">
       <h3>
         
         
           
       
-      <a class="post-link" href="https://www.dhmo.org/truth/Dihydrogen-Monoxide.html" target="_blank">
+      <a class="post-link" href="https://www.dhmo.org/truth/Dihydrogen-Monoxide.html" target="_blank" rel="noopener noreferrer">
         Dihydrogen Monoxide - The Truth
         <sup><i class="fas fa-external-link-alt" style="font-size: 75%"></i></sup> </a>
       
@@ -1472,7 +1611,7 @@
       
       <li class="" data-categories="investing,finance,stocks"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/gme-stock/">
-    <img class="image-preview" src="/images/tomoon.jpg" loading="lazy" alt="$GME short squeeze" /></a>
+    <img class="image-preview" src="/images/tomoon.jpg" loading="lazy" alt="$GME short squeeze" width="300" height="300" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -1518,7 +1657,7 @@
       
       <li class="" data-categories="food,cooking,recipe"><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card "><div class="post-card-image">
     <a href="/hot-chocolate/">
-    <img class="image-preview" src="/images/recipes/hotchocolate/cocoa.jpg" loading="lazy" alt="Hot chocolate" /></a>
+    <img class="image-preview" src="/images/recipes/hotchocolate/cocoa.jpg" loading="lazy" alt="Hot chocolate" width="300" height="300" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -1909,148 +2048,10 @@
 
 </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  'use strict';
-
-  // ── Tag filter: multi-select toggle within each section ──
-  document.querySelectorAll('.category-chip[data-tag]').forEach(function(chip) {
-    chip.addEventListener('click', function(e) {
-      e.preventDefault();
-      this.classList.toggle('active');
-      applyFilters(this.closest('.topic-section'));
-    });
-  });
-
-  function applyFilters(section) {
-    var activeTags = [];
-    section.querySelectorAll('.category-chip.active').forEach(function(c) {
-      activeTags.push(c.getAttribute('data-tag'));
-    });
-    var items = section.querySelectorAll('.post-list > li');
-    var toggleBtn = section.querySelector('.section-toggle');
-    if (activeTags.length === 0) {
-      // No filter — restore default collapsed state
-      items.forEach(function(item) { item.classList.remove('tag-hidden'); });
-      if (toggleBtn && !toggleBtn.dataset.expanded) {
-        items.forEach(function(item, i) {
-          if (i >= 6) item.classList.add('section-hidden');
-        });
-      }
-    } else {
-      // Filter active — show matching, hide rest, ignore section-hidden
-      items.forEach(function(item) {
-        var cats = (item.getAttribute('data-categories') || '').split(',');
-        var match = activeTags.some(function(t) { return cats.indexOf(t) !== -1; });
-        if (match) {
-          item.classList.remove('tag-hidden');
-          item.classList.remove('section-hidden');
-        } else {
-          item.classList.add('tag-hidden');
-        }
-      });
-    }
-  }
-
-  // ── Show more / Show less toggle per section ──
-  document.querySelectorAll('.section-toggle').forEach(function(btn) {
-    btn.dataset.expanded = '';
-    btn.addEventListener('click', function() {
-      var section = this.closest('.topic-section');
-      var allItems = section.querySelectorAll('.post-list > li');
-      var activeChips = section.querySelectorAll('.category-chip.active');
-
-      // If filters are active, clear them first
-      if (activeChips.length > 0) {
-        activeChips.forEach(function(c) { c.classList.remove('active'); });
-        allItems.forEach(function(li) { li.classList.remove('tag-hidden'); });
-        // Restore collapsed state
-        if (!this.dataset.expanded) {
-          allItems.forEach(function(li, i) {
-            if (i >= 6) li.classList.add('section-hidden');
-          });
-        }
-        return;
-      }
-
-      if (!this.dataset.expanded) {
-        // Expand
-        allItems.forEach(function(li) { li.classList.remove('section-hidden'); });
-        this.dataset.expanded = '1';
-        this.textContent = 'Show less';
-      } else {
-        // Collapse back
-        allItems.forEach(function(li, i) {
-          if (i >= 6) li.classList.add('section-hidden');
-        });
-        this.dataset.expanded = '';
-        this.textContent = 'Show all ' + this.getAttribute('data-total') + ' posts';
-      }
-    });
-  });
-
-  // ── Tag links in post cards: act as filters ──
-  document.querySelectorAll('.post-list .category-tags-link').forEach(function(tagLink) {
-    tagLink.addEventListener('click', function(e) {
-      e.preventDefault();
-      var tag = this.textContent.replace('#', '').trim().toLowerCase();
-      var section = this.closest('.topic-section');
-      if (!section) return;
-      var chip = section.querySelector('.category-chip[data-tag="' + tag + '"]');
-      if (chip) chip.click();
-      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-  });
-
-  // ── Word cloud tag clicks: activate section filter + scroll ──
-  document.querySelectorAll('.tag-cloud a[data-wc-tag]').forEach(function(wcTag) {
-    wcTag.addEventListener('click', function(e) {
-      e.preventDefault();
-      var tag = this.getAttribute('data-wc-tag');
-      // Find ALL chips with this tag across all sections
-      var chips = document.querySelectorAll('.category-chip[data-tag="' + tag + '"]');
-      var scrollTarget = null;
-      chips.forEach(function(chip) {
-        var section = chip.closest('.topic-section');
-        if (!section) return;
-        // Toggle this chip (don't clear others — allow independent per-section)
-        if (!chip.classList.contains('active')) {
-          chip.click();
-        }
-        // Expand the section if collapsed
-        var toggle = section.querySelector('.section-toggle');
-        if (toggle && !toggle.dataset.expanded) toggle.click();
-        if (!scrollTarget) scrollTarget = section;
-      });
-      if (scrollTarget) scrollTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-  });
-
-  // ── Handle ?tag= URL parameter (from post page tag links) ──
-  var params = new URLSearchParams(window.location.search);
-  var tagParam = params.get('tag');
-  if (tagParam) {
-    tagParam = tagParam.toLowerCase();
-    var scrolled = false;
-    document.querySelectorAll('.category-chip[data-tag="' + tagParam + '"]').forEach(function(chip) {
-      chip.click();
-      if (!scrolled) {
-        var section = chip.closest('.topic-section');
-        if (section) {
-          // Expand the section
-          var toggle = section.querySelector('.section-toggle');
-          if (toggle && !toggle.dataset.expanded) toggle.click();
-          section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          scrolled = true;
-        }
-      }
-    });
-  }
-});
-</script>
+<script src="/assets/js/home.js" defer></script>
 
       </div>
-    </main><footer class="site-footer h-card">
+    </main><footer id="footer" class="site-footer h-card">
   <data class="u-url" href="/"></data>
 
   <div class="wrapper">
@@ -2064,7 +2065,7 @@ document.addEventListener('DOMContentLoaded', function() {
         </p>
         <ul class="contact-list">
           <li class="p-name">© Zeeshan Khan Suri </li>
-          <li><div xmlns:cc="http://creativecommons.org/ns#" > Text under  <a href="https://creativecommons.org/licenses/by-nc/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/cc.svg" alt="CC" width="22" height="22"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/by.svg" alt="BY" width="22" height="22"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/nc.svg" alt="NC" width="22" height="22"></a> unless stated otherwise. Images and other media have their own copyright. </div></li>
+          <li><div xmlns:cc="http://creativecommons.org/ns#" > Text under  <a href="https://creativecommons.org/licenses/by-nc/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/cc.svg" alt="Creative Commons" width="22" height="22"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/by.svg" alt="Attribution" width="22" height="22"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/nc.svg" alt="Non-Commercial" width="22" height="22"></a> unless stated otherwise. Images and other media have their own copyright. </div></li>
           <li><span class="u-email">zshn25[at]gmail[dot]com</span></li>
         </ul>
       </div>
@@ -2073,28 +2074,18 @@ document.addEventListener('DOMContentLoaded', function() {
       </div>
     </div>
 
-    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/zshn25" target="_blank" title="GitHub"><i class="fab fa-github grey" title="GitHub"></i></a></li><li><a rel="me" href="https://twitter.com/zshn25" target="_blank" title="Twitter"><i class="fab fa-twitter grey" title="Twitter"></i></a></li><li><a rel="me" href="https://www.linkedin.com/in/zshn25" target="_blank" title="LinkedIn"><i class="fab fa-linkedin grey" title="LinkedIn"></i></a></li><li><a rel="me" href="https://scholar.google.com/citations?user=DSLVuBgAAAAJ" target="_blank" title="Google Scholar"><i class="ai ai-google-scholar grey" title="Google Scholar"></i></a></li></ul></div>
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me noopener noreferrer" href="https://github.com/zshn25" target="_blank" aria-label="GitHub (opens in new tab)"><i class="fab fa-github grey" aria-hidden="true"></i></a></li><li><a rel="me noopener noreferrer" href="https://twitter.com/zshn25" target="_blank" aria-label="Twitter (opens in new tab)"><i class="fab fa-twitter grey" aria-hidden="true"></i></a></li><li><a rel="me noopener noreferrer" href="https://www.linkedin.com/in/zshn25" target="_blank" aria-label="LinkedIn (opens in new tab)"><i class="fab fa-linkedin grey" aria-hidden="true"></i></a></li><li><a rel="me noopener noreferrer" href="https://scholar.google.com/citations?user=DSLVuBgAAAAJ" target="_blank" aria-label="Google Scholar (opens in new tab)"><i class="ai ai-google-scholar grey" aria-hidden="true"></i></a></li></ul>
+</div>
 
   </div>
 
 </footer>
 <!-- Informational privacy notice (not a cookie consent - this site does not use cookies) -->
-<div id="privacy-notice" style="display:none">
+<div id="privacy-notice" role="status" style="display:none">
     This site does not use cookies or track you. Some posts contain embedded content that connects to third parties only when you click.
     <a href="/about/#privacy">Learn more</a>
     <button class="privacy-ok-btn" onclick="localStorage.setItem('privacyOK','1');document.getElementById('privacy-notice').style.display='none';document.body.style.paddingBottom=''">OK</button>
 </div>
-<script>
-(function(){
-  if(!localStorage.getItem('privacyOK')){
-    var el=document.getElementById('privacy-notice');
-    if(el) {
-      el.style.display='flex';
-      document.body.style.paddingBottom='3em';
-    }
-  }
-})();
-</script>
 <button class="back-to-top" id="back-to-top" aria-label="Back to top">
       <i class="fas fa-chevron-up"></i>
     </button>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://zshn25.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://zshn25.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-03-27T22:19:06+00:00</updated><id>https://zshn25.github.io/feed.xml</id><title type="html">Curiosity</title><subtitle>I am curious. Therefore I am.</subtitle><author><name>Zeeshan Khan Suri</name><email>zshn25[at]gmail[dot]com</email></author><entry><title type="html">Inference Speedup Benchmark</title><link href="https://zshn25.github.io/inference_optimizations_benchmark/" rel="alternate" type="text/html" title="Inference Speedup Benchmark" /><published>2026-03-24T22:21:23+00:00</published><updated>2026-03-24T22:21:23+00:00</updated><id>https://zshn25.github.io/inference_optimizations_benchmark</id><content type="html" xml:base="https://zshn25.github.io/inference_optimizations_benchmark/"><![CDATA[<p>How fast can we push a single forward pass of a modern depth estimator on a CUDA GPU? Let’s find out using an extensive collection of optimizations:</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://zshn25.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://zshn25.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-03-28T22:49:08+00:00</updated><id>https://zshn25.github.io/feed.xml</id><title type="html">Curiosity</title><subtitle>I am curious. Therefore I am.</subtitle><author><name>Zeeshan Khan Suri</name><email>zshn25[at]gmail[dot]com</email></author><entry><title type="html">Inference Speedup Benchmark</title><link href="https://zshn25.github.io/inference_optimizations_benchmark/" rel="alternate" type="text/html" title="Inference Speedup Benchmark" /><published>2026-03-24T22:21:23+00:00</published><updated>2026-03-24T22:21:23+00:00</updated><id>https://zshn25.github.io/inference_optimizations_benchmark</id><content type="html" xml:base="https://zshn25.github.io/inference_optimizations_benchmark/"><![CDATA[<p>How fast can we push a single forward pass of a modern depth estimator on a CUDA GPU? Let’s find out using an extensive collection of optimizations:</p>
 
 <table>
   <thead>
@@ -181,8 +181,10 @@ diverges, we see a warning and a side-by-side depth visualization.</li>
 
 <p>System info:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># collapse-hide
-</span><span class="kn">from</span> <span class="n">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<details class="cell-collapse">
+  <summary>Show code</summary>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">import</span> <span class="n">gc</span>
 <span class="kn">import</span> <span class="n">os</span>
@@ -225,8 +227,9 @@ diverges, we see a warning and a side-by-side depth visualization.</li>
     <span class="n">cap</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">get_device_capability</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">mem_gb</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">get_device_properties</span><span class="p">(</span><span class="mi">0</span><span class="p">).</span><span class="n">total_memory</span> <span class="o">/</span> <span class="mf">1e9</span>
     <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">VRAM: </span><span class="si">{</span><span class="n">mem_gb</span><span class="si">:</span><span class="p">.</span><span class="mi">1</span><span class="n">f</span><span class="si">}</span><span class="s"> GB</span><span class="sh">"</span><span class="p">)</span>
-</code></pre></div></div>
+</code></pre></div>  </div>
 
+</details>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>PyTorch 2.5.1+cu121
 CUDA available: True
 CUDA version: 12.1
@@ -254,8 +257,10 @@ Output: metric depth map <code class="language-plaintext highlighter-rouge">(B, 
 
 <p>Load the model:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># collapse-hide
-</span><span class="kn">from</span> <span class="n">depth_anything_3.api</span> <span class="kn">import</span> <span class="n">DepthAnything3</span>
+<details class="cell-collapse">
+  <summary>Show code</summary>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">depth_anything_3.api</span> <span class="kn">import</span> <span class="n">DepthAnything3</span>
 <span class="kn">from</span> <span class="n">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 
 <span class="n">BATCH</span> <span class="o">=</span> <span class="mi">1</span>
@@ -319,9 +324,10 @@ Output: metric depth map <code class="language-plaintext highlighter-rouge">(B, 
 <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Params : </span><span class="si">{</span><span class="n">n_params</span><span class="si">:</span><span class="p">.</span><span class="mi">1</span><span class="n">f</span><span class="si">}</span><span class="s"> M</span><span class="sh">"</span><span class="p">)</span>
 <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Input  : </span><span class="si">{</span><span class="nf">tuple</span><span class="p">(</span><span class="n">dummy_input</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span><span class="si">}</span><span class="s"> - (B, N_views, C, H, W)</span><span class="sh">"</span><span class="p">)</span>
 <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Output : </span><span class="si">{</span><span class="nf">tuple</span><span class="p">(</span><span class="n">baseline_output</span><span class="p">.</span><span class="n">shape</span><span class="p">)</span><span class="si">}</span><span class="s"> - metric depth map</span><span class="sh">"</span><span class="p">)</span>
-</code></pre></div></div>
+</code></pre></div>  </div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[97m[INFO ] using MLP layer as FFN[0m
+</details>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[INFO ] using MLP layer as FFN
 Weights: loaded from model.safetensors  (matched 637/637 keys, 6 missing)
 Model  : Depth Anything v3 (da3-large)
 Params : 410.9 M
@@ -331,8 +337,10 @@ Output : (1, 1, 504, 504) - metric depth map
 
 <p>Load the test image and test the model:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># collapse-hide
-</span><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+<details class="cell-collapse">
+  <summary>Show code</summary>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
 <span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 <span class="kn">from</span> <span class="n">PIL</span> <span class="kn">import</span> <span class="n">Image</span> <span class="k">as</span> <span class="n">_PILImage</span>
 <span class="kn">from</span> <span class="n">torchvision</span> <span class="kn">import</span> <span class="n">transforms</span> <span class="k">as</span> <span class="n">T</span>
@@ -380,8 +388,9 @@ Output : (1, 1, 504, 504) - metric depth map
 <span class="n">plt</span><span class="p">.</span><span class="nf">tight_layout</span><span class="p">()</span>
 <span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
 <span class="n">plt</span><span class="p">.</span><span class="nf">close</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
-</code></pre></div></div>
+</code></pre></div>  </div>
 
+</details>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Downloaded test image: (1546, 1213)
 Depth range: [0.8860, 2.6241]
 </code></pre></div></div>
@@ -402,8 +411,10 @@ the <strong>median of medians</strong>.</p>
   <li><strong><code class="language-plaintext highlighter-rouge">reset_backends()</code></strong> - disable all global toggles (TF32, cudnn.benchmark, etc.)</li>
 </ul>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># collapse-hide
-</span><span class="kn">import</span> <span class="n">time</span>
+<details class="cell-collapse">
+  <summary>Show code</summary>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">time</span>
 <span class="kn">from</span> <span class="n">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span>
 <span class="kn">from</span> <span class="n">statistics</span> <span class="kn">import</span> <span class="n">median</span>
 <span class="kn">import</span> <span class="n">torch.utils.benchmark</span> <span class="k">as</span> <span class="n">_bench_mod</span>
@@ -783,8 +794,9 @@ the <strong>median of medians</strong>.</p>
 
 
 <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Ready.</span><span class="sh">"</span><span class="p">)</span>
-</code></pre></div></div>
+</code></pre></div>  </div>
 
+</details>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Ready.
 </code></pre></div></div>
 
@@ -873,7 +885,7 @@ convolutions and the patch embedding.</p>
 <span class="nf">cleanup</span><span class="p">()</span>
 </code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[97m[INFO ] using MLP layer as FFN[0m
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[INFO ] using MLP layer as FFN
   2 - channels_last: 175.483 ms  (spread: 0.285 ms  rounds: 175.49, 175.28, 175.52, 175.48, 175.24)
   ✓ Sanity (2 - channels_last): depth MSE = 0.000000
 </code></pre></div></div>
@@ -901,7 +913,7 @@ and view tracking. A few percent faster, zero accuracy cost.</p>
 <h2 id="4--tf32-matmul">4 – TF32 matmul</h2>
 
 <p>On Ampere+ GPUs, TF32 rounds float32 mantissa from 23 to 10 bits
-before the hardware tensor core matmul. ~2× faster for free.
+before the hardware tensor core matmul. ~2x faster for free.
 On V100 (SM 7.0) this is a <strong>no-op</strong>.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">reset_backends</span><span class="p">()</span>
@@ -923,7 +935,7 @@ On V100 (SM 7.0) this is a <strong>no-op</strong>.</p>
 <hr />
 <h2 id="5--amp-fp16">5 – AMP FP16</h2>
 
-<p>Autocast to half precision. V100 Tensor Cores do FP16 × FP16 → FP32
+<p>Autocast to half precision. V100 Tensor Cores do FP16 x FP16 → FP32
 accumulation. This is usually the single biggest easy win.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">reset_backends</span><span class="p">()</span>
@@ -963,7 +975,7 @@ We monkey-patch the forward to <strong>let AMP run through the head</strong> whi
 <span class="nf">cleanup</span><span class="p">()</span>
 </code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[97m[INFO ] using MLP layer as FFN[0m
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[INFO ] using MLP layer as FFN
   [OK] AMP FP16 (full): max diff = 0.000670 (atol=0.5)
   5b - AMP FP16 (full, patched head): 101.142 ms  (spread: 0.188 ms  rounds: 101.14, 101.12, 101.23, 101.14, 101.31)
   ✓ Sanity (5b - AMP FP16 (full, patched head)): depth MSE = 0.000000
@@ -971,8 +983,10 @@ We monkey-patch the forward to <strong>let AMP run through the head</strong> whi
 
 <p>── Profiling: backbone vs head compute split ─────────────────────────────</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># collapse-hide
-# ── Profiling: backbone vs head compute split ─────────────────────────────
+<details class="cell-collapse">
+  <summary>Show code</summary>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># ── Profiling: backbone vs head compute split ─────────────────────────────
 </span><span class="kn">import</span> <span class="n">torch.utils.benchmark</span> <span class="k">as</span> <span class="n">_b</span>
 
 <span class="n">_net</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">net</span>  <span class="c1"># DepthAnything3Net
@@ -1077,8 +1091,9 @@ We monkey-patch the forward to <strong>let AMP run through the head</strong> whi
 <span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">=</span><span class="sh">"</span> <span class="o">*</span> <span class="mi">70</span><span class="p">)</span>
 <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="se">\n</span><span class="s">Head fraction of FP32 total: </span><span class="si">{</span><span class="n">hd32</span> <span class="o">/</span> <span class="n">tot32</span> <span class="o">*</span> <span class="mi">100</span><span class="si">:</span><span class="p">.</span><span class="mi">1</span><span class="n">f</span><span class="si">}</span><span class="s">%</span><span class="sh">"</span><span class="p">)</span>
 <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Head FP16 savings: </span><span class="si">{</span><span class="n">hd16_off</span> <span class="o">-</span> <span class="n">hd16_on</span><span class="si">:</span><span class="p">.</span><span class="mi">1</span><span class="n">f</span><span class="si">}</span><span class="s"> ms</span><span class="sh">"</span><span class="p">)</span>
-</code></pre></div></div>
+</code></pre></div>  </div>
 
+</details>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>======================================================================
 COMPONENT PROFILING — backbone vs depth head
 ======================================================================
@@ -1100,7 +1115,7 @@ Head FP16 savings: 17.1 ms
 <h2 id="6--amp-bf16">6 – AMP BF16</h2>
 
 <p>BFloat16 has the same exponent range as FP32 (no overflow issues) but
-less precision. Requires <strong>Ampere+</strong> Tensor Cores. On V100 this falls
+less precision. Requires <strong>Ampere+</strong> Tensor Cores. On older GPUs this falls
 back to FP32.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">reset_backends</span><span class="p">()</span>
@@ -1147,7 +1162,7 @@ per forward pass, but less precision control than AMP.</p>
 <span class="nf">cleanup</span><span class="p">()</span>
 </code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[97m[INFO ] using MLP layer as FFN[0m
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[INFO ] using MLP layer as FFN
   Fullgraph forward patched: addict.Dict bypassed
   [OK] static fp16: max diff = 0.000732 (atol=0.5)
   7 - Static FP16: 89.383 ms  (spread: 0.173 ms  rounds: 89.38, 89.25, 89.41, 89.24, 89.41)
@@ -1155,7 +1170,7 @@ per forward pass, but less precision control than AMP.</p>
 </code></pre></div></div>
 
 <hr />
-<h2 id="7b--sdpa-backends">7b – SDPA backends</h2>
+<h2 id="8--sdpa-backends">8 – SDPA backends</h2>
 
 <p>PyTorch’s <code class="language-plaintext highlighter-rouge">scaled_dot_product_attention</code> dispatches to FlashAttention,
 Memory-Efficient, or Math backends. We test each one. DinoV2’s attention
@@ -1208,7 +1223,7 @@ already uses SDPA, so this shows which backend the GPU selects.</p>
 </code></pre></div></div>
 
 <hr />
-<h2 id="8--torchcompile-default">8 – torch.compile (default)</h2>
+<h2 id="9a--torchcompile-default">9a – torch.compile (default)</h2>
 
 <p>Fast compile, good speed. Best compile-time / run-time trade-off.
 Requires Triton (Linux only).</p>
@@ -1233,7 +1248,7 @@ Requires Triton (Linux only).</p>
     <span class="nf">cleanup</span><span class="p">()</span>
 </code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[97m[INFO ] using MLP layer as FFN[0m
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[INFO ] using MLP layer as FFN
 
 
 W0327 18:10:43.018000 668996 torch/_dynamo/variables/tensor.py:776] [1/0] Graph break from `Tensor.item()`, consider setting:
@@ -1273,7 +1288,7 @@ W0327 18:10:43.018000 668996 torch/_dynamo/variables/tensor.py:776] [1/0]
 </code></pre></div></div>
 
 <hr />
-<h2 id="9--torchcompile-reduce-overhead">9 – torch.compile (reduce-overhead)</h2>
+<h2 id="9b--torchcompile-reduce-overhead">9b – torch.compile (reduce-overhead)</h2>
 
 <p>Uses CUDA Graphs internally - best for batch=1.
 Requires Triton (Linux only).</p>
@@ -1304,7 +1319,7 @@ Requires Triton (Linux only).</p>
     <span class="nf">cleanup</span><span class="p">()</span>
 </code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[97m[INFO ] using MLP layer as FFN[0m
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[INFO ] using MLP layer as FFN
   RoPE patched: caches frozen, graph breaks eliminated
   [compile reduce-overhead] setup: 53.92 s
   9 - compile (reduce-overhead): 138.564 ms  (spread: 0.235 ms  rounds: 138.38, 138.53, 138.56, 138.62, 138.59)
@@ -1343,7 +1358,7 @@ Requires Triton (Linux only).</p>
     <span class="nf">cleanup</span><span class="p">()</span>
 </code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[97m[INFO ] using MLP layer as FFN[0m
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[INFO ] using MLP layer as FFN
   RoPE patched: caches frozen, graph breaks eliminated
   [compile max-autotune] setup: 59.69 s
   10 - compile (max-autotune): 138.306 ms  (spread: 0.231 ms  rounds: 138.22, 138.23, 138.44, 138.31, 138.45)
@@ -1382,7 +1397,7 @@ control flow, the compiler can optimize the entire graph at once.</p>
     <span class="nf">cleanup</span><span class="p">()</span>
 </code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[97m[INFO ] using MLP layer as FFN[0m
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[INFO ] using MLP layer as FFN
   RoPE patched: caches frozen, graph breaks eliminated
   Fullgraph forward patched: addict.Dict bypassed
   [compile fullgraph] setup: 51.40 s
@@ -1418,7 +1433,7 @@ dynamic control flow or dict outputs.</p>
 <span class="nf">cleanup</span><span class="p">()</span>
 </code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[97m[INFO ] using MLP layer as FFN[0m
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[INFO ] using MLP layer as FFN
   [OK] jit trace: max diff = 0.000000 (atol=0.5)
   12 - JIT Trace: 127.224 ms  (spread: 0.168 ms  rounds: 127.07, 127.22, 127.23, 127.24, 127.10)
   ✓ Sanity (12 - JIT Trace): depth MSE = 0.000000
@@ -1474,7 +1489,7 @@ in a controlled environment.</p>
 <span class="nf">cleanup</span><span class="p">()</span>
 </code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[97m[INFO ] using MLP layer as FFN[0m
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[INFO ] using MLP layer as FFN
   RoPE patched: caches frozen, graph breaks eliminated
   Fullgraph forward patched: addict.Dict bypassed
   [OK] CUDA Graphs: max diff = 0.000648 (atol=0.5)
@@ -1485,7 +1500,7 @@ in a controlled environment.</p>
 <h2 id="14--torchao-int8-weight-only">14 – torchao int8 weight-only</h2>
 
 <p>Store weights as int8, dequantize on-the-fly in the matmul kernel.
-2× memory reduction. With <code class="language-plaintext highlighter-rouge">torch.compile</code> the dequant fuses into
+2x memory reduction. With <code class="language-plaintext highlighter-rouge">torch.compile</code> the dequant fuses into
 the matmul for near-FP16 speed.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">reset_backends</span><span class="p">()</span>
@@ -1510,7 +1525,7 @@ the matmul for near-FP16 speed.</p>
 <span class="nf">cleanup</span><span class="p">()</span>
 </code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[97m[INFO ] using MLP layer as FFN[0m
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[INFO ] using MLP layer as FFN
   [OK] torchao int8wo: max diff = 0.002756 (atol=1.0)
   14 - torchao int8 weight-only: 186.573 ms  (spread: 0.343 ms  rounds: 186.57, 186.57, 186.33, 186.67, 186.62)
   ✓ Sanity (14 - torchao int8 weight-only): depth MSE = 0.000005
@@ -1545,7 +1560,7 @@ speedup from int8 matmul on supported hardware.</p>
 <span class="nf">cleanup</span><span class="p">()</span>
 </code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[97m[INFO ] using MLP layer as FFN[0m
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[INFO ] using MLP layer as FFN
   [OK] torchao int8dyn: max diff = 0.012926 (atol=1.0)
   15 - torchao int8 dynamic: 368.720 ms  (spread: 1.399 ms  rounds: 369.83, 368.72, 368.43, 368.90, 368.66)
   ✓ Sanity (15 - torchao int8 dynamic): depth MSE = 0.000020
@@ -1554,7 +1569,7 @@ speedup from int8 matmul on supported hardware.</p>
 <hr />
 <h2 id="16--torchao-int4-weight-only">16 – torchao int4 weight-only</h2>
 
-<p>4-bit weight quantization via custom Triton kernels. 4× memory reduction
+<p>4-bit weight quantization via custom Triton kernels. 4x memory reduction
 vs FP16. Best for memory-bound workloads.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">reset_backends</span><span class="p">()</span>
@@ -1590,7 +1605,7 @@ vs FP16. Best for memory-bound workloads.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GPU SM 7.0: int4 TensorCoreTiledLayout needs SM &gt;= 8.0
   Trying with bf16 model (emulated on V100)...
-[97m[INFO ] using MLP layer as FFN[0m
+[INFO ] using MLP layer as FFN
 torchao int4 weight-only failed: RuntimeError: CUDA error: named symbol not found
 CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
 For debugging consider passing CUDA_LAUNCH_BLOCKING=1
@@ -1653,7 +1668,7 @@ ORT applies graph-level optimizations (constant folding, op fusion).</p>
 <span class="nf">cleanup</span><span class="p">()</span>
 </code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[97m[INFO ] using MLP layer as FFN[0m
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[INFO ] using MLP layer as FFN
 ORT CUDA EP failed: UnsupportedOperatorError: Exporting the operator 'aten::cartesian_prod' to ONNX opset version 17 is not supported. Please feel free to request support or submit a pull request on PyTorch GitHub: https://github.com/pytorch/pytorch/issues.
 </code></pre></div></div>
 
@@ -1795,7 +1810,7 @@ On V100 (SM 7.0) this may fail.</p>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Unable to import quantization op. Please install modelopt library (https://github.com/NVIDIA/TensorRT-Model-Optimizer?tab=readme-ov-file#installation) to add support for compiling quantized models
 
 
-[97m[INFO ] using MLP layer as FFN[0m
+[INFO ] using MLP layer as FFN
 
 
 W0327 18:21:33.784000 668996 torch/fx/experimental/symbolic_shapes.py:5124] [0/0] failed during evaluate_expr(u0 + 1, hint=None, size_oblivious=False, forcing_spec=False
@@ -1977,7 +1992,7 @@ single kernel launch.</p>
 <span class="nf">cleanup</span><span class="p">()</span>
 </code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[97m[INFO ] using MLP layer as FFN[0m
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[INFO ] using MLP layer as FFN
 Patched 28 attention blocks with Triton softmax
   [OK] triton softmax: max diff = 0.093633 (atol=0.5)
   21 - Triton fused softmax: 165.728 ms  (spread: 0.407 ms  rounds: 165.32, 165.47, 165.73, 165.73, 165.73)
@@ -2018,7 +2033,7 @@ compiler optimization on half-precision model.</p>
     <span class="nf">cleanup</span><span class="p">()</span>
 </code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[97m[INFO ] using MLP layer as FFN[0m
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[INFO ] using MLP layer as FFN
   RoPE patched: caches frozen, graph breaks eliminated
   Fullgraph forward patched: addict.Dict bypassed
   [compile fullgraph+FP16] setup: 234.53 s
@@ -2058,7 +2073,7 @@ dense matmul kernels still process every element.</p>
 <span class="nf">cleanup</span><span class="p">()</span>
 </code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[97m[INFO ] using MLP layer as FFN[0m
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[INFO ] using MLP layer as FFN
 
 
 Sparsity: 49.5% zeros
@@ -2100,7 +2115,7 @@ patterns for better kernel selection.</p>
     <span class="nf">cleanup</span><span class="p">()</span>
 </code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[97m[INFO ] using MLP layer as FFN[0m
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[INFO ] using MLP layer as FFN
   [compile pruned] setup: 17.96 s
   24 - Pruning 50% + compile: 154.146 ms  (spread: 0.511 ms  rounds: 153.77, 154.06, 154.15, 154.21, 154.28)
   ✓ Sanity (24 - Pruning 50% + compile): depth MSE = 0.331261
@@ -2135,7 +2150,7 @@ Produces a standalone shared library that can be loaded without Python.</p>
 <span class="nf">cleanup</span><span class="p">()</span>
 </code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[97m[INFO ] using MLP layer as FFN[0m
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[INFO ] using MLP layer as FFN
   RoPE patched: caches frozen, graph breaks eliminated
 AOTInductor failed: Unsupported: call_function UserDefinedClassVariable(&lt;class 'addict.addict.Dict'&gt;) [ConstDictVariable()] {}
 
@@ -2196,7 +2211,7 @@ so we test with batch=4 to show the concept.</p>
 <span class="nf">cleanup</span><span class="p">()</span>
 </code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[97m[INFO ] using MLP layer as FFN[0m
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[INFO ] using MLP layer as FFN
 Multi-stream output: torch.Size([4, 1, 504, 504])
   26 - Multi-stream (batch=4): 587.485 ms  (spread: 1.667 ms  rounds: 586.88, 587.80, 587.49, 588.55, 587.36)
 </code></pre></div></div>
@@ -2255,7 +2270,7 @@ the rest through int8. From Dettmers et al. (2022).</p>
 <span class="nf">cleanup</span><span class="p">()</span>
 </code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[97m[INFO ] using MLP layer as FFN[0m
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[INFO ] using MLP layer as FFN
   [OK] bnb int8: max diff = 0.005113 (atol=2.0)
   27 - bitsandbytes int8: 222.538 ms  (spread: 0.911 ms  rounds: 222.54, 222.48, 222.85, 222.60, 221.94)
   ✓ Sanity (27 - bitsandbytes int8): depth MSE = 0.000024
@@ -2264,7 +2279,7 @@ the rest through int8. From Dettmers et al. (2022).</p>
 <hr />
 <h2 id="28--bitsandbytes-nf4">28 – bitsandbytes NF4</h2>
 
-<p>4-bit NormalFloat from QLoRA. Saves 8× memory vs FP32 but the dequant
+<p>4-bit NormalFloat from QLoRA. Saves 8x memory vs FP32 but the dequant
 kernel adds overhead per matmul.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">reset_backends</span><span class="p">()</span>
@@ -2313,7 +2328,7 @@ kernel adds overhead per matmul.</p>
 <span class="nf">cleanup</span><span class="p">()</span>
 </code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[97m[INFO ] using MLP layer as FFN[0m
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[INFO ] using MLP layer as FFN
   [OK] bnb nf4: max diff = 0.024452 (atol=5.0)
   28 - bitsandbytes NF4: 177.700 ms  (spread: 0.609 ms  rounds: 177.76, 177.47, 177.87, 177.70, 177.26)
   ✓ Sanity (28 - bitsandbytes NF4): depth MSE = 0.000475
@@ -2348,7 +2363,7 @@ kernel adds overhead per matmul.</p>
     <span class="nf">cleanup</span><span class="p">()</span>
 </code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[97m[INFO ] using MLP layer as FFN[0m
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[INFO ] using MLP layer as FFN
   [compile AMP-FP16 (full)] setup: 210.91 s
   29 - AMP FP16 + compile (full): 66.190 ms  (spread: 0.455 ms  rounds: 66.08, 66.19, 66.22, 66.13, 66.54)
   ✓ Sanity (29 - AMP FP16 + compile (full)): depth MSE = 0.000000
@@ -2382,7 +2397,7 @@ Anyone can do this in two lines of code.</p>
 <span class="nf">cleanup</span><span class="p">()</span>
 </code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[97m[INFO ] using MLP layer as FFN[0m
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[INFO ] using MLP layer as FFN
   [OK] amp-fp16+tf32+cudnn (full): max diff = 0.000670 (atol=0.5)
   30 - AMP FP16 + TF32 + cudnn (full): 97.184 ms  (spread: 0.075 ms  rounds: 97.17, 97.24, 97.19, 97.18, 97.16)
   ✓ Sanity (30 - AMP FP16 + TF32 + cudnn (full)): depth MSE = 0.000000
@@ -2421,72 +2436,22 @@ with reduce-overhead mode (internal CUDA Graphs).</p>
     <span class="nf">cleanup</span><span class="p">()</span>
 </code></pre></div></div>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[97m[INFO ] using MLP layer as FFN[0m
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[INFO ] using MLP layer as FFN
   [compile AMP-FP16+TF32 (full)] setup: 26.57 s
   31 - AMP FP16 + compile + TF32 (full): 64.838 ms  (spread: 0.087 ms  rounds: 64.84, 64.77, 64.80, 64.84, 64.85)
   ✓ Sanity (31 - AMP FP16 + compile + TF32 (full)): depth MSE = 0.000000
 </code></pre></div></div>
 
 <hr />
-<h2 id="profiler-deep-dive">Profiler deep-dive</h2>
-
-<p>Kernel-level breakdown of where time goes in the baseline model.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">try</span><span class="p">:</span>
-    <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">synchronize</span><span class="p">()</span>
-<span class="k">except</span> <span class="nb">RuntimeError</span><span class="p">:</span>
-    <span class="k">pass</span>
-<span class="n">gc</span><span class="p">.</span><span class="nf">collect</span><span class="p">()</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">empty_cache</span><span class="p">()</span>
-<span class="k">except</span> <span class="nb">RuntimeError</span><span class="p">:</span>
-    <span class="k">pass</span>
-
-<span class="n">prof_model</span> <span class="o">=</span> <span class="nf">fresh_model</span><span class="p">()</span>
-<span class="k">with</span> <span class="nf">profile</span><span class="p">(</span>
-    <span class="n">activities</span><span class="o">=</span><span class="p">[</span><span class="n">ProfilerActivity</span><span class="p">.</span><span class="n">CPU</span><span class="p">,</span> <span class="n">ProfilerActivity</span><span class="p">.</span><span class="n">CUDA</span><span class="p">],</span>
-    <span class="n">profile_memory</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-    <span class="n">with_flops</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-<span class="p">)</span> <span class="k">as</span> <span class="n">prof</span><span class="p">:</span>
-    <span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="nf">no_grad</span><span class="p">():</span>
-        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
-            <span class="nf">prof_model</span><span class="p">(</span><span class="n">dummy_input</span><span class="p">)</span>
-
-<span class="nf">print</span><span class="p">(</span><span class="n">prof</span><span class="p">.</span><span class="nf">key_averages</span><span class="p">().</span><span class="nf">table</span><span class="p">(</span><span class="n">sort_by</span><span class="o">=</span><span class="sh">"</span><span class="s">cuda_time_total</span><span class="sh">"</span><span class="p">,</span> <span class="n">row_limit</span><span class="o">=</span><span class="mi">15</span><span class="p">))</span>
-<span class="nf">cleanup</span><span class="p">()</span>
-</code></pre></div></div>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[97m[INFO ] using MLP layer as FFN[0m
--------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
-                                                   Name    Self CPU %      Self CPU   CPU total %     CPU total  CPU time avg     Self CUDA   Self CUDA %    CUDA total  CUDA time avg       CPU Mem  Self CPU Mem      CUDA Mem  Self CUDA Mem    # of Calls   Total FLOPs  
--------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
-                                           aten::linear         1.17%      19.354ms         6.18%     102.001ms     100.991us       0.000us         0.00%     660.179ms     653.643us           0 b           0 b      10.69 Gb           0 b          1010            --  
-                                            aten::addmm         2.63%      43.336ms         3.96%      65.431ms      64.783us     660.179ms        41.69%     660.179ms     653.643us           0 b           0 b      10.69 Gb      10.69 Gb          1010  7833785835520.000  
-                                  volta_sgemm_128x64_tn         0.00%       0.000us         0.00%       0.000us       0.000us     592.664ms        37.43%     592.664ms     823.144us           0 b           0 b           0 b           0 b           720            --  
-                                      aten::convolution         0.28%       4.704ms         5.36%      88.404ms     121.101us       0.000us         0.00%     378.394ms     518.348us           0 b           0 b       9.62 Gb           0 b           730            --  
-                                     aten::_convolution         0.68%      11.302ms         5.07%      83.699ms     114.657us       0.000us         0.00%     378.394ms     518.348us           0 b           0 b       9.62 Gb    -405.00 Mb           730            --  
-                                           aten::conv2d         0.21%       3.417ms         5.35%      88.286ms     124.347us       0.000us         0.00%     370.496ms     521.825us           0 b           0 b       9.33 Gb           0 b           710  7529198469120.000  
-                                aten::cudnn_convolution         1.78%      29.338ms         2.94%      48.599ms      68.449us     343.384ms        21.68%     343.384ms     483.640us           0 b           0 b       9.33 Gb       9.33 Gb           710            --  
-_5x_cudnn_volta_scudnn_winograd_128x128_ldg1_ldg4_re...         0.00%       0.000us         0.00%       0.000us       0.000us     289.983ms        18.31%     289.983ms     527.241us           0 b           0 b           0 b           0 b           550            --  
-                     aten::scaled_dot_product_attention         0.21%       3.417ms         1.53%      25.287ms     105.363us       0.000us         0.00%     201.669ms     840.287us          24 b      -3.70 Kb       1.19 Gb           0 b           240            --  
-          aten::_scaled_dot_product_efficient_attention         0.23%       3.871ms         1.32%      21.870ms      91.125us       0.000us         0.00%     201.669ms     840.287us       3.75 Kb           0 b       1.19 Gb           0 b           240            --  
-                     aten::_efficient_attention_forward         0.34%       5.636ms         0.84%      13.808ms      57.533us     201.669ms        12.73%     201.669ms     840.287us       3.75 Kb           0 b       1.19 Gb           0 b           240            --  
-fmha_cutlassF_f32_aligned_64x64_rf_sm70(PyTorchMemEf...         0.00%       0.000us         0.00%       0.000us       0.000us     201.669ms        12.73%     201.669ms     840.287us           0 b           0 b           0 b           0 b           240            --  
-                               aten::upsample_bicubic2d         0.02%     252.067us         0.04%     628.529us      62.853us     121.202ms         7.65%     121.273ms      12.127ms           0 b           0 b      50.62 Mb      50.62 Mb            10            --  
-void at::native::(anonymous namespace)::upsample_bic...         0.00%       0.000us         0.00%       0.000us       0.000us     121.202ms         7.65%     121.202ms      12.120ms           0 b           0 b           0 b           0 b            10            --  
-void at::native::elementwise_kernel&lt;128, 2, at::nati...         0.00%       0.000us         0.00%       0.000us       0.000us      73.278ms         4.63%      73.278ms      97.703us           0 b           0 b           0 b           0 b           750            --  
--------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
-Self CPU time total: 1.651s
-Self CUDA time total: 1.584s
-</code></pre></div></div>
-
-<hr />
-<h2 id="results-batch1">Results (batch=1)</h2>
+<h2 id="benchmark-results">Benchmark Results</h2>
 
 <p>All GPU methods ranked by latency. Green = faster than baseline, red = slower.
-N/A = requires Docker / specific hardware.</p>
+N/A = requires newer GPU.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<details class="cell-collapse">
+  <summary>Show code</summary>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 <span class="kn">from</span> <span class="n">IPython.display</span> <span class="kn">import</span> <span class="n">Image</span> <span class="k">as</span> <span class="n">IPImage</span>
 
 
@@ -2517,8 +2482,9 @@ N/A = requires Docker / specific hardware.</p>
     <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">SETUP_TIMES</span><span class="p">.</span><span class="nf">items</span><span class="p">():</span>
         <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="si">{</span><span class="n">name</span><span class="si">:</span><span class="o">&lt;</span><span class="mi">48</span><span class="si">}</span><span class="s"> </span><span class="si">{</span><span class="n">s</span><span class="si">:</span><span class="o">&gt;</span><span class="mf">7.2</span><span class="n">f</span><span class="si">}</span><span class="s">s</span><span class="sh">"</span><span class="p">)</span>
     <span class="nf">print</span><span class="p">()</span>
-</code></pre></div></div>
+</code></pre></div>  </div>
 
+</details>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>=== GPU batch=1 | model=DA3 da3-large | 5 rounds / median of medians ===
 
 Method                                                 ms   Speedup
@@ -2573,7 +2539,10 @@ compile AMP-FP16 (full)                           210.91s
 compile AMP-FP16+TF32 (full)                       26.57s
 </code></pre></div></div>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">_speedup_chart</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">baseline_key</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+<details class="cell-collapse">
+  <summary>Show code</summary>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">_speedup_chart</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">baseline_key</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
     <span class="n">bl</span> <span class="o">=</span> <span class="n">results</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="n">baseline_key</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
     <span class="n">items</span> <span class="o">=</span> <span class="nf">list</span><span class="p">(</span><span class="n">results</span><span class="p">.</span><span class="nf">items</span><span class="p">())</span>
     <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">items</span><span class="p">]</span>
@@ -2601,27 +2570,116 @@ compile AMP-FP16+TF32 (full)                       26.57s
         <span class="p">)</span>
 
     <span class="n">plt</span><span class="p">.</span><span class="nf">tight_layout</span><span class="p">()</span>
-    <span class="n">plt</span><span class="p">.</span><span class="nf">savefig</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="sh">"</span><span class="s">tight</span><span class="sh">"</span><span class="p">)</span>
     <span class="n">plt</span><span class="p">.</span><span class="nf">show</span><span class="p">()</span>
     <span class="n">plt</span><span class="p">.</span><span class="nf">close</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
-    <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">Saved </span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
 
 
 <span class="nf">_speedup_chart</span><span class="p">(</span>
     <span class="n">GPU_RESULTS</span><span class="p">,</span>
     <span class="sh">"</span><span class="s">0 - Baseline (eager)</span><span class="sh">"</span><span class="p">,</span>
-    <span class="sa">f</span><span class="sh">"</span><span class="s">GPU Inference Speedup - DA3 </span><span class="si">{</span><span class="n">MODEL_NAME</span><span class="si">}</span><span class="s">  (batch=</span><span class="si">{</span><span class="n">BATCH</span><span class="si">}</span><span class="s">, 504×504)</span><span class="sh">"</span><span class="p">,</span>
-    <span class="sh">"</span><span class="s">inference_benchmark_gpu.png</span><span class="sh">"</span><span class="p">,</span>
+    <span class="sa">f</span><span class="sh">"</span><span class="s">GPU Inference Speedup - DA3 </span><span class="si">{</span><span class="n">MODEL_NAME</span><span class="si">}</span><span class="s">  (batch=</span><span class="si">{</span><span class="n">BATCH</span><span class="si">}</span><span class="s">, 504x504)</span><span class="sh">"</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="nc">IPImage</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="sh">"</span><span class="s">inference_benchmark_gpu.png</span><span class="sh">"</span><span class="p">)</span>
-</code></pre></div></div>
 
-<p><img src="/images/2026-03-24-inference_optimizations_benchmark/2026-03-24-inference_optimizations_benchmark_86_0.png" alt="png" /></p>
+</code></pre></div>  </div>
+
+</details>
+<p><img src="/images/2026-03-24-inference_optimizations_benchmark/2026-03-24-inference_optimizations_benchmark_84_0.png" alt="png" /></p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Saved inference_benchmark_gpu.png
 </code></pre></div></div>
 
-<p><img src="/images/2026-03-24-inference_optimizations_benchmark/2026-03-24-inference_optimizations_benchmark_86_2.png" alt="png" /></p>
+<p><img src="/images/2026-03-24-inference_optimizations_benchmark/2026-03-24-inference_optimizations_benchmark_84_2.png" alt="png" /></p>
+
+<hr />
+<h2 id="profiler-deep-dive">Profiler deep-dive</h2>
+
+<p>Kernel-level breakdown of where time goes in the baseline model.</p>
+
+<details class="cell-collapse">
+  <summary>Show code</summary>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">try</span><span class="p">:</span>
+    <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">synchronize</span><span class="p">()</span>
+<span class="k">except</span> <span class="nb">RuntimeError</span><span class="p">:</span>
+    <span class="k">pass</span>
+<span class="n">gc</span><span class="p">.</span><span class="nf">collect</span><span class="p">()</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="nf">empty_cache</span><span class="p">()</span>
+<span class="k">except</span> <span class="nb">RuntimeError</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+<span class="n">prof_model</span> <span class="o">=</span> <span class="nf">fresh_model</span><span class="p">()</span>
+<span class="k">with</span> <span class="nf">profile</span><span class="p">(</span>
+    <span class="n">activities</span><span class="o">=</span><span class="p">[</span><span class="n">ProfilerActivity</span><span class="p">.</span><span class="n">CPU</span><span class="p">,</span> <span class="n">ProfilerActivity</span><span class="p">.</span><span class="n">CUDA</span><span class="p">],</span>
+    <span class="n">profile_memory</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">with_flops</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="k">as</span> <span class="n">prof</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="nf">no_grad</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+            <span class="nf">prof_model</span><span class="p">(</span><span class="n">dummy_input</span><span class="p">)</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="n">prof</span><span class="p">.</span><span class="nf">key_averages</span><span class="p">().</span><span class="nf">table</span><span class="p">(</span><span class="n">sort_by</span><span class="o">=</span><span class="sh">"</span><span class="s">cuda_time_total</span><span class="sh">"</span><span class="p">,</span> <span class="n">row_limit</span><span class="o">=</span><span class="mi">15</span><span class="p">))</span>
+<span class="nf">cleanup</span><span class="p">()</span>
+</code></pre></div>  </div>
+
+</details>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[INFO ] using MLP layer as FFN
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+                                                   Name    Self CPU %      Self CPU   CPU total %     CPU total  CPU time avg     Self CUDA   Self CUDA %    CUDA total  CUDA time avg       CPU Mem  Self CPU Mem      CUDA Mem  Self CUDA Mem    # of Calls   Total FLOPs  
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+                                           aten::linear         1.17%      19.354ms         6.18%     102.001ms     100.991us       0.000us         0.00%     660.179ms     653.643us           0 b           0 b      10.69 Gb           0 b          1010            --  
+                                            aten::addmm         2.63%      43.336ms         3.96%      65.431ms      64.783us     660.179ms        41.69%     660.179ms     653.643us           0 b           0 b      10.69 Gb      10.69 Gb          1010  7833785835520.000  
+                                  volta_sgemm_128x64_tn         0.00%       0.000us         0.00%       0.000us       0.000us     592.664ms        37.43%     592.664ms     823.144us           0 b           0 b           0 b           0 b           720            --  
+                                      aten::convolution         0.28%       4.704ms         5.36%      88.404ms     121.101us       0.000us         0.00%     378.394ms     518.348us           0 b           0 b       9.62 Gb           0 b           730            --  
+                                     aten::_convolution         0.68%      11.302ms         5.07%      83.699ms     114.657us       0.000us         0.00%     378.394ms     518.348us           0 b           0 b       9.62 Gb    -405.00 Mb           730            --  
+                                           aten::conv2d         0.21%       3.417ms         5.35%      88.286ms     124.347us       0.000us         0.00%     370.496ms     521.825us           0 b           0 b       9.33 Gb           0 b           710  7529198469120.000  
+                                aten::cudnn_convolution         1.78%      29.338ms         2.94%      48.599ms      68.449us     343.384ms        21.68%     343.384ms     483.640us           0 b           0 b       9.33 Gb       9.33 Gb           710            --  
+_5x_cudnn_volta_scudnn_winograd_128x128_ldg1_ldg4_re...         0.00%       0.000us         0.00%       0.000us       0.000us     289.983ms        18.31%     289.983ms     527.241us           0 b           0 b           0 b           0 b           550            --  
+                     aten::scaled_dot_product_attention         0.21%       3.417ms         1.53%      25.287ms     105.363us       0.000us         0.00%     201.669ms     840.287us          24 b      -3.70 Kb       1.19 Gb           0 b           240            --  
+          aten::_scaled_dot_product_efficient_attention         0.23%       3.871ms         1.32%      21.870ms      91.125us       0.000us         0.00%     201.669ms     840.287us       3.75 Kb           0 b       1.19 Gb           0 b           240            --  
+                     aten::_efficient_attention_forward         0.34%       5.636ms         0.84%      13.808ms      57.533us     201.669ms        12.73%     201.669ms     840.287us       3.75 Kb           0 b       1.19 Gb           0 b           240            --  
+fmha_cutlassF_f32_aligned_64x64_rf_sm70(PyTorchMemEf...         0.00%       0.000us         0.00%       0.000us       0.000us     201.669ms        12.73%     201.669ms     840.287us           0 b           0 b           0 b           0 b           240            --  
+                               aten::upsample_bicubic2d         0.02%     252.067us         0.04%     628.529us      62.853us     121.202ms         7.65%     121.273ms      12.127ms           0 b           0 b      50.62 Mb      50.62 Mb            10            --  
+void at::native::(anonymous namespace)::upsample_bic...         0.00%       0.000us         0.00%       0.000us       0.000us     121.202ms         7.65%     121.202ms      12.120ms           0 b           0 b           0 b           0 b            10            --  
+void at::native::elementwise_kernel&lt;128, 2, at::nati...         0.00%       0.000us         0.00%       0.000us       0.000us      73.278ms         4.63%      73.278ms      97.703us           0 b           0 b           0 b           0 b           750            --  
+-------------------------------------------------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  ------------  
+Self CPU time total: 1.651s
+Self CUDA time total: 1.584s
+</code></pre></div></div>
+
+<hr />
+<h2 id="cleanup">Cleanup</h2>
+
+<p>Remove temporary files generated during the benchmark run.</p>
+
+<details class="cell-collapse">
+  <summary>Show code</summary>
+
+  <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">glob</span>
+
+<span class="n">_temp_patterns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="sh">"</span><span class="s">model.onnx</span><span class="sh">"</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">model_prep.onnx</span><span class="sh">"</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">model_int8.onnx</span><span class="sh">"</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">model_scripted.pt</span><span class="sh">"</span><span class="p">,</span>
+    <span class="sh">"</span><span class="s">inference_benchmark_gpu.png</span><span class="sh">"</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="k">for</span> <span class="n">_pat</span> <span class="ow">in</span> <span class="n">_temp_patterns</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">_f</span> <span class="ow">in</span> <span class="n">glob</span><span class="p">.</span><span class="nf">glob</span><span class="p">(</span><span class="n">_pat</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">os</span><span class="p">.</span><span class="nf">remove</span><span class="p">(</span><span class="n">_f</span><span class="p">)</span>
+            <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">  removed </span><span class="si">{</span><span class="n">_f</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+        <span class="k">except</span> <span class="nb">OSError</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Cleanup done.</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div>  </div>
+
+</details>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  removed inference_benchmark_gpu.png
+Cleanup done.
+</code></pre></div></div>
 
 <hr />
 <h2 id="what-we-learned">What we learned</h2>
@@ -2632,7 +2690,7 @@ compile AMP-FP16+TF32 (full)                       26.57s
   <li>
     <p><strong><code class="language-plaintext highlighter-rouge">TF32 matmul</code></strong> - On Ampere+ GPUs (A100, RTX 30xx, H100), TF32 rounds float32
 mantissa bits from 23 to 10 before the hardware tensor core matmul, then rounds back.
-About 2× faster for free. On V100 (pre-Ampere) there are no TF32 tensor cores so
+About 2x faster for free. On V100 (pre-Ampere) there are no TF32 tensor cores so
 this is a no-op.</p>
   </li>
   <li>
@@ -2641,7 +2699,7 @@ and view tracking. A few percent faster, zero accuracy cost.</p>
   </li>
   <li>
     <p><strong><code class="language-plaintext highlighter-rouge">model.half()</code> (FP16)</strong> - Halves memory bandwidth. On V100 the Tensor Cores do
-FP16 × FP16 → FP32 accumulation, so this is the single biggest easy win.</p>
+FP16 x FP16 → FP32 accumulation, so this is the single biggest easy win.</p>
   </li>
 </ul>
 
@@ -2697,8 +2755,8 @@ hardware matmul throughput. Best for memory-constrained scenarios.</p>
 <h3 id="the-quantization-landscape">The quantization landscape</h3>
 
 <ul>
-  <li><strong>torchao int8 weight-only</strong> - 2× memory reduction; dequant fuses with <code class="language-plaintext highlighter-rouge">torch.compile</code>.</li>
-  <li><strong>torchao int4</strong> - 4× reduction vs FP16; custom Triton kernels.</li>
+  <li><strong>torchao int8 weight-only</strong> - 2x memory reduction; dequant fuses with <code class="language-plaintext highlighter-rouge">torch.compile</code>.</li>
+  <li><strong>torchao int4</strong> - 4x reduction vs FP16; custom Triton kernels.</li>
   <li><strong>ONNX int8 static</strong> - Calibrated QDQ format for ORT deployment.</li>
 </ul>
 
@@ -2718,37 +2776,7 @@ hardware matmul throughput. Best for memory-constrained scenarios.</p>
   <li><strong>torchao</strong>: https://github.com/pytorch/ao</li>
   <li><strong>PyTorch Serve performance checklist</strong>: https://docs.pytorch.org/serve/performance_checklist.html</li>
   <li><strong>NVIDIA inference optimization</strong>: https://developer.nvidia.com/blog/tag/inference-performance/</li>
-</ol>
-
-<hr />
-<h2 id="cleanup">Cleanup</h2>
-
-<p>Remove temporary files generated during the benchmark run.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">glob</span>
-
-<span class="n">_temp_patterns</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="sh">"</span><span class="s">model.onnx</span><span class="sh">"</span><span class="p">,</span>
-    <span class="sh">"</span><span class="s">model_prep.onnx</span><span class="sh">"</span><span class="p">,</span>
-    <span class="sh">"</span><span class="s">model_int8.onnx</span><span class="sh">"</span><span class="p">,</span>
-    <span class="sh">"</span><span class="s">model_scripted.pt</span><span class="sh">"</span><span class="p">,</span>
-    <span class="sh">"</span><span class="s">inference_benchmark_gpu.png</span><span class="sh">"</span><span class="p">,</span>
-<span class="p">]</span>
-
-<span class="k">for</span> <span class="n">_pat</span> <span class="ow">in</span> <span class="n">_temp_patterns</span><span class="p">:</span>
-    <span class="k">for</span> <span class="n">_f</span> <span class="ow">in</span> <span class="n">glob</span><span class="p">.</span><span class="nf">glob</span><span class="p">(</span><span class="n">_pat</span><span class="p">):</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">os</span><span class="p">.</span><span class="nf">remove</span><span class="p">(</span><span class="n">_f</span><span class="p">)</span>
-            <span class="nf">print</span><span class="p">(</span><span class="sa">f</span><span class="sh">"</span><span class="s">  removed </span><span class="si">{</span><span class="n">_f</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
-        <span class="k">except</span> <span class="nb">OSError</span><span class="p">:</span>
-            <span class="k">pass</span>
-
-<span class="nf">print</span><span class="p">(</span><span class="sh">"</span><span class="s">Cleanup done.</span><span class="sh">"</span><span class="p">)</span>
-</code></pre></div></div>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  removed inference_benchmark_gpu.png
-Cleanup done.
-</code></pre></div></div>]]></content><author><name>Zeeshan Khan Suri</name></author><category term="runtime-optimization" /><category term="gpu" /><category term="deep-learning" /><summary type="html"><![CDATA[Guide to CUDA GPU inference optimizations, benchmarked on a state-of-the-art Pytorch depth estimation model.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://zshn25.github.io/images%5C2026-03-24-inference_optimizations_benchmark%5Coutput_80_1.png" /><media:content medium="image" url="https://zshn25.github.io/images%5C2026-03-24-inference_optimizations_benchmark%5Coutput_80_1.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Self-supervised learning for vision foundation models</title><link href="https://zshn25.github.io/self-supervision-for-foundation-models/" rel="alternate" type="text/html" title="Self-supervised learning for vision foundation models" /><published>2023-05-12T03:21:23+00:00</published><updated>2023-05-12T03:21:23+00:00</updated><id>https://zshn25.github.io/self-supervision-for-foundation-models</id><content type="html" xml:base="https://zshn25.github.io/self-supervision-for-foundation-models/"><![CDATA[<iframe src="https://ourworldindata.org/grapher/artificial-intelligence-training-computation" loading="lazy" style="width: 100%; height: 600px; border: 0px none;"></iframe>
+</ol>]]></content><author><name>Zeeshan Khan Suri</name></author><category term="runtime-optimization" /><category term="gpu" /><category term="deep-learning" /><summary type="html"><![CDATA[Guide to CUDA GPU inference optimizations, benchmarked on a state-of-the-art Pytorch depth estimation model.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://zshn25.github.io/images/2026-03-24-inference_optimizations_benchmark/output_80_1.png" /><media:content medium="image" url="https://zshn25.github.io/images/2026-03-24-inference_optimizations_benchmark/output_80_1.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Self-supervised learning for vision foundation models</title><link href="https://zshn25.github.io/self-supervision-for-foundation-models/" rel="alternate" type="text/html" title="Self-supervised learning for vision foundation models" /><published>2023-05-12T03:21:23+00:00</published><updated>2023-05-12T03:21:23+00:00</updated><id>https://zshn25.github.io/self-supervision-for-foundation-models</id><content type="html" xml:base="https://zshn25.github.io/self-supervision-for-foundation-models/"><![CDATA[<iframe src="https://ourworldindata.org/grapher/artificial-intelligence-training-computation" loading="lazy" style="width: 100%; height: 600px; border: 0px none;"></iframe>
 <p style="text-align: center;"><sub><sup><em>Model size of notable AI systems over time. Source: <a href="https://ourworldindata.org/grapher/artificial-intelligence-training-computation">Our World in Data</a></em>
 </sup></sub></p>
 
