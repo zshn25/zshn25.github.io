@@ -4,14 +4,14 @@ title: "Layers fusion for faster neural network inference"
 description: "How to fuse all convolution and batch normalization layers in a Pytorch model during test time for faster inference"
 image: images/neural-network-3816319.svg
 date: 2021-04-27 15:21:23 -0700
-categories: deep-learning pytorch fast-inference
+categories: deep-learning pytorch runtime-optimization
 author: Zeeshan Khan Suri
 published: true
 comments: true
 nb_path: _notebooks/2021-04-27-Layers-fusion-for-faster-inference.ipynb
 ---
 
-In the [previous post]({% post_url 2021-03-11-is-convolution-linear %}), we proved that convolutions are linear. There are other linear layers in a neural network such as a batch normalization layer. A batch normalization layer [normalizes](https://en.wikipedia.org/wiki/Normalization_(statistics) its input batch to have zero mean and unit standard deviation, which are calculated from the input batch.{% fn 1 %} It basically translates/shifts and scales the input batch, thus being a linear operation. In many network architectures such as ResNets{% fn 2 %} and DenseNets{% fn 3 %}, a convolutional layer followed by a batch norm layer is used. 
+In the [previous post]({% post_url 2021-03-11-is-convolution-linear %}), we proved that convolutions are linear. There are other linear layers in a neural network such as a batch normalization layer. A batch normalization layer [normalizes](https://en.wikipedia.org/wiki/Normalization_(statistics)) its input batch to have zero mean and unit standard deviation, which are calculated from the input batch.{% fn 1 %} It basically translates/shifts and scales the input batch, thus being a linear operation. In many network architectures such as ResNets{% fn 2 %} and DenseNets{% fn 3 %}, a convolutional layer followed by a batch norm layer is used. 
 
 During training, the mean and standard deviation of the input batch are used in the batch normalization and are eventually learnt. During inference, these estimates of mean and standard deviation are used instead. The idea of this post is to fuse these two consecutive layers during inference, thereby reducing computation and thus inference time.
 

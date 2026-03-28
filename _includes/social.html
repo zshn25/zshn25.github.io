@@ -3,23 +3,23 @@
 <ul class="social-media-list">
   {%- for link in social -%}
     {%- if link.platform == "github" -%}
-      <li><a rel="me" href="{{ link.user_url }}" target="_blank" title="GitHub"><i class="fab fa-github grey" title="GitHub"></i></a></li>
+      <li><a rel="me noopener noreferrer" href="{{ link.user_url }}" target="_blank" aria-label="GitHub (opens in new tab)"><i class="fab fa-github grey" aria-hidden="true"></i></a></li>
     {%- elsif link.platform == "twitter" -%}
-      <li><a rel="me" href="{{ link.user_url }}" target="_blank" title="Twitter"><i class="fab fa-twitter grey" title="Twitter"></i></a></li>
+      <li><a rel="me noopener noreferrer" href="{{ link.user_url }}" target="_blank" aria-label="Twitter (opens in new tab)"><i class="fab fa-twitter grey" aria-hidden="true"></i></a></li>
     {%- elsif link.platform == "linkedin" -%}
-      <li><a rel="me" href="{{ link.user_url }}" target="_blank" title="LinkedIn"><i class="fab fa-linkedin grey" title="LinkedIn"></i></a></li>
+      <li><a rel="me noopener noreferrer" href="{{ link.user_url }}" target="_blank" aria-label="LinkedIn (opens in new tab)"><i class="fab fa-linkedin grey" aria-hidden="true"></i></a></li>
     {%- elsif link.platform == "facebook" -%}
-      <li><a rel="me" href="{{ link.user_url }}" target="_blank" title="Facebook"><i class="fab fa-facebook grey" title="Facebook"></i></a></li>
+      <li><a rel="me noopener noreferrer" href="{{ link.user_url }}" target="_blank" aria-label="Facebook (opens in new tab)"><i class="fab fa-facebook grey" aria-hidden="true"></i></a></li>
     {%- elsif link.platform == "instagram" -%}
-      <li><a rel="me" href="{{ link.user_url }}" target="_blank" title="Instagram"><i class="fab fa-instagram grey" title="Instagram"></i></a></li>
+      <li><a rel="me noopener noreferrer" href="{{ link.user_url }}" target="_blank" aria-label="Instagram (opens in new tab)"><i class="fab fa-instagram grey" aria-hidden="true"></i></a></li>
     {%- elsif link.platform == "youtube" -%}
-      <li><a rel="me" href="{{ link.user_url }}" target="_blank" title="YouTube"><i class="fab fa-youtube grey" title="YouTube"></i></a></li>
+      <li><a rel="me noopener noreferrer" href="{{ link.user_url }}" target="_blank" aria-label="YouTube (opens in new tab)"><i class="fab fa-youtube grey" aria-hidden="true"></i></a></li>
     {%- elsif link.platform == "mastodon" -%}
-      <li><a rel="me" href="{{ link.user_url }}" target="_blank" title="Mastodon"><i class="fab fa-mastodon grey" title="Mastodon"></i></a></li>
+      <li><a rel="me noopener noreferrer" href="{{ link.user_url }}" target="_blank" aria-label="Mastodon (opens in new tab)"><i class="fab fa-mastodon grey" aria-hidden="true"></i></a></li>
     {%- elsif link.platform == "google_scholar" -%}
-      <li><a rel="me" href="{{ link.user_url }}" target="_blank" title="Google Scholar"><i class="ai ai-google-scholar grey" title="Google Scholar"></i></a></li>
+      <li><a rel="me noopener noreferrer" href="{{ link.user_url }}" target="_blank" aria-label="Google Scholar (opens in new tab)"><i class="ai ai-google-scholar grey" aria-hidden="true"></i></a></li>
     {%- else -%}
-      <li><a rel="me" href="{{ link.user_url }}" target="_blank" title="{{ link.platform }}">{{ link.platform }}</a></li>
+      <li><a rel="me noopener noreferrer" href="{{ link.user_url }}" target="_blank" aria-label="{{ link.platform }} (opens in new tab)">{{ link.platform }}</a></li>
     {%- endif -%}
   {%- endfor -%}
 </ul>

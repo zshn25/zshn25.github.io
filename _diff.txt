@@ -1,0 +1,1333 @@
+diff --git a/_includes/custom-head.html b/_includes/custom-head.html
+index 6a80e4b..f2f7862 100755
+--- a/_includes/custom-head.html
++++ b/_includes/custom-head.html
+@@ -7,6 +7,8 @@
+ 
+ 
+ {%- include favicons.html -%}
++<!-- Preload critical font -->
++<link rel="preload" href="{{ '/assets/vendor/fonts/inter/InterVariable.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
+ <!-- Self-hosted vendor CSS (no cross-origin requests for privacy) -->
+ <!-- Primer utility classes are now inlined via _sass/minima/_primer-utilities.scss -->
+ <link rel="stylesheet" href="{{ '/assets/vendor/fontawesome/css/all.min.css' | relative_url }}" media="print" onload="this.media='all'">
+@@ -19,7 +21,8 @@
+ 
+ {% if site.use_math and page.layout != 'home' %}
+     <!-- KaTeX: only on content pages (skipped on homepage for performance) -->
+-    <link rel="stylesheet" href="{{ '/assets/vendor/katex/katex.min.css' | relative_url }}">
++    <link rel="stylesheet" href="{{ '/assets/vendor/katex/katex.min.css' | relative_url }}" media="print" onload="this.media='all'">
++    <noscript><link rel="stylesheet" href="{{ '/assets/vendor/katex/katex.min.css' | relative_url }}"></noscript>
+     <script defer src="{{ '/assets/vendor/katex/katex.min.js' | relative_url }}"></script>
+     <script defer src="{{ '/assets/vendor/katex/contrib/auto-render.min.js' | relative_url }}"></script>
+     <script>
+@@ -52,7 +55,8 @@
+ <!-- Dark mode CSS must come before applytheme.js so it can find #dark-css -->
+ {% endcomment %}
+ <link id="dark-css" href="{{ '/assets/css/dark.css' | relative_url }}" rel="stylesheet" media="(prefers-color-scheme: dark)">
+-<script src="{{ '/assets/js/applytheme.js' | relative_url }}"></script>
+-<script src="{{ '/assets/js/consent-gate.js' | relative_url }}"></script>
++{%- capture applytheme -%}{%- include applytheme.js -%}{%- endcapture -%}
++<script>{{ applytheme }}</script>
++<script src="{{ '/assets/js/consent-gate.js' | relative_url }}" defer></script>
+ <script src="{{ '/assets/js/vendor/lunr.min.js' | relative_url }}" defer></script>
+ <script src="{{ '/assets/js/main.js' | relative_url }}" defer></script>
+diff --git a/_includes/footer.html b/_includes/footer.html
+index 20064cd..6561bdb 100644
+--- a/_includes/footer.html
++++ b/_includes/footer.html
+@@ -15,7 +15,7 @@
+           {% if site.author.name -%}
+             <li class="p-name">© {{ site.author.name | escape }} </li>
+           {% endif -%}
+-          <li><div xmlns:cc="http://creativecommons.org/ns#" > Text under  <a href="https://creativecommons.org/licenses/by-nc/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="{{ '/assets/vendor/cc-icons/cc.svg' | relative_url }}" alt="CC" width="22" height="22"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="{{ '/assets/vendor/cc-icons/by.svg' | relative_url }}" alt="BY" width="22" height="22"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="{{ '/assets/vendor/cc-icons/nc.svg' | relative_url }}" alt="NC" width="22" height="22"></a> unless stated otherwise. Images and other media have their own copyright. </div></li>
++          <li><div xmlns:cc="http://creativecommons.org/ns#" > Text under  <a href="https://creativecommons.org/licenses/by-nc/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="{{ '/assets/vendor/cc-icons/cc.svg' | relative_url }}" alt="Creative Commons" width="22" height="22"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="{{ '/assets/vendor/cc-icons/by.svg' | relative_url }}" alt="Attribution" width="22" height="22"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="{{ '/assets/vendor/cc-icons/nc.svg' | relative_url }}" alt="Non-Commercial" width="22" height="22"></a> unless stated otherwise. Images and other media have their own copyright. </div></li>
+           {% if site.author.email -%}
+             <li><span class="u-email">{{ site.author.email }}</span></li>
+           {%- endif %}
+diff --git a/_includes/header.html b/_includes/header.html
+index 086b496..996f4ad 100644
+--- a/_includes/header.html
++++ b/_includes/header.html
+@@ -10,32 +10,63 @@
+     {%- assign titles_size = site.pages | map: 'title' | join: '' | size -%}
+ 
+     {%- if titles_size > 0 -%}
+-    <nav class="site-nav">
+-      <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+-      <label for="nav-trigger">
+-        <span class="menu-icon"></span>
+-      </label>
+-
+-      <div class="nav-items">
++    <nav class="site-nav" aria-label="Main navigation">
++      <!-- Desktop nav links (hidden below breakpoint) -->
++      <div class="nav-items-desktop">
+         {%- for path in page_paths -%}
+           {%- assign my_page = site.pages | where: "path", path | first -%}
+           {%- if my_page.title -%}
+           <a class="page-link nav-item" href="{{ my_page.url | relative_url }}">{{ my_page.title | escape }}</a>
+           {%- endif -%}
+         {%- endfor -%}
+-        <div class="header-search nav-item">
+-          <i class="fas fa-search header-search-icon"></i>
+-          <input type="text" class="header-search-input js-search-input" placeholder="Search..." aria-label="Search {{ site.title }}" autocomplete="off">
+-          <div class="search-results-dropdown js-search-results"></div>
+-        </div>
++        <button type="button" class="nav-item header-icon-btn search-trigger" aria-label="Search (Ctrl+K)" title="Search (Ctrl+K)">
++          <span class="fas fa-search" aria-hidden="true"></span>
++        </button>
+         <a href="{{ '/feed.xml' | relative_url }}" class="nav-item header-icon-btn no-underline no_icon" title="RSS Feed" aria-label="Subscribe via RSS">
+           <span class="fas fa-rss rss-icon" aria-hidden="true"></span>
+         </a>
+-        <span id="nav-switch-theme" class="nav-item header-icon-btn" style="display:none">
+-          <span class="nav-theme-icon fas fa-fw" aria-hidden="true" title="Theme"></span>
+-        </span>
++        <button id="nav-switch-theme" type="button" class="nav-item header-icon-btn" style="display:none" aria-label="Toggle theme">
++          <span class="nav-theme-icon fas fa-fw" aria-hidden="true"></span>
++        </button>
++      </div>
++
++      <!-- Mobile: search + hamburger (visible below breakpoint) -->
++      <div class="nav-mobile-actions">
++        <button type="button" class="header-icon-btn search-trigger" aria-label="Search (Ctrl+K)">
++          <span class="fas fa-search" aria-hidden="true"></span>
++        </button>
++        <button type="button" class="nav-hamburger" aria-label="Open navigation menu" aria-expanded="false" aria-controls="nav-dialog">
++          <span class="fas fa-bars" aria-hidden="true"></span>
++        </button>
+       </div>
+     </nav>
+     {%- endif -%}
+   </div>
+ </header>
++
++<!-- Mobile nav dialog -->
++<dialog id="nav-dialog" class="nav-dialog" aria-label="Navigation menu">
++  <div class="nav-dialog-header">
++    <span class="nav-dialog-title">Menu</span>
++    <button type="button" class="nav-dialog-close" aria-label="Close navigation menu">
++      <span class="fas fa-times" aria-hidden="true"></span>
++    </button>
++  </div>
++  <nav class="nav-dialog-body" aria-label="Mobile navigation">
++    {%- for path in page_paths -%}
++      {%- assign my_page = site.pages | where: "path", path | first -%}
++      {%- if my_page.title -%}
++      <a class="nav-dialog-link" href="{{ my_page.url | relative_url }}">{{ my_page.title | escape }}</a>
++      {%- endif -%}
++    {%- endfor -%}
++    <button type="button" class="nav-dialog-link search-trigger" aria-label="Search">
++      <span class="fas fa-search" aria-hidden="true" style="margin-right:0.5em"></span> Search
++    </button>
++    <a href="{{ '/feed.xml' | relative_url }}" class="nav-dialog-link no_icon" aria-label="Subscribe via RSS">
++      <span class="fas fa-rss rss-icon" aria-hidden="true" style="margin-right:0.5em"></span> RSS Feed
++    </a>
++    <button type="button" id="nav-switch-theme-mobile" class="nav-dialog-link" style="display:none" aria-label="Toggle theme">
++      <span class="nav-theme-icon-mobile fas fa-fw" aria-hidden="true" style="margin-right:0.5em"></span> <span class="nav-theme-label-mobile">Theme</span>
++    </button>
++  </nav>
++</dialog>
+diff --git a/_includes/notebook_binder_link.html b/_includes/notebook_binder_link.html
+index e46038f..b3927cd 100644
+--- a/_includes/notebook_binder_link.html
++++ b/_includes/notebook_binder_link.html
+@@ -1,5 +1,5 @@
+ <div class="px-2">
+-    <a href="https://mybinder.org/v2/gh/{{site.github_username}}/{{site.github_repo | default: site.baseurl | remove: "/" }}/{{page.branch | default: "master"}}?filepath={{page.nb_path | url_encode }}" target="_blank">
++    <a href="https://mybinder.org/v2/gh/{{site.github_username}}/{{site.github_repo | default: site.baseurl | remove: "/" }}/{{page.branch | default: "master"}}?filepath={{page.nb_path | url_encode }}" target="_blank" rel="noopener noreferrer">
+         <img class="notebook-badge-image" src="{{ "assets/badges/binder.svg" | relative_url }}" alt="Open In Binder"/>
+     </a>
+ </div>
+diff --git a/_includes/notebook_colab_link.html b/_includes/notebook_colab_link.html
+index 93f2268..d95ba97 100644
+--- a/_includes/notebook_colab_link.html
++++ b/_includes/notebook_colab_link.html
+@@ -1,5 +1,5 @@
+ <div class="px-2">
+-    <a href="https://colab.research.google.com/github/{{site.github_username}}/{{site.github_repo | default: site.baseurl | remove: "/" }}/blob/{{page.branch | default: "master"}}/{{page.nb_path}}" target="_blank">
++    <a href="https://colab.research.google.com/github/{{site.github_username}}/{{site.github_repo | default: site.baseurl | remove: "/" }}/blob/{{page.branch | default: "master"}}/{{page.nb_path}}" target="_blank" rel="noopener noreferrer">
+         <img class="notebook-badge-image" src="{{ "assets/badges/colab.svg" | relative_url }}" alt="Open In Colab"/>
+     </a>
+ </div>
+\ No newline at end of file
+diff --git a/_includes/notebook_github_link.html b/_includes/notebook_github_link.html
+index 3236f27..bdcf3d7 100644
+--- a/_includes/notebook_github_link.html
++++ b/_includes/notebook_github_link.html
+@@ -1,8 +1,8 @@
+ <div class="px-2">
+ {% if page.layout == 'notebook' %}
+-    <a href="https://github.com/{{site.github_username}}/{{site.github_repo | default: site.baseurl | remove: "/" }}/tree/{{page.branch | default: "master" }}/{{page.nb_path}}" role="button" target="_blank">
++    <a href="https://github.com/{{site.github_username}}/{{site.github_repo | default: site.baseurl | remove: "/" }}/tree/{{page.branch | default: "master" }}/{{page.nb_path}}" role="button" target="_blank" rel="noopener noreferrer">
+ {% elsif page.layout == 'post' %}
+-    <a href="https://github.com/{{site.github_username}}/{{site.github_repo | default: site.baseurl | remove: "/" }}/tree/{{page.branch | default: "master" }}/{{page.path}}" role="button" target="_blank">
++    <a href="https://github.com/{{site.github_username}}/{{site.github_repo | default: site.baseurl | remove: "/" }}/tree/{{page.branch | default: "master" }}/{{page.path}}" role="button" target="_blank" rel="noopener noreferrer">
+ {% endif -%}
+         <img class="notebook-badge-image" src="{{ "assets/badges/github.svg" | relative_url }}" alt="View On GitHub">
+     </a>
+diff --git a/_includes/post_list_image_card.html b/_includes/post_list_image_card.html
+index 668167c..76005c6 100644
+--- a/_includes/post_list_image_card.html
++++ b/_includes/post_list_image_card.html
+@@ -2,14 +2,14 @@
+   {%- if post.image -%}
+   <div class="post-card-image">
+     <a href="{{ post.url | relative_url }}">
+-    <img class="image-preview" src="{{ post.image | relative_url }}" {% if include.eager %}fetchpriority="high"{% else %}loading="lazy"{% endif %} alt="{{ post.title | escape }}" /></a>
++    <img class="image-preview" src="{{ post.image | relative_url }}" {% if include.eager %}fetchpriority="high"{% else %}loading="lazy"{% endif %} alt="{{ post.title | escape }}" width="300" height="300" /></a>
+   </div>
+   {%- endif -%}
+   <div class="post-card-body">
+     {% if post.featured %}<span class="featured-badge"><i class="fas fa-star"></i> Featured</span>{% endif %}
+     <h3>
+       {% if post.link %}
+-      <a class="post-link" href="{{ post.link }}" target="_blank">
++      <a class="post-link" href="{{ post.link }}" target="_blank" rel="noopener noreferrer">
+         {{ post.title | escape }}
+         <sup><i class="fas fa-external-link-alt" style="font-size: 75%"></i></sup> </a>
+       {% else %}
+diff --git a/_includes/privacy-notice.html b/_includes/privacy-notice.html
+index c758a2c..1403281 100644
+--- a/_includes/privacy-notice.html
++++ b/_includes/privacy-notice.html
+@@ -1,17 +1,6 @@
+ <!-- Informational privacy notice (not a cookie consent - this site does not use cookies) -->
+-<div id="privacy-notice" style="display:none">
++<div id="privacy-notice" role="status" style="display:none">
+     This site does not use cookies or track you. Some posts contain embedded content that connects to third parties only when you click.
+     <a href="{{ '/about/#privacy' | relative_url }}">Learn more</a>
+     <button class="privacy-ok-btn" onclick="localStorage.setItem('privacyOK','1');document.getElementById('privacy-notice').style.display='none';document.body.style.paddingBottom=''">OK</button>
+ </div>
+-<script>
+-(function(){
+-  if(!localStorage.getItem('privacyOK')){
+-    var el=document.getElementById('privacy-notice');
+-    if(el) {
+-      el.style.display='flex';
+-      document.body.style.paddingBottom='3em';
+-    }
+-  }
+-})();
+-</script>
+diff --git a/_includes/share-buttons.html b/_includes/share-buttons.html
+index 35112c7..8d86bc3 100644
+--- a/_includes/share-buttons.html
++++ b/_includes/share-buttons.html
+@@ -11,10 +11,9 @@ Copyright (c) 2020 Usecue BV -->
+ <div style="text-align: center;">
+     <span style="color: rgb(134, 134, 134);">Share on : </span>
+     <div id="share-buttons">
+-        <div class="facebook" title="Share this on Facebook" onclick="window.open('https://www.facebook.com/share.php?u={{ site.url }}{{ pageurl }}');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></div>
+-        <div class="twitter" title="Share this on Twitter" onclick="window.open('https://twitter.com/intent/tweet?text={{page.title}}&url={{ site.url }}{{ pageurl }}');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></div>
+-        <div class="linkedin" title="Share this on Linkedin" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url={{ site.url }}{{ pageurl }}&title=&summary=&source=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></div>
+-        <!-- {% if page.image %}<div class="pinterest" title="Share this on Pinterest" onclick="window.open('https://pinterest.com/pin/create/button/?url=&media={{ site.url }}{{ page.image }}&description=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M256 597q0-108 37.5-203.5t103.5-166.5 152-123 185-78 202-26q158 0 294 66.5t221 193.5 85 287q0 96-19 188t-60 177-100 149.5-145 103-189 38.5q-68 0-135-32t-96-88q-10 39-28 112.5t-23.5 95-20.5 71-26 71-32 62.5-46 77.5-62 86.5l-14 5-9-10q-15-157-15-188 0-92 21.5-206.5t66.5-287.5 52-203q-32-65-32-169 0-83 52-156t132-73q61 0 95 40.5t34 102.5q0 66-44 191t-44 187q0 63 45 104.5t109 41.5q55 0 102-25t78.5-68 56-95 38-110.5 20-111 6.5-99.5q0-173-109.5-269.5t-285.5-96.5q-200 0-334 129.5t-134 328.5q0 44 12.5 85t27 65 27 45.5 12.5 30.5q0 28-15 73t-37 45q-2 0-17-3-51-15-90.5-56t-61-94.5-32.5-108-11-106.5z"/></svg></div>{% endif %} -->
+-        <div class="mail" title="Share this through Email" onclick="window.open('mailto:?&body={{ site.url }}{{ pageurl }}');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1792 710v794q0 66-47 113t-113 47h-1472q-66 0-113-47t-47-113v-794q44 49 101 87 362 246 497 345 57 42 92.5 65.5t94.5 48 110 24.5h2q51 0 110-24.5t94.5-48 92.5-65.5q170-123 498-345 57-39 100-87zm0-294q0 79-49 151t-122 123q-376 261-468 325-10 7-42.5 30.5t-54 38-52 32.5-57.5 27-50 9h-2q-23 0-50-9t-57.5-27-52-32.5-54-38-42.5-30.5q-91-64-262-182.5t-205-142.5q-62-42-117-115.5t-55-136.5q0-78 41.5-130t118.5-52h1472q65 0 112.5 47t47.5 113z"/></svg></div>
++        <button type="button" class="facebook" aria-label="Share on Facebook" onclick="window.open('https://www.facebook.com/share.php?u={{ site.url }}{{ pageurl }}');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1343 12v264h-157q-86 0-116 36t-30 108v189h293l-39 296h-254v759h-306v-759h-255v-296h255v-218q0-186 104-288.5t277-102.5q147 0 228 12z"/></svg></button>
++        <button type="button" class="twitter" aria-label="Share on Twitter" onclick="window.open('https://twitter.com/intent/tweet?text={{page.title}}&url={{ site.url }}{{ pageurl }}');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1684 408q-67 98-162 167 1 14 1 42 0 130-38 259.5t-115.5 248.5-184.5 210.5-258 146-323 54.5q-271 0-496-145 35 4 78 4 225 0 401-138-105-2-188-64.5t-114-159.5q33 5 61 5 43 0 85-11-112-23-185.5-111.5t-73.5-205.5v-4q68 38 146 41-66-44-105-115t-39-154q0-88 44-163 121 149 294.5 238.5t371.5 99.5q-8-38-8-74 0-134 94.5-228.5t228.5-94.5q140 0 236 102 109-21 205-78-37 115-142 178 93-10 186-50z"/></svg></button>
++        <button type="button" class="linkedin" aria-label="Share on LinkedIn" onclick="window.open('https://www.linkedin.com/shareArticle?mini=true&url={{ site.url }}{{ pageurl }}&title=&summary=&source=');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M477 625v991h-330v-991h330zm21-306q1 73-50.5 122t-135.5 49h-2q-82 0-132-49t-50-122q0-74 51.5-122.5t134.5-48.5 133 48.5 51 122.5zm1166 729v568h-329v-530q0-105-40.5-164.5t-126.5-59.5q-63 0-105.5 34.5t-63.5 85.5q-11 30-11 81v553h-329q2-399 2-647t-1-296l-1-48h329v144h-2q20-32 41-56t56.5-52 87-43.5 114.5-15.5q171 0 275 113.5t104 332.5z"/></svg></button>
++        <button type="button" class="mail" aria-label="Share via Email" onclick="window.open('mailto:?&body={{ site.url }}{{ pageurl }}');"><svg viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M1792 710v794q0 66-47 113t-113 47h-1472q-66 0-113-47t-47-113v-794q44 49 101 87 362 246 497 345 57 42 92.5 65.5t94.5 48 110 24.5h2q51 0 110-24.5t94.5-48 92.5-65.5q170-123 498-345 57-39 100-87zm0-294q0 79-49 151t-122 123q-376 261-468 325-10 7-42.5 30.5t-54 38-52 32.5-57.5 27-50 9h-2q-23 0-50-9t-57.5-27-52-32.5-54-38-42.5-30.5q-91-64-262-182.5t-205-142.5q-62-42-117-115.5t-55-136.5q0-78 41.5-130t118.5-52h1472q65 0 112.5 47t47.5 113z"/></svg></button>
+     </div>
+-</div>
+\ No newline at end of file
++</div>
+diff --git a/_includes/social.html b/_includes/social.html
+index aca2168..3854091 100644
+--- a/_includes/social.html
++++ b/_includes/social.html
+@@ -3,23 +3,23 @@
+ <ul class="social-media-list">
+   {%- for link in social -%}
+     {%- if link.platform == "github" -%}
+-      <li><a rel="me" href="{{ link.user_url }}" target="_blank" title="GitHub"><i class="fab fa-github grey" title="GitHub"></i></a></li>
++      <li><a rel="me noopener noreferrer" href="{{ link.user_url }}" target="_blank" aria-label="GitHub (opens in new tab)"><i class="fab fa-github grey" aria-hidden="true"></i></a></li>
+     {%- elsif link.platform == "twitter" -%}
+-      <li><a rel="me" href="{{ link.user_url }}" target="_blank" title="Twitter"><i class="fab fa-twitter grey" title="Twitter"></i></a></li>
++      <li><a rel="me noopener noreferrer" href="{{ link.user_url }}" target="_blank" aria-label="Twitter (opens in new tab)"><i class="fab fa-twitter grey" aria-hidden="true"></i></a></li>
+     {%- elsif link.platform == "linkedin" -%}
+-      <li><a rel="me" href="{{ link.user_url }}" target="_blank" title="LinkedIn"><i class="fab fa-linkedin grey" title="LinkedIn"></i></a></li>
++      <li><a rel="me noopener noreferrer" href="{{ link.user_url }}" target="_blank" aria-label="LinkedIn (opens in new tab)"><i class="fab fa-linkedin grey" aria-hidden="true"></i></a></li>
+     {%- elsif link.platform == "facebook" -%}
+-      <li><a rel="me" href="{{ link.user_url }}" target="_blank" title="Facebook"><i class="fab fa-facebook grey" title="Facebook"></i></a></li>
++      <li><a rel="me noopener noreferrer" href="{{ link.user_url }}" target="_blank" aria-label="Facebook (opens in new tab)"><i class="fab fa-facebook grey" aria-hidden="true"></i></a></li>
+     {%- elsif link.platform == "instagram" -%}
+-      <li><a rel="me" href="{{ link.user_url }}" target="_blank" title="Instagram"><i class="fab fa-instagram grey" title="Instagram"></i></a></li>
++      <li><a rel="me noopener noreferrer" href="{{ link.user_url }}" target="_blank" aria-label="Instagram (opens in new tab)"><i class="fab fa-instagram grey" aria-hidden="true"></i></a></li>
+     {%- elsif link.platform == "youtube" -%}
+-      <li><a rel="me" href="{{ link.user_url }}" target="_blank" title="YouTube"><i class="fab fa-youtube grey" title="YouTube"></i></a></li>
++      <li><a rel="me noopener noreferrer" href="{{ link.user_url }}" target="_blank" aria-label="YouTube (opens in new tab)"><i class="fab fa-youtube grey" aria-hidden="true"></i></a></li>
+     {%- elsif link.platform == "mastodon" -%}
+-      <li><a rel="me" href="{{ link.user_url }}" target="_blank" title="Mastodon"><i class="fab fa-mastodon grey" title="Mastodon"></i></a></li>
++      <li><a rel="me noopener noreferrer" href="{{ link.user_url }}" target="_blank" aria-label="Mastodon (opens in new tab)"><i class="fab fa-mastodon grey" aria-hidden="true"></i></a></li>
+     {%- elsif link.platform == "google_scholar" -%}
+-      <li><a rel="me" href="{{ link.user_url }}" target="_blank" title="Google Scholar"><i class="ai ai-google-scholar grey" title="Google Scholar"></i></a></li>
++      <li><a rel="me noopener noreferrer" href="{{ link.user_url }}" target="_blank" aria-label="Google Scholar (opens in new tab)"><i class="ai ai-google-scholar grey" aria-hidden="true"></i></a></li>
+     {%- else -%}
+-      <li><a rel="me" href="{{ link.user_url }}" target="_blank" title="{{ link.platform }}">{{ link.platform }}</a></li>
++      <li><a rel="me noopener noreferrer" href="{{ link.user_url }}" target="_blank" aria-label="{{ link.platform }} (opens in new tab)">{{ link.platform }}</a></li>
+     {%- endif -%}
+   {%- endfor -%}
+-</ul>
+\ No newline at end of file
++</ul>
+diff --git a/_layouts/default.html b/_layouts/default.html
+index e6fc0af..4ee4d75 100644
+--- a/_layouts/default.html
++++ b/_layouts/default.html
+@@ -1,10 +1,12 @@
+ <!DOCTYPE html>
+ <html lang="{{ page.lang | default: site.lang | default: "en" }}">
+-    
++
+   {%- include head.html -%}
+ 
+   <body>
++    <a class="skip-link" href="#main-content">Skip to main content</a>
+     {%- include header.html -%}
++    {%- include search-dialog.html -%}
+ 
+     {% comment %}
+     {% capture anchor_body %}
+@@ -12,8 +14,8 @@
+         <i class="fa fa-link" aria-hidden="true"></i>
+     {% endcapture %}
+     {% endcomment %}
+-    
+-    <main class="page-content" aria-label="Content">
++
++    <main id="main-content" class="page-content" aria-label="Content">
+       <div class="wrapper">
+         {% include anchor_headings.html html=content beforeHeading=true anchorClass="heading-anchor" anchorAttrs='aria-hidden="true" tabindex="-1"' anchorBody="<svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg>" %}
+       </div>
+@@ -29,4 +31,4 @@
+ 
+   </body>
+ 
+-</html>
+\ No newline at end of file
++</html>
+diff --git a/_layouts/home.html b/_layouts/home.html
+index 2a9c617..81c51cb 100644
+--- a/_layouts/home.html
++++ b/_layouts/home.html
+@@ -91,7 +91,7 @@ layout: default
+     </ul>
+     {% if tech_posts.size > posts_per_section %}
+     <div class="section-toggle-wrap">
+-      <button class="section-toggle button is-rounded" data-section="tech" data-total="{{ tech_posts.size }}">
++      <button class="section-toggle button is-rounded" data-section="tech" data-total="{{ tech_posts.size }}" aria-expanded="false">
+         Show all {{ tech_posts.size }} posts
+       </button>
+     </div>
+@@ -130,7 +130,7 @@ layout: default
+     </ul>
+     {% if philosophy_posts.size > posts_per_section %}
+     <div class="section-toggle-wrap">
+-      <button class="section-toggle button is-rounded" data-section="philosophy" data-total="{{ philosophy_posts.size }}">
++      <button class="section-toggle button is-rounded" data-section="philosophy" data-total="{{ philosophy_posts.size }}" aria-expanded="false">
+         Show all {{ philosophy_posts.size }} posts
+       </button>
+     </div>
+@@ -169,7 +169,7 @@ layout: default
+     </ul>
+     {% if life_posts.size > posts_per_section %}
+     <div class="section-toggle-wrap">
+-      <button class="section-toggle button is-rounded" data-section="life" data-total="{{ life_posts.size }}">
++      <button class="section-toggle button is-rounded" data-section="life" data-total="{{ life_posts.size }}" aria-expanded="false">
+         Show all {{ life_posts.size }} posts
+       </button>
+     </div>
+@@ -217,142 +217,4 @@ layout: default
+ 
+ </div>
+ 
+-<script>
+-document.addEventListener('DOMContentLoaded', function() {
+-  'use strict';
+-
+-  // ── Tag filter: multi-select toggle within each section ──
+-  document.querySelectorAll('.category-chip[data-tag]').forEach(function(chip) {
+-    chip.addEventListener('click', function(e) {
+-      e.preventDefault();
+-      this.classList.toggle('active');
+-      applyFilters(this.closest('.topic-section'));
+-    });
+-  });
+-
+-  function applyFilters(section) {
+-    var activeTags = [];
+-    section.querySelectorAll('.category-chip.active').forEach(function(c) {
+-      activeTags.push(c.getAttribute('data-tag'));
+-    });
+-    var items = section.querySelectorAll('.post-list > li');
+-    var toggleBtn = section.querySelector('.section-toggle');
+-    if (activeTags.length === 0) {
+-      // No filter — restore default collapsed state
+-      items.forEach(function(item) { item.classList.remove('tag-hidden'); });
+-      if (toggleBtn && !toggleBtn.dataset.expanded) {
+-        items.forEach(function(item, i) {
+-          if (i >= 6) item.classList.add('section-hidden');
+-        });
+-      }
+-    } else {
+-      // Filter active — show matching, hide rest, ignore section-hidden
+-      items.forEach(function(item) {
+-        var cats = (item.getAttribute('data-categories') || '').split(',');
+-        var match = activeTags.some(function(t) { return cats.indexOf(t) !== -1; });
+-        if (match) {
+-          item.classList.remove('tag-hidden');
+-          item.classList.remove('section-hidden');
+-        } else {
+-          item.classList.add('tag-hidden');
+-        }
+-      });
+-    }
+-  }
+-
+-  // ── Show more / Show less toggle per section ──
+-  document.querySelectorAll('.section-toggle').forEach(function(btn) {
+-    btn.dataset.expanded = '';
+-    btn.addEventListener('click', function() {
+-      var section = this.closest('.topic-section');
+-      var allItems = section.querySelectorAll('.post-list > li');
+-      var activeChips = section.querySelectorAll('.category-chip.active');
+-
+-      // If filters are active, clear them first
+-      if (activeChips.length > 0) {
+-        activeChips.forEach(function(c) { c.classList.remove('active'); });
+-        allItems.forEach(function(li) { li.classList.remove('tag-hidden'); });
+-        // Restore collapsed state
+-        if (!this.dataset.expanded) {
+-          allItems.forEach(function(li, i) {
+-            if (i >= 6) li.classList.add('section-hidden');
+-          });
+-        }
+-        return;
+-      }
+-
+-      if (!this.dataset.expanded) {
+-        // Expand
+-        allItems.forEach(function(li) { li.classList.remove('section-hidden'); });
+-        this.dataset.expanded = '1';
+-        this.textContent = 'Show less';
+-      } else {
+-        // Collapse back
+-        allItems.forEach(function(li, i) {
+-          if (i >= 6) li.classList.add('section-hidden');
+-        });
+-        this.dataset.expanded = '';
+-        this.textContent = 'Show all ' + this.getAttribute('data-total') + ' posts';
+-      }
+-    });
+-  });
+-
+-  // ── Tag links in post cards: act as filters ──
+-  document.querySelectorAll('.post-list .category-tags-link').forEach(function(tagLink) {
+-    tagLink.addEventListener('click', function(e) {
+-      e.preventDefault();
+-      var tag = this.textContent.replace('#', '').trim().toLowerCase();
+-      var section = this.closest('.topic-section');
+-      if (!section) return;
+-      var chip = section.querySelector('.category-chip[data-tag="' + tag + '"]');
+-      if (chip) chip.click();
+-      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+-    });
+-  });
+-
+-  // ── Word cloud tag clicks: activate section filter + scroll ──
+-  document.querySelectorAll('.tag-cloud a[data-wc-tag]').forEach(function(wcTag) {
+-    wcTag.addEventListener('click', function(e) {
+-      e.preventDefault();
+-      var tag = this.getAttribute('data-wc-tag');
+-      // Find ALL chips with this tag across all sections
+-      var chips = document.querySelectorAll('.category-chip[data-tag="' + tag + '"]');
+-      var scrollTarget = null;
+-      chips.forEach(function(chip) {
+-        var section = chip.closest('.topic-section');
+-        if (!section) return;
+-        // Toggle this chip (don't clear others — allow independent per-section)
+-        if (!chip.classList.contains('active')) {
+-          chip.click();
+-        }
+-        // Expand the section if collapsed
+-        var toggle = section.querySelector('.section-toggle');
+-        if (toggle && !toggle.dataset.expanded) toggle.click();
+-        if (!scrollTarget) scrollTarget = section;
+-      });
+-      if (scrollTarget) scrollTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+-    });
+-  });
+-
+-  // ── Handle ?tag= URL parameter (from post page tag links) ──
+-  var params = new URLSearchParams(window.location.search);
+-  var tagParam = params.get('tag');
+-  if (tagParam) {
+-    tagParam = tagParam.toLowerCase();
+-    var scrolled = false;
+-    document.querySelectorAll('.category-chip[data-tag="' + tagParam + '"]').forEach(function(chip) {
+-      chip.click();
+-      if (!scrolled) {
+-        var section = chip.closest('.topic-section');
+-        if (section) {
+-          // Expand the section
+-          var toggle = section.querySelector('.section-toggle');
+-          if (toggle && !toggle.dataset.expanded) toggle.click();
+-          section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+-          scrolled = true;
+-        }
+-      }
+-    });
+-  }
+-});
+-</script>
++<script src="{{ '/assets/js/home.js' | relative_url }}" defer></script>
+diff --git a/_layouts/post.html b/_layouts/post.html
+index 374834a..b3919c3 100644
+--- a/_layouts/post.html
++++ b/_layouts/post.html
+@@ -56,7 +56,7 @@ layout: default
+     {% endif %}
+     <h1 class="post-title p-name" itemprop="name headline">{% comment %} For external link posts {% endcomment %}
+       {% if page.link %}
+-      <a  href="{{ page.link }}" target="_blank">
++      <a  href="{{ page.link }}" target="_blank" rel="noopener noreferrer">
+         {{ page.title | escape }}
+         <sup><i class="fas fa-external-link-alt" style="font-size: 50%"></i></sup> </a>
+       {% else %}
+diff --git a/_pages/about.md b/_pages/about.md
+index 4b753d1..2e77810 100644
+--- a/_pages/about.md
++++ b/_pages/about.md
+@@ -1,5 +1,6 @@
+ ---
+ layout: page
++description: "About Curiosity and Me"
+ title: About
+ permalink: /about/
+ ---
+@@ -18,8 +19,8 @@ My name is **Zeeshan Khan Suri**. I believe in life long learning 🎓, I yearn
+ </object>
+ <a href="{{site.baseurl}}/images/CV.pdf" target="_blank">CV</a>
+ 
+-
+  -->
++
+ ## Donations
+ 
+ Ether Wallet address: 0xc1be9fd4821e50f5300b027a4254250bb2510387
+diff --git a/_pages/search.html b/_pages/search.html
+index fd2bdfd..b6a4e43 100644
+--- a/_pages/search.html
++++ b/_pages/search.html
+@@ -6,13 +6,13 @@ search_exclude: true
+ ---
+ 
+ <div class="search">
+-    <p>Use the search box in the header to find posts.</p>
++    <p>Use the search button in the header or press <kbd>Ctrl+K</kbd> to find posts.</p>
+ </div>
+ 
+ <script>
+-// Auto-focus the header search input on the search page
++// Auto-open the search dialog on the search page
+ document.addEventListener('DOMContentLoaded', function() {
+-    var input = document.querySelector('.header-search-input');
+-    if (input) input.focus();
++    var dialog = document.getElementById('search-dialog');
++    if (dialog && dialog.showModal) dialog.showModal();
+ });
+ </script>
+diff --git a/_sass/minima/custom-variables.scss b/_sass/minima/custom-variables.scss
+index eae38da..3d62bdb 100644
+--- a/_sass/minima/custom-variables.scss
++++ b/_sass/minima/custom-variables.scss
+@@ -19,7 +19,7 @@ $curiosity-main-dark: #7a51cc;
+ 
+ $background-color: white;
+ $post-content-color: #515151;
+-$color-featured: #9a6700;          // AA-compliant gold for featured badges
++$color-featured: #7c5200;          // AA-compliant gold for featured badges (5.3:1)
+ 
+ // Primer-inspired CSS custom properties (light mode defaults)
+ :root {
+diff --git a/_sass/minima/fastpages-styles.scss b/_sass/minima/fastpages-styles.scss
+index 643b4b5..072ac43 100755
+--- a/_sass/minima/fastpages-styles.scss
++++ b/_sass/minima/fastpages-styles.scss
+@@ -21,6 +21,19 @@ html { scroll-behavior: smooth; }
+ @media (prefers-reduced-motion: reduce) {
+   html { scroll-behavior: auto; }
+ }
++// ── Skip-to-content link (a11y) ──
++.skip-link {
++  position: absolute;
++  top: -100%;
++  left: 0;
++  z-index: 10000;
++  padding: 0.5em 1em;
++  background: var(--color-primary, $curiosity-main);
++  color: white;
++  text-decoration: none;
++  font-weight: 600;
++  &:focus { top: 0; }
++}
+ body {
+   overflow-wrap: break-word;
+   overflow-x: hidden;
+@@ -87,8 +100,7 @@ img.emoji{
+   height: $header-height;
+ }
+ 
+-// ── Nav — single structure, all items collapse into hamburger at breakpoint ──
+-// Override minima's default 1000px breakpoint — we control the breakpoint via $on-palm
++// ── Nav — responsive layout with dialog-based mobile nav ──
+ .site-nav {
+   margin-left: auto;
+   position: relative !important;
+@@ -98,17 +110,31 @@ img.emoji{
+   background-color: transparent !important;
+   border: none !important;
+   text-align: left !important;
++  display: flex;
++  align-items: center;
+ 
+-  .nav-trigger { display: none; }
+-  label[for="nav-trigger"] { display: none !important; }
+-
+-  // Desktop: items sit inline
+-  .nav-items {
+-    display: flex !important;
++  .header-icon-btn {
++    display: inline-flex;
+     align-items: center;
+-    gap: 0.25em;
+-    clear: none !important;
++    justify-content: center;
++    width: 32px;
++    height: 32px;
++    flex-shrink: 0;
++    cursor: pointer;
++    color: inherit;
++    text-decoration: none;
++    background: none;
++    border: none;
++    font: inherit;
++    padding: 0;
+   }
++}
++
++// ── Desktop: nav links visible, hamburger hidden ──
++.nav-items-desktop {
++  display: flex;
++  align-items: center;
++  gap: 0.25em;
+ 
+   .page-link {
+     margin-left: 1em;
+@@ -118,92 +144,101 @@ img.emoji{
+     display: inline !important;
+     padding: 0 !important;
+   }
++}
++.nav-mobile-actions { display: none; }
+ 
+-  .header-icon-btn {
++// ── Mobile: desktop links hidden, hamburger + search visible ──
++@media screen and (max-width: $on-palm) {
++  .nav-items-desktop { display: none; }
++  .nav-mobile-actions {
++    display: flex;
++    align-items: center;
++    gap: 0.25em;
++    margin-left: auto;
++  }
++  .nav-hamburger {
+     display: inline-flex;
+     align-items: center;
+     justify-content: center;
+-    width: 32px;
+-    height: 32px;
+-    flex-shrink: 0;
++    width: 36px;
++    height: 36px;
+     cursor: pointer;
++    background: none;
++    border: none;
+     color: inherit;
+-    text-decoration: none;
++    font-size: 1.2em;
++    padding: 0;
+   }
+ }
+ 
+-// Fix hamburger icon — use FA5 bars
+-.site-nav .menu-icon::before {
+-  font-family: "Font Awesome 5 Free" !important;
++// ── Nav dialog (mobile menu slide-in) ──
++.nav-dialog {
++  border: none;
++  border-radius: 0;
++  padding: 0;
++  margin: 0;
++  width: min(320px, 85vw);
++  height: 100vh;
++  max-height: 100vh;
++  position: fixed;
++  top: 0;
++  right: 0;
++  left: auto;
++  background: var(--bg-primary, white);
++  box-shadow: var(--shadow-xl);
++  &::backdrop {
++    background: rgba(0, 0, 0, 0.5);
++  }
++  &[open] {
++    animation: slideInRight 0.2s ease;
++  }
+ }
+-.site-nav .menu-icon > svg { display: none; }
+-.rss-icon { color: $curiosity-accent; }
+-
+-// ── Mobile: hamburger dropdown ──
+-@media screen and (max-width: $on-palm) {
+-  .site-nav {
+-    label[for="nav-trigger"] {
+-      display: block !important;
+-      float: none !important;
+-      width: 36px;
+-      height: 36px;
+-      cursor: pointer;
+-      line-height: 36px;
+-      text-align: center;
+-      z-index: 2;
+-    }
+-
+-    .nav-items {
+-      display: none !important;
+-      position: absolute;
+-      top: 100%;
+-      right: 0;
+-      flex-direction: column;
+-      align-items: stretch;
+-      background: white;
+-      border: 1px solid var(--border-default, #d1d9e0) !important;
+-      border-radius: var(--radius-md);
+-      box-shadow: var(--shadow-lg);
+-      min-width: 200px;
+-      padding: var(--space-2) 0;
+-      z-index: 1000;
+-    }
+-
+-    #nav-trigger:checked ~ .nav-items { display: flex !important; }
+-
+-    .page-link {
+-      display: block !important;
+-      margin-left: 0 !important;
+-      padding: var(--space-2) var(--space-3) !important;
+-    }
+-
+-    .nav-item {
+-      display: block;
+-      padding: var(--space-2) var(--space-3);
+-      margin-left: 0 !important;
+-      &:hover { background-color: var(--bg-secondary, #f6f8fa); }
+-    }
+-
+-    .header-icon-btn {
+-      width: auto;
+-      height: auto;
+-      justify-content: flex-start;
+-      padding: var(--space-2) var(--space-3);
+-    }
+-
+-    .header-search {
+-      display: block;
+-      padding: var(--space-2) var(--space-3);
+-      margin-left: 0;
+-    }
+-    .header-search-input {
+-      width: 100%;
+-      box-sizing: border-box;
+-      &:focus { width: 100%; }
+-    }
++@keyframes slideInRight {
++  from { transform: translateX(100%); }
++  to { transform: translateX(0); }
++}
++.nav-dialog-header {
++  display: flex;
++  justify-content: space-between;
++  align-items: center;
++  padding: 0.75em 1em;
++  border-bottom: 1px solid var(--border-subtle, #eaeef2);
++}
++.nav-dialog-title {
++  font-weight: 600;
++  font-size: 1em;
++}
++.nav-dialog-close {
++  background: none;
++  border: none;
++  cursor: pointer;
++  font-size: 1.2em;
++  color: var(--fg-secondary, #666);
++  padding: 0.25em;
++}
++.nav-dialog-body {
++  padding: 0.5em 0;
++}
++.nav-dialog-link {
++  display: block;
++  padding: 0.75em 1.25em;
++  text-decoration: none;
++  color: var(--fg-primary, #1f2328);
++  font-size: 1em;
++  font-weight: 500;
++  border: none;
++  background: none;
++  width: 100%;
++  text-align: left;
++  cursor: pointer;
++  font-family: inherit;
++  &:hover {
++    background: var(--bg-secondary, #f6f8fa);
+   }
+ }
+ 
++.rss-icon { color: $curiosity-accent; }
++
+ .search-padding {  padding-top: calc($header-height / 2)}
+ 
+ .page-content {
+@@ -641,15 +676,15 @@ pre code {
+     cursor: pointer;
+     &:hover { opacity: 0.8; transform: scale(1.05); }
+   }
+-  .tag-1 { font-size: 0.85em; opacity: 0.8; }
++  .tag-1 { font-size: 0.85em; }
+   .tag-2 { font-size: 1.1em; }
+   .tag-3 { font-size: 1.4em; font-weight: 500; }
+   .tag-4 { font-size: 1.8em; font-weight: 600; }
+   .tag-5 { font-size: 2.2em; font-weight: 700; }
+-  // Category-colored tags — AA-compliant on white
+-  .tag-color-tech { color: $curiosity-main-dark; }  // purple
+-  .tag-color-philosophy { color: #b36200; }          // orange
+-  .tag-color-life { color: #007a6a; }                // teal-green
++  // Category-colored tags — AA-compliant on white (4.5:1+)
++  .tag-color-tech { color: #5a3a99; }         // dark purple (5.5:1)
++  .tag-color-philosophy { color: #8a4b00; }   // dark orange (5.2:1)
++  .tag-color-life { color: #006456; }         // dark teal (5.4:1)
+ }
+ 
+ // ── Word cloud section (homepage) ──
+@@ -975,78 +1010,95 @@ hr {
+   &:hover { background-color: rgba($curiosity-main, 0.06); }
+ }
+ 
+-// ── Inline header search ──
+-.header-search {
+-  display: inline-block;
+-  position: relative;
+-  vertical-align: middle;
+-  line-height: 1;
+-}
+-.header-search-input {
+-  width: 140px;
+-  height: 28px;
+-  padding: 0 0.5em 0 1.8em;
+-  border: 1px solid var(--border-default, #ddd);
+-  border-radius: var(--radius-full);
+-  font-size: 0.8em;
+-  background: var(--bg-secondary, #f8f8f8);
+-  transition: width 0.25s ease, border-color 0.2s;
+-  box-sizing: border-box;
+-  &:focus {
+-    width: 220px;
+-    outline: none;
+-    border-color: $curiosity-main-light;
+-    background: var(--bg-primary, white);
++// ── Search dialog (command-palette style, inspired by PyData Sphinx Theme) ──
++.search-dialog {
++  border: none;
++  border-radius: var(--radius-lg);
++  box-shadow: var(--shadow-xl);
++  padding: 0;
++  width: min(600px, 90vw);
++  max-height: 80vh;
++  overflow: hidden;
++  background: var(--bg-primary, white);
++  color: var(--fg-primary, #1f2328);
++  &::backdrop {
++    background: rgba(0, 0, 0, 0.5);
++    backdrop-filter: blur(2px);
+   }
+ }
+-.header-search-icon {
+-  position: absolute;
+-  left: 0.6em;
+-  top: 50%;
+-  transform: translateY(-50%);
+-  color: #999;
+-  font-size: 0.7em;
+-  pointer-events: none;
++.search-dialog-form {
++  display: flex;
++  flex-direction: column;
++  max-height: 80vh;
+ }
+-.search-results-dropdown {
+-  display: none;
+-  position: absolute;
+-  top: calc(100% + 4px);
+-  left: 0;
+-  right: 0;
+-  min-width: 300px;
+-  max-height: 400px;
++.search-dialog-header {
++  display: flex;
++  align-items: center;
++  padding: 0.75em 1em;
++  border-bottom: 1px solid var(--border-subtle, #eaeef2);
++  gap: 0.5em;
++}
++.search-dialog-icon { color: var(--fg-muted, #999); font-size: 0.9em; }
++.search-dialog-input {
++  flex: 1;
++  border: none;
++  outline: none;
++  font-size: 1em;
++  background: transparent;
++  color: inherit;
++  &::placeholder { color: var(--fg-muted, #999); }
++}
++.search-dialog-kbd {
++  font-size: 0.75em;
++  padding: 0.15em 0.4em;
++  border: 1px solid var(--border-default, #d1d9e0);
++  border-radius: var(--radius-sm);
++  color: var(--fg-muted, #999);
++  background: var(--bg-secondary, #f6f8fa);
++  font-family: inherit;
++}
++.search-dialog-results {
++  max-height: 50vh;
+   overflow-y: auto;
+-  background: var(--bg-primary, white);
+-  border: 1px solid var(--border-default, #ddd);
+-  border-radius: var(--radius-lg);
+-  box-shadow: var(--shadow-lg);
+-  z-index: 2000;
+-  &.active { display: block; }
+-  a {
+-    display: block;
+-    padding: 0.6em 0.8em;
+-    text-decoration: none;
+-    color: $post-content-color;
+-    border-bottom: 1px solid var(--border-subtle, #f0f0f0);
+-    &:last-child { border-bottom: none; }
+-    &:hover, &.active {
+-      background: var(--bg-secondary, #f5f5f5);
+-    }
++  padding: 0.5em 0;
++}
++.search-dialog-item {
++  display: block;
++  padding: 0.6em 1em;
++  text-decoration: none;
++  color: inherit;
++  &:hover, &.active {
++    background: var(--bg-secondary, #f5f5f5);
+   }
+-  .search-result-title {
+-    font-weight: 500;
++}
++.search-dialog-item-title {
++  font-weight: 500;
++  font-size: 0.95em;
++}
++.search-dialog-item-meta {
++  font-size: 0.8em;
++  color: var(--fg-muted, #777);
++  margin-top: 0.15em;
++}
++.search-dialog-empty {
++  padding: 1.5em;
++  text-align: center;
++  color: var(--fg-muted, #999);
++}
++.search-dialog-footer {
++  display: flex;
++  gap: 1em;
++  padding: 0.5em 1em;
++  font-size: 0.75em;
++  color: var(--fg-muted, #999);
++  border-top: 1px solid var(--border-subtle, #eaeef2);
++  kbd {
+     font-size: 0.9em;
+-    color: $curiosity-main-dark;
+-  }
+-  .search-result-preview {
+-    font-size: 0.8em;
+-    color: var(--fg-muted, #777);
+-    margin-top: 0.2em;
+-  }
+-  .search-result-highlight {
+-    font-weight: bold;
+-    color: $curiosity-main;
++    padding: 0.1em 0.3em;
++    border: 1px solid var(--border-default, #ddd);
++    border-radius: var(--radius-sm);
++    background: var(--bg-secondary, #f6f8fa);
++    font-family: inherit;
+   }
+ }
+ 
+diff --git a/assets/css/dark.scss b/assets/css/dark.scss
+index 4e9c509..091adcf 100644
+--- a/assets/css/dark.scss
++++ b/assets/css/dark.scss
+@@ -95,14 +95,9 @@ blockquote {
+ .site-nav {
+   background-color: transparent !important;
+   .page-link { color: $high-emph !important; }
+-  .nav-items {
+-    @media screen and (max-width: $on-palm) {
+-      background-color: $dm-bg !important;
+-      border-color: $dm-border-light !important;
+-    }
+-  }
+-  .nav-item:hover { background-color: $dm-surface !important; }
+ }
++.nav-dialog-link:hover { background-color: $dm-surface !important; }
++.nav-mobile-actions .header-icon-btn { color: $med-emph; }
+ .page-content, .wrapper { background-color: $dm-bg !important; }
+ 
+ // ── Scrollbar ──
+@@ -291,25 +286,26 @@ canvas { filter: invert(100%); }
+ // ── HR ──
+ hr { border-color: $dm-border !important; background-color: $dm-border !important; }
+ 
+-// ── Search ──
+-.header-search-input {
+-  background-color: $dm-surface !important;
++// ── Search dialog ──
++.search-dialog {
++  background: $dm-surface !important;
+   color: $high-emph !important;
+-  border-color: $dm-border !important;
+-  &:focus { background-color: $dm-surface-up !important; }
+-}
+-.header-search-input::placeholder { color: $low-emph; }
+-.search-results-dropdown {
+-  background-color: $dm-surface-up !important;
+-  border-color: $dm-border !important;
+-  a { border-bottom-color: $dm-border !important; }
+-}
+-.search-results-dropdown a { color: $med-emph !important; }
+-.search-results-dropdown a:hover,
+-.search-results-dropdown .search-result.active { background-color: $dm-surface !important; }
+-.search-result-title { color: $dm-link !important; }
+-.search-result-preview { color: $low-emph !important; }
+-.search-result-highlight { color: $dm-link !important; }
++  &::backdrop { background: rgba(0, 0, 0, 0.7); }
++}
++.search-dialog-header { border-bottom-color: $dm-border !important; }
++.search-dialog-input { color: $high-emph !important; }
++.search-dialog-item:hover, .search-dialog-item.active { background: $dm-surface-up !important; }
++.search-dialog-item-title { color: $high-emph !important; }
++.search-dialog-footer { border-top-color: $dm-border !important; }
++.search-dialog-kbd { background: $dm-surface-up !important; border-color: $dm-border !important; }
++
++// ── Nav dialog ──
++.nav-dialog {
++  background: $dm-bg !important;
++}
++.nav-dialog-header { border-bottom-color: $dm-border !important; }
++.nav-dialog-link { color: $high-emph !important; &:hover { background: $dm-surface !important; } }
++.nav-dialog-close { color: $med-emph !important; }
+ 
+ // ── Search page (full-page results) ──
+ .search-results-list-item .search-result-title { color: $dm-link !important; }
+diff --git a/assets/js/main.js b/assets/js/main.js
+index d8f6a25..80de362 100644
+--- a/assets/js/main.js
++++ b/assets/js/main.js
+@@ -1,6 +1,14 @@
+ // Back button after anchor link should return to previous page and not to same page
+ // From https://github.com/allejo/jekyll-anchor-headings/discussions/31#discussioncomment-564411
+ document.addEventListener('DOMContentLoaded', function() {
++
++  // ── Privacy notice (moved from inline script) ──
++  var privacyEl = document.getElementById('privacy-notice');
++  if (privacyEl && !localStorage.getItem('privacyOK')) {
++    privacyEl.style.display = 'flex';
++    document.body.style.paddingBottom = '3em';
++  }
++
+   document.querySelectorAll('.heading-anchor').forEach(function (el) {
+     el.addEventListener('click', function (event) {
+       event.preventDefault();
+@@ -31,13 +39,30 @@ document.addEventListener('DOMContentLoaded', function() {
+     }
+   });
+ 
+-  // ── Close hamburger menu on outside click ──
+-  var navTrigger = document.getElementById('nav-trigger');
+-  if (navTrigger) {
+-    document.addEventListener('click', function(e) {
+-      if (navTrigger.checked && !e.target.closest('.site-nav')) {
+-        navTrigger.checked = false;
+-      }
++  // ── Mobile nav dialog ──
++  var navDialog = document.getElementById('nav-dialog');
++  var hamburgerBtn = document.querySelector('.nav-hamburger');
++  var navCloseBtn = document.querySelector('.nav-dialog-close');
++
++  if (navDialog && hamburgerBtn) {
++    hamburgerBtn.addEventListener('click', function() {
++      navDialog.showModal();
++      hamburgerBtn.setAttribute('aria-expanded', 'true');
++    });
++    if (navCloseBtn) {
++      navCloseBtn.addEventListener('click', function() {
++        navDialog.close();
++      });
++    }
++    navDialog.addEventListener('close', function() {
++      hamburgerBtn.setAttribute('aria-expanded', 'false');
++    });
++    navDialog.addEventListener('click', function(e) {
++      if (e.target === navDialog) navDialog.close();
++    });
++    // Close dialog when a nav link is clicked
++    navDialog.querySelectorAll('.nav-dialog-link[href]').forEach(function(link) {
++      link.addEventListener('click', function() { navDialog.close(); });
+     });
+   }
+ 
+@@ -97,17 +122,20 @@ document.addEventListener('DOMContentLoaded', function() {
+   var backBtn = document.getElementById('back-to-top');
+   if (backBtn) {
+     var privacyNotice = document.getElementById('privacy-notice');
++    var ticking = false;
+     function updateBackBtn() {
+       if (window.scrollY > 400) backBtn.classList.add('visible');
+       else backBtn.classList.remove('visible');
+-      // Push above privacy banner if it's visible
+       if (privacyNotice && privacyNotice.style.display === 'flex') {
+         backBtn.classList.add('above-banner');
+       } else {
+         backBtn.classList.remove('above-banner');
+       }
++      ticking = false;
+     }
+-    window.addEventListener('scroll', updateBackBtn, { passive: true });
++    window.addEventListener('scroll', function() {
++      if (!ticking) { ticking = true; requestAnimationFrame(updateBackBtn); }
++    }, { passive: true });
+     updateBackBtn();
+     backBtn.addEventListener('click', function() {
+       window.scrollTo({ top: 0, behavior: 'smooth' });
+@@ -115,10 +143,6 @@ document.addEventListener('DOMContentLoaded', function() {
+   }
+ 
+   // ── Dark mode: image handling ──
+-  // data-transparent-dark="true"  → light card background (preserves text readability, works on GIFs/videos)
+-  // data-invert-dark="true"       → invert filter
+-  // data-no-invert                → skip entirely
+-  // No attribute                  → auto-detect via canvas sampling
+   var isDark = typeof window.isDarkMode === 'function' ? window.isDarkMode() : false;
+   if (isDark) {
+     var INVERT_FILTER = 'invert(0.88) hue-rotate(180deg)';
+@@ -130,7 +154,6 @@ document.addEventListener('DOMContentLoaded', function() {
+     function analyzeAndInvert(img) {
+       if (img.hasAttribute('data-no-invert')) return;
+       if (img.getAttribute('data-transparent-dark') === 'true') {
+-        // CSS-only: light card background — works on img, GIF, video, cross-origin
+         img.style.background = 'rgba(255, 255, 255, 0.92)';
+         img.style.borderRadius = 'var(--radius-md, 6px)';
+         img.style.padding = '4px';
+@@ -166,8 +189,8 @@ document.addEventListener('DOMContentLoaded', function() {
+     });
+   }
+ 
+-  // ── Inline header search (lunr.js) ──
+-  initHeaderSearch();
++  // ── Search dialog (lunr.js) ──
++  initSearchDialog();
+ 
+   // ── Copy button for all code blocks ──
+   var COPY_SVG = '<svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"/><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"/></svg>';
+@@ -223,13 +246,14 @@ document.addEventListener('DOMContentLoaded', function() {
+ 
+ }, false);
+ 
+-function initHeaderSearch() {
++function initSearchDialog() {
++  var dialog = document.getElementById('search-dialog');
++  var input = document.getElementById('search-dialog-input');
++  var resultsEl = document.getElementById('search-dialog-results');
++  if (!dialog || !input || !resultsEl) return;
+   if (typeof lunr === 'undefined') return;
+-  var containers = document.querySelectorAll('.header-search');
+-  if (!containers.length) return;
+ 
+-  var searchData = null;
+-  var searchIndex = null;
++  var searchData = null, searchIndex = null;
+ 
+   function loadSearchData(cb) {
+     if (searchData) { if (cb) cb(); return; }
+@@ -237,8 +261,7 @@ function initHeaderSearch() {
+     req.open('GET', '/assets/js/search-data.json', true);
+     req.onload = function() {
+       if (req.status >= 200 && req.status < 400) {
+-        try { searchData = JSON.parse(req.responseText); }
+-        catch (e) { console.error('Search data parse error:', e); return; }
++        try { searchData = JSON.parse(req.responseText); } catch(e) { return; }
+         searchIndex = lunr(function() {
+           this.ref('id');
+           this.field('title', { boost: 200 });
+@@ -254,79 +277,89 @@ function initHeaderSearch() {
+     req.send();
+   }
+ 
+-  function hideAllDropdowns() {
+-    containers.forEach(function(c) {
+-      var dd = c.querySelector('.search-results-dropdown');
+-      if (dd) { dd.innerHTML = ''; dd.classList.remove('active'); }
+-    });
++  function escapeHtml(t) {
++    var d = document.createElement('div');
++    d.textContent = t;
++    return d.innerHTML;
+   }
+ 
+-  function showResults(dropdown, query) {
+-    dropdown.innerHTML = '';
+-    dropdown.classList.remove('active');
++  function showResults(query) {
++    resultsEl.innerHTML = '';
+     if (!query || !searchIndex) return;
+     var results = searchIndex.query(function(q) {
+       var tokens = lunr.tokenizer(query);
+       q.term(tokens, { boost: 10 });
+       q.term(tokens, { wildcard: lunr.Query.wildcard.TRAILING });
+     });
+-    if (results.length === 0) return;
+-    dropdown.classList.add('active');
+-    var shown = Math.min(results.length, 8);
++    if (!results.length) {
++      resultsEl.innerHTML = '<div class="search-dialog-empty">No results found.</div>';
++      return;
++    }
++    var shown = Math.min(results.length, 10);
+     for (var i = 0; i < shown; i++) {
+       var doc = searchData[results[i].ref];
+       if (!doc) continue;
+       var a = document.createElement('a');
+       a.href = doc.url;
+-      var title = document.createElement('div');
+-      title.className = 'search-result-title';
+-      title.textContent = doc.title;
+-      a.appendChild(title);
+-      if (doc.date) {
+-        var date = document.createElement('span');
+-        date.className = 'search-result-preview';
+-        date.textContent = doc.date;
+-        a.appendChild(date);
+-      }
+-      dropdown.appendChild(a);
++      a.className = 'search-dialog-item';
++      a.setAttribute('role', 'option');
++      a.innerHTML = '<div class="search-dialog-item-title">' + escapeHtml(doc.title) + '</div>' +
++        (doc.date ? '<div class="search-dialog-item-meta">' + escapeHtml(doc.date) + '</div>' : '');
++      resultsEl.appendChild(a);
+     }
+   }
+ 
+-  containers.forEach(function(container) {
+-    var input = container.querySelector('.header-search-input');
+-    var dropdown = container.querySelector('.search-results-dropdown');
+-    if (!input || !dropdown) return;
++  function openSearch() {
++    dialog.showModal();
++    input.value = '';
++    resultsEl.innerHTML = '';
++    loadSearchData();
++    input.focus();
++    // Close nav dialog if open
++    var navDialog = document.getElementById('nav-dialog');
++    if (navDialog && navDialog.open) navDialog.close();
++  }
+ 
+-    input.addEventListener('focus', function() { loadSearchData(); });
++  // Trigger buttons
++  document.querySelectorAll('.search-trigger').forEach(function(btn) {
++    btn.addEventListener('click', openSearch);
++  });
+ 
+-    var debounceTimer;
+-    input.addEventListener('input', function() {
+-      clearTimeout(debounceTimer);
+-      debounceTimer = setTimeout(function() { showResults(dropdown, input.value); }, 150);
+-    });
++  // Ctrl+K / Cmd+K global shortcut
++  document.addEventListener('keydown', function(e) {
++    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
++      e.preventDefault();
++      openSearch();
++    }
++  });
+ 
+-    input.addEventListener('keydown', function(e) {
+-      var items = dropdown.querySelectorAll('a');
+-      var active = dropdown.querySelector('a.active');
+-      if (e.key === 'ArrowDown') {
+-        e.preventDefault();
+-        if (active) { active.classList.remove('active'); var next = active.nextElementSibling; if (next) next.classList.add('active'); }
+-        else if (items.length) items[0].classList.add('active');
+-      } else if (e.key === 'ArrowUp') {
+-        e.preventDefault();
+-        if (active) { active.classList.remove('active'); var prev = active.previousElementSibling; if (prev) prev.classList.add('active'); }
+-      } else if (e.key === 'Enter') {
+-        e.preventDefault();
+-        if (active) window.location.href = active.getAttribute('href');
+-        else if (items.length) window.location.href = items[0].getAttribute('href');
+-      } else if (e.key === 'Escape') {
+-        hideAllDropdowns();
+-        input.blur();
+-      }
+-    });
++  // Input handler with debounce
++  var debounceTimer;
++  input.addEventListener('input', function() {
++    clearTimeout(debounceTimer);
++    debounceTimer = setTimeout(function() { showResults(input.value); }, 150);
++  });
++
++  // Keyboard navigation within results
++  input.addEventListener('keydown', function(e) {
++    var items = resultsEl.querySelectorAll('a');
++    var active = resultsEl.querySelector('a.active');
++    if (e.key === 'ArrowDown') {
++      e.preventDefault();
++      if (active) { active.classList.remove('active'); var n = active.nextElementSibling; if (n && n.tagName === 'A') n.classList.add('active'); }
++      else if (items.length) items[0].classList.add('active');
++    } else if (e.key === 'ArrowUp') {
++      e.preventDefault();
++      if (active) { active.classList.remove('active'); var p = active.previousElementSibling; if (p && p.tagName === 'A') p.classList.add('active'); }
++    } else if (e.key === 'Enter') {
++      e.preventDefault();
++      if (active) window.location.href = active.getAttribute('href');
++      else if (items.length) window.location.href = items[0].getAttribute('href');
++    }
+   });
+ 
+-  document.addEventListener('click', function(e) {
+-    if (!e.target.closest('.header-search')) hideAllDropdowns();
++  // Close on backdrop click
++  dialog.addEventListener('click', function(e) {
++    if (e.target === dialog) dialog.close();
+   });
+ }

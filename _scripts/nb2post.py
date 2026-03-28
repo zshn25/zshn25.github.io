@@ -120,11 +120,12 @@ def process_collapse_directives(content):
         </details>
     """
     # Match fenced code blocks that start with #collapse-hide or #collapse-show
+    # Handles both "#collapse-hide" and "# collapse-hide" (with optional space)
     pattern = re.compile(
-        r'^(```\w*)\n'           # opening fence with optional language
-        r'#collapse-(hide|show)\n'  # collapse directive
-        r'(.*?)'                 # code content
-        r'^(```)\s*$',           # closing fence
+        r'^(```\w*)\n'                   # opening fence with optional language
+        r'#\s*collapse-(hide|show)\n'    # collapse directive (optional space after #)
+        r'(.*?)'                         # code content
+        r'^(```)\s*$',                   # closing fence
         re.MULTILINE | re.DOTALL
     )
 

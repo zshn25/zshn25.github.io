@@ -6,13 +6,13 @@ search_exclude: true
 ---
 
 <div class="search">
-    <p>Use the search box in the header to find posts.</p>
+    <p>Use the search button in the header or press <kbd>Ctrl+K</kbd> to find posts.</p>
 </div>
 
 <script>
-// Auto-focus the header search input on the search page
+// Auto-open the search dialog on the search page
 document.addEventListener('DOMContentLoaded', function() {
-    var input = document.querySelector('.header-search-input');
-    if (input) input.focus();
+    var dialog = document.getElementById('search-dialog');
+    if (dialog && dialog.showModal) dialog.showModal();
 });
 </script>

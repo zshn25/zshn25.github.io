@@ -1,5 +1,6 @@
 ---
 layout: page
+description: "About Curiosity and Me"
 title: About
 permalink: /about/
 ---
@@ -18,8 +19,8 @@ My name is **Zeeshan Khan Suri**. I believe in life long learning 🎓, I yearn 
 </object>
 <a href="{{site.baseurl}}/images/CV.pdf" target="_blank">CV</a>
 
-
  -->
+
 ## Donations
 
 Ether Wallet address: 0xc1be9fd4821e50f5300b027a4254250bb2510387

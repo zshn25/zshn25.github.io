@@ -1,0 +1,15 @@
+<dialog id="search-dialog" class="search-dialog" aria-label="Search {{ site.title }}">
+  <form method="dialog" class="search-dialog-form">
+    <div class="search-dialog-header">
+      <span class="search-dialog-icon fas fa-search" aria-hidden="true"></span>
+      <input type="text" id="search-dialog-input" class="search-dialog-input" placeholder="Search posts..." autocomplete="off" aria-label="Search">
+      <kbd class="search-dialog-kbd">Esc</kbd>
+    </div>
+    <div id="search-dialog-results" class="search-dialog-results" role="listbox" aria-label="Search results"></div>
+    <div class="search-dialog-footer">
+      <span><kbd>&uarr;</kbd><kbd>&darr;</kbd> navigate</span>
+      <span><kbd>Enter</kbd> select</span>
+      <span><kbd>Esc</kbd> close</span>
+    </div>
+  </form>
+</dialog>

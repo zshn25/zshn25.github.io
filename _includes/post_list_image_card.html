@@ -2,14 +2,14 @@
   {%- if post.image -%}
   <div class="post-card-image">
     <a href="{{ post.url | relative_url }}">
-    <img class="image-preview" src="{{ post.image | relative_url }}" {% if include.eager %}fetchpriority="high"{% else %}loading="lazy"{% endif %} alt="{{ post.title | escape }}" /></a>
+    <img class="image-preview" src="{{ post.image | relative_url }}" {% if include.eager %}fetchpriority="high"{% else %}loading="lazy"{% endif %} alt="{{ post.title | escape }}" width="300" height="300" /></a>
   </div>
   {%- endif -%}
   <div class="post-card-body">
     {% if post.featured %}<span class="featured-badge"><i class="fas fa-star"></i> Featured</span>{% endif %}
     <h3>
       {% if post.link %}
-      <a class="post-link" href="{{ post.link }}" target="_blank">
+      <a class="post-link" href="{{ post.link }}" target="_blank" rel="noopener noreferrer">
         {{ post.title | escape }}
         <sup><i class="fas fa-external-link-alt" style="font-size: 75%"></i></sup> </a>
       {% else %}

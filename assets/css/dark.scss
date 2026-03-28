@@ -95,14 +95,9 @@ blockquote {
 .site-nav {
   background-color: transparent !important;
   .page-link { color: $high-emph !important; }
-  .nav-items {
-    @media screen and (max-width: $on-palm) {
-      background-color: $dm-bg !important;
-      border-color: $dm-border-light !important;
-    }
-  }
-  .nav-item:hover { background-color: $dm-surface !important; }
 }
+.nav-dialog-link:hover { background-color: $dm-surface !important; }
+.nav-mobile-actions .header-icon-btn { color: $med-emph; }
 .page-content, .wrapper { background-color: $dm-bg !important; }
 
 // ── Scrollbar ──
@@ -291,25 +286,26 @@ canvas { filter: invert(100%); }
 // ── HR ──
 hr { border-color: $dm-border !important; background-color: $dm-border !important; }
 
-// ── Search ──
-.header-search-input {
-  background-color: $dm-surface !important;
+// ── Search dialog ──
+.search-dialog {
+  background: $dm-surface !important;
   color: $high-emph !important;
-  border-color: $dm-border !important;
-  &:focus { background-color: $dm-surface-up !important; }
+  &::backdrop { background: rgba(0, 0, 0, 0.7); }
 }
-.header-search-input::placeholder { color: $low-emph; }
-.search-results-dropdown {
-  background-color: $dm-surface-up !important;
-  border-color: $dm-border !important;
-  a { border-bottom-color: $dm-border !important; }
+.search-dialog-header { border-bottom-color: $dm-border !important; }
+.search-dialog-input { color: $high-emph !important; }
+.search-dialog-item:hover, .search-dialog-item.active { background: $dm-surface-up !important; }
+.search-dialog-item-title { color: $high-emph !important; }
+.search-dialog-footer { border-top-color: $dm-border !important; }
+.search-dialog-kbd { background: $dm-surface-up !important; border-color: $dm-border !important; }
+
+// ── Nav dialog ──
+.nav-dialog {
+  background: $dm-bg !important;
 }
-.search-results-dropdown a { color: $med-emph !important; }
-.search-results-dropdown a:hover,
-.search-results-dropdown .search-result.active { background-color: $dm-surface !important; }
-.search-result-title { color: $dm-link !important; }
-.search-result-preview { color: $low-emph !important; }
-.search-result-highlight { color: $dm-link !important; }
+.nav-dialog-header { border-bottom-color: $dm-border !important; }
+.nav-dialog-link { color: $high-emph !important; &:hover { background: $dm-surface !important; } }
+.nav-dialog-close { color: $med-emph !important; }
 
 // ── Search page (full-page results) ──
 .search-results-list-item .search-result-title { color: $dm-link !important; }

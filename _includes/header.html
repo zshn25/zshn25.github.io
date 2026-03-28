@@ -10,32 +10,63 @@
     {%- assign titles_size = site.pages | map: 'title' | join: '' | size -%}
 
     {%- if titles_size > 0 -%}
-    <nav class="site-nav">
-      <input type="checkbox" id="nav-trigger" class="nav-trigger" />
-      <label for="nav-trigger">
-        <span class="menu-icon"></span>
-      </label>
-
-      <div class="nav-items">
+    <nav id="site-nav" class="site-nav" aria-label="Main navigation">
+      <!-- Desktop nav links (hidden below breakpoint) -->
+      <div class="nav-items-desktop">
         {%- for path in page_paths -%}
           {%- assign my_page = site.pages | where: "path", path | first -%}
           {%- if my_page.title -%}
           <a class="page-link nav-item" href="{{ my_page.url | relative_url }}">{{ my_page.title | escape }}</a>
           {%- endif -%}
         {%- endfor -%}
-        <div class="header-search nav-item">
-          <i class="fas fa-search header-search-icon"></i>
-          <input type="text" class="header-search-input js-search-input" placeholder="Search..." aria-label="Search {{ site.title }}" autocomplete="off">
-          <div class="search-results-dropdown js-search-results"></div>
-        </div>
+        <button type="button" class="nav-item header-icon-btn search-trigger" aria-label="Search (Ctrl+K)" title="Search (Ctrl+K)">
+          <span class="fas fa-search" aria-hidden="true"></span>
+        </button>
         <a href="{{ '/feed.xml' | relative_url }}" class="nav-item header-icon-btn no-underline no_icon" title="RSS Feed" aria-label="Subscribe via RSS">
           <span class="fas fa-rss rss-icon" aria-hidden="true"></span>
         </a>
-        <span id="nav-switch-theme" class="nav-item header-icon-btn" style="display:none">
-          <span class="nav-theme-icon fas fa-fw" aria-hidden="true" title="Theme"></span>
-        </span>
+        <button id="nav-switch-theme" type="button" class="nav-item header-icon-btn" style="display:none" aria-label="Toggle theme">
+          <span class="nav-theme-icon fas fa-fw" aria-hidden="true"></span>
+        </button>
+      </div>
+
+      <!-- Mobile: search + hamburger (visible below breakpoint) -->
+      <div class="nav-mobile-actions">
+        <button type="button" class="header-icon-btn search-trigger" aria-label="Search (Ctrl+K)">
+          <span class="fas fa-search" aria-hidden="true"></span>
+        </button>
+        <button type="button" class="nav-hamburger" aria-label="Open navigation menu" aria-expanded="false" aria-controls="nav-dialog">
+          <span class="fas fa-bars" aria-hidden="true"></span>
+        </button>
       </div>
     </nav>
     {%- endif -%}
   </div>
 </header>
+
+<!-- Mobile nav dialog -->
+<dialog id="nav-dialog" class="nav-dialog" aria-label="Navigation menu">
+  <div class="nav-dialog-header">
+    <span class="nav-dialog-title">Menu</span>
+    <button type="button" class="nav-dialog-close" aria-label="Close navigation menu">
+      <span class="fas fa-times" aria-hidden="true"></span>
+    </button>
+  </div>
+  <nav class="nav-dialog-body" aria-label="Mobile navigation">
+    {%- for path in page_paths -%}
+      {%- assign my_page = site.pages | where: "path", path | first -%}
+      {%- if my_page.title -%}
+      <a class="nav-dialog-link" href="{{ my_page.url | relative_url }}">{{ my_page.title | escape }}</a>
+      {%- endif -%}
+    {%- endfor -%}
+    <button type="button" class="nav-dialog-link search-trigger" aria-label="Search">
+      <span class="fas fa-search" aria-hidden="true"></span> Search
+    </button>
+    <a href="{{ '/feed.xml' | relative_url }}" class="nav-dialog-link no_icon" aria-label="Subscribe via RSS">
+      <span class="fas fa-rss rss-icon" aria-hidden="true"></span> RSS Feed
+    </a>
+    <button type="button" id="nav-switch-theme-mobile" class="nav-dialog-link" style="display:none" aria-label="Toggle theme">
+      <span class="nav-theme-icon-mobile fas fa-fw" aria-hidden="true"></span> <span class="nav-theme-label-mobile">Theme</span>
+    </button>
+  </nav>
+</dialog>
