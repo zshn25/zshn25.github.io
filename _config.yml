@@ -138,6 +138,7 @@ kramdown:
 # Silence Sass deprecation warnings from the minima remote theme
 sass:
   quiet_deps: true
+  style: compressed
 
 # to limit size of xml as it can grow quite large.
 feed:

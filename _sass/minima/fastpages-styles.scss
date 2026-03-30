@@ -854,7 +854,7 @@ blockquote {
 
 // ── Featured post styling ──
 .featured-post .post-card {
-  border-left: 3px solid $color-featured;
+  border-left: 3px solid $color-featured !important;
 }
 .featured-badge {
   display: inline-block;

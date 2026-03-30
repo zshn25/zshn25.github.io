@@ -84,12 +84,12 @@ img + em {
   opacity: 0.5;
 }
 
-// Purple links and text selection
+// Purple links with subtle visited shift
 a:link {
   color: $curiosity-main-dark;
 }
 a:visited {
-  color: $curiosity-main-dark;
+  color: darken($curiosity-main-dark, 8%);
 }
 
 ::selection

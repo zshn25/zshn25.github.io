@@ -18,8 +18,8 @@ $high-emph: rgba(white, 0.87);
 $med-emph:  rgba(white, 0.70);
 $low-emph:  rgba(white, 0.38);
 
-$dm-link:         #5691cd;
-$dm-link-visited: #80bbff;
+$dm-link:         #b399ff;
+$dm-link-visited: #9a7ae0;
 
 // ── CSS custom properties — dark mode overrides ──
 :root {
@@ -68,12 +68,12 @@ a:hover { color: $high-emph !important; }
 li .post-meta-description { color: $med-emph !important; }
 img + em, figcaption { color: $low-emph; }
 blockquote {
-  border-left-color: #5691cd !important;
+  border-left-color: #b399ff !important;
   background: transparent !important;
   color: $med-emph !important;
   cite, .bq-attribution { color: $low-emph !important; }
 }
-::selection { background: #5691cd; color: white; }
+::selection { background: #9966ff; color: white; }
 
 // ── Layout: header, footer, nav, wrapper ──
 .site-header {
@@ -262,7 +262,7 @@ canvas { filter: invert(100%); }
 // ── Heading anchor ──
 .heading-anchor .octicon-heading-anchor { color: $dm-link !important; }
 .tag-cloud {
-  .tag-color-tech { color: #b366ff !important; }       // lighter purple
+  .tag-color-tech { color: #b399ff !important; }       // lighter purple
   .tag-color-philosophy { color: #ffb366 !important; }  // lighter orange
   .tag-color-life { color: #33ddb8 !important; }         // lighter teal
 }
