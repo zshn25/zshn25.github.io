@@ -3,23 +3,23 @@
 <ul class="social-media-list">
   {%- for link in social -%}
     {%- if link.platform == "github" -%}
-      <li><a rel="me noopener noreferrer" href="{{ link.user_url }}" target="_blank" aria-label="GitHub (opens in new tab)"><i class="fab fa-github grey" aria-hidden="true"></i></a></li>
+      <li><a class="social-icon social-icon--github" rel="me noopener noreferrer" href="{{ link.user_url }}" target="_blank" aria-label="GitHub"><i class="fab fa-github" aria-hidden="true"></i></a></li>
     {%- elsif link.platform == "twitter" -%}
-      <li><a rel="me noopener noreferrer" href="{{ link.user_url }}" target="_blank" aria-label="Twitter (opens in new tab)"><i class="fab fa-twitter grey" aria-hidden="true"></i></a></li>
+      <li><a class="social-icon social-icon--twitter" rel="me noopener noreferrer" href="{{ link.user_url }}" target="_blank" aria-label="X / Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a></li>
     {%- elsif link.platform == "linkedin" -%}
-      <li><a rel="me noopener noreferrer" href="{{ link.user_url }}" target="_blank" aria-label="LinkedIn (opens in new tab)"><i class="fab fa-linkedin grey" aria-hidden="true"></i></a></li>
+      <li><a class="social-icon social-icon--linkedin" rel="me noopener noreferrer" href="{{ link.user_url }}" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a></li>
     {%- elsif link.platform == "facebook" -%}
-      <li><a rel="me noopener noreferrer" href="{{ link.user_url }}" target="_blank" aria-label="Facebook (opens in new tab)"><i class="fab fa-facebook grey" aria-hidden="true"></i></a></li>
+      <li><a class="social-icon social-icon--facebook" rel="me noopener noreferrer" href="{{ link.user_url }}" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a></li>
     {%- elsif link.platform == "instagram" -%}
-      <li><a rel="me noopener noreferrer" href="{{ link.user_url }}" target="_blank" aria-label="Instagram (opens in new tab)"><i class="fab fa-instagram grey" aria-hidden="true"></i></a></li>
+      <li><a class="social-icon social-icon--instagram" rel="me noopener noreferrer" href="{{ link.user_url }}" target="_blank" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a></li>
     {%- elsif link.platform == "youtube" -%}
-      <li><a rel="me noopener noreferrer" href="{{ link.user_url }}" target="_blank" aria-label="YouTube (opens in new tab)"><i class="fab fa-youtube grey" aria-hidden="true"></i></a></li>
+      <li><a class="social-icon social-icon--youtube" rel="me noopener noreferrer" href="{{ link.user_url }}" target="_blank" aria-label="YouTube"><i class="fab fa-youtube" aria-hidden="true"></i></a></li>
     {%- elsif link.platform == "mastodon" -%}
-      <li><a rel="me noopener noreferrer" href="{{ link.user_url }}" target="_blank" aria-label="Mastodon (opens in new tab)"><i class="fab fa-mastodon grey" aria-hidden="true"></i></a></li>
+      <li><a class="social-icon social-icon--mastodon" rel="me noopener noreferrer" href="{{ link.user_url }}" target="_blank" aria-label="Mastodon"><i class="fab fa-mastodon" aria-hidden="true"></i></a></li>
     {%- elsif link.platform == "google_scholar" -%}
-      <li><a rel="me noopener noreferrer" href="{{ link.user_url }}" target="_blank" aria-label="Google Scholar (opens in new tab)"><i class="ai ai-google-scholar grey" aria-hidden="true"></i></a></li>
+      <li><a class="social-icon social-icon--scholar" rel="me noopener noreferrer" href="{{ link.user_url }}" target="_blank" aria-label="Google Scholar"><i class="ai ai-google-scholar" aria-hidden="true"></i></a></li>
     {%- else -%}
-      <li><a rel="me noopener noreferrer" href="{{ link.user_url }}" target="_blank" aria-label="{{ link.platform }} (opens in new tab)">{{ link.platform }}</a></li>
+      <li><a class="social-icon" rel="me noopener noreferrer" href="{{ link.user_url }}" target="_blank" aria-label="{{ link.platform }}">{{ link.platform }}</a></li>
     {%- endif -%}
   {%- endfor -%}
 </ul>

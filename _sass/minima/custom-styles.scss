@@ -14,11 +14,11 @@ img + em {
     text-align: center;
     font-size: .8rem;
     font-style: italic;
-    color: light-grey;
-} 
+    color: lightgrey;
+}
 //image captions
 
-// Share buttons — brand-colored pill buttons (inspired by minimal-mistakes)
+// ── Share buttons — ghost style with brand-colored hover ──
 .page-share {
   margin-top: 2em;
   padding-top: 1em;
@@ -34,27 +34,34 @@ img + em {
   margin-bottom: 0.75em;
 }
 .share-btn {
-  display: inline-block;
-  padding: 0.4em 1em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+  padding: 0.35em 0.9em;
   margin: 0.2em;
   border-radius: var(--radius-full, 100px);
-  font-size: 0.8em;
-  font-weight: 600;
+  border: 1.5px solid var(--border-default, #d1d9e0);
+  font-size: 0.82em;
+  font-weight: 500;
   text-decoration: none;
-  color: #fff !important;
-  transition: opacity 0.15s, transform 0.15s;
-  &:hover { opacity: 0.85; transform: translateY(-1px); }
-  &:visited { color: #fff !important; }
-  // On mobile, hide text labels (icon only)
-  @media screen and (max-width: 600px) {
+  background: transparent;
+  color: var(--fg-secondary, #656d76) !important;
+  transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, transform 0.15s ease;
+  &:visited { color: var(--fg-secondary, #656d76) !important; }
+  &:hover { transform: translateY(-2px); }
+  @media screen and (max-width: $on-palm) {
     span { display: none; }
-    padding: 0.5em 0.65em;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    border-radius: 50%;
   }
 }
-.share-btn--x { background: #0f1419; }
-.share-btn--facebook { background: #1877f2; }
-.share-btn--linkedin { background: #0a66c2; }
-.share-btn--email { background: #777; }
+.share-btn--x:hover        { color: #fff !important; background: #0f1419 !important; border-color: #0f1419 !important; }
+.share-btn--facebook:hover { color: #fff !important; background: #1877f2 !important; border-color: #1877f2 !important; }
+.share-btn--linkedin:hover { color: #fff !important; background: #0a66c2 !important; border-color: #0a66c2 !important; }
+.share-btn--email:hover    { color: #fff !important; background: #666 !important;    border-color: #666 !important; }
 
 .no-text-wrap {
     white-space: nowrap;

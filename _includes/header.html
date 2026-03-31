@@ -10,7 +10,7 @@
     {%- assign titles_size = site.pages | map: 'title' | join: '' | size -%}
 
     {%- if titles_size > 0 -%}
-    <nav id="site-nav" class="site-nav" aria-label="Main navigation">
+    <nav id="site-nav" class="site-nav" aria-label="Main navigation" tabindex="-1">
       <!-- Desktop nav links (hidden below breakpoint) -->
       <div class="nav-items-desktop">
         {%- for path in page_paths -%}
@@ -45,9 +45,9 @@
 </header>
 
 <!-- Mobile nav dialog -->
-<dialog id="nav-dialog" class="nav-dialog" aria-label="Navigation menu">
+<dialog id="nav-dialog" class="nav-dialog" aria-labelledby="nav-dialog-title">
   <div class="nav-dialog-header">
-    <span class="nav-dialog-title">Menu</span>
+    <span id="nav-dialog-title" class="nav-dialog-title">Menu</span>
     <button type="button" class="nav-dialog-close" aria-label="Close navigation menu">
       <span class="fas fa-times" aria-hidden="true"></span>
     </button>

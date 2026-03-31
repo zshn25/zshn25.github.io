@@ -79,8 +79,9 @@ img.emoji{
 // ── Header ──
 .site-header {
   border-top: 0;
-  border-bottom: 0;
   backdrop-filter: blur(8px);
+  line-height: normal;  // override minima's 54px line-height
+  min-height: 0;        // override minima's min-height
 }
 
 .site-title {
@@ -89,7 +90,14 @@ img.emoji{
   font-size: 1.3em;
   letter-spacing: -0.02em;
   white-space: nowrap;
-  flex-shrink: 0;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 0 !important;  // override minima's 45px padding-right at $on-palm
+  color: var(--fg-primary, #1f2328) !important;
+  text-decoration: none !important;
+  &:visited { color: var(--fg-primary, #1f2328) !important; }
+  img { vertical-align: middle; }
 }
 
 .fixed-top {
@@ -98,9 +106,9 @@ img.emoji{
   right: 0;
   left: 0;
   z-index: 1030;
-  width: 100%;
   background: rgba(255, 255, 255, 0.92);
   height: $header-height;
+  overflow: hidden;  // contain header content within 60px
   border-bottom: 1px solid var(--border-subtle, rgba(0, 0, 0, 0.06));
 }
 
@@ -114,6 +122,7 @@ img.emoji{
 // ── Nav — responsive layout with dialog-based mobile nav ──
 .site-nav {
   margin-left: auto;
+  flex-shrink: 0;
   position: relative !important;
   float: none !important;
   top: auto !important;
@@ -399,16 +408,43 @@ details.cell-collapse {
  } 
 }
 
-// Adjust with of social media icons were getting cut off
-.social-media-list{
-  .svg-icon {
-    width: 25px !important;
-    height: 23px !important;
-  }
-  a:hover{
-    background-color: #ddd;
+// ── Footer social media icons — ghost-style circles with brand-colored hover ──
+.social-media-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5em;
+  margin: 0;
+  padding: 0;
+  li { margin: 0; padding: 0; }
+}
+.social-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--fg-secondary, #656d76) !important;
+  background: transparent;
+  border: 1.5px solid var(--border-default, #d1d9e0);
+  text-decoration: none !important;
+  transition: color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease, transform 0.15s ease;
+  &:visited { color: var(--fg-secondary, #656d76) !important; }
+  &:hover { transform: translateY(-2px); }
+  > i, > [class*="ai-"] {
+    line-height: 1;
+    margin: 0;
+    padding: 0;
   }
 }
+// Brand colors appear only on hover
+.social-icon--github:hover    { color: #fff !important; background: #333 !important;    border-color: #333 !important; }
+.social-icon--twitter:hover   { color: #fff !important; background: #0f1419 !important; border-color: #0f1419 !important; }
+.social-icon--linkedin:hover  { color: #fff !important; background: #0a66c2 !important; border-color: #0a66c2 !important; }
+.social-icon--facebook:hover  { color: #fff !important; background: #1877f2 !important; border-color: #1877f2 !important; }
+.social-icon--instagram:hover { color: #fff !important; background: #e6683c !important; border-color: #e6683c !important; }
+.social-icon--youtube:hover   { color: #fff !important; background: #ff0000 !important; border-color: #ff0000 !important; }
+.social-icon--mastodon:hover  { color: #fff !important; background: #6364ff !important; border-color: #6364ff !important; }
+.social-icon--scholar:hover   { color: #fff !important; background: #4285f4 !important; border-color: #4285f4 !important; }
 
 // ── Heading anchor links — absolutely positioned, no text shift ──
 .heading-anchor {
@@ -554,7 +590,7 @@ table {
 // @media only screen and (max-width: 1200px) {
 //   /* for mobile phone and tablet devices */
   .output_wrapper{
-    overflow: scroll;
+    overflow: auto;
   }
 // }
 

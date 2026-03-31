@@ -1,11 +1,11 @@
 ---
 layout: post
-title:  "Reasons for earning money: The good and the ugly"
-description: "Art of household management vs. art of wealth accumulation according to Aristotle"
+title:  "Money serving Life (Provision) vs. Life serving Money (Hoarding)"
+description: "Wealth for Living Well vs. Wealth for Its Own Sake, according to Aristotle"
 date:   2022-08-14 12:21:23 -0700
 comments: true
 image: images/aristotle_wallstreet.webp
-categories: politics philosophy greed wealth
+categories: politics philosophy greed wealth vs.
 author: Aristotle
 ---
 

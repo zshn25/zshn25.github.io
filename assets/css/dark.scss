@@ -98,7 +98,7 @@ blockquote {
 }
 .nav-dialog-link:hover { background-color: $dm-surface !important; }
 .nav-mobile-actions .header-icon-btn { color: $med-emph; }
-.page-content, .wrapper { background-color: $dm-bg !important; }
+.page-content { background-color: $dm-bg !important; }
 
 // ── Scrollbar ──
 * { scrollbar-color: $dm-border-light $dm-bg; }
@@ -313,8 +313,34 @@ hr { border-color: $dm-border !important; background-color: $dm-border !importan
 .search-result-rel-url { color: $low-emph !important; }
 .search-result-rel-date { color: $low-emph !important; }
 
-// ── Social media ──
-.social-media-list a:hover { background-color: $dm-surface-up !important; }
+// ── Social media — ghost style in dark mode (subtle border + icon) ──
+.social-icon {
+  color: $med-emph !important;
+  border-color: $dm-border !important;
+  background: transparent !important;
+  &:visited { color: $med-emph !important; }
+}
+// Hover colors stay the same brand colors in dark mode
+.social-icon--github:hover    { color: #fff !important; background: #555 !important; border-color: #555 !important; }
+.social-icon--twitter:hover   { color: #fff !important; background: #1d9bf0 !important; border-color: #1d9bf0 !important; }
+.social-icon--linkedin:hover  { color: #fff !important; background: #0a66c2 !important; border-color: #0a66c2 !important; }
+.social-icon--facebook:hover  { color: #fff !important; background: #1877f2 !important; border-color: #1877f2 !important; }
+.social-icon--instagram:hover { color: #fff !important; background: #e6683c !important; border-color: #e6683c !important; }
+.social-icon--youtube:hover   { color: #fff !important; background: #ff0000 !important; border-color: #ff0000 !important; }
+.social-icon--mastodon:hover  { color: #fff !important; background: #6364ff !important; border-color: #6364ff !important; }
+.social-icon--scholar:hover   { color: #fff !important; background: #4285f4 !important; border-color: #4285f4 !important; }
+
+// ── Share buttons — ghost style in dark mode ──
+.share-btn {
+  color: $med-emph !important;
+  border-color: $dm-border !important;
+  background: transparent !important;
+  &:visited { color: $med-emph !important; }
+}
+.share-btn--x:hover        { color: #fff !important; background: #1d9bf0 !important; border-color: #1d9bf0 !important; }
+.share-btn--facebook:hover { color: #fff !important; background: #1877f2 !important; border-color: #1877f2 !important; }
+.share-btn--linkedin:hover { color: #fff !important; background: #0a66c2 !important; border-color: #0a66c2 !important; }
+.share-btn--email:hover    { color: #fff !important; background: #888 !important;    border-color: #888 !important; }
 
 // ── Anchor link stroke ──
 .heading-anchor { color: $low-emph; }

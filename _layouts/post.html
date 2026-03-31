@@ -70,30 +70,30 @@ layout: default
       {%- endif -%}
     {%- endif -%}
     <p class="post-meta post-meta-title">
-      <i class="far fa-calendar-alt"></i> 
+      <i class="far fa-calendar-alt" aria-hidden="true"></i>
       {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
       <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
         {{ page.date | date: date_format }}
       </time>
       {%- if page.modified_date -%}
-        ~ 
+        ~
         {%- assign mdate = page.modified_date | date_to_xmlschema -%}
         <time class="dt-modified" datetime="{{ mdate }}" itemprop="dateModified">
           {{ mdate | date: date_format }}
         </time>
       {%- endif -%}
       {%- if page.author -%}
-        • <i class="far fa-user"></i> {% for author in page.author %}
+        • <i class="far fa-user" aria-hidden="true"></i> {% for author in page.author %}
           <span itemprop="author" itemscope itemtype="http://schema.org/Person">
             <span class="p-author h-card" itemprop="name">{{ author }}</span></span>
             {%- if forloop.last == false %}, {% endif -%}
         {% endfor %}
       {%- endif %}
-       • <i class="far fa-clock"></i> {% include reading_time.html -%}
+       • <i class="far fa-clock" aria-hidden="true"></i> {% include reading_time.html -%}
     </p>
 
     {% if page.categories.size > 0 and site.show_tags %}
-      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon" aria-hidden="true"></i>
       {% for category in  page.categories  %}
         <a class="category-tags-link label label-default" href="{{ '/?tag=' | append: category | downcase | relative_url }}">#{{category}}</a>
         {% unless forloop.last %}&nbsp;{% endunless %}
@@ -117,7 +117,7 @@ layout: default
     {% if toc_count.size > 3 %}
     <aside class="toc-sidebar" aria-label="On this page">
       <nav class="toc-nav">
-        <h2 class="toc-heading">On this page</h2>
+        <p class="toc-heading">On this page</p>
         {{ toc_html }}
       </nav>
     </aside>
