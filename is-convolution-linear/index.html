@@ -26,15 +26,18 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Zeeshan Khan Suri"},"dateModified":"2021-03-11T22:21:23+00:00","datePublished":"2021-03-11T22:21:23+00:00","description":"Proof of 1D convolution being a linear operator","headline":"Is convolution linear?","image":"https://zshn25.github.io/images/convolution_box.gif","mainEntityOfPage":{"@type":"WebPage","@id":"https://zshn25.github.io/is-convolution-linear/"},"url":"https://zshn25.github.io/is-convolution-linear/"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<style></style>
+  <link rel="stylesheet" href="/assets/css/style.css" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="/assets/css/style.css"></noscript><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#181818" media="(prefers-color-scheme: dark)">
-<!-- Preload critical font -->
+<!-- Preload critical font and main stylesheet -->
 <link rel="preload" href="/assets/vendor/fonts/inter/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/css/style.css" as="style">
 <!-- Self-hosted vendor CSS (no cross-origin requests for privacy) -->
-<!-- Primer utility classes are now inlined via _sass/minima/_primer-utilities.scss -->
 <link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css"></noscript>
 <link rel="stylesheet" href="/assets/vendor/academicons/css/academicons.min.css" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="/assets/vendor/academicons/css/academicons.min.css"></noscript>
     <!-- KaTeX: only on content pages (skipped on homepage for performance) -->
     <link rel="stylesheet" href="/assets/vendor/katex/katex.min.css" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="/assets/vendor/katex/katex.min.css"></noscript>
@@ -173,7 +176,7 @@
     <a class="site-title no-underline" rel="author" href="/">
       <img src="/images/logo.webp" style="max-width:40px;" alt="Curiosity logo" width="40" height="40">
       Curiosity
-    </a><nav id="site-nav" class="site-nav" aria-label="Main navigation">
+    </a><nav id="site-nav" class="site-nav" aria-label="Main navigation" tabindex="-1">
       <!-- Desktop nav links (hidden below breakpoint) -->
       <div class="nav-items-desktop"><a class="page-link nav-item" href="/about/">About</a><button type="button" class="nav-item header-icon-btn search-trigger" aria-label="Search (Ctrl+K)" title="Search (Ctrl+K)">
           <span class="fas fa-search" aria-hidden="true"></span>
@@ -199,9 +202,9 @@
 </header>
 
 <!-- Mobile nav dialog -->
-<dialog id="nav-dialog" class="nav-dialog" aria-label="Navigation menu">
+<dialog id="nav-dialog" class="nav-dialog" aria-labelledby="nav-dialog-title">
   <div class="nav-dialog-header">
-    <span class="nav-dialog-title">Menu</span>
+    <span id="nav-dialog-title" class="nav-dialog-title">Menu</span>
     <button type="button" class="nav-dialog-close" aria-label="Close navigation menu">
       <span class="fas fa-times" aria-hidden="true"></span>
     </button>
@@ -296,12 +299,12 @@
         
       </h1>
     <p class="page-description">Proof of 1D convolution being a linear operator</p><p class="post-meta post-meta-title">
-      <i class="far fa-calendar-alt"></i><time class="dt-published" datetime="2021-03-11T22:21:23+00:00" itemprop="datePublished">
+      <i class="far fa-calendar-alt" aria-hidden="true"></i><time class="dt-published" datetime="2021-03-11T22:21:23+00:00" itemprop="datePublished">
         Mar 11, 2021
-      </time>• <i class="far fa-user"></i> 
+      </time>• <i class="far fa-user" aria-hidden="true"></i> 
           <span itemprop="author" itemscope itemtype="http://schema.org/Person">
             <span class="p-author h-card" itemprop="name">Zeeshan Khan Suri</span></span>
-       • <i class="far fa-clock"></i> <span class="read-time" title="Estimated read time">
+       • <i class="far fa-clock" aria-hidden="true"></i> <span class="read-time" title="Estimated read time">
     
     
       2 mins read
@@ -310,7 +313,7 @@
 </p>
 
     
-      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon" aria-hidden="true"></i>
       
         <a class="category-tags-link label label-default" href="/?tag=mathematics">#mathematics</a>
         &nbsp;
@@ -337,14 +340,7 @@
     
     <aside class="toc-sidebar" aria-label="On this page">
       <nav class="toc-nav">
-      <h2 class="toc-heading">
-        
-        
-          On this page
-        
-        
-      </h2>
-    
+        <p class="toc-heading">On this page</p>
         <ul><li><a href="#1-definitions" class="toc-link">1. Definitions:</a><ul><li><a href="#11-convolution" class="toc-link">1.1 Convolution</a></li><li><a href="#12-linearity" class="toc-link">1.2 Linearity</a></li></ul></li><li><a href="#2-linearity-of-convolution" class="toc-link">2. Linearity of Convolution</a><ul><li><a href="#21-proof" class="toc-link">2.1 Proof</a></li></ul></li><li><a href="#3-discrete-convolution-as-matrix-multiplication" class="toc-link">3. Discrete convolution as matrix multiplication</a></li></ul>
       </nav>
     </aside>
@@ -467,7 +463,7 @@ $$y = h \ast x = \begin{bmatrix} h_1 & 0 & \cdots & 0 & 0 \\ h_2 & h_1 & & \vdot
       </h4>
     
   <a href="https://x.com/intent/tweet?text=Is+convolution+linear%3F&url=https://zshn25.github.io%2Fis-convolution-linear%2F" class="share-btn share-btn--x" rel="noopener noreferrer" target="_blank" aria-label="Share on X" onclick="window.open(this.href,'share','width=550,height=435');return false;">
-    <i class="fab fa-fw fa-x-twitter" aria-hidden="true"></i><span> X</span>
+    <i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> X</span>
   </a>
   <a href="https://www.facebook.com/sharer/sharer.php?u=https://zshn25.github.io%2Fis-convolution-linear%2F" class="share-btn share-btn--facebook" rel="noopener noreferrer" target="_blank" aria-label="Share on Facebook" onclick="window.open(this.href,'share','width=550,height=435');return false;">
     <i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span>
@@ -1043,7 +1039,7 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
       </div>
     </div>
 
-    <div class="social-links"><ul class="social-media-list"><li><a rel="me noopener noreferrer" href="https://github.com/zshn25" target="_blank" aria-label="GitHub (opens in new tab)"><i class="fab fa-github grey" aria-hidden="true"></i></a></li><li><a rel="me noopener noreferrer" href="https://twitter.com/zshn25" target="_blank" aria-label="Twitter (opens in new tab)"><i class="fab fa-twitter grey" aria-hidden="true"></i></a></li><li><a rel="me noopener noreferrer" href="https://www.linkedin.com/in/zshn25" target="_blank" aria-label="LinkedIn (opens in new tab)"><i class="fab fa-linkedin grey" aria-hidden="true"></i></a></li><li><a rel="me noopener noreferrer" href="https://scholar.google.com/citations?user=DSLVuBgAAAAJ" target="_blank" aria-label="Google Scholar (opens in new tab)"><i class="ai ai-google-scholar grey" aria-hidden="true"></i></a></li></ul>
+    <div class="social-links"><ul class="social-media-list"><li><a class="social-icon social-icon--github" rel="me noopener noreferrer" href="https://github.com/zshn25" target="_blank" aria-label="GitHub"><i class="fab fa-github" aria-hidden="true"></i></a></li><li><a class="social-icon social-icon--twitter" rel="me noopener noreferrer" href="https://twitter.com/zshn25" target="_blank" aria-label="X / Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a></li><li><a class="social-icon social-icon--linkedin" rel="me noopener noreferrer" href="https://www.linkedin.com/in/zshn25" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a></li><li><a class="social-icon social-icon--scholar" rel="me noopener noreferrer" href="https://scholar.google.com/citations?user=DSLVuBgAAAAJ" target="_blank" aria-label="Google Scholar"><i class="ai ai-google-scholar" aria-hidden="true"></i></a></li></ul>
 </div>
 
   </div>

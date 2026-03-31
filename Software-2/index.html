@@ -26,15 +26,18 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Zeeshan Khan Suri"},"dateModified":"2022-12-05T03:21:23+00:00","datePublished":"2022-12-05T03:21:23+00:00","description":"Realizing Performance in Era of Deep Learning by Scaling with Data","headline":"Software 2.0 2.0","image":"https://zshn25.github.io/images/loop.svg","mainEntityOfPage":{"@type":"WebPage","@id":"https://zshn25.github.io/Software-2/"},"url":"https://zshn25.github.io/Software-2/"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<style></style>
+  <link rel="stylesheet" href="/assets/css/style.css" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="/assets/css/style.css"></noscript><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#181818" media="(prefers-color-scheme: dark)">
-<!-- Preload critical font -->
+<!-- Preload critical font and main stylesheet -->
 <link rel="preload" href="/assets/vendor/fonts/inter/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/css/style.css" as="style">
 <!-- Self-hosted vendor CSS (no cross-origin requests for privacy) -->
-<!-- Primer utility classes are now inlined via _sass/minima/_primer-utilities.scss -->
 <link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css"></noscript>
 <link rel="stylesheet" href="/assets/vendor/academicons/css/academicons.min.css" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="/assets/vendor/academicons/css/academicons.min.css"></noscript>
     <!-- KaTeX: only on content pages (skipped on homepage for performance) -->
     <link rel="stylesheet" href="/assets/vendor/katex/katex.min.css" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="/assets/vendor/katex/katex.min.css"></noscript>
@@ -173,7 +176,7 @@
     <a class="site-title no-underline" rel="author" href="/">
       <img src="/images/logo.webp" style="max-width:40px;" alt="Curiosity logo" width="40" height="40">
       Curiosity
-    </a><nav id="site-nav" class="site-nav" aria-label="Main navigation">
+    </a><nav id="site-nav" class="site-nav" aria-label="Main navigation" tabindex="-1">
       <!-- Desktop nav links (hidden below breakpoint) -->
       <div class="nav-items-desktop"><a class="page-link nav-item" href="/about/">About</a><button type="button" class="nav-item header-icon-btn search-trigger" aria-label="Search (Ctrl+K)" title="Search (Ctrl+K)">
           <span class="fas fa-search" aria-hidden="true"></span>
@@ -199,9 +202,9 @@
 </header>
 
 <!-- Mobile nav dialog -->
-<dialog id="nav-dialog" class="nav-dialog" aria-label="Navigation menu">
+<dialog id="nav-dialog" class="nav-dialog" aria-labelledby="nav-dialog-title">
   <div class="nav-dialog-header">
-    <span class="nav-dialog-title">Menu</span>
+    <span id="nav-dialog-title" class="nav-dialog-title">Menu</span>
     <button type="button" class="nav-dialog-close" aria-label="Close navigation menu">
       <span class="fas fa-times" aria-hidden="true"></span>
     </button>
@@ -296,12 +299,12 @@
         
       </h1>
     <p class="page-description">Realizing Performance in Era of Deep Learning by Scaling with Data</p><p class="post-meta post-meta-title">
-      <i class="far fa-calendar-alt"></i><time class="dt-published" datetime="2022-12-05T03:21:23+00:00" itemprop="datePublished">
+      <i class="far fa-calendar-alt" aria-hidden="true"></i><time class="dt-published" datetime="2022-12-05T03:21:23+00:00" itemprop="datePublished">
         Dec 5, 2022
-      </time>• <i class="far fa-user"></i> 
+      </time>• <i class="far fa-user" aria-hidden="true"></i> 
           <span itemprop="author" itemscope itemtype="http://schema.org/Person">
             <span class="p-author h-card" itemprop="name">Zeeshan Khan Suri</span></span>
-       • <i class="far fa-clock"></i> <span class="read-time" title="Estimated read time">
+       • <i class="far fa-clock" aria-hidden="true"></i> <span class="read-time" title="Estimated read time">
     
     
       3 mins read
@@ -310,7 +313,7 @@
 </p>
 
     
-      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon" aria-hidden="true"></i>
       
         <a class="category-tags-link label label-default" href="/?tag=deep-learning">#deep-learning</a>
         &nbsp;
@@ -337,14 +340,7 @@
     
     <aside class="toc-sidebar" aria-label="On this page">
       <nav class="toc-nav">
-      <h2 class="toc-heading">
-        
-        
-          On this page
-        
-        
-      </h2>
-    
+        <p class="toc-heading">On this page</p>
         <ul><li><a href="#scaling-with-data" class="toc-link">Scaling with data</a><ul><li><a href="#how-can-we-do-better" class="toc-link">How can we do better?</a></li></ul></li><li><a href="#era-of-learning" class="toc-link">Era of learning</a><ul><li><a href="#neural-networks-are-function-approximators" class="toc-link">Neural networks are function approximators</a></li><li><a href="#production-time" class="toc-link">Production time</a></li></ul></li><li><a href="#algorithm-20ic-thinking" class="toc-link">Algorithm 2.0ic thinking</a></li><li><a href="#the-holy-grail-or-just-a-fad" class="toc-link">The holy grail? or just a fad?</a></li><li><a href="#continuous-improvement" class="toc-link">Continuous improvement</a></li></ul>
       </nav>
     </aside>
@@ -520,7 +516,7 @@
       </h4>
     
   <a href="https://x.com/intent/tweet?text=Software+2.0+2.0&url=https://zshn25.github.io%2FSoftware-2%2F" class="share-btn share-btn--x" rel="noopener noreferrer" target="_blank" aria-label="Share on X" onclick="window.open(this.href,'share','width=550,height=435');return false;">
-    <i class="fab fa-fw fa-x-twitter" aria-hidden="true"></i><span> X</span>
+    <i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> X</span>
   </a>
   <a href="https://www.facebook.com/sharer/sharer.php?u=https://zshn25.github.io%2FSoftware-2%2F" class="share-btn share-btn--facebook" rel="noopener noreferrer" target="_blank" aria-label="Share on Facebook" onclick="window.open(this.href,'share','width=550,height=435');return false;">
     <i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span>
@@ -559,7 +555,7 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
             
                 <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
     <a href="/inference_optimizations_benchmark/">
-    <img class="image-preview" src="/images/2026-03-24-inference_optimizations_benchmark/image.webp" loading="lazy" alt="Inference Speedup Benchmark" width="300" height="300" /></a>
+    <img class="image-preview" src="/images/2026-03-24-inference_optimizations_benchmark/image.webp" loading="lazy" alt="Inference Runtime Optimization Benchmark" width="300" height="300" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -567,7 +563,7 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
           
       
       <a class="post-link" href="/inference_optimizations_benchmark/">
-        Inference Speedup Benchmark
+        Inference Runtime Optimization Benchmark
       </a>
       
     
@@ -580,7 +576,7 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
       • <i class="far fa-clock"></i> <span class="read-time" title="Estimated read time">
     
     
-      54 mins read
+      58 mins read
     
 </span>
 </p>
@@ -933,7 +929,7 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
       </div>
     </div>
 
-    <div class="social-links"><ul class="social-media-list"><li><a rel="me noopener noreferrer" href="https://github.com/zshn25" target="_blank" aria-label="GitHub (opens in new tab)"><i class="fab fa-github grey" aria-hidden="true"></i></a></li><li><a rel="me noopener noreferrer" href="https://twitter.com/zshn25" target="_blank" aria-label="Twitter (opens in new tab)"><i class="fab fa-twitter grey" aria-hidden="true"></i></a></li><li><a rel="me noopener noreferrer" href="https://www.linkedin.com/in/zshn25" target="_blank" aria-label="LinkedIn (opens in new tab)"><i class="fab fa-linkedin grey" aria-hidden="true"></i></a></li><li><a rel="me noopener noreferrer" href="https://scholar.google.com/citations?user=DSLVuBgAAAAJ" target="_blank" aria-label="Google Scholar (opens in new tab)"><i class="ai ai-google-scholar grey" aria-hidden="true"></i></a></li></ul>
+    <div class="social-links"><ul class="social-media-list"><li><a class="social-icon social-icon--github" rel="me noopener noreferrer" href="https://github.com/zshn25" target="_blank" aria-label="GitHub"><i class="fab fa-github" aria-hidden="true"></i></a></li><li><a class="social-icon social-icon--twitter" rel="me noopener noreferrer" href="https://twitter.com/zshn25" target="_blank" aria-label="X / Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a></li><li><a class="social-icon social-icon--linkedin" rel="me noopener noreferrer" href="https://www.linkedin.com/in/zshn25" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a></li><li><a class="social-icon social-icon--scholar" rel="me noopener noreferrer" href="https://scholar.google.com/citations?user=DSLVuBgAAAAJ" target="_blank" aria-label="Google Scholar"><i class="ai ai-google-scholar" aria-hidden="true"></i></a></li></ul>
 </div>
 
   </div>

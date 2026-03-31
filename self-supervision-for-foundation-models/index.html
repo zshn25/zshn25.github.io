@@ -26,15 +26,18 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Zeeshan Khan Suri"},"dateModified":"2023-05-12T03:21:23+00:00","datePublished":"2023-05-12T03:21:23+00:00","description":"How self-supervised learning enables large-scale vision foundation models by learning from unlabeled data through pretext tasks like contrastive learning and masked image modeling.","headline":"Self-supervised learning for vision foundation models","image":"https://zshn25.github.io/images/foundation.webp","mainEntityOfPage":{"@type":"WebPage","@id":"https://zshn25.github.io/self-supervision-for-foundation-models/"},"url":"https://zshn25.github.io/self-supervision-for-foundation-models/"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<style></style>
+  <link rel="stylesheet" href="/assets/css/style.css" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="/assets/css/style.css"></noscript><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#181818" media="(prefers-color-scheme: dark)">
-<!-- Preload critical font -->
+<!-- Preload critical font and main stylesheet -->
 <link rel="preload" href="/assets/vendor/fonts/inter/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/css/style.css" as="style">
 <!-- Self-hosted vendor CSS (no cross-origin requests for privacy) -->
-<!-- Primer utility classes are now inlined via _sass/minima/_primer-utilities.scss -->
 <link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css"></noscript>
 <link rel="stylesheet" href="/assets/vendor/academicons/css/academicons.min.css" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="/assets/vendor/academicons/css/academicons.min.css"></noscript>
     <!-- KaTeX: only on content pages (skipped on homepage for performance) -->
     <link rel="stylesheet" href="/assets/vendor/katex/katex.min.css" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="/assets/vendor/katex/katex.min.css"></noscript>
@@ -173,7 +176,7 @@
     <a class="site-title no-underline" rel="author" href="/">
       <img src="/images/logo.webp" style="max-width:40px;" alt="Curiosity logo" width="40" height="40">
       Curiosity
-    </a><nav id="site-nav" class="site-nav" aria-label="Main navigation">
+    </a><nav id="site-nav" class="site-nav" aria-label="Main navigation" tabindex="-1">
       <!-- Desktop nav links (hidden below breakpoint) -->
       <div class="nav-items-desktop"><a class="page-link nav-item" href="/about/">About</a><button type="button" class="nav-item header-icon-btn search-trigger" aria-label="Search (Ctrl+K)" title="Search (Ctrl+K)">
           <span class="fas fa-search" aria-hidden="true"></span>
@@ -199,9 +202,9 @@
 </header>
 
 <!-- Mobile nav dialog -->
-<dialog id="nav-dialog" class="nav-dialog" aria-label="Navigation menu">
+<dialog id="nav-dialog" class="nav-dialog" aria-labelledby="nav-dialog-title">
   <div class="nav-dialog-header">
-    <span class="nav-dialog-title">Menu</span>
+    <span id="nav-dialog-title" class="nav-dialog-title">Menu</span>
     <button type="button" class="nav-dialog-close" aria-label="Close navigation menu">
       <span class="fas fa-times" aria-hidden="true"></span>
     </button>
@@ -296,12 +299,12 @@
         
       </h1>
     <p class="page-description">How self-supervised learning enables large-scale vision foundation models by learning from unlabeled data through pretext tasks like contrastive learning and masked image modeling.</p><p class="post-meta post-meta-title">
-      <i class="far fa-calendar-alt"></i><time class="dt-published" datetime="2023-05-12T03:21:23+00:00" itemprop="datePublished">
+      <i class="far fa-calendar-alt" aria-hidden="true"></i><time class="dt-published" datetime="2023-05-12T03:21:23+00:00" itemprop="datePublished">
         May 12, 2023
-      </time>• <i class="far fa-user"></i> 
+      </time>• <i class="far fa-user" aria-hidden="true"></i> 
           <span itemprop="author" itemscope itemtype="http://schema.org/Person">
             <span class="p-author h-card" itemprop="name">Zeeshan Khan Suri</span></span>
-       • <i class="far fa-clock"></i> <span class="read-time" title="Estimated read time">
+       • <i class="far fa-clock" aria-hidden="true"></i> <span class="read-time" title="Estimated read time">
     
     
       20 mins read
@@ -310,7 +313,7 @@
 </p>
 
     
-      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon" aria-hidden="true"></i>
       
         <a class="category-tags-link label label-default" href="/?tag=computer-vision">#computer-vision</a>
         &nbsp;
@@ -343,14 +346,7 @@
     
     <aside class="toc-sidebar" aria-label="On this page">
       <nav class="toc-nav">
-      <h2 class="toc-heading">
-        
-        
-          On this page
-        
-        
-      </h2>
-    
+        <p class="toc-heading">On this page</p>
         <ul><li><a href="#what-are-foundation-models" class="toc-link">What are foundation models?</a></li><li><a href="#history-feature-representations-of-images" class="toc-link">History: Feature representations of images</a><ul><li><a href="#features-of-good-features" class="toc-link">Features of good features</a></li></ul></li><li><a href="#learning-features" class="toc-link">Learning features</a></li><li><a href="#the-need-for-foundation-models" class="toc-link">The need for foundation models</a></li><li><a href="#pretext-tasks-for-images" class="toc-link">Pretext tasks for images</a><ul><li><a href="#generative-pretext-tasks-based-on-restoration" class="toc-link">Generative pretext tasks based on restoration</a></li><li><a href="#feature-similarity-as-a-pretext-task" class="toc-link">Feature similarity as a pretext task</a><ul><li><a href="#contrastive-learning" class="toc-link">Contrastive learning</a></li></ul></li><li><a href="#feature-similarity-vs-generative-pretext-tasks" class="toc-link">Feature similarity vs. Generative pretext tasks</a></li><li><a href="#other-pretext-tasks" class="toc-link">Other pretext tasks</a></li><li><a href="#semantic-similarity-and-perceptual-metrics" class="toc-link">Semantic similarity and perceptual metrics</a></li><li><a href="#medical-imaging" class="toc-link">Medical imaging</a></li><li><a href="#depth-estimation-and-3d-understanding" class="toc-link">Depth estimation and 3D understanding</a></li><li><a href="#autonomous-driving-and-robotics" class="toc-link">Autonomous driving and robotics</a></li><li><a href="#scientific-discovery" class="toc-link">Scientific discovery</a></li><li><a href="#multimodal-and-compositional-models" class="toc-link">Multimodal and compositional models</a></li></ul></li><li><a href="#language-foundation-models-llm-and-beyond" class="toc-link">Language Foundation models (LLM) and beyond</a></li><li><a href="#lectures--videos" class="toc-link">Lectures / Videos</a></li><li><a href="#libraries" class="toc-link">Libraries</a></li><li><a href="#read" class="toc-link">Read</a></li><li><a href="#data" class="toc-link">Data</a></li></ul>
       </nav>
     </aside>
@@ -955,7 +951,7 @@ Since the main objective in this tasks is to rely on existing unlabeled data for
       </h4>
     
   <a href="https://x.com/intent/tweet?text=Self-supervised+learning+for+vision+foundation+models&url=https://zshn25.github.io%2Fself-supervision-for-foundation-models%2F" class="share-btn share-btn--x" rel="noopener noreferrer" target="_blank" aria-label="Share on X" onclick="window.open(this.href,'share','width=550,height=435');return false;">
-    <i class="fab fa-fw fa-x-twitter" aria-hidden="true"></i><span> X</span>
+    <i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> X</span>
   </a>
   <a href="https://www.facebook.com/sharer/sharer.php?u=https://zshn25.github.io%2Fself-supervision-for-foundation-models%2F" class="share-btn share-btn--facebook" rel="noopener noreferrer" target="_blank" aria-label="Share on Facebook" onclick="window.open(this.href,'share','width=550,height=435');return false;">
     <i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span>
@@ -1401,7 +1397,7 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
 </a>
       
       
-        <a class="next_page" rel="next" aria-label="Next Page" href="/inference_optimizations_benchmark/"><b>Next: &rarr;</b><br>Inference Speedup Benchmark
+        <a class="next_page" rel="next" aria-label="Next Page" href="/inference_optimizations_benchmark/"><b>Next: &rarr;</b><br>Inference Runtime Optimization Benchmark
 </a>
       
   </div>
@@ -1489,7 +1485,7 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
       </div>
     </div>
 
-    <div class="social-links"><ul class="social-media-list"><li><a rel="me noopener noreferrer" href="https://github.com/zshn25" target="_blank" aria-label="GitHub (opens in new tab)"><i class="fab fa-github grey" aria-hidden="true"></i></a></li><li><a rel="me noopener noreferrer" href="https://twitter.com/zshn25" target="_blank" aria-label="Twitter (opens in new tab)"><i class="fab fa-twitter grey" aria-hidden="true"></i></a></li><li><a rel="me noopener noreferrer" href="https://www.linkedin.com/in/zshn25" target="_blank" aria-label="LinkedIn (opens in new tab)"><i class="fab fa-linkedin grey" aria-hidden="true"></i></a></li><li><a rel="me noopener noreferrer" href="https://scholar.google.com/citations?user=DSLVuBgAAAAJ" target="_blank" aria-label="Google Scholar (opens in new tab)"><i class="ai ai-google-scholar grey" aria-hidden="true"></i></a></li></ul>
+    <div class="social-links"><ul class="social-media-list"><li><a class="social-icon social-icon--github" rel="me noopener noreferrer" href="https://github.com/zshn25" target="_blank" aria-label="GitHub"><i class="fab fa-github" aria-hidden="true"></i></a></li><li><a class="social-icon social-icon--twitter" rel="me noopener noreferrer" href="https://twitter.com/zshn25" target="_blank" aria-label="X / Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a></li><li><a class="social-icon social-icon--linkedin" rel="me noopener noreferrer" href="https://www.linkedin.com/in/zshn25" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a></li><li><a class="social-icon social-icon--scholar" rel="me noopener noreferrer" href="https://scholar.google.com/citations?user=DSLVuBgAAAAJ" target="_blank" aria-label="Google Scholar"><i class="ai ai-google-scholar" aria-hidden="true"></i></a></li></ul>
 </div>
 
   </div>
