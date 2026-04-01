@@ -12,8 +12,8 @@
 <meta property="og:title" content="Aristotle’s regime, the good citizen and justice" />
 <meta name="author" content="Aristotle" />
 <meta property="og:locale" content="en" />
-<meta name="description" content="Aristotle’s definition of a regime, it’s forms and it’s purpose" />
-<meta property="og:description" content="Aristotle’s definition of a regime, it’s forms and it’s purpose" />
+<meta name="description" content="Aristotle’s definition of a regime, its forms and its purpose" />
+<meta property="og:description" content="Aristotle’s definition of a regime, its forms and its purpose" />
 <link rel="canonical" href="https://zshn25.github.io/Aristotle-definitions/" />
 <meta property="og:url" content="https://zshn25.github.io/Aristotle-definitions/" />
 <meta property="og:site_name" content="Curiosity" />
@@ -24,15 +24,12 @@
 <meta property="twitter:image" content="https://zshn25.github.io/images/aristotle.webp" />
 <meta property="twitter:title" content="Aristotle’s regime, the good citizen and justice" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Aristotle"},"dateModified":"2022-09-23T19:21:23+00:00","datePublished":"2022-09-23T19:21:23+00:00","description":"Aristotle’s definition of a regime, it’s forms and it’s purpose","headline":"Aristotle’s regime, the good citizen and justice","image":"https://zshn25.github.io/images/aristotle.webp","mainEntityOfPage":{"@type":"WebPage","@id":"https://zshn25.github.io/Aristotle-definitions/"},"url":"https://zshn25.github.io/Aristotle-definitions/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Aristotle"},"dateModified":"2022-09-23T19:21:23+00:00","datePublished":"2022-09-23T19:21:23+00:00","description":"Aristotle’s definition of a regime, its forms and its purpose","headline":"Aristotle’s regime, the good citizen and justice","image":"https://zshn25.github.io/images/aristotle.webp","mainEntityOfPage":{"@type":"WebPage","@id":"https://zshn25.github.io/Aristotle-definitions/"},"url":"https://zshn25.github.io/Aristotle-definitions/"}</script>
 <!-- End Jekyll SEO tag -->
-<style></style>
-  <link rel="stylesheet" href="/assets/css/style.css" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="/assets/css/style.css"></noscript><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#181818" media="(prefers-color-scheme: dark)">
-<!-- Preload critical font and main stylesheet -->
+<!-- Preload critical font -->
 <link rel="preload" href="/assets/vendor/fonts/inter/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/assets/css/style.css" as="style">
 <!-- Self-hosted vendor CSS (no cross-origin requests for privacy) -->
 <link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css"></noscript>
@@ -70,7 +67,7 @@
 
 
 <script>document.documentElement.className=document.documentElement.className.replace(/\bno-js\b/,'js');</script>
-<link id="dark-css" href="/assets/css/dark.css" rel="stylesheet" media="(prefers-color-scheme: dark)"><script>// Theme toggle: system (auto) → light → dark → system
+<link id="dark-css" href="/assets/css/dark.css" rel="stylesheet" media="(prefers-color-scheme: dark)"><script>// Theme toggle: light ↔ dark (two states only)
 (function () {
   var STORAGE_KEY = "colorScheme";
   var darkLink = document.querySelector("#dark-css");
@@ -89,27 +86,26 @@
   function apply(mode) {
     if (!darkLink) return;
     if (mode === "dark") darkLink.removeAttribute("media");
-    else if (mode === "light") darkLink.setAttribute("media", "not all");
-    else darkLink.setAttribute("media", "(prefers-color-scheme: dark)");
+    else darkLink.setAttribute("media", "not all");
     // Update theme-color meta for mobile browser chrome
     var metas = document.querySelectorAll('meta[name="theme-color"]');
     if (metas.length >= 2) {
       if (mode === "dark") { metas[0].content = "#181818"; metas[1].content = "#181818"; }
-      else if (mode === "light") { metas[0].content = "#ffffff"; metas[1].content = "#ffffff"; }
-      else { metas[0].content = "#ffffff"; metas[1].content = "#181818"; }
+      else { metas[0].content = "#ffffff"; metas[1].content = "#ffffff"; }
     }
   }
 
-  var LABELS = { dark: "Switch to System theme", light: "Switch to Dark theme", system: "Switch to Light theme" };
-  var ICONS = { dark: "fa-sun", light: "fa-moon", system: "fa-adjust" };
-  var MODE_LABELS = { dark: "Light mode", light: "Dark mode", system: "System theme" };
+  // Icon shows what you'll switch TO: moon = "click for dark", sun = "click for light"
+  var LABELS = { dark: "Switch to Light mode", light: "Switch to Dark mode" };
+  var ICONS = { dark: "fa-sun", light: "fa-moon" };
+  var MODE_LABELS = { dark: "Light mode", light: "Dark mode" };
 
   function updateToggle(el, iconSel, mode, showLabel) {
     if (!el) return;
     var icon = el.querySelector(iconSel);
     if (icon) {
       icon.classList.remove("fa-moon", "fa-sun", "fa-adjust");
-      icon.classList.add(ICONS[mode] || "fa-adjust");
+      icon.classList.add(ICONS[mode] || "fa-moon");
     }
     el.setAttribute("aria-label", LABELS[mode] || "Toggle theme");
     if (!showLabel) el.title = LABELS[mode] || "Toggle theme";
@@ -124,34 +120,37 @@
     updateToggle(document.getElementById("nav-switch-theme-mobile"), ".nav-theme-icon-mobile", mode, true);
   }
 
-  function cycle() {
+  function resolveMode() {
     var stored = getStored();
-    var next;
-    if (stored === null) next = "light";
-    else if (stored === "light") next = "dark";
-    else next = null;
+    if (stored === "dark" || stored === "light") return stored;
+    // No stored preference — use system preference
+    return (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
+  }
+
+  function toggle() {
+    var current = resolveMode();
+    var next = current === "dark" ? "light" : "dark";
     setStored(next);
-    apply(next || "system");
-    updateIcon(next || "system");
+    apply(next);
+    updateIcon(next);
   }
 
   // Initial apply
-  var stored = getStored();
-  if (stored === "dark") apply("dark");
-  else if (stored === "light") apply("light");
+  var mode = resolveMode();
+  apply(mode);
 
   function init() {
-    var toggle = document.getElementById("nav-switch-theme");
-    if (toggle) {
-      toggle.style.display = "";
-      toggle.addEventListener("click", cycle);
+    var toggleBtn = document.getElementById("nav-switch-theme");
+    if (toggleBtn) {
+      toggleBtn.style.display = "";
+      toggleBtn.addEventListener("click", toggle);
     }
     var toggleM = document.getElementById("nav-switch-theme-mobile");
     if (toggleM) {
       toggleM.style.display = "";
-      toggleM.addEventListener("click", cycle);
+      toggleM.addEventListener("click", toggle);
     }
-    updateIcon(stored || "system");
+    updateIcon(mode);
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
@@ -164,7 +163,7 @@
   };
 })();
 </script>
-<script src="/assets/js/consent-gate.js" defer></script>
+<script src="/assets/js/consent-gate.js"></script>
 <script src="/assets/js/vendor/lunr.min.js" defer></script>
 <script src="/assets/js/main.js" defer></script>
 </head>
@@ -247,7 +246,7 @@
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     "headline": "Aristotle’s regime, the good citizen and justice",
-    "description": "Aristotle’s definition of a regime, it’s forms and it’s purpose",
+    "description": "Aristotle’s definition of a regime, its forms and its purpose",
     "datePublished": "2022-09-23T19:21:23+00:00",
     
     "author": {
@@ -298,7 +297,7 @@
         
         
       </h1>
-    <p class="page-description">Aristotle’s definition of a regime, it’s forms and it’s purpose</p><p class="post-meta post-meta-title">
+    <p class="page-description">Aristotle’s definition of a regime, its forms and its purpose</p><p class="post-meta post-meta-title">
       <i class="far fa-calendar-alt" aria-hidden="true"></i><time class="dt-published" datetime="2022-09-23T19:21:23+00:00" itemprop="datePublished">
         Sep 23, 2022
       </time>• <i class="far fa-user" aria-hidden="true"></i> 
@@ -355,7 +354,7 @@
       <h1 id="definitions-of-stateregime-its-citizens-a-good-citizen-and-a-good-regime">
         
         
-          <a href="#definitions-of-stateregime-its-citizens-a-good-citizen-and-a-good-regime" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Definitions of state/regime, it’s citizens, a good citizen and a good regime
+          <a href="#definitions-of-stateregime-its-citizens-a-good-citizen-and-a-good-regime" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Definitions of state/regime, its citizens, a good citizen and a good regime
         
         
       </h1>
@@ -363,9 +362,9 @@
 
 <p>A state is composite, like any other whole made up of many parts; these are the citizens, who compose it. It is evident, therefore, that we must begin by asking, Who is the citizen, and what is the meaning of the term?</p>
 
-<p>We may say, first, that a citizen is not a citizen because he lives in a certain place, for resident aliens and slaves share in the place; But the citizen is he who shares in the administration of justice, and in offices. <strong>He who has the power to take part in the deliberative or judicial administration of any state is said by us to be a citizens of that state; and, speaking generally, a state is a body of citizens sufficing for the purposes of life.</strong> &gt;Whoever is entitled to participate in an office involving deliberation and decision making is a citizen of the city.</p>
+<p>We may say, first, that a citizen is not a citizen because he lives in a certain place, for resident aliens and slaves share in the place; But the citizen is he who shares in the administration of justice, and in offices. <strong>He who has the power to take part in the deliberative or judicial administration of any state is said by us to be a citizen of that state; and, speaking generally, a state is a body of citizens sufficing for the purposes of life.</strong> &gt;Whoever is entitled to participate in an office involving deliberation and decision making is a citizen of the city.</p>
 
-<p>The regime is an arrangement of a city with respect to it’s offices, particularly the ones who has authority over all matters. For, what has authority in a city is everywhere the governing body. And the governing body is the regime.</p>
+<p>The regime is an arrangement of a city with respect to its offices, particularly the ones who has authority over all matters. For, what has authority in a city is everywhere the governing body. And the governing body is the regime.</p>
 
 <p>Since there are many forms of regimes, there must be many varieties of citizen and especially of citizens who are subjects. There are different kinds of citizens; and he is a citizen in the highest sense who shares in the honours of the state.</p>
 
@@ -397,7 +396,7 @@
 
 <p>The true forms of government, therefore, are those in which the one, or the few, or the many, govern with a view to the common interest; but governments which rule with a view to the private interest, whether of the one or of the few, or of the many, are perversions. For the members of a state, if they are truly citizens, ought to participate in its advantages.</p>
 
-<p>Of forms of government in which one rules, we call that which regards the common interests, kingship or royalty; that in which more than one, but not many, rule, aristocracy; and it is so called, either because the rulers are the best men, or because they have at heart the best interests of the state and of the citizens. But when the citizens at large administer the state for the common interest, the government is called by the generic name –a constitution. And there is a reason for this use of language. One man or a few may excel in virtue; but as the number increases it becomes more difficult for them to attain pertection in every kind of virtue, though they may in military virtue, for this is found in the masses. Hence in constitutional government the fighting-men have the supreme power, and those who possess arms are the citizens.</p>
+<p>Of forms of government in which one rules, we call that which regards the common interests, kingship or royalty; that in which more than one, but not many, rule, aristocracy; and it is so called, either because the rulers are the best men, or because they have at heart the best interests of the state and of the citizens. But when the citizens at large administer the state for the common interest, the government is called by the generic name –a constitution. And there is a reason for this use of language. One man or a few may excel in virtue; but as the number increases it becomes more difficult for them to attain perfection in every kind of virtue, though they may in military virtue, for this is found in the masses. Hence in constitutional government the fighting-men have the supreme power, and those who possess arms are the citizens.</p>
 
 <p>Of the above-mentioned forms, the perversions are as follows: of royalty, tyranny; of aristocracy, oligarchy; of constitutional government, democracy. For tyranny is a kind of monarchy which has in view the interest of the monarch only; oligarchy has in view the interest of the wealthy; democracy, of the needy: none of them the common good of all.</p>
 
@@ -405,7 +404,7 @@
 <p style="text-align: center;"><sub><sup><em>Aristotle’s classifications of political constitutions. By <a href="https://commons.wikimedia.org/wiki/User:Chiswick_Chap">Chiswick Chap</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>, via Wikimedia Commons</em>
 </sup></sub></p>
 
-<p>The real difference between democracy and oligarchy is poverty and wealth. Wherever men rule by reason of their wealth, weather they be few or many, that is an oligarchy, and where the poor rule, that is a democracy and wealth… and freedom are the grounds on which the two classes lay claim to the government.</p>
+<p>The real difference between democracy and oligarchy is poverty and wealth. Wherever men rule by reason of their wealth, whether they be few or many, that is an oligarchy, and where the poor rule, that is a democracy and wealth… and freedom are the grounds on which the two classes lay claim to the government.</p>
 
 <p>Kings rule according to law over voluntary subjects, but tyrants over involuntary; and the one are guarded by their fellow-citizens the others are guarded against them.</p>
       <h1 id="the-purpose-of-a-stateregime">
@@ -432,7 +431,7 @@
     
 
 <p>A question is raised respecting the state, whether a certain act is or is not an act of the state; for example, in the transition from an oligarchy or a tyranny to a democracy. In such cases persons
-refuse to fulfill their contracts or any other obligations, on the ground that the tyrant, and not the state, contracted them; they argue that some constitutions are established by force, and not for the sake if the common good.</p>
+refuse to fulfill their contracts or any other obligations, on the ground that the tyrant, and not the state, contracted them; they argue that some constitutions are established by force, and not for the sake of the common good.</p>
 
 <p>This question runs up into another: on what principle shall we ever say that the state is the same, Or different? It would be a very superficial view which considered only the place and the inhabitants (for the soil and the population may be separated, and some of the inhabitants may live in one place and some in another). Again, shall we say that while the race of inhabitants, as well as their place of abode, remain the same, the city is also the same, although the citizens are always dying and being born, as we call rivers and fountains the same, although the water is always flowing away and coming again.  Or shall we say that the generations of men, like the rivers, are the same, but that the state changes? <strong>For, since the state is a partnership, and is a partnership of citizens in a constitution, when the form of government changes, and becomes different, then it may be supposed that the state is no longer the same.</strong> And in this manner we speak of every union or composition of elements as different when the form of their composition
 alters; And if this is true it is evident that the sameness of the state consists chiefly in the sameness of the constitution, and it may be called or not called by the same name, whether the inhabitants are the same or entirely different. It is quite another question, whether a state ought or ought not to fulfil engagements when the form of government changes.</p>
@@ -466,7 +465,11 @@ partiality. Desire is a wild beast, and passion perverts the minds of rulers, ev
 
 
     </div>
-  </div><hr>
+  </div>
+
+  
+  
+  
   
 
 <section class="page-share" aria-label="Share this post">
@@ -946,7 +949,7 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
 <div id="privacy-notice" role="status" style="display:none">
     This site does not use cookies or track you. Some posts contain embedded content that connects to third parties only when you click.
     <a href="/about/#privacy">Learn more about our privacy practices</a>
-    <button class="privacy-ok-btn" onclick="localStorage.setItem('privacyOK','1');document.getElementById('privacy-notice').style.display='none';document.body.style.paddingBottom=''">OK</button>
+    <button class="privacy-ok-btn" onclick="localStorage.setItem('privacyOK','1');document.getElementById('privacy-notice').style.display='none'">OK</button>
 </div>
 <button class="back-to-top" id="back-to-top" aria-label="Back to top">
       <i class="fas fa-chevron-up"></i>

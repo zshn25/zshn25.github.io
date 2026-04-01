@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://zshn25.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://zshn25.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-03-31T21:28:17+00:00</updated><id>https://zshn25.github.io/feed.xml</id><title type="html">Curiosity</title><subtitle>I am curious. Therefore I am.</subtitle><author><name>Zeeshan Khan Suri</name><email>zshn25[at]gmail[dot]com</email></author><entry><title type="html">Inference Runtime Optimization Benchmark</title><link href="https://zshn25.github.io/inference_optimizations_benchmark/" rel="alternate" type="text/html" title="Inference Runtime Optimization Benchmark" /><published>2026-03-24T22:21:23+00:00</published><updated>2026-03-24T22:21:23+00:00</updated><id>https://zshn25.github.io/inference_optimizations_benchmark</id><content type="html" xml:base="https://zshn25.github.io/inference_optimizations_benchmark/"><![CDATA[<p>How fast can we push a single forward pass of a modern depth estimator on a CUDA GPU?
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://zshn25.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://zshn25.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-04-01T21:25:39+00:00</updated><id>https://zshn25.github.io/feed.xml</id><title type="html">Curiosity</title><subtitle>I am curious. Therefore I am.</subtitle><author><name>Zeeshan Khan Suri</name><email>zshn25[at]gmail[dot]com</email></author><entry><title type="html">Inference Runtime Optimization Benchmark</title><link href="https://zshn25.github.io/inference_optimizations_benchmark/" rel="alternate" type="text/html" title="Inference Runtime Optimization Benchmark" /><published>2026-03-24T22:21:23+00:00</published><updated>2026-03-24T22:21:23+00:00</updated><id>https://zshn25.github.io/inference_optimizations_benchmark</id><content type="html" xml:base="https://zshn25.github.io/inference_optimizations_benchmark/"><![CDATA[<p>How fast can we push a single forward pass of a modern depth estimator on a CUDA GPU?
 Let’s find out with a systematic exploration of every major optimization technique:</p>
 
 <table>
@@ -317,9 +317,9 @@ TensorRT 8.6.1
 
 <h2 id="model-depth-anything-v3---metric-large">Model: Depth Anything v3 - Metric-Large</h2>
 
-<p>We will work with the current best of it’s kind model: ByteDance’s monocular metric depth estimator - <strong>334 M params</strong>:</p>
+<p>We will work with the current best of it’s kind model: ByteDance’s monocular metric depth estimator<sup id="fnref:1"><a href="#fn:1" class="footnote" rel="footnote" role="doc-noteref">1</a></sup> - <strong>334 M params</strong>:</p>
 <ul>
-  <li><strong>Backbone:</strong> DinoV2 ViT-L/14 (304 M) - self-supervised vision transformer</li>
+  <li><strong>Backbone:</strong> DINOv2<sup id="fnref:2"><a href="#fn:2" class="footnote" rel="footnote" role="doc-noteref">2</a></sup> ViT-L/14 (304 M) - self-supervised vision transformer</li>
   <li><strong>Head:</strong> DPT (30 M) - dense prediction transformer for depth regression</li>
 </ul>
 
@@ -328,7 +328,7 @@ Output: metric depth map <code class="language-plaintext highlighter-rouge">(B, 
 
 <p>Since the backbone is a <strong>Vision Transformer</strong> the optimization landscape is matmul-heavy:</p>
 <ul>
-  <li><strong>SDPA / FlashAttention</strong> is a primary target</li>
+  <li><strong>SDPA / FlashAttention<sup id="fnref:8"><a href="#fn:8" class="footnote" rel="footnote" role="doc-noteref">3</a></sup></strong> is a primary target</li>
   <li><strong>FP16 / TF32</strong> have outsized impact</li>
   <li><strong><code class="language-plaintext highlighter-rouge">channels_last</code></strong> has less impact (mostly linear layers)</li>
   <li><strong><code class="language-plaintext highlighter-rouge">torch.compile</code></strong> can fuse attention + FFN blocks effectively</li>
@@ -1048,7 +1048,7 @@ pre-Ampere architectures.</p>
 <hr />
 <h1 id="3--torchcompile">§3 – <code class="language-plaintext highlighter-rouge">torch.compile</code></h1>
 
-<p>PyTorch 2.x’s graph compiler. Dynamo captures the Python code as an FX graph,
+<p>PyTorch 2.x’s graph compiler<sup id="fnref:6"><a href="#fn:6" class="footnote" rel="footnote" role="doc-noteref">4</a></sup>. Dynamo captures the Python code as an FX graph,
 then Inductor lowers it to Triton/CUDA kernels with operator fusion.</p>
 
 <h2 id="31--compile-default">3.1 – compile (default)</h2>
@@ -1607,7 +1607,7 @@ every operation runs in half precision from the start.</p>
 </code></pre></div></div>
 
 <hr />
-<h2 id="54--torchao-int8-weight-only">5.4 – torchao int8 weight-only</h2>
+<h2 id="54--torchao-int8-weight-only">5.4 – torchao<sup id="fnref:11"><a href="#fn:11" class="footnote" rel="footnote" role="doc-noteref">5</a></sup> int8 weight-only</h2>
 
 <p>Quantize weights to 8-bit integers while keeping activations in FP32.
 De-quantization happens at matmul time (weight × scale → fp32).</p>
@@ -1721,7 +1721,7 @@ but requires <code class="language-plaintext highlighter-rouge">TensorCoreTiledL
 <hr />
 <h2 id="57--bitsandbytes-int8-llmint8">5.7 – bitsandbytes int8 (LLM.int8())</h2>
 
-<p>Absmax int8 quantization from the LLM.int8() paper. Keeps outlier features
+<p>Absmax int8 quantization from the LLM.int8() paper<sup id="fnref:4"><a href="#fn:4" class="footnote" rel="footnote" role="doc-noteref">6</a></sup>. Keeps outlier features
 in FP16 via mixed-precision decomposition.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">reset_backends</span><span class="p">()</span>
@@ -1781,7 +1781,7 @@ in FP16 via mixed-precision decomposition.</p>
 <hr />
 <h2 id="58--bitsandbytes-nf4">5.8 – bitsandbytes NF4</h2>
 
-<p>4-bit NormalFloat from the QLoRA paper. Information-theoretically optimal
+<p>4-bit NormalFloat from the QLoRA paper<sup id="fnref:5"><a href="#fn:5" class="footnote" rel="footnote" role="doc-noteref">7</a></sup>. Information-theoretically optimal
 for normally-distributed weights.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">reset_backends</span><span class="p">()</span>
@@ -1841,7 +1841,7 @@ for normally-distributed weights.</p>
 
 <p>Combine fullgraph compilation with static half-precision weights.
 This is the strongest PyTorch-native optimization — equivalent to the
-“GPT, Fast” recipe from the PyTorch blog.</p>
+“GPT, Fast”<sup id="fnref:3"><a href="#fn:3" class="footnote" rel="footnote" role="doc-noteref">8</a></sup> recipe from the PyTorch blog.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">reset_backends</span><span class="p">()</span>
 
@@ -1887,7 +1887,7 @@ This is the strongest PyTorch-native optimization — equivalent to the
 <hr />
 <h1 id="6--onnx-runtime">§6 – ONNX Runtime</h1>
 
-<p>Export the model to ONNX format and run inference through ORT’s optimized
+<p>Export the model to ONNX format and run inference through ORT’s<sup id="fnref:9"><a href="#fn:9" class="footnote" rel="footnote" role="doc-noteref">9</a></sup> optimized
 graph execution engine.</p>
 
 <h2 id="61--onnx-export--ort-cuda-ep">6.1 – ONNX export + ORT CUDA EP</h2>
@@ -2057,7 +2057,7 @@ the default <code class="language-plaintext highlighter-rouge">sess.run()</code>
 <hr />
 <h2 id="63--onnx-optimize--simplify--ort">6.3 – ONNX Optimize + Simplify + ORT</h2>
 
-<p>Apply <code class="language-plaintext highlighter-rouge">onnxoptimizer</code> passes and <code class="language-plaintext highlighter-rouge">onnxsim</code> shape-inference simplification
+<p>Apply <code class="language-plaintext highlighter-rouge">onnxoptimizer</code><sup id="fnref:14"><a href="#fn:14" class="footnote" rel="footnote" role="doc-noteref">10</a></sup> passes and <code class="language-plaintext highlighter-rouge">onnxsim</code><sup id="fnref:15"><a href="#fn:15" class="footnote" rel="footnote" role="doc-noteref">11</a></sup> shape-inference simplification
 before ORT. This reduces the graph from ~5000 to ~3900 nodes.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">reset_backends</span><span class="p">()</span>
@@ -2132,13 +2132,13 @@ before ORT. This reduces the graph from ~5000 to ~3900 nodes.</p>
 <hr />
 <h1 id="7--tensorrt">§7 – TensorRT</h1>
 
-<p>NVIDIA’s inference optimizer. Fuses layers, selects hardware-optimal kernels,
+<p>NVIDIA’s inference optimizer<sup id="fnref:10"><a href="#fn:10" class="footnote" rel="footnote" role="doc-noteref">12</a></sup>. Fuses layers, selects hardware-optimal kernels,
 and applies precision calibration. TRT 8.6 supports SM ≥ 5.3 (Maxwell+).</p>
 
 <h2 id="71--trt-86-native-fp16">7.1 – TRT 8.6 Native FP16</h2>
 
 <p>Build a TensorRT engine from the ONNX graph with FP16 precision enabled.
-GraphSurgeon cleans up the graph first (constant folding, dead code removal).</p>
+GraphSurgeon<sup id="fnref:16"><a href="#fn:16" class="footnote" rel="footnote" role="doc-noteref">13</a></sup> cleans up the graph first (constant folding, dead code removal).</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">reset_backends</span><span class="p">()</span>
 
@@ -4050,26 +4050,59 @@ dedicated INT8 kernels and fall back to FP16. Expect marginal gains over pure FP
   <li><strong>ONNX int8 static</strong> — Calibrated QDQ format for ORT deployment.</li>
 </ul>
 
+<h3 id="further-reading">Further reading</h3>
+
+<ul>
+  <li><strong>gpu-mode lectures</strong>: <a href="https://github.com/gpu-mode/lectures">https://github.com/gpu-mode/lectures</a></li>
+  <li><strong>PyTorch Serve performance checklist</strong>: <a href="https://docs.pytorch.org/serve/performance_checklist.html">https://docs.pytorch.org/serve/performance_checklist.html</a></li>
+  <li><strong>NVIDIA inference optimization</strong>: <a href="https://developer.nvidia.com/blog/tag/inference-performance/">https://developer.nvidia.com/blog/tag/inference-performance/</a></li>
+</ul>
+
 <h3 id="references">References</h3>
 
-<ol>
-  <li><strong>Depth Anything v3</strong>: ByteDance-Seed, 2025. https://github.com/ByteDance-Seed/depth-anything-3</li>
-  <li><strong>DINOv2</strong>: Oquab et al., 2023. https://arxiv.org/abs/2304.07193</li>
-  <li><strong>GPT, Fast</strong>: PyTorch Blog, 2023. https://pytorch.org/blog/accelerating-generative-ai-2/</li>
-  <li><strong>LLM.int8()</strong>: Dettmers et al., 2022. https://arxiv.org/abs/2208.07339</li>
-  <li><strong>QLoRA (NF4)</strong>: Dettmers et al., 2023. https://arxiv.org/abs/2305.14314</li>
-  <li><strong>torch.compile</strong>: PyTorch 2.0 blog, 2023.</li>
-  <li><strong>gpu-mode lectures</strong>: https://github.com/gpu-mode/lectures</li>
-  <li><strong>FlashAttention</strong>: Dao et al., 2022. https://arxiv.org/abs/2205.14135</li>
-  <li><strong>ONNX Runtime</strong>: https://onnxruntime.ai/</li>
-  <li><strong>TensorRT 8.6</strong>: https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-861/</li>
-  <li><strong>torchao</strong>: https://github.com/pytorch/ao</li>
-  <li><strong>PyTorch Serve performance checklist</strong>: https://docs.pytorch.org/serve/performance_checklist.html</li>
-  <li><strong>NVIDIA inference optimization</strong>: https://developer.nvidia.com/blog/tag/inference-performance/</li>
-  <li><strong>ONNX Optimizer</strong>: https://github.com/onnx/optimizer</li>
-  <li><strong>ONNX Simplifier</strong>: https://github.com/onnxsim/onnxsim</li>
-  <li><strong>ONNX GraphSurgeon</strong>: https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-861/onnx-graphsurgeon/docs/index.html</li>
-</ol>]]></content><author><name>Zeeshan Khan Suri</name></author><category term="runtime-optimization" /><category term="gpu" /><category term="deep-learning" /><summary type="html"><![CDATA[Guide to CUDA GPU inference optimizations, benchmarked on a state-of-the-art PyTorch depth estimation model.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://zshn25.github.io/images/2026-03-24-inference_optimizations_benchmark/image.webp" /><media:content medium="image" url="https://zshn25.github.io/images/2026-03-24-inference_optimizations_benchmark/image.webp" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Self-supervised learning for vision foundation models</title><link href="https://zshn25.github.io/self-supervision-for-foundation-models/" rel="alternate" type="text/html" title="Self-supervised learning for vision foundation models" /><published>2023-05-12T03:21:23+00:00</published><updated>2023-05-12T03:21:23+00:00</updated><id>https://zshn25.github.io/self-supervision-for-foundation-models</id><content type="html" xml:base="https://zshn25.github.io/self-supervision-for-foundation-models/"><![CDATA[<iframe src="https://ourworldindata.org/grapher/artificial-intelligence-training-computation" loading="lazy" style="width: 100%; height: 600px; border: 0px none;"></iframe>
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1">
+      <p><strong>Depth Anything v3</strong>: ByteDance-Seed, 2025. <a href="https://github.com/ByteDance-Seed/depth-anything-3">https://github.com/ByteDance-Seed/depth-anything-3</a> <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:2">
+      <p><strong>DINOv2</strong>: Oquab et al., 2023. <a href="https://arxiv.org/abs/2304.07193">https://arxiv.org/abs/2304.07193</a> <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:8">
+      <p><strong>FlashAttention</strong>: Dao et al., 2022. <a href="https://arxiv.org/abs/2205.14135">https://arxiv.org/abs/2205.14135</a> <a href="#fnref:8" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:6">
+      <p><strong>torch.compile</strong>: PyTorch 2.0 blog, 2023. <a href="#fnref:6" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:11">
+      <p><strong>torchao</strong>: <a href="https://github.com/pytorch/ao">https://github.com/pytorch/ao</a> <a href="#fnref:11" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:4">
+      <p><strong>LLM.int8()</strong>: Dettmers et al., 2022. <a href="https://arxiv.org/abs/2208.07339">https://arxiv.org/abs/2208.07339</a> <a href="#fnref:4" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:5">
+      <p><strong>QLoRA (NF4)</strong>: Dettmers et al., 2023. <a href="https://arxiv.org/abs/2305.14314">https://arxiv.org/abs/2305.14314</a> <a href="#fnref:5" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:3">
+      <p><strong>GPT, Fast</strong>: PyTorch Blog, 2023. <a href="https://pytorch.org/blog/accelerating-generative-ai-2/">https://pytorch.org/blog/accelerating-generative-ai-2/</a> <a href="#fnref:3" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:9">
+      <p><strong>ONNX Runtime</strong>: <a href="https://onnxruntime.ai/">https://onnxruntime.ai/</a> <a href="#fnref:9" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:14">
+      <p><strong>ONNX Optimizer</strong>: <a href="https://github.com/onnx/optimizer">https://github.com/onnx/optimizer</a> <a href="#fnref:14" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:15">
+      <p><strong>ONNX Simplifier</strong>: <a href="https://github.com/onnxsim/onnxsim">https://github.com/onnxsim/onnxsim</a> <a href="#fnref:15" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:10">
+      <p><strong>TensorRT 8.6</strong>: <a href="https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-861/">https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-861/</a> <a href="#fnref:10" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:16">
+      <p><strong>ONNX GraphSurgeon</strong>: <a href="https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-861/onnx-graphsurgeon/docs/index.html">https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-861/onnx-graphsurgeon/docs/index.html</a> <a href="#fnref:16" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>]]></content><author><name>Zeeshan Khan Suri</name></author><category term="runtime-optimization" /><category term="gpu" /><category term="deep-learning" /><summary type="html"><![CDATA[Guide to CUDA GPU inference optimizations, benchmarked on a state-of-the-art PyTorch depth estimation model.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://zshn25.github.io/images/2026-03-24-inference_optimizations_benchmark/image.webp" /><media:content medium="image" url="https://zshn25.github.io/images/2026-03-24-inference_optimizations_benchmark/image.webp" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Self-supervised learning for vision foundation models</title><link href="https://zshn25.github.io/self-supervision-for-foundation-models/" rel="alternate" type="text/html" title="Self-supervised learning for vision foundation models" /><published>2023-05-12T03:21:23+00:00</published><updated>2023-05-12T03:21:23+00:00</updated><id>https://zshn25.github.io/self-supervision-for-foundation-models</id><content type="html" xml:base="https://zshn25.github.io/self-supervision-for-foundation-models/"><![CDATA[<iframe src="https://ourworldindata.org/grapher/artificial-intelligence-training-computation" loading="lazy" style="width: 100%; height: 600px; border: 0px none;"></iframe>
 <p style="text-align: center;"><sub><sup><em>Model size of notable AI systems over time. Source: <a href="https://ourworldindata.org/grapher/artificial-intelligence-training-computation">Our World in Data</a></em>
 </sup></sub></p>
 
@@ -4079,7 +4112,7 @@ dedicated INT8 kernels and fall back to FP16. Expect marginal gains over pure FP
 <p style="text-align: center;"><sub><sup><em>As the training data increases, the performance of a DL model increases but traditional methods do not depend on the training data</em>
 </sup></sub></p>
 
-<p>But, collecting such massive amounts of carefully labeled data costs enormous time, effort and money; and are error prone. For e.g. Northcutt et al.<sup id="fnref:1"><a href="#fn:1" class="footnote" rel="footnote" role="doc-noteref">1</a></sup>, and https://labelerrors.com/ outline errors in the labels of widely used datasets. What if there was a way to use massively available but <strong>unlabled</strong> data?</p>
+<p>But, collecting such massive amounts of carefully labeled data costs enormous time, effort and money; and are error prone. For e.g. Northcutt et al.<sup id="fnref:1"><a href="#fn:1" class="footnote" rel="footnote" role="doc-noteref">1</a></sup>, and https://labelerrors.com/ outline errors in the labels of widely used datasets. What if there was a way to use massively available but <strong>unlabeled</strong> data?</p>
 
 <p>In this post, I motivate the necessity for large, general-purpose data representation models, known as foundation models, and in what ways self-supervised learning enables this achievement. Stay tuned!</p>
 
@@ -4101,7 +4134,7 @@ dedicated INT8 kernels and fall back to FP16. Expect marginal gains over pure FP
 
 <h2 id="history-feature-representations-of-images">History: Feature representations of images</h2>
 
-<p>Tradition computer vision methods extract distinctive pixel-level features from input images. High-dimensional representations of these features, known as <strong>feature descriptors</strong> are computed from the detected local features which are then used for various applications, such as tracking, retrieval, structure from motion, localization, etc. The goal of transforming the detected features into high-dimensional descriptors is to embed some notion of semantic and neighboring information to the pixel-level features. The goal is to make them distinctive (good for matching across different viewpoints) and invariant to vairations in 3D viewpoint, illumination, etc.</p>
+<p>Traditional computer vision methods extract distinctive pixel-level features from input images. High-dimensional representations of these features, known as <strong>feature descriptors</strong> are computed from the detected local features which are then used for various applications, such as tracking, retrieval, structure from motion, localization, etc. The goal of transforming the detected features into high-dimensional descriptors is to embed some notion of semantic and neighboring information to the pixel-level features. The goal is to make them distinctive (good for matching across different viewpoints) and invariant to variations in 3D viewpoint, illumination, etc.</p>
 
 <h3 id="features-of-good-features">Features of good features</h3>
 
@@ -4142,7 +4175,7 @@ dedicated INT8 kernels and fall back to FP16. Expect marginal gains over pure FP
 
 <h1 id="self-supervised-learning">Self-supervised learning</h1>
 
-<p>Animals, including humans, learn a many concepts such as object permanance, etc., without explicit supervision.</p>
+<p>Animals, including humans, learn many concepts such as object permanence, etc., without explicit supervision.</p>
 
 <!-- 
 
@@ -4205,7 +4238,7 @@ if (typeof loadYouTube === 'undefined') {
 
 <p>Is it possible to make machines learn general concepts without explicit supervision? If so, how?</p>
 
-<p>If we are able formulate <strong>pretext tasks</strong>, we can use <mark>self-supervised learning</mark> to <mark>learn good data representations and general concepts from massively-available, unlabelled data</mark>, we can use such models directly (without fine-tuning, Zero-Shot) for multiple <strong>downstream tasks</strong>. (atleast, that’s the hope).</p>
+<p>If we are able formulate <strong>pretext tasks</strong>, we can use <mark>self-supervised learning</mark> to <mark>learn good data representations and general concepts from massively-available, unlabelled data</mark>, we can use such models directly (without fine-tuning, Zero-Shot) for multiple <strong>downstream tasks</strong>. (at least, that’s the hope).</p>
 
 <p style="text-align: center;"><a href="https://en.wikipedia.org/wiki/Feature_learning#/media/File:Feature_Learning_Diagram.png"><img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Feature_Learning_Diagram.png" alt="feature-learning" data-invert-dark="true" /></a></p>
 <p style="text-align: center;"><sub><sup>Implicit feature representations are learned via pretext tasks and can be used as input for specific downstream tasks. Image from <a href="https://commons.wikimedia.org/wiki/File:Feature_Learning_Diagram.png">Fgpacini</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>, via Wikimedia Commons*
@@ -4213,7 +4246,7 @@ if (typeof loadYouTube === 'undefined') {
 
 <h2 id="pretext-tasks-for-images">Pretext tasks for images</h2>
 
-<p>Any task that doesn’t require explitcit labels can be used as a pretext task. The goal is to be able to make use of as much data as possible. This task is not actually the task what the model would finally be required to do, but this task would allow to use much more data via self-supervised learning.</p>
+<p>Any task that doesn’t require explicit labels can be used as a pretext task. The goal is to be able to make use of as much data as possible. This task is not actually the task what the model would finally be required to do, but this task would allow to use much more data via self-supervised learning.</p>
 
 <div class="markdown-alert markdown-alert-tip" role="alert">
   <p class="markdown-alert-title"><svg viewBox="0 0 16 16" width="16" height="16" style="display:inline-block;vertical-align:text-bottom;margin-right:0.4em"><path fill="#1a7f37" d="M8 1.5c-2.363 0-4 1.69-4 3.75 0 .984.424 1.625.984 2.304l.214.253c.223.264.47.556.673.848.284.411.537.896.621 1.49a.75.75 0 0 1-1.484.211c-.04-.282-.163-.547-.37-.847a8.456 8.456 0 0 0-.542-.68c-.084-.1-.173-.205-.268-.32C3.201 7.75 2.5 6.766 2.5 5.25 2.5 2.31 4.863 0 8 0s5.5 2.31 5.5 5.25c0 1.516-.701 2.5-1.328 3.259-.095.115-.184.22-.268.319-.207.245-.383.453-.541.681-.208.3-.33.565-.37.847a.751.751 0 0 1-1.485-.212c.084-.593.337-1.078.621-1.489.203-.292.45-.584.673-.848.075-.088.147-.173.213-.253.561-.679.985-1.32.985-2.304 0-2.06-1.637-3.75-4-3.75ZM5.75 12h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1 0-1.5ZM6 15.25a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Z"></path></svg>Tip</p>
@@ -4259,7 +4292,7 @@ Since the main objective in this tasks is to rely on existing unlabeled data for
 
 <p>Rather than having an explicit task, the idea is to maximize similarity of features of similar images. This simply means, collecting data samples which represent similar information and having a loss that minimizes distance between their feature representations.</p>
 
-<p>Just doing this causes the feature representations to collapse, i.e., all data just points to the same representation. To prevent this, negative samples (having distict representation) are introduced, which act as a relative contrast to the positive samples (having similar representation).</p>
+<p>Just doing this causes the feature representations to collapse, i.e., all data just points to the same representation. To prevent this, negative samples (having distinct representation) are introduced, which act as a relative contrast to the positive samples (having similar representation).</p>
 
 <h4 id="contrastive-learning">Contrastive learning</h4>
 
@@ -4277,9 +4310,9 @@ Since the main objective in this tasks is to rely on existing unlabeled data for
 
 <h3 id="feature-similarity-vs-generative-pretext-tasks">Feature similarity vs. Generative pretext tasks</h3>
 
-<p>The advantage of feature similarity based methods is that there is no need for exact pixel to pixel mapping of the input and output, as opposed to generative pretext tasks, where the restored output is a one-to-one mapping of the manipulated/distorted input. One could use non-exact data (for example neighboring frames of a video) for sampling feature learning. One could also combine various augmentation methods mentioned in generaive pretext tasks. Feature similarity would essentially be a way to automatically incorporate various handcrafted ad-hoc heuristics via augmentations and positive-negative sampling.</p>
+<p>The advantage of feature similarity based methods is that there is no need for exact pixel to pixel mapping of the input and output, as opposed to generative pretext tasks, where the restored output is a one-to-one mapping of the manipulated/distorted input. One could use non-exact data (for example neighboring frames of a video) for sampling feature learning. One could also combine various augmentation methods mentioned in generative pretext tasks. Feature similarity would essentially be a way to automatically incorporate various handcrafted ad-hoc heuristics via augmentations and positive-negative sampling.</p>
 
-<p>Recent work titled “What Do Self-Supervised Vision Transformers Learn?” compares contrastive learning with a prominant generative pretext task called Masked Image Modeling (<abbr title="Masked image modeling">MIM</abbr>)<sup id="fnref:6:1"><a href="#fn:6" class="footnote" rel="footnote" role="doc-noteref">6</a></sup> and finds:</p>
+<p>Recent work titled “What Do Self-Supervised Vision Transformers Learn?” compares contrastive learning with a prominent generative pretext task called Masked Image Modeling (<abbr title="Masked image modeling">MIM</abbr>)<sup id="fnref:6:1"><a href="#fn:6" class="footnote" rel="footnote" role="doc-noteref">6</a></sup> and finds:</p>
 
 <ol>
   <li>
@@ -4364,7 +4397,7 @@ Since the main objective in this tasks is to rely on existing unlabeled data for
 
 <h1 id="tldr-conclusion">tldr; Conclusion</h1>
 
-<p>Performance of supervised models depends on the availability of high quality labeled data, which is tedious to aquire, and thereby limiting. Self-supervised learning not only makes it possible to realize gains via abundant unlabeled data, but also gives way for foundation models that learn a generic neural representation of inputs, whose knowledge can be transformed to application specific downstream tasks. The key to this is designing self-supervised pretext tasks to make use of unlabeled data. The underlying principle of generative pretext tasks is to corrupt the input and make the network recover the original input from the corrupt one. Feature similarity based pretext tasks learn data representations that are similar for similar inputs and dissimilar for dissimilar inputs.</p>
+<p>Performance of supervised models depends on the availability of high quality labeled data, which is tedious to acquire, and thereby limiting. Self-supervised learning not only makes it possible to realize gains via abundant unlabeled data, but also gives way for foundation models that learn a generic neural representation of inputs, whose knowledge can be transformed to application specific downstream tasks. The key to this is designing self-supervised pretext tasks to make use of unlabeled data. The underlying principle of generative pretext tasks is to corrupt the input and make the network recover the original input from the corrupt one. Feature similarity based pretext tasks learn data representations that are similar for similar inputs and dissimilar for dissimilar inputs.</p>
 
 <hr />
 
@@ -4372,7 +4405,7 @@ Since the main objective in this tasks is to rely on existing unlabeled data for
 
 <h2 id="language-foundation-models-llm-and-beyond">Language Foundation models (<abbr title="Large language model">LLM</abbr>) and beyond</h2>
 
-<p>In this post, I focus on vision foundation models. But, there are plenty of resources for launguage foundation models a.k.a. Large Language Models (LLMs).</p>
+<p>In this post, I focus on vision foundation models. But, there are plenty of resources for language foundation models a.k.a. Large Language Models (LLMs).</p>
 
 <ul>
   <li><a href="https://fullstackdeeplearning.com/llm-bootcamp/">Full Stack <abbr title="Large language model">LLM</abbr> Bootcamp, 2023</a></li>
@@ -4381,7 +4414,7 @@ Since the main objective in this tasks is to rely on existing unlabeled data for
 <h2 id="lectures--videos">Lectures / Videos</h2>
 
 <ul>
-  <li>Yann LeCunn’s <a href="https://www.facebook.com/epflcampus/videos/1960325127394608">lecture</a>, [<a href="https://drive.google.com/file/d/12pDCno02FJPDEBk4iGuuaj8b2rr48Hh0/view">Slides</a></li>
+  <li>Yann LeCun’s <a href="https://www.facebook.com/epflcampus/videos/1960325127394608">lecture</a>, [<a href="https://drive.google.com/file/d/12pDCno02FJPDEBk4iGuuaj8b2rr48Hh0/view">Slides</a></li>
   <li><a href="https://fullstackdeeplearning.com/course/2022/">FSDL 2022 Course</a>’s Lecture on Language <a href="https://fullstackdeeplearning.com/course/2022/lecture-7-foundation-models/">Foundation Models</a></li>
   <li><a href="https://futureofai.mit.edu/">MIT FUTURE OF AI: Self-Supervised Learning and Foundation Models</a></li>
   <li>Self-Supervised Learning: Self-Prediction and Contrastive Learning, <a href="https://www.facebook.com/epflcampus/videos/1960325127394608">NIPS 21 Tutorial Video</a>, <a href="https://nips.cc/media/neurips-2021/Slides/21895.pdf">[Slides]</a></li>
@@ -4400,10 +4433,10 @@ Since the main objective in this tasks is to rely on existing unlabeled data for
 <h2 id="read">Read</h2>
 
 <ul>
-  <li>Yann LeCunn’s blog post <a href="https://ai.facebook.com/blog/self-supervised-learning-the-dark-matter-of-intelligence/">Self-supervised learning: The dark matter of intelligence</a></li>
+  <li>Yann LeCun’s blog post <a href="https://ai.facebook.com/blog/self-supervised-learning-the-dark-matter-of-intelligence/">Self-supervised learning: The dark matter of intelligence</a></li>
   <li>Balestriero, Randall et al. <a href="https://arxiv.org/abs/2304.12210">A Cookbook of Self-Supervised Learning</a> ArXiv abs/2304.12210 (2023): n. pag.</li>
   <li>Weng, Lilian (2019). <a href="https://lilianweng.github.io/posts/2019-11-10-self-supervised/">Self-Supervised Representation Learning</a> writes about pretext tasks in detail</li>
-  <li>Silva, Thalles Santos (2020). <a href="https://sthalles.github.io/self-supervised-learning/">Self-Supervised Learning and the Quest for Reducing Labeled Data in Deep Learning</a> gives a great introduction on how self-supervised learning can enable foundation models, anagolous to Yann LeCunn’s <a href="https://www.facebook.com/epflcampus/videos/1960325127394608">lecture</a></li>
+  <li>Silva, Thalles Santos (2020). <a href="https://sthalles.github.io/self-supervised-learning/">Self-Supervised Learning and the Quest for Reducing Labeled Data in Deep Learning</a> gives a great introduction on how self-supervised learning can enable foundation models, anagolous to Yann LeCun’s <a href="https://www.facebook.com/epflcampus/videos/1960325127394608">lecture</a></li>
   <li>Ozbulak, Utku, et al. “<a href="https://arxiv.org/abs/2305.13689">Know Your Self-supervised Learning: A Survey on Image-based Generative and Discriminative Training.</a>” arXiv preprint arXiv:2305.13689 (2023)</li>
 </ul>
 
@@ -4695,7 +4728,7 @@ doi={10.1007/978-3-031-31438-4_23}
       <p>Li, S., Luo, Y., Zhu, Y., Zhao, X., Li, Y., Shan, Y.: <a href="https://openaccess.thecvf.com/content/ICCV2021W/PBDL/papers/Li_Enforcing_Temporal_Consistency_in_Video_Depth_Estimation_ICCVW_2021_paper.pdf">Enforcing temporal consistency in video depth estimation</a>. In: Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV) Workshops. pp. 1145–1154 (October 2021) <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
   </ol>
-</div>]]></content><author><name>Zeeshan Khan Suri (DENSO ADAS Engineering Services GmbH)</name></author><category term="deep-learning" /><category term="self-supervision" /><category term="3d-reconstruction" /><category term="structure-from-motion" /><category term="visual-odometry" /><category term="depth-estimation" /><summary type="html"><![CDATA[Enforcing pose network to be consistent improves depth consistency]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://zshn25.github.io/images/3dreco/out-poster.webp" /><media:content medium="image" url="https://zshn25.github.io/images/3dreco/out-poster.webp" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Convolution vs. Attention</title><link href="https://zshn25.github.io/CNNs-vs-Transformers/" rel="alternate" type="text/html" title="Convolution vs. Attention" /><published>2023-03-10T02:21:23+00:00</published><updated>2023-03-10T02:21:23+00:00</updated><id>https://zshn25.github.io/CNNs-vs-Transformers</id><content type="html" xml:base="https://zshn25.github.io/CNNs-vs-Transformers/"><![CDATA[<p>Layers in neural netowrks can be seen as a function that takes in a multi-dimensional input and produces an output. For simplicity, let’s assume the input and output dimesnions to be the same.</p>
+</div>]]></content><author><name>Zeeshan Khan Suri (DENSO ADAS Engineering Services GmbH)</name></author><category term="deep-learning" /><category term="self-supervision" /><category term="3d-reconstruction" /><category term="structure-from-motion" /><category term="visual-odometry" /><category term="depth-estimation" /><summary type="html"><![CDATA[Enforcing pose network to be consistent improves depth consistency]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://zshn25.github.io/images/3dreco/out-poster.webp" /><media:content medium="image" url="https://zshn25.github.io/images/3dreco/out-poster.webp" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Convolution vs. Attention</title><link href="https://zshn25.github.io/CNNs-vs-Transformers/" rel="alternate" type="text/html" title="Convolution vs. Attention" /><published>2023-03-10T02:21:23+00:00</published><updated>2023-03-10T02:21:23+00:00</updated><id>https://zshn25.github.io/CNNs-vs-Transformers</id><content type="html" xml:base="https://zshn25.github.io/CNNs-vs-Transformers/"><![CDATA[<p>Layers in neural networks can be seen as a function that takes in a multi-dimensional input and produces an output. For simplicity, let’s assume the input and output dimensions to be the same.</p>
 
 <h2 id="fully-connected-layer">Fully-connected Layer</h2>
 
@@ -4717,7 +4750,7 @@ doi={10.1007/978-3-031-31438-4_23}
 
 <p>The problem with the fully-connected layer is that it consumes a lot of learnable parameters. Since each output is connected to all inputs, a lot of the weights have to be learnt. But, for most input types it is wasteful to connect to all inputs since dependencies are often local, for e.g. spatio-temporal neighbors, than global.</p>
 
-<p>In principle, connecting to all inputs shouldn’t be a problem since given enough training samples and enough time to train, the network should be able to learn to assign meaningful (and sparse) weights to some locations (like the spatio-temporal neighbors) than to the rest, which could be exploited by post-processing steps such as Pruning to fasten inference.</p>
+<p>In principle, connecting to all inputs shouldn’t be a problem since given enough training samples and enough time to train, the network should be able to learn to assign meaningful (and sparse) weights to some locations (like the spatio-temporal neighbors) than to the rest, which could be exploited by post-processing steps such as Pruning to speed up inference.</p>
 
 <p>But, especially for data such as images where we know the inherent local dependencies of pixels to their spatial neighbors, it is a good idea to limit the layer to such neighborhood.</p>
 
@@ -4726,12 +4759,12 @@ doi={10.1007/978-3-031-31438-4_23}
 <p>Convolutional neural networks (CNNs) are typically used for <strong>spatial</strong> data processing, such as images, where there is a spatial relationship between the data or temporal data such as audio. For example, neighboring pixels (in X or Y direction) are related to each other. A convolutional filter is applied to such data to extract features, such as edges, textures, etc., in images.</p>
 
 <p style="text-align: center;"><img src="/images/convolution.svg" alt="convolution" /></p>
-<p style="text-align: center;"><sub><sup><em>A convolutional layer only attends at it’s neighbors</em>
+<p style="text-align: center;"><sub><sup><em>A convolutional layer only attends to its neighbors</em>
 </sup></sub></p>
 
 <h2 id="attention">Attention</h2>
 
-<p>Transformers on the other hand are typically used for <strong>sequential</strong> data processing, such as text, natural language, where short-term and long-term dependencies are present. The actual dependencies are not explicit in this case. For example, in the sentence “Alice had gone to the supermarket to meet Bob”, one of the verb “meet”, is located far-away from the subject “Alice” and this dependency is not spatial but differs a lot. This is even more for longer inputs with multiple paragraphs where the final sentence could have had a dependecy to a sentence somewhere in the beginning. Transformers are based on the so called attention mechanisms which learns these relationships between the elements in the sequence.</p>
+<p>Transformers on the other hand are typically used for <strong>sequential</strong> data processing, such as text, natural language, where short-term and long-term dependencies are present. The actual dependencies are not explicit in this case. For example, in the sentence “Alice had gone to the supermarket to meet Bob”, one of the verb “meet”, is located far-away from the subject “Alice” and this dependency is not spatial but differs a lot. This is even more for longer inputs with multiple paragraphs where the final sentence could have had a dependency to a sentence somewhere in the beginning. Transformers are based on the so called attention mechanisms which learns these relationships between the elements in the sequence.</p>
 
 <p style="text-align: center;"><a href="https://commons.wikimedia.org/wiki/File:Vision_Transformer.gif"><img src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Vision_Transformer.gif" alt="Odontodactylus scyllarus eyes" width="100%" class="shadow" /></a></p>
 <p style="text-align: center;"><sub><sup><em>Attentions is the key component of Transformers and have been successfully applied to image data. <a href="https://commons.wikimedia.org/wiki/File:Vision_Transformer.gif">Davide Coccomini</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>, via Wikimedia Commons</em>
@@ -4763,13 +4796,13 @@ doi={10.1007/978-3-031-31438-4_23}
 
 <p style="text-align: center;">$\textcolor{FF7800}{\textbf{y}} = \text{softmax}\left(\frac{\textcolor{2EC27E}{\textbf{q}} \textcolor{2EC27E}{\textbf{k}^\mathrm{T}}}{\sqrt{d_k}}\right)\textcolor{FF7800}{\textbf{v}}$</p>
 
-<p>Also note that in the basic version, the self-similarity of the inputs always causes the diagonal to be of the highest similarity and makes the weight matrix symmetric. This problem is also elevated by transforming the same input using two seperate learnable weight matrices, $\textcolor{9966FF}{W_K}$ and $\textcolor{9966FF}{W_Q}$</p>
+<p>Also note that in the basic version, the self-similarity of the inputs always causes the diagonal to be of the highest similarity and makes the weight matrix symmetric. This problem is also alleviated by transforming the same input using two separate learnable weight matrices, $\textcolor{9966FF}{W_K}$ and $\textcolor{9966FF}{W_Q}$</p>
 
 <h2 id="convolution-vs-attention-which-is-better">Convolution vs. Attention: Which is better?</h2>
 
-<p>Although attention based models such as vision transformers have shown to outperform CNN based methods, a careful analysis of the two shows comparible performance.<sup id="fnref:4"><a href="#fn:4" class="footnote" rel="footnote" role="doc-noteref">3</a></sup></p>
+<p>Although attention based models such as vision transformers have shown to outperform CNN based methods, a careful analysis of the two shows comparable performance.<sup id="fnref:4"><a href="#fn:4" class="footnote" rel="footnote" role="doc-noteref">3</a></sup></p>
 
-<p>In early layers of a neural network for images, spatial relations can be captured by convolutions and the later layers could benifit from long-range receptive fields offered by attention. Hence, both can be combined.<sup id="fnref:5"><a href="#fn:5" class="footnote" rel="footnote" role="doc-noteref">4</a></sup></p>
+<p>In early layers of a neural network for images, spatial relations can be captured by convolutions and the later layers could benefit from long-range receptive fields offered by attention. Hence, both can be combined.<sup id="fnref:5"><a href="#fn:5" class="footnote" rel="footnote" role="doc-noteref">4</a></sup></p>
 
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Am I going to argue that &quot;Conv is all you need&quot;?<br />No!<br />My favorite architecture is DETR-like: ConvNet (or ConvNeXt) for the first layers, then something more memory-based and permutation invariant like transformer blocks for object-based reasoning on top.<a href="https://t.co/LA2J72N93A">https://t.co/LA2J72N93A</a></p>&mdash; Yann LeCun (@ylecun) <a href="https://twitter.com/ylecun/status/1481198016266739715?ref_src=twsrc%5Etfw">January 12, 2022</a></blockquote>
 <script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -4781,13 +4814,13 @@ doi={10.1007/978-3-031-31438-4_23}
     <p>Different ways of connecting inputs to each other were discussed. A fully-connected layer connects all inputs to each other. This leads to exponential increase in network parameters and computational complexity. While the network can learn to assign different weights, this can take a lot of data and prolonged training.</p>
   </li>
   <li>
-    <p>Convolutional layer incorporates desirable inductive biases about the data to reduce computation and connects only to the neighbors. Spatial and temporal data benifits from doing so. Convolution is translation invariant. However, the dimensions of outputs of a convolution depend on the input dimensions.</p>
+    <p>Convolutional layer incorporates desirable inductive biases about the data to reduce computation and connects only to the neighbors. Spatial and temporal data benefits from doing so. Convolution is translation invariant. However, the dimensions of outputs of a convolution depend on the input dimensions.</p>
   </li>
   <li>
     <p>A self-attention layer assigns importance to inputs based on their similarity. For e.g., in the sentence “Alice is adventurous and she is in wonderland.” the word “she” refers to “Alice” and ideally, their embeddings should be similar, which can be used by the self-attention layer to determine contexts. Similar to fully-connected, far away connections can be established if the input features or embeddings are similar. However, not having enough data may lead to overfitting the inputs.</p>
   </li>
   <li>
-    <p>In early layers of a neural network for images, spatial relations can be captured by convolutions and the later layers could benifit from long-range receptive fields offered by attention. Hence, both can be combined. Works such as CoAtNet<sup>[</sup><sup id="fnref:3"><a href="#fn:3" class="footnote" rel="footnote" role="doc-noteref">5</a></sup><sup>]</sup> offer layers combining the two.</p>
+    <p>In early layers of a neural network for images, spatial relations can be captured by convolutions and the later layers could benefit from long-range receptive fields offered by attention. Hence, both can be combined. Works such as CoAtNet<sup>[</sup><sup id="fnref:3"><a href="#fn:3" class="footnote" rel="footnote" role="doc-noteref">5</a></sup><sup>]</sup> offer layers combining the two.</p>
   </li>
 </ul>
 
@@ -4886,12 +4919,12 @@ if (typeof loadYouTube === 'undefined') {
 <p>Such an approach would work good enough in general and can be deployed for all kinds of scenarios which satisfy the approach’s approximations/assumptions but its performance would not depend on the amount of available data.</p>
 
 <p style="text-align: center;"><img src="/images/performance_classical.svg" alt="s" /></p>
-<p style="text-align: center;"><sub><sup><em>Performance of a traditional algorithm does not depend on the amount of avaiable data</em>
+<p style="text-align: center;"><sub><sup><em>Performance of a traditional algorithm does not depend on the amount of available data</em>
 </sup></sub></p>
 
 <h3 id="how-can-we-do-better">How can we do better?</h3>
 
-<p>We can try to improve each of the approach’s steps and gain overall performance, and decades of research in Computer Vision does exactly that. But, by changing our fundemental thinking towards learning based approaches, unprecidented improvements were realized.</p>
+<p>We can try to improve each of the approach’s steps and gain overall performance, and decades of research in Computer Vision does exactly that. But, by changing our fundamental thinking towards learning based approaches, unprecedented improvements were realized.</p>
 
 <h2 id="era-of-learning">Era of learning</h2>
 
@@ -4926,13 +4959,13 @@ if (typeof loadYouTube === 'undefined') {
 
 <h3 id="production-time">Production time</h3>
 
-<p>Traditional algorithms have to be almost always completely re-written from their prototyping phase to production while keeping the computational power and memory in check. At test time, Deep learning replaces all of this with just one model inference call. So, we go from re-implementing production level code to passing the input through a bunch of linear algebra. Neural networks cost same amount of memory and even better comoutational effeciency during inference time.</p>
+<p>Traditional algorithms have to be almost always completely re-written from their prototyping phase to production while keeping the computational power and memory in check. At test time, Deep learning replaces all of this with just one model inference call. So, we go from re-implementing production level code to passing the input through a bunch of linear algebra. Neural networks cost same amount of memory and even better computational efficiency during inference time.</p>
 
 <h2 id="algorithm-20ic-thinking">Algorithm 2.0ic thinking</h2>
 
 <ol>
   <li>
-    <p>First, to gain performance, it is not eough to copy paste one training example into multiple copies. The model needs to be intellignetly scaled by feeding in huge amounts of new data with much variation, representing the true population as truely as possible.</p>
+    <p>First, to gain performance, it is not enough to copy paste one training example into multiple copies. The model needs to be intelligently scaled by feeding in huge amounts of new data with much variation, representing the true population as truly as possible.</p>
   </li>
   <li>
     <p>Secondly, new data doesn’t come for free. It is labor-intensive and expensive to label data. Smart gathering is required. One cannot just copy paste existing data and assume the data has increased. It has to increase meaningfully.</p>
@@ -4941,13 +4974,13 @@ if (typeof loadYouTube === 'undefined') {
     <p>Thirdly, in order to be able to feed in that much amount of data, there needs to be infrastructure in place.</p>
   </li>
   <li>
-    <p>As in the case of traditional algorithms, one cannot just hand-engineer the algorithm and use it in deployment forever. One needs to continuously improve/train the learnt model and continuoiusly deploy it. This is also where the data can be selected smartly for the next iteration of improvement.</p>
+    <p>As in the case of traditional algorithms, one cannot just hand-engineer the algorithm and use it in deployment forever. One needs to continuously improve/train the learnt model and continuously deploy it. This is also where the data can be selected smartly for the next iteration of improvement.</p>
   </li>
 </ol>
 
 <h2 id="the-holy-grail-or-just-a-fad">The holy grail? or just a fad?</h2>
 
-<p>For many applications, the performance gain is really not that critical. Other factors such as explainability, fail-safe, etc are equally important, which the current deeo learning approaches lack. The availability of data is another critical factor in deciding to choose learning based approaches.</p>
+<p>For many applications, the performance gain is really not that critical. Other factors such as explainability, fail-safe, etc are equally important, which the current deep learning approaches lack. The availability of data is another critical factor in deciding to choose learning based approaches.</p>
 
 <p style="text-align: center;"><img src="/images/performance_lowdata.svg" alt="s" /></p>
 <p style="text-align: center;"><sub><sup><em>If data is limited (green part), traditional algorithms provide better performance</em>

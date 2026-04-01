@@ -19,7 +19,7 @@ _powered by [fastpages](https://github.com/fastai/fastpages)_
 
   `sudo apt-get install nodejs`
 - `gem install jekyll bundler`
-- `bundle exec jekyll serve`
+- `bundle exec jekyll serve --trace`
 
 # Licences
 

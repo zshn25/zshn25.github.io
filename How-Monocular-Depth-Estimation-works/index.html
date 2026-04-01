@@ -26,13 +26,10 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Zeeshan Khan Suri"},"dateModified":"2022-10-31T02:21:23+00:00","datePublished":"2022-10-31T02:21:23+00:00","description":"How to estimate depth and ego-motion from videos: Neural Networks","headline":"Self-supervised monocular depth estimation","image":"https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/2551b04d-fd4e-4ec9-9869-3e8c9ac5e7bf/d93a0lc-e4ecbd7d-6120-4925-be1d-1e250d7e0830.png/v1/fill/w_1024,h_576,q_80,strp/cyclops_greek_mythology_by_nilesdino_d93a0lc-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NTc2IiwicGF0aCI6IlwvZlwvMjU1MWIwNGQtZmQ0ZS00ZWM5LTk4NjktM2U4YzlhYzVlN2JmXC9kOTNhMGxjLWU0ZWNiZDdkLTYxMjAtNDkyNS1iZTFkLTFlMjUwZDdlMDgzMC5wbmciLCJ3aWR0aCI6Ijw9MTAyNCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.kEfvRjpv5KXW_HtOAtsBltiTNTF7DswBz8TwLvRVwyo","mainEntityOfPage":{"@type":"WebPage","@id":"https://zshn25.github.io/How-Monocular-Depth-Estimation-works/"},"url":"https://zshn25.github.io/How-Monocular-Depth-Estimation-works/"}</script>
 <!-- End Jekyll SEO tag -->
-<style></style>
-  <link rel="stylesheet" href="/assets/css/style.css" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="/assets/css/style.css"></noscript><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#181818" media="(prefers-color-scheme: dark)">
-<!-- Preload critical font and main stylesheet -->
+<!-- Preload critical font -->
 <link rel="preload" href="/assets/vendor/fonts/inter/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/assets/css/style.css" as="style">
 <!-- Self-hosted vendor CSS (no cross-origin requests for privacy) -->
 <link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css"></noscript>
@@ -70,7 +67,7 @@
 
 
 <script>document.documentElement.className=document.documentElement.className.replace(/\bno-js\b/,'js');</script>
-<link id="dark-css" href="/assets/css/dark.css" rel="stylesheet" media="(prefers-color-scheme: dark)"><script>// Theme toggle: system (auto) → light → dark → system
+<link id="dark-css" href="/assets/css/dark.css" rel="stylesheet" media="(prefers-color-scheme: dark)"><script>// Theme toggle: light ↔ dark (two states only)
 (function () {
   var STORAGE_KEY = "colorScheme";
   var darkLink = document.querySelector("#dark-css");
@@ -89,27 +86,26 @@
   function apply(mode) {
     if (!darkLink) return;
     if (mode === "dark") darkLink.removeAttribute("media");
-    else if (mode === "light") darkLink.setAttribute("media", "not all");
-    else darkLink.setAttribute("media", "(prefers-color-scheme: dark)");
+    else darkLink.setAttribute("media", "not all");
     // Update theme-color meta for mobile browser chrome
     var metas = document.querySelectorAll('meta[name="theme-color"]');
     if (metas.length >= 2) {
       if (mode === "dark") { metas[0].content = "#181818"; metas[1].content = "#181818"; }
-      else if (mode === "light") { metas[0].content = "#ffffff"; metas[1].content = "#ffffff"; }
-      else { metas[0].content = "#ffffff"; metas[1].content = "#181818"; }
+      else { metas[0].content = "#ffffff"; metas[1].content = "#ffffff"; }
     }
   }
 
-  var LABELS = { dark: "Switch to System theme", light: "Switch to Dark theme", system: "Switch to Light theme" };
-  var ICONS = { dark: "fa-sun", light: "fa-moon", system: "fa-adjust" };
-  var MODE_LABELS = { dark: "Light mode", light: "Dark mode", system: "System theme" };
+  // Icon shows what you'll switch TO: moon = "click for dark", sun = "click for light"
+  var LABELS = { dark: "Switch to Light mode", light: "Switch to Dark mode" };
+  var ICONS = { dark: "fa-sun", light: "fa-moon" };
+  var MODE_LABELS = { dark: "Light mode", light: "Dark mode" };
 
   function updateToggle(el, iconSel, mode, showLabel) {
     if (!el) return;
     var icon = el.querySelector(iconSel);
     if (icon) {
       icon.classList.remove("fa-moon", "fa-sun", "fa-adjust");
-      icon.classList.add(ICONS[mode] || "fa-adjust");
+      icon.classList.add(ICONS[mode] || "fa-moon");
     }
     el.setAttribute("aria-label", LABELS[mode] || "Toggle theme");
     if (!showLabel) el.title = LABELS[mode] || "Toggle theme";
@@ -124,34 +120,37 @@
     updateToggle(document.getElementById("nav-switch-theme-mobile"), ".nav-theme-icon-mobile", mode, true);
   }
 
-  function cycle() {
+  function resolveMode() {
     var stored = getStored();
-    var next;
-    if (stored === null) next = "light";
-    else if (stored === "light") next = "dark";
-    else next = null;
+    if (stored === "dark" || stored === "light") return stored;
+    // No stored preference — use system preference
+    return (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
+  }
+
+  function toggle() {
+    var current = resolveMode();
+    var next = current === "dark" ? "light" : "dark";
     setStored(next);
-    apply(next || "system");
-    updateIcon(next || "system");
+    apply(next);
+    updateIcon(next);
   }
 
   // Initial apply
-  var stored = getStored();
-  if (stored === "dark") apply("dark");
-  else if (stored === "light") apply("light");
+  var mode = resolveMode();
+  apply(mode);
 
   function init() {
-    var toggle = document.getElementById("nav-switch-theme");
-    if (toggle) {
-      toggle.style.display = "";
-      toggle.addEventListener("click", cycle);
+    var toggleBtn = document.getElementById("nav-switch-theme");
+    if (toggleBtn) {
+      toggleBtn.style.display = "";
+      toggleBtn.addEventListener("click", toggle);
     }
     var toggleM = document.getElementById("nav-switch-theme-mobile");
     if (toggleM) {
       toggleM.style.display = "";
-      toggleM.addEventListener("click", cycle);
+      toggleM.addEventListener("click", toggle);
     }
-    updateIcon(stored || "system");
+    updateIcon(mode);
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
@@ -164,7 +163,7 @@
   };
 })();
 </script>
-<script src="/assets/js/consent-gate.js" defer></script>
+<script src="/assets/js/consent-gate.js"></script>
 <script src="/assets/js/vendor/lunr.min.js" defer></script>
 <script src="/assets/js/main.js" defer></script>
 </head>
@@ -410,7 +409,7 @@ if (typeof loadYouTube === 'undefined') {
 
 <p style="text-align: center;"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>=</mo><mi mathvariant="script">f</mi><mo stretchy="false">(</mo><mi>i</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">d = \mathcal{f}(i)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">d</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathnormal">i</span><span class="mclose">)</span></span></span></span></p>
 
-<p>In-fact we are looking at methods that do not rely on the availability ground-truth (<abbr title="ground-truth">GT</abbr>) depths. Why? Because it is expensive and tedious to gather such ground truth and difficult to calibrate and align different sensor ouputs, making it difficult to scale. But, how can we teach a neural network to estimate the underlying depth without having ground truth? Thanks for asking that! Geometry comes to the rescue. The idea is to synthesize different views of the same scene and compare these synthesized views with the real ones for supervision. It underlies on <strong>the brightness constantcy assumption</strong><sup id="fnref:5"><a href="#fn:5" class="footnote" rel="footnote" role="doc-noteref">5</a></sup>, where parts of the same scene are assumed to be observed in multiple views. A similar assumption is used in binocular vision, where the content of what a left eye/camera sees is very similar to that of what the right one sees; and in motion/optical-flow estimation, where the motion is the vector $u_{xy}, v_{xy}$ defined by the change in pixel locations as</p>
+<p>In-fact we are looking at methods that do not rely on the availability ground-truth (<abbr title="ground-truth">GT</abbr>) depths. Why? Because it is expensive and tedious to gather such ground truth and difficult to calibrate and align different sensor outputs, making it difficult to scale. But, how can we teach a neural network to estimate the underlying depth without having ground truth? Thanks for asking that! Geometry comes to the rescue. The idea is to synthesize different views of the same scene and compare these synthesized views with the real ones for supervision. It underlies on <strong>the brightness constancy assumption</strong><sup id="fnref:5"><a href="#fn:5" class="footnote" rel="footnote" role="doc-noteref">5</a></sup>, where parts of the same scene are assumed to be observed in multiple views. A similar assumption is used in binocular vision, where the content of what a left eye/camera sees is very similar to that of what the right one sees; and in motion/optical-flow estimation, where the motion is the vector $u_{xy}, v_{xy}$ defined by the change in pixel locations as</p>
 
 <p style="text-align: center;"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>I</mi><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo separator="true">,</mo><mi>t</mi><mo stretchy="false">)</mo><mo>=</mo><mi>I</mi><mo stretchy="false">(</mo><mi>x</mi><mo>+</mo><msub><mi>u</mi><mrow><mi>x</mi><mi>y</mi></mrow></msub><mo separator="true">,</mo><mi>y</mi><mo>+</mo><msub><mi>v</mi><mrow><mi>x</mi><mi>y</mi></mrow></msub><mo separator="true">,</mo><mi>t</mi><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">I(x, y, t) = I(x + u_{xy}, y + v_{xy}, t + 1)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">t</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="mopen">(</span><span class="mord mathnormal">x</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.8694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal">u</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">x</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.9012em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">x</span><span class="mord mathnormal mtight" style="margin-right:0.03588em;">y</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span></span></span></span></p>
       <h2 id="stereo-supervision">
@@ -448,13 +447,13 @@ if (typeof loadYouTube === 'undefined') {
   <sub><sup>*Depth as a function of disparity via triangulation[^3]. By [fr:Utilisateur:COLETTE](https://commons.wikimedia.org/wiki/File:Triangulation.svg), [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0), via Wikimedia Commons*
   </sup></sub>
   {: refdef} --></li>
-  <li>Relative camera pose (Ego-motion) is known, which in this case of recitfied stereo is just a scalar, representing the horizontal shift of 5.4 cm in X-direction.
+  <li>Relative camera pose (Ego-motion) is known, which in this case of rectified stereo is just a scalar, representing the horizontal shift of 5.4 cm in X-direction.
   <img src="/images/3dreco/1_hug.png" alt="s" class="shadow" /></li>
   <li>Using the estimated disparity, a per-pixel flow in the left image’s coordinates is calculated based on the known relative rigid camera pose.
   <img src="/images/3dreco/2.png" alt="s" class="shadow" /></li>
   <li>The right input image is warped using the flow, into the view of the left image.
   <img src="/images/3dreco/3.png" alt="s" class="shadow" /></li>
-  <li>The warped right image onto the left’s view needs to be consistent with the original left image if the estimated depth from the network is correct. A loss is thus calculated between the two and is propogated through the depth network, thereby, making it learn to predict monocular depth.
+  <li>The warped right image onto the left’s view needs to be consistent with the original left image if the estimated depth from the network is correct. A loss is thus calculated between the two and is propagated through the depth network, thereby, making it learn to predict monocular depth.
   <img src="/images/3dreco/4.png" alt="s" class="shadow" /></li>
 </ol>
       <h2 id="the-monocular-case">
@@ -468,7 +467,7 @@ if (typeof loadYouTube === 'undefined') {
 
 <p>While the stereo case is analogous to animals using binocular vision to perceive 3D, what about the monocular case, where creatures are still able to reconstruct the underlying 3D structure of the scene using a single eye? Can the above method be extended for monocular case?</p>
 
-<p style="text-align: center;"><a href="https://www.deviantart.com/nilesdino/art/Cyclops-greek-mythology-549701760"><img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/2551b04d-fd4e-4ec9-9869-3e8c9ac5e7bf/d93a0lc-e4ecbd7d-6120-4925-be1d-1e250d7e0830.png/v1/fill/w_1024,h_576,q_80,strp/cyclops_greek_mythology_by_nilesdino_d93a0lc-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NTc2IiwicGF0aCI6IlwvZlwvMjU1MWIwNGQtZmQ0ZS00ZWM5LTk4NjktM2U4YzlhYzVlN2JmXC9kOTNhMGxjLWU0ZWNiZDdkLTYxMjAtNDkyNS1iZTFkLTFlMjUwZDdlMDgzMC5wbmciLCJ3aWR0aCI6Ijw9MTAyNCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.kEfvRjpv5KXW_HtOAtsBltiTNTF7DswBz8TwLvRVwyo" alt="s" width="50%" class="shadow" /></a></p>
+<p style="text-align: center;"><a href="https://www.deviantart.com/nilesdino/art/Cyclops-greek-mythology-549701760"><img src="/images/cyclops_greek_mythology.webp" alt="s" width="50%" class="shadow" /></a></p>
 <p style="text-align: center;"><sub><sup><em>Cyclops by <a href="https://www.deviantart.com/nilesdino">Nilesdino</a>, <a href="http://creativecommons.org/licenses/by-nc-nd/3.0/">CC BY-NC-ND 3.0</a></em>
 </sup></sub></p>
 
@@ -517,7 +516,7 @@ l0,-2544c-2,-159.3,-10,-310.7,-24,-454c-53.3,-528,-210,-949.7,
 <p style="text-align: center;"><img src="/images/3dreco/2011_09_26_drive_0022_sync 226_cam_t.webp" alt="s" width="90%" class="shadow" /></p>
 <p style="text-align: center;">$K^{-1}d_{xy} \left(\begin{array}{c}x_t \\ y_t \\ 1 \end{array} \right)$</p>
 
-<p>Intiutively, given the depth $D$, one could unproject the image coordinates using the depth and the inverse camera intrinsics onto 3D.</p>
+<p>Intuitively, given the depth $D$, one could unproject the image coordinates using the depth and the inverse camera intrinsics onto 3D.</p>
 
 <p style="text-align: center;"><img src="/images/3dreco/2011_09_26_drive_0022_sync 226_both_cams.webp" alt="s" width="90%" class="shadow" /></p>
 <p style="text-align: center;">$TK^{-1}d_{xy} \left(\begin{array}{c}x_t \\ y_t \\ 1 \end{array} \right)$</p>
@@ -549,7 +548,7 @@ l0,-2544c-2,-159.3,-10,-310.7,-24,-454c-53.3,-528,-210,-949.7,
 <p style="text-align: center;"><img src="/images/3dreco/flow_t_tplus1.png" alt="s" /></p>
 <p style="text-align: center;">$KTK^{-1}d_{xy} \left(\begin{array}{c}x_t \\ y_t \\ 1 \end{array} \right)$</p>
 
-<p>Note that this flow is a function of depth and 6 <abbr title="degrees of freedom">DOF</abbr> transformation, i.e. the rigif flow field depends not only on the rigid 6 <abbr title="degrees of freedom">DOF</abbr> transformation of the camera, but also on the distance of each point to the camera. Intuitively, this makes sense since objects fat away seem to move less in the image plane than those far away. This is known as motion parallax</p>
+<p>Note that this flow is a function of depth and 6 <abbr title="degrees of freedom">DOF</abbr> transformation, i.e. the rigid flow field depends not only on the rigid 6 <abbr title="degrees of freedom">DOF</abbr> transformation of the camera, but also on the distance of each point to the camera. Intuitively, this makes sense since objects far away seem to move less in the image plane than those far away. This is known as motion parallax</p>
 
 <p style="text-align: center;"><a href="https://en.wikipedia.org/wiki/File:Parallax.gif"><img src="https://upload.wikimedia.org/wikipedia/commons/a/ab/Parallax.gif" alt="Odontodactylus scyllarus eyes" /></a></p>
 <p style="text-align: center;"><sub><sup><em>Motion Parallax: Objects farther away appear to move lesser than those close-by. <a href="https://commons.wikimedia.org/wiki/File:Parallax.gif">Nathaniel Domek</a>, <a href="https://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>, via Wikimedia Commons</em>
@@ -618,7 +617,11 @@ l0,-2544c-2,-159.3,-10,-310.7,-24,-454c-53.3,-528,-210,-949.7,
 </div>
 
     </div>
-  </div><hr>
+  </div>
+
+  
+  
+  
   
 
 <section class="page-share" aria-label="Share this post">
@@ -1034,7 +1037,7 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
 <div id="privacy-notice" role="status" style="display:none">
     This site does not use cookies or track you. Some posts contain embedded content that connects to third parties only when you click.
     <a href="/about/#privacy">Learn more about our privacy practices</a>
-    <button class="privacy-ok-btn" onclick="localStorage.setItem('privacyOK','1');document.getElementById('privacy-notice').style.display='none';document.body.style.paddingBottom=''">OK</button>
+    <button class="privacy-ok-btn" onclick="localStorage.setItem('privacyOK','1');document.getElementById('privacy-notice').style.display='none'">OK</button>
 </div>
 <button class="back-to-top" id="back-to-top" aria-label="Back to top">
       <i class="fas fa-chevron-up"></i>

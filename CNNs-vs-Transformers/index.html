@@ -26,13 +26,10 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Zeeshan Khan Suri"},"dateModified":"2023-03-10T02:21:23+00:00","datePublished":"2023-03-10T02:21:23+00:00","description":"Similarities and differences between convolutions and attention module of Transformers","headline":"Convolution vs. Attention","image":"https://zshn25.github.io/images/vision_transformer.gif","mainEntityOfPage":{"@type":"WebPage","@id":"https://zshn25.github.io/CNNs-vs-Transformers/"},"url":"https://zshn25.github.io/CNNs-vs-Transformers/"}</script>
 <!-- End Jekyll SEO tag -->
-<style></style>
-  <link rel="stylesheet" href="/assets/css/style.css" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="/assets/css/style.css"></noscript><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#181818" media="(prefers-color-scheme: dark)">
-<!-- Preload critical font and main stylesheet -->
+<!-- Preload critical font -->
 <link rel="preload" href="/assets/vendor/fonts/inter/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/assets/css/style.css" as="style">
 <!-- Self-hosted vendor CSS (no cross-origin requests for privacy) -->
 <link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css"></noscript>
@@ -70,7 +67,7 @@
 
 
 <script>document.documentElement.className=document.documentElement.className.replace(/\bno-js\b/,'js');</script>
-<link id="dark-css" href="/assets/css/dark.css" rel="stylesheet" media="(prefers-color-scheme: dark)"><script>// Theme toggle: system (auto) → light → dark → system
+<link id="dark-css" href="/assets/css/dark.css" rel="stylesheet" media="(prefers-color-scheme: dark)"><script>// Theme toggle: light ↔ dark (two states only)
 (function () {
   var STORAGE_KEY = "colorScheme";
   var darkLink = document.querySelector("#dark-css");
@@ -89,27 +86,26 @@
   function apply(mode) {
     if (!darkLink) return;
     if (mode === "dark") darkLink.removeAttribute("media");
-    else if (mode === "light") darkLink.setAttribute("media", "not all");
-    else darkLink.setAttribute("media", "(prefers-color-scheme: dark)");
+    else darkLink.setAttribute("media", "not all");
     // Update theme-color meta for mobile browser chrome
     var metas = document.querySelectorAll('meta[name="theme-color"]');
     if (metas.length >= 2) {
       if (mode === "dark") { metas[0].content = "#181818"; metas[1].content = "#181818"; }
-      else if (mode === "light") { metas[0].content = "#ffffff"; metas[1].content = "#ffffff"; }
-      else { metas[0].content = "#ffffff"; metas[1].content = "#181818"; }
+      else { metas[0].content = "#ffffff"; metas[1].content = "#ffffff"; }
     }
   }
 
-  var LABELS = { dark: "Switch to System theme", light: "Switch to Dark theme", system: "Switch to Light theme" };
-  var ICONS = { dark: "fa-sun", light: "fa-moon", system: "fa-adjust" };
-  var MODE_LABELS = { dark: "Light mode", light: "Dark mode", system: "System theme" };
+  // Icon shows what you'll switch TO: moon = "click for dark", sun = "click for light"
+  var LABELS = { dark: "Switch to Light mode", light: "Switch to Dark mode" };
+  var ICONS = { dark: "fa-sun", light: "fa-moon" };
+  var MODE_LABELS = { dark: "Light mode", light: "Dark mode" };
 
   function updateToggle(el, iconSel, mode, showLabel) {
     if (!el) return;
     var icon = el.querySelector(iconSel);
     if (icon) {
       icon.classList.remove("fa-moon", "fa-sun", "fa-adjust");
-      icon.classList.add(ICONS[mode] || "fa-adjust");
+      icon.classList.add(ICONS[mode] || "fa-moon");
     }
     el.setAttribute("aria-label", LABELS[mode] || "Toggle theme");
     if (!showLabel) el.title = LABELS[mode] || "Toggle theme";
@@ -124,34 +120,37 @@
     updateToggle(document.getElementById("nav-switch-theme-mobile"), ".nav-theme-icon-mobile", mode, true);
   }
 
-  function cycle() {
+  function resolveMode() {
     var stored = getStored();
-    var next;
-    if (stored === null) next = "light";
-    else if (stored === "light") next = "dark";
-    else next = null;
+    if (stored === "dark" || stored === "light") return stored;
+    // No stored preference — use system preference
+    return (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
+  }
+
+  function toggle() {
+    var current = resolveMode();
+    var next = current === "dark" ? "light" : "dark";
     setStored(next);
-    apply(next || "system");
-    updateIcon(next || "system");
+    apply(next);
+    updateIcon(next);
   }
 
   // Initial apply
-  var stored = getStored();
-  if (stored === "dark") apply("dark");
-  else if (stored === "light") apply("light");
+  var mode = resolveMode();
+  apply(mode);
 
   function init() {
-    var toggle = document.getElementById("nav-switch-theme");
-    if (toggle) {
-      toggle.style.display = "";
-      toggle.addEventListener("click", cycle);
+    var toggleBtn = document.getElementById("nav-switch-theme");
+    if (toggleBtn) {
+      toggleBtn.style.display = "";
+      toggleBtn.addEventListener("click", toggle);
     }
     var toggleM = document.getElementById("nav-switch-theme-mobile");
     if (toggleM) {
       toggleM.style.display = "";
-      toggleM.addEventListener("click", cycle);
+      toggleM.addEventListener("click", toggle);
     }
-    updateIcon(stored || "system");
+    updateIcon(mode);
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
@@ -164,7 +163,7 @@
   };
 })();
 </script>
-<script src="/assets/js/consent-gate.js" defer></script>
+<script src="/assets/js/consent-gate.js"></script>
 <script src="/assets/js/vendor/lunr.min.js" defer></script>
 <script src="/assets/js/main.js" defer></script>
 </head>
@@ -350,7 +349,7 @@
     
 
     <div class="post-content e-content" itemprop="articleBody">
-      <p>Layers in neural netowrks can be seen as a function that takes in a multi-dimensional input and produces an output. For simplicity, let’s assume the input and output dimesnions to be the same.</p>
+      <p>Layers in neural networks can be seen as a function that takes in a multi-dimensional input and produces an output. For simplicity, let’s assume the input and output dimensions to be the same.</p>
       <h2 id="fully-connected-layer">
         
         
@@ -378,7 +377,7 @@
 
 <p>The problem with the fully-connected layer is that it consumes a lot of learnable parameters. Since each output is connected to all inputs, a lot of the weights have to be learnt. But, for most input types it is wasteful to connect to all inputs since dependencies are often local, for e.g. spatio-temporal neighbors, than global.</p>
 
-<p>In principle, connecting to all inputs shouldn’t be a problem since given enough training samples and enough time to train, the network should be able to learn to assign meaningful (and sparse) weights to some locations (like the spatio-temporal neighbors) than to the rest, which could be exploited by post-processing steps such as Pruning to fasten inference.</p>
+<p>In principle, connecting to all inputs shouldn’t be a problem since given enough training samples and enough time to train, the network should be able to learn to assign meaningful (and sparse) weights to some locations (like the spatio-temporal neighbors) than to the rest, which could be exploited by post-processing steps such as Pruning to speed up inference.</p>
 
 <p>But, especially for data such as images where we know the inherent local dependencies of pixels to their spatial neighbors, it is a good idea to limit the layer to such neighborhood.</p>
       <h2 id="convolution">
@@ -393,7 +392,7 @@
 <p>Convolutional neural networks (CNNs) are typically used for <strong>spatial</strong> data processing, such as images, where there is a spatial relationship between the data or temporal data such as audio. For example, neighboring pixels (in X or Y direction) are related to each other. A convolutional filter is applied to such data to extract features, such as edges, textures, etc., in images.</p>
 
 <p style="text-align: center;"><img src="/images/convolution.svg" alt="convolution" /></p>
-<p style="text-align: center;"><sub><sup><em>A convolutional layer only attends at it’s neighbors</em>
+<p style="text-align: center;"><sub><sup><em>A convolutional layer only attends to its neighbors</em>
 </sup></sub></p>
       <h2 id="attention">
         
@@ -404,7 +403,7 @@
       </h2>
     
 
-<p>Transformers on the other hand are typically used for <strong>sequential</strong> data processing, such as text, natural language, where short-term and long-term dependencies are present. The actual dependencies are not explicit in this case. For example, in the sentence “Alice had gone to the supermarket to meet Bob”, one of the verb “meet”, is located far-away from the subject “Alice” and this dependency is not spatial but differs a lot. This is even more for longer inputs with multiple paragraphs where the final sentence could have had a dependecy to a sentence somewhere in the beginning. Transformers are based on the so called attention mechanisms which learns these relationships between the elements in the sequence.</p>
+<p>Transformers on the other hand are typically used for <strong>sequential</strong> data processing, such as text, natural language, where short-term and long-term dependencies are present. The actual dependencies are not explicit in this case. For example, in the sentence “Alice had gone to the supermarket to meet Bob”, one of the verb “meet”, is located far-away from the subject “Alice” and this dependency is not spatial but differs a lot. This is even more for longer inputs with multiple paragraphs where the final sentence could have had a dependency to a sentence somewhere in the beginning. Transformers are based on the so called attention mechanisms which learns these relationships between the elements in the sequence.</p>
 
 <p style="text-align: center;"><a href="https://commons.wikimedia.org/wiki/File:Vision_Transformer.gif"><img src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Vision_Transformer.gif" alt="Odontodactylus scyllarus eyes" width="100%" class="shadow" /></a></p>
 <p style="text-align: center;"><sub><sup><em>Attentions is the key component of Transformers and have been successfully applied to image data. <a href="https://commons.wikimedia.org/wiki/File:Vision_Transformer.gif">Davide Coccomini</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>, via Wikimedia Commons</em>
@@ -448,7 +447,7 @@
 
 <p style="text-align: center;">$\textcolor{FF7800}{\textbf{y}} = \text{softmax}\left(\frac{\textcolor{2EC27E}{\textbf{q}} \textcolor{2EC27E}{\textbf{k}^\mathrm{T}}}{\sqrt{d_k}}\right)\textcolor{FF7800}{\textbf{v}}$</p>
 
-<p>Also note that in the basic version, the self-similarity of the inputs always causes the diagonal to be of the highest similarity and makes the weight matrix symmetric. This problem is also elevated by transforming the same input using two seperate learnable weight matrices, $\textcolor{9966FF}{W_K}$ and $\textcolor{9966FF}{W_Q}$</p>
+<p>Also note that in the basic version, the self-similarity of the inputs always causes the diagonal to be of the highest similarity and makes the weight matrix symmetric. This problem is also alleviated by transforming the same input using two separate learnable weight matrices, $\textcolor{9966FF}{W_K}$ and $\textcolor{9966FF}{W_Q}$</p>
       <h2 id="convolution-vs-attention-which-is-better">
         
         
@@ -458,9 +457,9 @@
       </h2>
     
 
-<p>Although attention based models such as vision transformers have shown to outperform CNN based methods, a careful analysis of the two shows comparible performance.<sup id="fnref:4"><a href="#fn:4" class="footnote" rel="footnote" role="doc-noteref">3</a></sup></p>
+<p>Although attention based models such as vision transformers have shown to outperform CNN based methods, a careful analysis of the two shows comparable performance.<sup id="fnref:4"><a href="#fn:4" class="footnote" rel="footnote" role="doc-noteref">3</a></sup></p>
 
-<p>In early layers of a neural network for images, spatial relations can be captured by convolutions and the later layers could benifit from long-range receptive fields offered by attention. Hence, both can be combined.<sup id="fnref:5"><a href="#fn:5" class="footnote" rel="footnote" role="doc-noteref">4</a></sup></p>
+<p>In early layers of a neural network for images, spatial relations can be captured by convolutions and the later layers could benefit from long-range receptive fields offered by attention. Hence, both can be combined.<sup id="fnref:5"><a href="#fn:5" class="footnote" rel="footnote" role="doc-noteref">4</a></sup></p>
 
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Am I going to argue that &quot;Conv is all you need&quot;?<br />No!<br />My favorite architecture is DETR-like: ConvNet (or ConvNeXt) for the first layers, then something more memory-based and permutation invariant like transformer blocks for object-based reasoning on top.<a href="https://t.co/LA2J72N93A">https://t.co/LA2J72N93A</a></p>&mdash; Yann LeCun (@ylecun) <a href="https://twitter.com/ylecun/status/1481198016266739715?ref_src=twsrc%5Etfw">January 12, 2022</a></blockquote>
 <script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
@@ -478,13 +477,13 @@
     <p>Different ways of connecting inputs to each other were discussed. A fully-connected layer connects all inputs to each other. This leads to exponential increase in network parameters and computational complexity. While the network can learn to assign different weights, this can take a lot of data and prolonged training.</p>
   </li>
   <li>
-    <p>Convolutional layer incorporates desirable inductive biases about the data to reduce computation and connects only to the neighbors. Spatial and temporal data benifits from doing so. Convolution is translation invariant. However, the dimensions of outputs of a convolution depend on the input dimensions.</p>
+    <p>Convolutional layer incorporates desirable inductive biases about the data to reduce computation and connects only to the neighbors. Spatial and temporal data benefits from doing so. Convolution is translation invariant. However, the dimensions of outputs of a convolution depend on the input dimensions.</p>
   </li>
   <li>
     <p>A self-attention layer assigns importance to inputs based on their similarity. For e.g., in the sentence “Alice is adventurous and she is in wonderland.” the word “she” refers to “Alice” and ideally, their embeddings should be similar, which can be used by the self-attention layer to determine contexts. Similar to fully-connected, far away connections can be established if the input features or embeddings are similar. However, not having enough data may lead to overfitting the inputs.</p>
   </li>
   <li>
-    <p>In early layers of a neural network for images, spatial relations can be captured by convolutions and the later layers could benifit from long-range receptive fields offered by attention. Hence, both can be combined. Works such as CoAtNet<sup>[</sup><sup id="fnref:3"><a href="#fn:3" class="footnote" rel="footnote" role="doc-noteref">5</a></sup><sup>]</sup> offer layers combining the two.</p>
+    <p>In early layers of a neural network for images, spatial relations can be captured by convolutions and the later layers could benefit from long-range receptive fields offered by attention. Hence, both can be combined. Works such as CoAtNet<sup>[</sup><sup id="fnref:3"><a href="#fn:3" class="footnote" rel="footnote" role="doc-noteref">5</a></sup><sup>]</sup> offer layers combining the two.</p>
   </li>
 </ul>
       <h2 id="further-readings-and-videos">
@@ -570,7 +569,11 @@ if (typeof loadYouTube === 'undefined') {
 </div>
 
     </div>
-  </div><hr>
+  </div>
+
+  
+  
+  
   
 
 <section class="page-share" aria-label="Share this post">
@@ -1001,7 +1004,7 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
 <div id="privacy-notice" role="status" style="display:none">
     This site does not use cookies or track you. Some posts contain embedded content that connects to third parties only when you click.
     <a href="/about/#privacy">Learn more about our privacy practices</a>
-    <button class="privacy-ok-btn" onclick="localStorage.setItem('privacyOK','1');document.getElementById('privacy-notice').style.display='none';document.body.style.paddingBottom=''">OK</button>
+    <button class="privacy-ok-btn" onclick="localStorage.setItem('privacyOK','1');document.getElementById('privacy-notice').style.display='none'">OK</button>
 </div>
 <button class="back-to-top" id="back-to-top" aria-label="Back to top">
       <i class="fas fa-chevron-up"></i>

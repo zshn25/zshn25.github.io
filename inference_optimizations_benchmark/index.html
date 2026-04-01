@@ -26,13 +26,10 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Zeeshan Khan Suri"},"dateModified":"2026-03-24T22:21:23+00:00","datePublished":"2026-03-24T22:21:23+00:00","description":"Guide to CUDA GPU inference optimizations, benchmarked on a state-of-the-art PyTorch depth estimation model.","headline":"Inference Runtime Optimization Benchmark","image":"https://zshn25.github.io/images/2026-03-24-inference_optimizations_benchmark/image.webp","mainEntityOfPage":{"@type":"WebPage","@id":"https://zshn25.github.io/inference_optimizations_benchmark/"},"url":"https://zshn25.github.io/inference_optimizations_benchmark/"}</script>
 <!-- End Jekyll SEO tag -->
-<style></style>
-  <link rel="stylesheet" href="/assets/css/style.css" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="/assets/css/style.css"></noscript><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#181818" media="(prefers-color-scheme: dark)">
-<!-- Preload critical font and main stylesheet -->
+<!-- Preload critical font -->
 <link rel="preload" href="/assets/vendor/fonts/inter/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/assets/css/style.css" as="style">
 <!-- Self-hosted vendor CSS (no cross-origin requests for privacy) -->
 <link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css"></noscript>
@@ -70,7 +67,7 @@
 
 
 <script>document.documentElement.className=document.documentElement.className.replace(/\bno-js\b/,'js');</script>
-<link id="dark-css" href="/assets/css/dark.css" rel="stylesheet" media="(prefers-color-scheme: dark)"><script>// Theme toggle: system (auto) → light → dark → system
+<link id="dark-css" href="/assets/css/dark.css" rel="stylesheet" media="(prefers-color-scheme: dark)"><script>// Theme toggle: light ↔ dark (two states only)
 (function () {
   var STORAGE_KEY = "colorScheme";
   var darkLink = document.querySelector("#dark-css");
@@ -89,27 +86,26 @@
   function apply(mode) {
     if (!darkLink) return;
     if (mode === "dark") darkLink.removeAttribute("media");
-    else if (mode === "light") darkLink.setAttribute("media", "not all");
-    else darkLink.setAttribute("media", "(prefers-color-scheme: dark)");
+    else darkLink.setAttribute("media", "not all");
     // Update theme-color meta for mobile browser chrome
     var metas = document.querySelectorAll('meta[name="theme-color"]');
     if (metas.length >= 2) {
       if (mode === "dark") { metas[0].content = "#181818"; metas[1].content = "#181818"; }
-      else if (mode === "light") { metas[0].content = "#ffffff"; metas[1].content = "#ffffff"; }
-      else { metas[0].content = "#ffffff"; metas[1].content = "#181818"; }
+      else { metas[0].content = "#ffffff"; metas[1].content = "#ffffff"; }
     }
   }
 
-  var LABELS = { dark: "Switch to System theme", light: "Switch to Dark theme", system: "Switch to Light theme" };
-  var ICONS = { dark: "fa-sun", light: "fa-moon", system: "fa-adjust" };
-  var MODE_LABELS = { dark: "Light mode", light: "Dark mode", system: "System theme" };
+  // Icon shows what you'll switch TO: moon = "click for dark", sun = "click for light"
+  var LABELS = { dark: "Switch to Light mode", light: "Switch to Dark mode" };
+  var ICONS = { dark: "fa-sun", light: "fa-moon" };
+  var MODE_LABELS = { dark: "Light mode", light: "Dark mode" };
 
   function updateToggle(el, iconSel, mode, showLabel) {
     if (!el) return;
     var icon = el.querySelector(iconSel);
     if (icon) {
       icon.classList.remove("fa-moon", "fa-sun", "fa-adjust");
-      icon.classList.add(ICONS[mode] || "fa-adjust");
+      icon.classList.add(ICONS[mode] || "fa-moon");
     }
     el.setAttribute("aria-label", LABELS[mode] || "Toggle theme");
     if (!showLabel) el.title = LABELS[mode] || "Toggle theme";
@@ -124,34 +120,37 @@
     updateToggle(document.getElementById("nav-switch-theme-mobile"), ".nav-theme-icon-mobile", mode, true);
   }
 
-  function cycle() {
+  function resolveMode() {
     var stored = getStored();
-    var next;
-    if (stored === null) next = "light";
-    else if (stored === "light") next = "dark";
-    else next = null;
+    if (stored === "dark" || stored === "light") return stored;
+    // No stored preference — use system preference
+    return (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
+  }
+
+  function toggle() {
+    var current = resolveMode();
+    var next = current === "dark" ? "light" : "dark";
     setStored(next);
-    apply(next || "system");
-    updateIcon(next || "system");
+    apply(next);
+    updateIcon(next);
   }
 
   // Initial apply
-  var stored = getStored();
-  if (stored === "dark") apply("dark");
-  else if (stored === "light") apply("light");
+  var mode = resolveMode();
+  apply(mode);
 
   function init() {
-    var toggle = document.getElementById("nav-switch-theme");
-    if (toggle) {
-      toggle.style.display = "";
-      toggle.addEventListener("click", cycle);
+    var toggleBtn = document.getElementById("nav-switch-theme");
+    if (toggleBtn) {
+      toggleBtn.style.display = "";
+      toggleBtn.addEventListener("click", toggle);
     }
     var toggleM = document.getElementById("nav-switch-theme-mobile");
     if (toggleM) {
       toggleM.style.display = "";
-      toggleM.addEventListener("click", cycle);
+      toggleM.addEventListener("click", toggle);
     }
-    updateIcon(stored || "system");
+    updateIcon(mode);
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
@@ -164,7 +163,7 @@
   };
 })();
 </script>
-<script src="/assets/js/consent-gate.js" defer></script>
+<script src="/assets/js/consent-gate.js"></script>
 <script src="/assets/js/vendor/lunr.min.js" defer></script>
 <script src="/assets/js/main.js" defer></script>
 </head>
@@ -372,7 +371,7 @@
     <aside class="toc-sidebar" aria-label="On this page">
       <nav class="toc-nav">
         <p class="toc-heading">On this page</p>
-        <ul><li><a href="#model-depth-anything-v3---metric-large" class="toc-link">Model: Depth Anything v3 - Metric-Large</a></li><li><a href="#benchmarking-utilities" class="toc-link">Benchmarking utilities</a><ul><li><a href="#gpu-warmup" class="toc-link">GPU warmup</a></li></ul></li><li><a href="#1--baseline-eager" class="toc-link">§1 – Baseline (eager)</a></li><li><a href="#21--cudnnbenchmark" class="toc-link">2.1 – cudnn.benchmark</a></li><li><a href="#22--channels_last" class="toc-link">2.2 – channels_last</a></li><li><a href="#23--inference_mode" class="toc-link">2.3 – inference_mode</a></li><li><a href="#24--tf32-matmul" class="toc-link">2.4 – TF32 matmul</a></li><li><a href="#31--compile-default" class="toc-link">3.1 – compile (default)</a></li><li><a href="#32--compile-reduce-overhead" class="toc-link">3.2 – compile (reduce-overhead)</a></li><li><a href="#33--compile-max-autotune" class="toc-link">3.3 – compile (max-autotune)</a></li><li><a href="#34--compile-fullgraph--freeze" class="toc-link">3.4 – compile fullgraph + freeze</a></li><li><a href="#41--sdpa-backends" class="toc-link">4.1 – SDPA backends</a></li><li><a href="#42--triton-fused-softmax" class="toc-link">4.2 – Triton fused softmax</a></li><li><a href="#51--amp-fp16" class="toc-link">5.1 – AMP FP16</a><ul><li><a href="#51b--amp-fp16-patched-head" class="toc-link">5.1b – AMP FP16 (patched head)</a></li><li><a href="#profiling-backbone-vs-head-compute-split" class="toc-link">Profiling: backbone vs head compute split</a></li></ul></li><li><a href="#52--amp-bf16" class="toc-link">5.2 – AMP BF16</a></li><li><a href="#53--static-fp16-modelhalf" class="toc-link">5.3 – Static FP16 (model.half())</a></li><li><a href="#54--torchao-int8-weight-only" class="toc-link">5.4 – torchao int8 weight-only</a></li><li><a href="#55--torchao-int8-dynamic" class="toc-link">5.5 – torchao int8 dynamic</a></li><li><a href="#56--torchao-int4-weight-only" class="toc-link">5.6 – torchao int4 weight-only</a></li><li><a href="#57--bitsandbytes-int8-llmint8" class="toc-link">5.7 – bitsandbytes int8 (LLM.int8())</a></li><li><a href="#58--bitsandbytes-nf4" class="toc-link">5.8 – bitsandbytes NF4</a></li><li><a href="#59--fp16--compile-fullgraph" class="toc-link">5.9 – FP16 + compile fullgraph</a></li><li><a href="#61--onnx-export--ort-cuda-ep" class="toc-link">6.1 – ONNX export + ORT CUDA EP</a></li><li><a href="#62--ort-cuda-ep--io-binding" class="toc-link">6.2 – ORT CUDA EP + IO Binding</a></li><li><a href="#63--onnx-optimize--simplify--ort" class="toc-link">6.3 – ONNX Optimize + Simplify + ORT</a></li><li><a href="#71--trt-86-native-fp16" class="toc-link">7.1 – TRT 8.6 Native FP16</a></li><li><a href="#72--trt-86-int8-calibrated" class="toc-link">7.2 – TRT 8.6 INT8 (calibrated)</a></li><li><a href="#73--ort-tensorrt-ep" class="toc-link">7.3 – ORT TensorRT EP</a></li><li><a href="#74--torch-tensorrt" class="toc-link">7.4 – Torch-TensorRT</a></li><li><a href="#81--jit-trace" class="toc-link">8.1 – JIT Trace</a></li><li><a href="#82--cuda-graphs" class="toc-link">8.2 – CUDA Graphs</a></li><li><a href="#83--torchexport--aotinductor" class="toc-link">8.3 – torch.export + AOTInductor</a></li><li><a href="#84--multi-stream-pipelining" class="toc-link">8.4 – Multi-stream pipelining</a></li><li><a href="#91--pruning-50" class="toc-link">9.1 – Pruning 50%</a></li><li><a href="#92--pruning--compile" class="toc-link">9.2 – Pruning + compile</a></li><li><a href="#93--structured-neuron-pruning-ffn-layers" class="toc-link">9.3 – Structured Neuron Pruning (FFN layers)</a></li><li><a href="#benchmark-results" class="toc-link">Benchmark Results</a></li><li><a href="#profiler-deep-dive" class="toc-link">Profiler deep-dive</a></li><li><a href="#cleanup" class="toc-link">Cleanup</a></li><li><a href="#what-we-learned" class="toc-link">What we learned</a><ul><li><a href="#the-free-wins-everyone-should-use-these" class="toc-link">The free wins (everyone should use these)</a></li><li><a href="#the-compiler-wins-need-triton--linux" class="toc-link">The compiler wins (need Triton / Linux)</a></li><li><a href="#memory-optimization" class="toc-link">Memory optimization</a></li><li><a href="#depth-estimation-gotchas" class="toc-link">Depth estimation gotchas</a></li><li><a href="#why-some-techniques-are-slow-or-fail" class="toc-link">Why some techniques are slow or fail</a></li><li><a href="#the-quantization-landscape" class="toc-link">The quantization landscape</a></li><li><a href="#references" class="toc-link">References</a></li></ul></li></ul>
+        <ul><li><a href="#model-depth-anything-v3---metric-large" class="toc-link">Model: Depth Anything v3 - Metric-Large</a></li><li><a href="#benchmarking-utilities" class="toc-link">Benchmarking utilities</a><ul><li><a href="#gpu-warmup" class="toc-link">GPU warmup</a></li></ul></li><li><a href="#1--baseline-eager" class="toc-link">§1 – Baseline (eager)</a></li><li><a href="#21--cudnnbenchmark" class="toc-link">2.1 – cudnn.benchmark</a></li><li><a href="#22--channels_last" class="toc-link">2.2 – channels_last</a></li><li><a href="#23--inference_mode" class="toc-link">2.3 – inference_mode</a></li><li><a href="#24--tf32-matmul" class="toc-link">2.4 – TF32 matmul</a></li><li><a href="#31--compile-default" class="toc-link">3.1 – compile (default)</a></li><li><a href="#32--compile-reduce-overhead" class="toc-link">3.2 – compile (reduce-overhead)</a></li><li><a href="#33--compile-max-autotune" class="toc-link">3.3 – compile (max-autotune)</a></li><li><a href="#34--compile-fullgraph--freeze" class="toc-link">3.4 – compile fullgraph + freeze</a></li><li><a href="#41--sdpa-backends" class="toc-link">4.1 – SDPA backends</a></li><li><a href="#42--triton-fused-softmax" class="toc-link">4.2 – Triton fused softmax</a></li><li><a href="#51--amp-fp16" class="toc-link">5.1 – AMP FP16</a><ul><li><a href="#51b--amp-fp16-patched-head" class="toc-link">5.1b – AMP FP16 (patched head)</a></li><li><a href="#profiling-backbone-vs-head-compute-split" class="toc-link">Profiling: backbone vs head compute split</a></li></ul></li><li><a href="#52--amp-bf16" class="toc-link">5.2 – AMP BF16</a></li><li><a href="#53--static-fp16-modelhalf" class="toc-link">5.3 – Static FP16 (model.half())</a></li><li><a href="#54--torchao-int8-weight-only" class="toc-link">5.4 – torchao5 int8 weight-only</a></li><li><a href="#55--torchao-int8-dynamic" class="toc-link">5.5 – torchao int8 dynamic</a></li><li><a href="#56--torchao-int4-weight-only" class="toc-link">5.6 – torchao int4 weight-only</a></li><li><a href="#57--bitsandbytes-int8-llmint8" class="toc-link">5.7 – bitsandbytes int8 (LLM.int8())</a></li><li><a href="#58--bitsandbytes-nf4" class="toc-link">5.8 – bitsandbytes NF4</a></li><li><a href="#59--fp16--compile-fullgraph" class="toc-link">5.9 – FP16 + compile fullgraph</a></li><li><a href="#61--onnx-export--ort-cuda-ep" class="toc-link">6.1 – ONNX export + ORT CUDA EP</a></li><li><a href="#62--ort-cuda-ep--io-binding" class="toc-link">6.2 – ORT CUDA EP + IO Binding</a></li><li><a href="#63--onnx-optimize--simplify--ort" class="toc-link">6.3 – ONNX Optimize + Simplify + ORT</a></li><li><a href="#71--trt-86-native-fp16" class="toc-link">7.1 – TRT 8.6 Native FP16</a></li><li><a href="#72--trt-86-int8-calibrated" class="toc-link">7.2 – TRT 8.6 INT8 (calibrated)</a></li><li><a href="#73--ort-tensorrt-ep" class="toc-link">7.3 – ORT TensorRT EP</a></li><li><a href="#74--torch-tensorrt" class="toc-link">7.4 – Torch-TensorRT</a></li><li><a href="#81--jit-trace" class="toc-link">8.1 – JIT Trace</a></li><li><a href="#82--cuda-graphs" class="toc-link">8.2 – CUDA Graphs</a></li><li><a href="#83--torchexport--aotinductor" class="toc-link">8.3 – torch.export + AOTInductor</a></li><li><a href="#84--multi-stream-pipelining" class="toc-link">8.4 – Multi-stream pipelining</a></li><li><a href="#91--pruning-50" class="toc-link">9.1 – Pruning 50%</a></li><li><a href="#92--pruning--compile" class="toc-link">9.2 – Pruning + compile</a></li><li><a href="#93--structured-neuron-pruning-ffn-layers" class="toc-link">9.3 – Structured Neuron Pruning (FFN layers)</a></li><li><a href="#benchmark-results" class="toc-link">Benchmark Results</a></li><li><a href="#profiler-deep-dive" class="toc-link">Profiler deep-dive</a></li><li><a href="#cleanup" class="toc-link">Cleanup</a></li><li><a href="#what-we-learned" class="toc-link">What we learned</a><ul><li><a href="#the-free-wins-everyone-should-use-these" class="toc-link">The free wins (everyone should use these)</a></li><li><a href="#the-compiler-wins-need-triton--linux" class="toc-link">The compiler wins (need Triton / Linux)</a></li><li><a href="#memory-optimization" class="toc-link">Memory optimization</a></li><li><a href="#depth-estimation-gotchas" class="toc-link">Depth estimation gotchas</a></li><li><a href="#why-some-techniques-are-slow-or-fail" class="toc-link">Why some techniques are slow or fail</a></li><li><a href="#the-quantization-landscape" class="toc-link">The quantization landscape</a></li><li><a href="#further-reading" class="toc-link">Further reading</a></li><li><a href="#references" class="toc-link">References</a></li></ul></li></ul>
       </nav>
     </aside>
     
@@ -703,9 +702,9 @@ TensorRT 8.6.1
       </h2>
     
 
-<p>We will work with the current best of it’s kind model: ByteDance’s monocular metric depth estimator - <strong>334 M params</strong>:</p>
+<p>We will work with the current best of it’s kind model: ByteDance’s monocular metric depth estimator<sup id="fnref:1"><a href="#fn:1" class="footnote" rel="footnote" role="doc-noteref">1</a></sup> - <strong>334 M params</strong>:</p>
 <ul>
-  <li><strong>Backbone:</strong> DinoV2 ViT-L/14 (304 M) - self-supervised vision transformer</li>
+  <li><strong>Backbone:</strong> DINOv2<sup id="fnref:2"><a href="#fn:2" class="footnote" rel="footnote" role="doc-noteref">2</a></sup> ViT-L/14 (304 M) - self-supervised vision transformer</li>
   <li><strong>Head:</strong> DPT (30 M) - dense prediction transformer for depth regression</li>
 </ul>
 
@@ -714,7 +713,7 @@ Output: metric depth map <code class="language-plaintext highlighter-rouge">(B, 
 
 <p>Since the backbone is a <strong>Vision Transformer</strong> the optimization landscape is matmul-heavy:</p>
 <ul>
-  <li><strong>SDPA / FlashAttention</strong> is a primary target</li>
+  <li><strong>SDPA / FlashAttention<sup id="fnref:8"><a href="#fn:8" class="footnote" rel="footnote" role="doc-noteref">3</a></sup></strong> is a primary target</li>
   <li><strong>FP16 / TF32</strong> have outsized impact</li>
   <li><strong><code class="language-plaintext highlighter-rouge">channels_last</code></strong> has less impact (mostly linear layers)</li>
   <li><strong><code class="language-plaintext highlighter-rouge">torch.compile</code></strong> can fuse attention + FFN blocks effectively</li>
@@ -1482,7 +1481,7 @@ pre-Ampere architectures.</p>
       </h1>
     
 
-<p>PyTorch 2.x’s graph compiler. Dynamo captures the Python code as an FX graph,
+<p>PyTorch 2.x’s graph compiler<sup id="fnref:6"><a href="#fn:6" class="footnote" rel="footnote" role="doc-noteref">4</a></sup>. Dynamo captures the Python code as an FX graph,
 then Inductor lowers it to Triton/CUDA kernels with operator fusion.</p>
       <h2 id="31--compile-default">
         
@@ -2110,7 +2109,7 @@ every operation runs in half precision from the start.</p>
       <h2 id="54--torchao-int8-weight-only">
         
         
-          <a href="#54--torchao-int8-weight-only" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> 5.4 – torchao int8 weight-only
+          <a href="#54--torchao-int8-weight-only" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> 5.4 – torchao<sup id="fnref:11"><a href="#fn:11" class="footnote" rel="footnote" role="doc-noteref">5</a></sup> int8 weight-only
         
         
       </h2>
@@ -2243,7 +2242,7 @@ but requires <code class="language-plaintext highlighter-rouge">TensorCoreTiledL
       </h2>
     
 
-<p>Absmax int8 quantization from the LLM.int8() paper. Keeps outlier features
+<p>Absmax int8 quantization from the LLM.int8() paper<sup id="fnref:4"><a href="#fn:4" class="footnote" rel="footnote" role="doc-noteref">6</a></sup>. Keeps outlier features
 in FP16 via mixed-precision decomposition.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">reset_backends</span><span class="p">()</span>
@@ -2308,7 +2307,7 @@ in FP16 via mixed-precision decomposition.</p>
       </h2>
     
 
-<p>4-bit NormalFloat from the QLoRA paper. Information-theoretically optimal
+<p>4-bit NormalFloat from the QLoRA paper<sup id="fnref:5"><a href="#fn:5" class="footnote" rel="footnote" role="doc-noteref">7</a></sup>. Information-theoretically optimal
 for normally-distributed weights.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">reset_backends</span><span class="p">()</span>
@@ -2373,7 +2372,7 @@ for normally-distributed weights.</p>
 
 <p>Combine fullgraph compilation with static half-precision weights.
 This is the strongest PyTorch-native optimization — equivalent to the
-“GPT, Fast” recipe from the PyTorch blog.</p>
+“GPT, Fast”<sup id="fnref:3"><a href="#fn:3" class="footnote" rel="footnote" role="doc-noteref">8</a></sup> recipe from the PyTorch blog.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">reset_backends</span><span class="p">()</span>
 
@@ -2424,7 +2423,7 @@ This is the strongest PyTorch-native optimization — equivalent to the
       </h1>
     
 
-<p>Export the model to ONNX format and run inference through ORT’s optimized
+<p>Export the model to ONNX format and run inference through ORT’s<sup id="fnref:9"><a href="#fn:9" class="footnote" rel="footnote" role="doc-noteref">9</a></sup> optimized
 graph execution engine.</p>
       <h2 id="61--onnx-export--ort-cuda-ep">
         
@@ -2610,7 +2609,7 @@ the default <code class="language-plaintext highlighter-rouge">sess.run()</code>
       </h2>
     
 
-<p>Apply <code class="language-plaintext highlighter-rouge">onnxoptimizer</code> passes and <code class="language-plaintext highlighter-rouge">onnxsim</code> shape-inference simplification
+<p>Apply <code class="language-plaintext highlighter-rouge">onnxoptimizer</code><sup id="fnref:14"><a href="#fn:14" class="footnote" rel="footnote" role="doc-noteref">10</a></sup> passes and <code class="language-plaintext highlighter-rouge">onnxsim</code><sup id="fnref:15"><a href="#fn:15" class="footnote" rel="footnote" role="doc-noteref">11</a></sup> shape-inference simplification
 before ORT. This reduces the graph from ~5000 to ~3900 nodes.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">reset_backends</span><span class="p">()</span>
@@ -2690,7 +2689,7 @@ before ORT. This reduces the graph from ~5000 to ~3900 nodes.</p>
       </h1>
     
 
-<p>NVIDIA’s inference optimizer. Fuses layers, selects hardware-optimal kernels,
+<p>NVIDIA’s inference optimizer<sup id="fnref:10"><a href="#fn:10" class="footnote" rel="footnote" role="doc-noteref">12</a></sup>. Fuses layers, selects hardware-optimal kernels,
 and applies precision calibration. TRT 8.6 supports SM ≥ 5.3 (Maxwell+).</p>
       <h2 id="71--trt-86-native-fp16">
         
@@ -2702,7 +2701,7 @@ and applies precision calibration. TRT 8.6 supports SM ≥ 5.3 (Maxwell+).</p>
     
 
 <p>Build a TensorRT engine from the ONNX graph with FP16 precision enabled.
-GraphSurgeon cleans up the graph first (constant folding, dead code removal).</p>
+GraphSurgeon<sup id="fnref:16"><a href="#fn:16" class="footnote" rel="footnote" role="doc-noteref">13</a></sup> cleans up the graph first (constant folding, dead code removal).</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">reset_backends</span><span class="p">()</span>
 
@@ -4736,6 +4735,20 @@ dedicated INT8 kernels and fall back to FP16. Expect marginal gains over pure FP
   <li><strong>TensorRT INT8 (§7.2)</strong> — Calibration-based post-training quantization for max throughput.</li>
   <li><strong>ONNX int8 static</strong> — Calibrated QDQ format for ORT deployment.</li>
 </ul>
+      <h3 id="further-reading">
+        
+        
+          <a href="#further-reading" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Further reading
+        
+        
+      </h3>
+    
+
+<ul>
+  <li><strong>gpu-mode lectures</strong>: <a href="https://github.com/gpu-mode/lectures">https://github.com/gpu-mode/lectures</a></li>
+  <li><strong>PyTorch Serve performance checklist</strong>: <a href="https://docs.pytorch.org/serve/performance_checklist.html">https://docs.pytorch.org/serve/performance_checklist.html</a></li>
+  <li><strong>NVIDIA inference optimization</strong>: <a href="https://developer.nvidia.com/blog/tag/inference-performance/">https://developer.nvidia.com/blog/tag/inference-performance/</a></li>
+</ul>
       <h3 id="references">
         
         
@@ -4745,24 +4758,49 @@ dedicated INT8 kernels and fall back to FP16. Expect marginal gains over pure FP
       </h3>
     
 
-<ol>
-  <li><strong>Depth Anything v3</strong>: ByteDance-Seed, 2025. https://github.com/ByteDance-Seed/depth-anything-3</li>
-  <li><strong>DINOv2</strong>: Oquab et al., 2023. https://arxiv.org/abs/2304.07193</li>
-  <li><strong>GPT, Fast</strong>: PyTorch Blog, 2023. https://pytorch.org/blog/accelerating-generative-ai-2/</li>
-  <li><strong>LLM.int8()</strong>: Dettmers et al., 2022. https://arxiv.org/abs/2208.07339</li>
-  <li><strong>QLoRA (NF4)</strong>: Dettmers et al., 2023. https://arxiv.org/abs/2305.14314</li>
-  <li><strong>torch.compile</strong>: PyTorch 2.0 blog, 2023.</li>
-  <li><strong>gpu-mode lectures</strong>: https://github.com/gpu-mode/lectures</li>
-  <li><strong>FlashAttention</strong>: Dao et al., 2022. https://arxiv.org/abs/2205.14135</li>
-  <li><strong>ONNX Runtime</strong>: https://onnxruntime.ai/</li>
-  <li><strong>TensorRT 8.6</strong>: https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-861/</li>
-  <li><strong>torchao</strong>: https://github.com/pytorch/ao</li>
-  <li><strong>PyTorch Serve performance checklist</strong>: https://docs.pytorch.org/serve/performance_checklist.html</li>
-  <li><strong>NVIDIA inference optimization</strong>: https://developer.nvidia.com/blog/tag/inference-performance/</li>
-  <li><strong>ONNX Optimizer</strong>: https://github.com/onnx/optimizer</li>
-  <li><strong>ONNX Simplifier</strong>: https://github.com/onnxsim/onnxsim</li>
-  <li><strong>ONNX GraphSurgeon</strong>: https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-861/onnx-graphsurgeon/docs/index.html</li>
-</ol>
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1">
+      <p><strong>Depth Anything v3</strong>: ByteDance-Seed, 2025. <a href="https://github.com/ByteDance-Seed/depth-anything-3">https://github.com/ByteDance-Seed/depth-anything-3</a> <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:2">
+      <p><strong>DINOv2</strong>: Oquab et al., 2023. <a href="https://arxiv.org/abs/2304.07193">https://arxiv.org/abs/2304.07193</a> <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:8">
+      <p><strong>FlashAttention</strong>: Dao et al., 2022. <a href="https://arxiv.org/abs/2205.14135">https://arxiv.org/abs/2205.14135</a> <a href="#fnref:8" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:6">
+      <p><strong>torch.compile</strong>: PyTorch 2.0 blog, 2023. <a href="#fnref:6" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:11">
+      <p><strong>torchao</strong>: <a href="https://github.com/pytorch/ao">https://github.com/pytorch/ao</a> <a href="#fnref:11" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:4">
+      <p><strong>LLM.int8()</strong>: Dettmers et al., 2022. <a href="https://arxiv.org/abs/2208.07339">https://arxiv.org/abs/2208.07339</a> <a href="#fnref:4" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:5">
+      <p><strong>QLoRA (NF4)</strong>: Dettmers et al., 2023. <a href="https://arxiv.org/abs/2305.14314">https://arxiv.org/abs/2305.14314</a> <a href="#fnref:5" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:3">
+      <p><strong>GPT, Fast</strong>: PyTorch Blog, 2023. <a href="https://pytorch.org/blog/accelerating-generative-ai-2/">https://pytorch.org/blog/accelerating-generative-ai-2/</a> <a href="#fnref:3" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:9">
+      <p><strong>ONNX Runtime</strong>: <a href="https://onnxruntime.ai/">https://onnxruntime.ai/</a> <a href="#fnref:9" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:14">
+      <p><strong>ONNX Optimizer</strong>: <a href="https://github.com/onnx/optimizer">https://github.com/onnx/optimizer</a> <a href="#fnref:14" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:15">
+      <p><strong>ONNX Simplifier</strong>: <a href="https://github.com/onnxsim/onnxsim">https://github.com/onnxsim/onnxsim</a> <a href="#fnref:15" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:10">
+      <p><strong>TensorRT 8.6</strong>: <a href="https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-861/">https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-861/</a> <a href="#fnref:10" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:16">
+      <p><strong>ONNX GraphSurgeon</strong>: <a href="https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-861/onnx-graphsurgeon/docs/index.html">https://docs.nvidia.com/deeplearning/tensorrt/archives/tensorrt-861/onnx-graphsurgeon/docs/index.html</a> <a href="#fnref:16" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
 
 
     </div>
@@ -4797,7 +4835,8 @@ dedicated INT8 kernels and fall back to FP16. Expect marginal gains over pure FP
     </a>
 </div>
 
-    </div><hr>
+    </div>
+  
   
 
 <section class="page-share" aria-label="Share this post">
@@ -5221,7 +5260,7 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
 <div id="privacy-notice" role="status" style="display:none">
     This site does not use cookies or track you. Some posts contain embedded content that connects to third parties only when you click.
     <a href="/about/#privacy">Learn more about our privacy practices</a>
-    <button class="privacy-ok-btn" onclick="localStorage.setItem('privacyOK','1');document.getElementById('privacy-notice').style.display='none';document.body.style.paddingBottom=''">OK</button>
+    <button class="privacy-ok-btn" onclick="localStorage.setItem('privacyOK','1');document.getElementById('privacy-notice').style.display='none'">OK</button>
 </div>
 <button class="back-to-top" id="back-to-top" aria-label="Back to top">
       <i class="fas fa-chevron-up"></i>

@@ -26,13 +26,10 @@
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Zeeshan Khan Suri"},"dateModified":"2023-05-12T03:21:23+00:00","datePublished":"2023-05-12T03:21:23+00:00","description":"How self-supervised learning enables large-scale vision foundation models by learning from unlabeled data through pretext tasks like contrastive learning and masked image modeling.","headline":"Self-supervised learning for vision foundation models","image":"https://zshn25.github.io/images/foundation.webp","mainEntityOfPage":{"@type":"WebPage","@id":"https://zshn25.github.io/self-supervision-for-foundation-models/"},"url":"https://zshn25.github.io/self-supervision-for-foundation-models/"}</script>
 <!-- End Jekyll SEO tag -->
-<style></style>
-  <link rel="stylesheet" href="/assets/css/style.css" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="/assets/css/style.css"></noscript><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#181818" media="(prefers-color-scheme: dark)">
-<!-- Preload critical font and main stylesheet -->
+<!-- Preload critical font -->
 <link rel="preload" href="/assets/vendor/fonts/inter/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/assets/css/style.css" as="style">
 <!-- Self-hosted vendor CSS (no cross-origin requests for privacy) -->
 <link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css"></noscript>
@@ -70,7 +67,7 @@
 
 
 <script>document.documentElement.className=document.documentElement.className.replace(/\bno-js\b/,'js');</script>
-<link id="dark-css" href="/assets/css/dark.css" rel="stylesheet" media="(prefers-color-scheme: dark)"><script>// Theme toggle: system (auto) → light → dark → system
+<link id="dark-css" href="/assets/css/dark.css" rel="stylesheet" media="(prefers-color-scheme: dark)"><script>// Theme toggle: light ↔ dark (two states only)
 (function () {
   var STORAGE_KEY = "colorScheme";
   var darkLink = document.querySelector("#dark-css");
@@ -89,27 +86,26 @@
   function apply(mode) {
     if (!darkLink) return;
     if (mode === "dark") darkLink.removeAttribute("media");
-    else if (mode === "light") darkLink.setAttribute("media", "not all");
-    else darkLink.setAttribute("media", "(prefers-color-scheme: dark)");
+    else darkLink.setAttribute("media", "not all");
     // Update theme-color meta for mobile browser chrome
     var metas = document.querySelectorAll('meta[name="theme-color"]');
     if (metas.length >= 2) {
       if (mode === "dark") { metas[0].content = "#181818"; metas[1].content = "#181818"; }
-      else if (mode === "light") { metas[0].content = "#ffffff"; metas[1].content = "#ffffff"; }
-      else { metas[0].content = "#ffffff"; metas[1].content = "#181818"; }
+      else { metas[0].content = "#ffffff"; metas[1].content = "#ffffff"; }
     }
   }
 
-  var LABELS = { dark: "Switch to System theme", light: "Switch to Dark theme", system: "Switch to Light theme" };
-  var ICONS = { dark: "fa-sun", light: "fa-moon", system: "fa-adjust" };
-  var MODE_LABELS = { dark: "Light mode", light: "Dark mode", system: "System theme" };
+  // Icon shows what you'll switch TO: moon = "click for dark", sun = "click for light"
+  var LABELS = { dark: "Switch to Light mode", light: "Switch to Dark mode" };
+  var ICONS = { dark: "fa-sun", light: "fa-moon" };
+  var MODE_LABELS = { dark: "Light mode", light: "Dark mode" };
 
   function updateToggle(el, iconSel, mode, showLabel) {
     if (!el) return;
     var icon = el.querySelector(iconSel);
     if (icon) {
       icon.classList.remove("fa-moon", "fa-sun", "fa-adjust");
-      icon.classList.add(ICONS[mode] || "fa-adjust");
+      icon.classList.add(ICONS[mode] || "fa-moon");
     }
     el.setAttribute("aria-label", LABELS[mode] || "Toggle theme");
     if (!showLabel) el.title = LABELS[mode] || "Toggle theme";
@@ -124,34 +120,37 @@
     updateToggle(document.getElementById("nav-switch-theme-mobile"), ".nav-theme-icon-mobile", mode, true);
   }
 
-  function cycle() {
+  function resolveMode() {
     var stored = getStored();
-    var next;
-    if (stored === null) next = "light";
-    else if (stored === "light") next = "dark";
-    else next = null;
+    if (stored === "dark" || stored === "light") return stored;
+    // No stored preference — use system preference
+    return (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
+  }
+
+  function toggle() {
+    var current = resolveMode();
+    var next = current === "dark" ? "light" : "dark";
     setStored(next);
-    apply(next || "system");
-    updateIcon(next || "system");
+    apply(next);
+    updateIcon(next);
   }
 
   // Initial apply
-  var stored = getStored();
-  if (stored === "dark") apply("dark");
-  else if (stored === "light") apply("light");
+  var mode = resolveMode();
+  apply(mode);
 
   function init() {
-    var toggle = document.getElementById("nav-switch-theme");
-    if (toggle) {
-      toggle.style.display = "";
-      toggle.addEventListener("click", cycle);
+    var toggleBtn = document.getElementById("nav-switch-theme");
+    if (toggleBtn) {
+      toggleBtn.style.display = "";
+      toggleBtn.addEventListener("click", toggle);
     }
     var toggleM = document.getElementById("nav-switch-theme-mobile");
     if (toggleM) {
       toggleM.style.display = "";
-      toggleM.addEventListener("click", cycle);
+      toggleM.addEventListener("click", toggle);
     }
-    updateIcon(stored || "system");
+    updateIcon(mode);
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
@@ -164,7 +163,7 @@
   };
 })();
 </script>
-<script src="/assets/js/consent-gate.js" defer></script>
+<script src="/assets/js/consent-gate.js"></script>
 <script src="/assets/js/vendor/lunr.min.js" defer></script>
 <script src="/assets/js/main.js" defer></script>
 </head>
@@ -363,7 +362,7 @@
 <p style="text-align: center;"><sub><sup><em>As the training data increases, the performance of a DL model increases but traditional methods do not depend on the training data</em>
 </sup></sub></p>
 
-<p>But, collecting such massive amounts of carefully labeled data costs enormous time, effort and money; and are error prone. For e.g. Northcutt et al.<sup id="fnref:1"><a href="#fn:1" class="footnote" rel="footnote" role="doc-noteref">1</a></sup>, and https://labelerrors.com/ outline errors in the labels of widely used datasets. What if there was a way to use massively available but <strong>unlabled</strong> data?</p>
+<p>But, collecting such massive amounts of carefully labeled data costs enormous time, effort and money; and are error prone. For e.g. Northcutt et al.<sup id="fnref:1"><a href="#fn:1" class="footnote" rel="footnote" role="doc-noteref">1</a></sup>, and https://labelerrors.com/ outline errors in the labels of widely used datasets. What if there was a way to use massively available but <strong>unlabeled</strong> data?</p>
 
 <p>In this post, I motivate the necessity for large, general-purpose data representation models, known as foundation models, and in what ways self-supervised learning enables this achievement. Stay tuned!</p>
 
@@ -397,7 +396,7 @@
       </h2>
     
 
-<p>Tradition computer vision methods extract distinctive pixel-level features from input images. High-dimensional representations of these features, known as <strong>feature descriptors</strong> are computed from the detected local features which are then used for various applications, such as tracking, retrieval, structure from motion, localization, etc. The goal of transforming the detected features into high-dimensional descriptors is to embed some notion of semantic and neighboring information to the pixel-level features. The goal is to make them distinctive (good for matching across different viewpoints) and invariant to vairations in 3D viewpoint, illumination, etc.</p>
+<p>Traditional computer vision methods extract distinctive pixel-level features from input images. High-dimensional representations of these features, known as <strong>feature descriptors</strong> are computed from the detected local features which are then used for various applications, such as tracking, retrieval, structure from motion, localization, etc. The goal of transforming the detected features into high-dimensional descriptors is to embed some notion of semantic and neighboring information to the pixel-level features. The goal is to make them distinctive (good for matching across different viewpoints) and invariant to variations in 3D viewpoint, illumination, etc.</p>
       <h3 id="features-of-good-features">
         
         
@@ -462,7 +461,7 @@
       </h1>
     
 
-<p>Animals, including humans, learn a many concepts such as object permanance, etc., without explicit supervision.</p>
+<p>Animals, including humans, learn many concepts such as object permanence, etc., without explicit supervision.</p>
 
 <!-- 
 
@@ -525,7 +524,7 @@ if (typeof loadYouTube === 'undefined') {
 
 <p>Is it possible to make machines learn general concepts without explicit supervision? If so, how?</p>
 
-<p>If we are able formulate <strong>pretext tasks</strong>, we can use <mark>self-supervised learning</mark> to <mark>learn good data representations and general concepts from massively-available, unlabelled data</mark>, we can use such models directly (without fine-tuning, Zero-Shot) for multiple <strong>downstream tasks</strong>. (atleast, that’s the hope).</p>
+<p>If we are able formulate <strong>pretext tasks</strong>, we can use <mark>self-supervised learning</mark> to <mark>learn good data representations and general concepts from massively-available, unlabelled data</mark>, we can use such models directly (without fine-tuning, Zero-Shot) for multiple <strong>downstream tasks</strong>. (at least, that’s the hope).</p>
 
 <p style="text-align: center;"><a href="https://en.wikipedia.org/wiki/Feature_learning#/media/File:Feature_Learning_Diagram.png"><img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Feature_Learning_Diagram.png" alt="feature-learning" data-invert-dark="true" /></a></p>
 <p style="text-align: center;"><sub><sup>Implicit feature representations are learned via pretext tasks and can be used as input for specific downstream tasks. Image from <a href="https://commons.wikimedia.org/wiki/File:Feature_Learning_Diagram.png">Fgpacini</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>, via Wikimedia Commons*
@@ -539,7 +538,7 @@ if (typeof loadYouTube === 'undefined') {
       </h2>
     
 
-<p>Any task that doesn’t require explitcit labels can be used as a pretext task. The goal is to be able to make use of as much data as possible. This task is not actually the task what the model would finally be required to do, but this task would allow to use much more data via self-supervised learning.</p>
+<p>Any task that doesn’t require explicit labels can be used as a pretext task. The goal is to be able to make use of as much data as possible. This task is not actually the task what the model would finally be required to do, but this task would allow to use much more data via self-supervised learning.</p>
 
 <div class="markdown-alert markdown-alert-tip" role="alert">
   <p class="markdown-alert-title"><svg viewBox="0 0 16 16" width="16" height="16" style="display:inline-block;vertical-align:text-bottom;margin-right:0.4em"><path fill="#1a7f37" d="M8 1.5c-2.363 0-4 1.69-4 3.75 0 .984.424 1.625.984 2.304l.214.253c.223.264.47.556.673.848.284.411.537.896.621 1.49a.75.75 0 0 1-1.484.211c-.04-.282-.163-.547-.37-.847a8.456 8.456 0 0 0-.542-.68c-.084-.1-.173-.205-.268-.32C3.201 7.75 2.5 6.766 2.5 5.25 2.5 2.31 4.863 0 8 0s5.5 2.31 5.5 5.25c0 1.516-.701 2.5-1.328 3.259-.095.115-.184.22-.268.319-.207.245-.383.453-.541.681-.208.3-.33.565-.37.847a.751.751 0 0 1-1.485-.212c.084-.593.337-1.078.621-1.489.203-.292.45-.584.673-.848.075-.088.147-.173.213-.253.561-.679.985-1.32.985-2.304 0-2.06-1.637-3.75-4-3.75ZM5.75 12h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1 0-1.5ZM6 15.25a.75.75 0 0 1 .75-.75h2.5a.75.75 0 0 1 0 1.5h-2.5a.75.75 0 0 1-.75-.75Z"></path></svg>Tip</p>
@@ -597,7 +596,7 @@ Since the main objective in this tasks is to rely on existing unlabeled data for
 
 <p>Rather than having an explicit task, the idea is to maximize similarity of features of similar images. This simply means, collecting data samples which represent similar information and having a loss that minimizes distance between their feature representations.</p>
 
-<p>Just doing this causes the feature representations to collapse, i.e., all data just points to the same representation. To prevent this, negative samples (having distict representation) are introduced, which act as a relative contrast to the positive samples (having similar representation).</p>
+<p>Just doing this causes the feature representations to collapse, i.e., all data just points to the same representation. To prevent this, negative samples (having distinct representation) are introduced, which act as a relative contrast to the positive samples (having similar representation).</p>
       <h4 id="contrastive-learning">
         
         
@@ -627,9 +626,9 @@ Since the main objective in this tasks is to rely on existing unlabeled data for
       </h3>
     
 
-<p>The advantage of feature similarity based methods is that there is no need for exact pixel to pixel mapping of the input and output, as opposed to generative pretext tasks, where the restored output is a one-to-one mapping of the manipulated/distorted input. One could use non-exact data (for example neighboring frames of a video) for sampling feature learning. One could also combine various augmentation methods mentioned in generaive pretext tasks. Feature similarity would essentially be a way to automatically incorporate various handcrafted ad-hoc heuristics via augmentations and positive-negative sampling.</p>
+<p>The advantage of feature similarity based methods is that there is no need for exact pixel to pixel mapping of the input and output, as opposed to generative pretext tasks, where the restored output is a one-to-one mapping of the manipulated/distorted input. One could use non-exact data (for example neighboring frames of a video) for sampling feature learning. One could also combine various augmentation methods mentioned in generative pretext tasks. Feature similarity would essentially be a way to automatically incorporate various handcrafted ad-hoc heuristics via augmentations and positive-negative sampling.</p>
 
-<p>Recent work titled “What Do Self-Supervised Vision Transformers Learn?” compares contrastive learning with a prominant generative pretext task called Masked Image Modeling (<abbr title="Masked image modeling">MIM</abbr>)<sup id="fnref:6:1"><a href="#fn:6" class="footnote" rel="footnote" role="doc-noteref">6</a></sup> and finds:</p>
+<p>Recent work titled “What Do Self-Supervised Vision Transformers Learn?” compares contrastive learning with a prominent generative pretext task called Masked Image Modeling (<abbr title="Masked image modeling">MIM</abbr>)<sup id="fnref:6:1"><a href="#fn:6" class="footnote" rel="footnote" role="doc-noteref">6</a></sup> and finds:</p>
 
 <ol>
   <li>
@@ -774,7 +773,7 @@ Since the main objective in this tasks is to rely on existing unlabeled data for
       </h1>
     
 
-<p>Performance of supervised models depends on the availability of high quality labeled data, which is tedious to aquire, and thereby limiting. Self-supervised learning not only makes it possible to realize gains via abundant unlabeled data, but also gives way for foundation models that learn a generic neural representation of inputs, whose knowledge can be transformed to application specific downstream tasks. The key to this is designing self-supervised pretext tasks to make use of unlabeled data. The underlying principle of generative pretext tasks is to corrupt the input and make the network recover the original input from the corrupt one. Feature similarity based pretext tasks learn data representations that are similar for similar inputs and dissimilar for dissimilar inputs.</p><hr />
+<p>Performance of supervised models depends on the availability of high quality labeled data, which is tedious to acquire, and thereby limiting. Self-supervised learning not only makes it possible to realize gains via abundant unlabeled data, but also gives way for foundation models that learn a generic neural representation of inputs, whose knowledge can be transformed to application specific downstream tasks. The key to this is designing self-supervised pretext tasks to make use of unlabeled data. The underlying principle of generative pretext tasks is to corrupt the input and make the network recover the original input from the corrupt one. Feature similarity based pretext tasks learn data representations that are similar for similar inputs and dissimilar for dissimilar inputs.</p><hr />
       <h1 id="further-resources">
         
         
@@ -792,7 +791,7 @@ Since the main objective in this tasks is to rely on existing unlabeled data for
       </h2>
     
 
-<p>In this post, I focus on vision foundation models. But, there are plenty of resources for launguage foundation models a.k.a. Large Language Models (LLMs).</p>
+<p>In this post, I focus on vision foundation models. But, there are plenty of resources for language foundation models a.k.a. Large Language Models (LLMs).</p>
 
 <ul>
   <li><a href="https://fullstackdeeplearning.com/llm-bootcamp/">Full Stack <abbr title="Large language model">LLM</abbr> Bootcamp, 2023</a></li>
@@ -807,7 +806,7 @@ Since the main objective in this tasks is to rely on existing unlabeled data for
     
 
 <ul>
-  <li>Yann LeCunn’s <a href="https://www.facebook.com/epflcampus/videos/1960325127394608">lecture</a>, [<a href="https://drive.google.com/file/d/12pDCno02FJPDEBk4iGuuaj8b2rr48Hh0/view">Slides</a></li>
+  <li>Yann LeCun’s <a href="https://www.facebook.com/epflcampus/videos/1960325127394608">lecture</a>, [<a href="https://drive.google.com/file/d/12pDCno02FJPDEBk4iGuuaj8b2rr48Hh0/view">Slides</a></li>
   <li><a href="https://fullstackdeeplearning.com/course/2022/">FSDL 2022 Course</a>’s Lecture on Language <a href="https://fullstackdeeplearning.com/course/2022/lecture-7-foundation-models/">Foundation Models</a></li>
   <li><a href="https://futureofai.mit.edu/">MIT FUTURE OF AI: Self-Supervised Learning and Foundation Models</a></li>
   <li>Self-Supervised Learning: Self-Prediction and Contrastive Learning, <a href="https://www.facebook.com/epflcampus/videos/1960325127394608">NIPS 21 Tutorial Video</a>, <a href="https://nips.cc/media/neurips-2021/Slides/21895.pdf">[Slides]</a></li>
@@ -838,10 +837,10 @@ Since the main objective in this tasks is to rely on existing unlabeled data for
     
 
 <ul>
-  <li>Yann LeCunn’s blog post <a href="https://ai.facebook.com/blog/self-supervised-learning-the-dark-matter-of-intelligence/">Self-supervised learning: The dark matter of intelligence</a></li>
+  <li>Yann LeCun’s blog post <a href="https://ai.facebook.com/blog/self-supervised-learning-the-dark-matter-of-intelligence/">Self-supervised learning: The dark matter of intelligence</a></li>
   <li>Balestriero, Randall et al. <a href="https://arxiv.org/abs/2304.12210">A Cookbook of Self-Supervised Learning</a> ArXiv abs/2304.12210 (2023): n. pag.</li>
   <li>Weng, Lilian (2019). <a href="https://lilianweng.github.io/posts/2019-11-10-self-supervised/">Self-Supervised Representation Learning</a> writes about pretext tasks in detail</li>
-  <li>Silva, Thalles Santos (2020). <a href="https://sthalles.github.io/self-supervised-learning/">Self-Supervised Learning and the Quest for Reducing Labeled Data in Deep Learning</a> gives a great introduction on how self-supervised learning can enable foundation models, anagolous to Yann LeCunn’s <a href="https://www.facebook.com/epflcampus/videos/1960325127394608">lecture</a></li>
+  <li>Silva, Thalles Santos (2020). <a href="https://sthalles.github.io/self-supervised-learning/">Self-Supervised Learning and the Quest for Reducing Labeled Data in Deep Learning</a> gives a great introduction on how self-supervised learning can enable foundation models, anagolous to Yann LeCun’s <a href="https://www.facebook.com/epflcampus/videos/1960325127394608">lecture</a></li>
   <li>Ozbulak, Utku, et al. “<a href="https://arxiv.org/abs/2305.13689">Know Your Self-supervised Learning: A Survey on Image-based Generative and Discriminative Training.</a>” arXiv preprint arXiv:2305.13689 (2023)</li>
 </ul>
       <h2 id="data">
@@ -938,7 +937,11 @@ Since the main objective in this tasks is to rely on existing unlabeled data for
 </div>
 
     </div>
-  </div><hr>
+  </div>
+
+  
+  
+  
   
 
 <section class="page-share" aria-label="Share this post">
@@ -1495,7 +1498,7 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
 <div id="privacy-notice" role="status" style="display:none">
     This site does not use cookies or track you. Some posts contain embedded content that connects to third parties only when you click.
     <a href="/about/#privacy">Learn more about our privacy practices</a>
-    <button class="privacy-ok-btn" onclick="localStorage.setItem('privacyOK','1');document.getElementById('privacy-notice').style.display='none';document.body.style.paddingBottom=''">OK</button>
+    <button class="privacy-ok-btn" onclick="localStorage.setItem('privacyOK','1');document.getElementById('privacy-notice').style.display='none'">OK</button>
 </div>
 <button class="back-to-top" id="back-to-top" aria-label="Back to top">
       <i class="fas fa-chevron-up"></i>

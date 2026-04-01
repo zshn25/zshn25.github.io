@@ -17,22 +17,19 @@
 <link rel="canonical" href="https://zshn25.github.io/nutrition/" />
 <meta property="og:url" content="https://zshn25.github.io/nutrition/" />
 <meta property="og:site_name" content="Curiosity" />
-<meta property="og:image" content="https://zshn25.github.io/images/cook.jpg" />
+<meta property="og:image" content="https://zshn25.github.io/images/cook.webp" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2020-10-30T05:21:23+00:00" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta property="twitter:image" content="https://zshn25.github.io/images/cook.jpg" />
+<meta property="twitter:image" content="https://zshn25.github.io/images/cook.webp" />
 <meta property="twitter:title" content="Nutrition" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Zeeshan Khan Suri"},"dateModified":"2020-10-30T05:21:23+00:00","datePublished":"2020-10-30T05:21:23+00:00","description":"Preventing disease is the first step to long-term health and well-being. By following basic nutrition advice you can improve your health by significant amounts.","headline":"Nutrition","image":"https://zshn25.github.io/images/cook.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://zshn25.github.io/nutrition/"},"url":"https://zshn25.github.io/nutrition/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Zeeshan Khan Suri"},"dateModified":"2020-10-30T05:21:23+00:00","datePublished":"2020-10-30T05:21:23+00:00","description":"Preventing disease is the first step to long-term health and well-being. By following basic nutrition advice you can improve your health by significant amounts.","headline":"Nutrition","image":"https://zshn25.github.io/images/cook.webp","mainEntityOfPage":{"@type":"WebPage","@id":"https://zshn25.github.io/nutrition/"},"url":"https://zshn25.github.io/nutrition/"}</script>
 <!-- End Jekyll SEO tag -->
-<style></style>
-  <link rel="stylesheet" href="/assets/css/style.css" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="/assets/css/style.css"></noscript><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#181818" media="(prefers-color-scheme: dark)">
-<!-- Preload critical font and main stylesheet -->
+<!-- Preload critical font -->
 <link rel="preload" href="/assets/vendor/fonts/inter/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/assets/css/style.css" as="style">
 <!-- Self-hosted vendor CSS (no cross-origin requests for privacy) -->
 <link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css"></noscript>
@@ -70,7 +67,7 @@
 
 
 <script>document.documentElement.className=document.documentElement.className.replace(/\bno-js\b/,'js');</script>
-<link id="dark-css" href="/assets/css/dark.css" rel="stylesheet" media="(prefers-color-scheme: dark)"><script>// Theme toggle: system (auto) → light → dark → system
+<link id="dark-css" href="/assets/css/dark.css" rel="stylesheet" media="(prefers-color-scheme: dark)"><script>// Theme toggle: light ↔ dark (two states only)
 (function () {
   var STORAGE_KEY = "colorScheme";
   var darkLink = document.querySelector("#dark-css");
@@ -89,27 +86,26 @@
   function apply(mode) {
     if (!darkLink) return;
     if (mode === "dark") darkLink.removeAttribute("media");
-    else if (mode === "light") darkLink.setAttribute("media", "not all");
-    else darkLink.setAttribute("media", "(prefers-color-scheme: dark)");
+    else darkLink.setAttribute("media", "not all");
     // Update theme-color meta for mobile browser chrome
     var metas = document.querySelectorAll('meta[name="theme-color"]');
     if (metas.length >= 2) {
       if (mode === "dark") { metas[0].content = "#181818"; metas[1].content = "#181818"; }
-      else if (mode === "light") { metas[0].content = "#ffffff"; metas[1].content = "#ffffff"; }
-      else { metas[0].content = "#ffffff"; metas[1].content = "#181818"; }
+      else { metas[0].content = "#ffffff"; metas[1].content = "#ffffff"; }
     }
   }
 
-  var LABELS = { dark: "Switch to System theme", light: "Switch to Dark theme", system: "Switch to Light theme" };
-  var ICONS = { dark: "fa-sun", light: "fa-moon", system: "fa-adjust" };
-  var MODE_LABELS = { dark: "Light mode", light: "Dark mode", system: "System theme" };
+  // Icon shows what you'll switch TO: moon = "click for dark", sun = "click for light"
+  var LABELS = { dark: "Switch to Light mode", light: "Switch to Dark mode" };
+  var ICONS = { dark: "fa-sun", light: "fa-moon" };
+  var MODE_LABELS = { dark: "Light mode", light: "Dark mode" };
 
   function updateToggle(el, iconSel, mode, showLabel) {
     if (!el) return;
     var icon = el.querySelector(iconSel);
     if (icon) {
       icon.classList.remove("fa-moon", "fa-sun", "fa-adjust");
-      icon.classList.add(ICONS[mode] || "fa-adjust");
+      icon.classList.add(ICONS[mode] || "fa-moon");
     }
     el.setAttribute("aria-label", LABELS[mode] || "Toggle theme");
     if (!showLabel) el.title = LABELS[mode] || "Toggle theme";
@@ -124,34 +120,37 @@
     updateToggle(document.getElementById("nav-switch-theme-mobile"), ".nav-theme-icon-mobile", mode, true);
   }
 
-  function cycle() {
+  function resolveMode() {
     var stored = getStored();
-    var next;
-    if (stored === null) next = "light";
-    else if (stored === "light") next = "dark";
-    else next = null;
+    if (stored === "dark" || stored === "light") return stored;
+    // No stored preference — use system preference
+    return (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
+  }
+
+  function toggle() {
+    var current = resolveMode();
+    var next = current === "dark" ? "light" : "dark";
     setStored(next);
-    apply(next || "system");
-    updateIcon(next || "system");
+    apply(next);
+    updateIcon(next);
   }
 
   // Initial apply
-  var stored = getStored();
-  if (stored === "dark") apply("dark");
-  else if (stored === "light") apply("light");
+  var mode = resolveMode();
+  apply(mode);
 
   function init() {
-    var toggle = document.getElementById("nav-switch-theme");
-    if (toggle) {
-      toggle.style.display = "";
-      toggle.addEventListener("click", cycle);
+    var toggleBtn = document.getElementById("nav-switch-theme");
+    if (toggleBtn) {
+      toggleBtn.style.display = "";
+      toggleBtn.addEventListener("click", toggle);
     }
     var toggleM = document.getElementById("nav-switch-theme-mobile");
     if (toggleM) {
       toggleM.style.display = "";
-      toggleM.addEventListener("click", cycle);
+      toggleM.addEventListener("click", toggle);
     }
-    updateIcon(stored || "system");
+    updateIcon(mode);
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
@@ -164,7 +163,7 @@
   };
 })();
 </script>
-<script src="/assets/js/consent-gate.js" defer></script>
+<script src="/assets/js/consent-gate.js"></script>
 <script src="/assets/js/vendor/lunr.min.js" defer></script>
 <script src="/assets/js/main.js" defer></script>
 </head>
@@ -266,7 +265,7 @@
       "@type": "WebPage",
       "@id": "https://zshn25.github.io/nutrition/"
     },
-    "image": "https://zshn25.github.io/images/cook.jpg",
+    "image": "https://zshn25.github.io/images/cook.webp",
     "keywords": ["health","nutrition","cooking"]
   }
   </script>
@@ -356,11 +355,11 @@
 
 <div class="markdown-alert markdown-alert-warning" role="alert">
   <p class="markdown-alert-title"><svg viewBox="0 0 16 16" width="16" height="16" style="display:inline-block;vertical-align:text-bottom;margin-right:0.4em"><path fill="#bf8700" d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575ZM8 5a.75.75 0 0 0-.75.75v2.5a.75.75 0 0 0 1.5 0v-2.5A.75.75 0 0 0 8 5Zm0 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"></path></svg>Warning</p>
-  <p>Nutrition is not a solved problem. We still don’t know for sure which foods to eat and which ones to avoid but there is a decades of consistent science and research, which I want to bring to you. Take it with a grain of salt</p>
+  <p>Nutrition is not a solved problem. We still don’t know for sure which foods to eat and which ones to avoid but there are decades of consistent science and research, which I want to bring to you. Take it with a grain of salt</p>
 
 </div>
 
-<!-- ***Disclaimer***: *Nutrition is not a solved problem. We still don’t know for sure which foods to eat and which ones to avoid but there is a decades of consistent science and research, which I want to bring to you. Take it with a grain of salt*
+<!-- ***Disclaimer***: *Nutrition is not a solved problem. We still don’t know for sure which foods to eat and which ones to avoid but there are decades of consistent science and research, which I want to bring to you. Take it with a grain of salt*
 {: .note} -->
       <h2 id="obesity-as-a-worldwide-public-health-crisis">
         
@@ -480,7 +479,7 @@ if (typeof loadYouTube === 'undefined') {
 
 <p>To address obesity, a lot of focus on reducing saturated fats in diets were made. The processed food industry responded by supplementing fat with sugar to make the food seem more appealing. This also increased the shelf life of foods and so almost every packaged food now comes with enormous amounts of sugar and other sweeteners. This fueled our modern obesity and diabetes.</p>
 
-<p>Despite of an enormous increase in the supply of fat-free foods, obesity rates continued to rise. It is important to know the difference between good and bad fats</p>
+<p>Despite an enormous increase in the supply of fat-free foods, obesity rates continued to rise. It is important to know the difference between good and bad fats</p>
       <h4 id="the-good-the-bad-and-the-ugly">
         
         
@@ -495,10 +494,10 @@ if (typeof loadYouTube === 'undefined') {
     <p>Unsaturated fats, such as Omega-3 fatty acids, which are found in fish and some nuts,seeds, are good for long term health. In fact, Omega-3 fatty acids are the only kinds which cannot be made in human body. So, it is essential to have them.</p>
   </li>
   <li>
-    <p><a href="https://en.wikipedia.org/wiki/Saturated_fat#Association_with_diseases">Saturated fats</a> are bad for health <sup id="fnref:3"><a href="#fn:3" class="footnote" rel="footnote" role="doc-noteref">4</a></sup>. They increase the amound of bad chelestrol in the blood (<abbr title="Low-density lipoprotein">LDL</abbr>).</p>
+    <p><a href="https://en.wikipedia.org/wiki/Saturated_fat#Association_with_diseases">Saturated fats</a> are bad for health <sup id="fnref:3"><a href="#fn:3" class="footnote" rel="footnote" role="doc-noteref">4</a></sup>. They increase the amount of bad cholesterol in the blood (<abbr title="Low-density lipoprotein">LDL</abbr>).</p>
   </li>
   <li>
-    <p>While naturally occurring unsaturated fats, such as the ones found in olive oil, avocado, fish and nuts are good, chemically engineered saturated fats, such as the ones found in margarines and frying oils have week chemical bonds and are easily converted into trans-fats <sup id="fnref:4"><a href="#fn:4" class="footnote" rel="footnote" role="doc-noteref">5</a></sup>. Trans fats increase the amount of bad cholesterol in the blood (<abbr title="Low-density lipoprotein">LDL</abbr>) and decreases the amount of good cholesterol (<abbr title="High-density lipoprotein">HDL</abbr>), which increases the risk of heart disease <sup id="fnref:5"><a href="#fn:5" class="footnote" rel="footnote" role="doc-noteref">6</a></sup>. These must be avoided as much as possible.</p>
+    <p>While naturally occurring unsaturated fats, such as the ones found in olive oil, avocado, fish and nuts are good, chemically engineered saturated fats, such as the ones found in margarines and frying oils have weak chemical bonds and are easily converted into trans-fats <sup id="fnref:4"><a href="#fn:4" class="footnote" rel="footnote" role="doc-noteref">5</a></sup>. Trans fats increase the amount of bad cholesterol in the blood (<abbr title="Low-density lipoprotein">LDL</abbr>) and decreases the amount of good cholesterol (<abbr title="High-density lipoprotein">HDL</abbr>), which increases the risk of heart disease <sup id="fnref:5"><a href="#fn:5" class="footnote" rel="footnote" role="doc-noteref">6</a></sup>. These must be avoided as much as possible.</p>
   </li>
 </ul>
       <h3 id="are-carbohydrates-really-bad">
@@ -510,9 +509,9 @@ if (typeof loadYouTube === 'undefined') {
       </h3>
     
 
-<p>A lot of recent focus has been on the fact that we overconsume carbohydrates. A lot of popular diet trends encourage us to drastically reduce carbs from our diet, even to the extend of avoiding fresh fruits and even grains. At the same time, they seem to suggest that high intake of proteins and fats can be eaten freely. But, a diet with high amounts of animal protein and no whole grains, fruits could leave us with serious problems in the long run.</p>
+<p>A lot of recent focus has been on the fact that we overconsume carbohydrates. A lot of popular diet trends encourage us to drastically reduce carbs from our diet, even to the extent of avoiding fresh fruits and even grains. At the same time, they seem to suggest that high intake of proteins and fats can be eaten freely. But, a diet with high amounts of animal protein and no whole grains, fruits could leave us with serious problems in the long run.</p>
 
-<p>Carbs has a large variety of foods, some of which are very important for our health, such as brown rice, rolled oats which are rich in fiber; and some are are bad for our health, such as corn-syrup, which has no fiber. In general, the lower the glycemic index (<abbr title="Glycemic index">GI</abbr>) of the carbohydrate, the better. A list of low, medium and bad carbs w.r.t <abbr title="Glycemic index">GI</abbr> is mentioned <a href="https://en.wikipedia.org/wiki/Glycemic_index#Grouping">here</a>.</p>
+<p>Carbs have a large variety of foods, some of which are very important for our health, such as brown rice, rolled oats which are rich in fiber; and some are bad for our health, such as corn-syrup, which has no fiber. In general, the lower the glycemic index (<abbr title="Glycemic index">GI</abbr>) of the carbohydrate, the better. A list of low, medium and bad carbs w.r.t <abbr title="Glycemic index">GI</abbr> is mentioned <a href="https://en.wikipedia.org/wiki/Glycemic_index#Grouping">here</a>.</p>
       <h3 id="what-about-proteins">
         
         
@@ -532,7 +531,7 @@ if (typeof loadYouTube === 'undefined') {
       </h3>
     
 
-<p>Categorizing foods into these basic micronutrients may be helpful to study foods but it is not helpful to communicate about them. Food is much more complex than just these macronutrients. So, rather than focusing on nutrients, we should focus on <strong>food</strong>, because ultimately we don’t eat nutrients but food.</p>
+<p>Categorizing foods into these basic macronutrients may be helpful to study foods but it is not helpful to communicate about them. Food is much more complex than just these macronutrients. So, rather than focusing on nutrients, we should focus on <strong>food</strong>, because ultimately we don’t eat nutrients but food.</p>
       <h3 id="key-takeaways">
         
         
@@ -763,7 +762,11 @@ if (typeof loadYouTube === 'undefined') {
 </div>
 
     </div>
-  </div><hr>
+  </div>
+
+  
+  
+  
   
 
 <section class="page-share" aria-label="Share this post">
@@ -1262,7 +1265,7 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
 <div id="privacy-notice" role="status" style="display:none">
     This site does not use cookies or track you. Some posts contain embedded content that connects to third parties only when you click.
     <a href="/about/#privacy">Learn more about our privacy practices</a>
-    <button class="privacy-ok-btn" onclick="localStorage.setItem('privacyOK','1');document.getElementById('privacy-notice').style.display='none';document.body.style.paddingBottom=''">OK</button>
+    <button class="privacy-ok-btn" onclick="localStorage.setItem('privacyOK','1');document.getElementById('privacy-notice').style.display='none'">OK</button>
 </div>
 <button class="back-to-top" id="back-to-top" aria-label="Back to top">
       <i class="fas fa-chevron-up"></i>

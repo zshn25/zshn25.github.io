@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', function() {
   var privacyEl = document.getElementById('privacy-notice');
   if (privacyEl && !localStorage.getItem('privacyOK')) {
     privacyEl.style.display = 'flex';
-    document.body.style.paddingBottom = '3em';
   }
 
   document.querySelectorAll('.heading-anchor').forEach(function (el) {
@@ -142,7 +141,7 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('scroll', function() {
       if (!ticking) { ticking = true; requestAnimationFrame(updateBackBtn); }
     }, { passive: true });
-    updateBackBtn();
+    requestAnimationFrame(updateBackBtn);  // defer to avoid forced reflow after DOM mutations
     backBtn.addEventListener('click', function() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
