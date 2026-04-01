@@ -58,8 +58,6 @@ body {
 
 .post img {
         display: block;
-        // border:1px solid #021a40;
-        vertical-align: top;
         margin-left: auto;
         margin-right: auto;
 }
@@ -73,7 +71,7 @@ img.emoji{
   text-align: center;
   font-size: .8rem;
   font-style: italic;
-  color: $post-content-color;
+  color: var(--fg-secondary, #656d76);
 }
 
 // ── Header ──
@@ -258,7 +256,7 @@ img.emoji{
   }
 }
 
-.rss-icon { color: $curiosity-accent; }
+.rss-icon { color: var(--color-rss-icon); }
 
 .search-padding {  padding-top: calc($header-height / 2)}
 
@@ -363,7 +361,7 @@ li {
   margin-bottom:.05rem !important;
   }
   .post-meta-description {
-    color: rgb(88, 88, 88);
+    color: var(--fg-secondary, #656d76);
     font-size: 15px;
     margin-top:.05rem !important;
     margin-bottom:.05rem !important;
@@ -387,11 +385,11 @@ details.cell-collapse {
   summary {
     cursor: pointer;
     font-size: 0.85em;
-    color: #666;
+    color: var(--fg-muted, #6e7781);
     padding: 0.3em 0;
     user-select: none;
-    &:hover { color: $curiosity-main; }
-    &::marker { color: #999; }
+    &:hover { color: var(--color-accent-hover); }
+    &::marker { color: var(--fg-muted, #6e7781); }
   }
 }
 
@@ -437,14 +435,14 @@ details.cell-collapse {
   }
 }
 // Brand colors appear only on hover
-.social-icon--github:hover    { color: #fff !important; background: #333 !important;    border-color: #333 !important; }
-.social-icon--twitter:hover   { color: #fff !important; background: #0f1419 !important; border-color: #0f1419 !important; }
-.social-icon--linkedin:hover  { color: #fff !important; background: #0a66c2 !important; border-color: #0a66c2 !important; }
-.social-icon--facebook:hover  { color: #fff !important; background: #1877f2 !important; border-color: #1877f2 !important; }
-.social-icon--instagram:hover { color: #fff !important; background: #e6683c !important; border-color: #e6683c !important; }
-.social-icon--youtube:hover   { color: #fff !important; background: #ff0000 !important; border-color: #ff0000 !important; }
-.social-icon--mastodon:hover  { color: #fff !important; background: #6364ff !important; border-color: #6364ff !important; }
-.social-icon--scholar:hover   { color: #fff !important; background: #4285f4 !important; border-color: #4285f4 !important; }
+.social-icon--github:hover    { color: #fff !important; background: var(--color-social-github) !important;    border-color: var(--color-social-github) !important; }
+.social-icon--twitter:hover   { color: #fff !important; background: var(--color-social-twitter) !important; border-color: var(--color-social-twitter) !important; }
+.social-icon--linkedin:hover  { color: #fff !important; background: var(--color-social-linkedin) !important; border-color: var(--color-social-linkedin) !important; }
+.social-icon--facebook:hover  { color: #fff !important; background: var(--color-social-facebook) !important; border-color: var(--color-social-facebook) !important; }
+.social-icon--instagram:hover { color: #fff !important; background: var(--color-social-instagram) !important; border-color: var(--color-social-instagram) !important; }
+.social-icon--youtube:hover   { color: #fff !important; background: var(--color-social-youtube) !important; border-color: var(--color-social-youtube) !important; }
+.social-icon--mastodon:hover  { color: #fff !important; background: var(--color-social-mastodon) !important; border-color: var(--color-social-mastodon) !important; }
+.social-icon--scholar:hover   { color: #fff !important; background: var(--color-social-scholar) !important; border-color: var(--color-social-scholar) !important; }
 
 // ── Heading anchor links — absolutely positioned, no text shift ──
 .heading-anchor {
@@ -459,7 +457,7 @@ details.cell-collapse {
   .octicon-heading-anchor {
     fill: currentColor;
     vertical-align: middle;
-    color: $curiosity-main-light;
+    color: var(--color-light-accent);
   }
 }
 h1, h2, h3, h4, h5, h6 {
@@ -483,10 +481,16 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 // Custom styling for homepage post previews
-.post-meta-title, .post-meta{
+.post-meta-title {
   margin-top: .25em !important;
   margin-bottom: .25em !important;
   font-size: 105%;
+}
+.post-meta {
+  margin-top: .25em !important;
+  margin-bottom: .25em !important;
+  font-size: 0.82em;
+  color: var(--fg-muted, #6e7781);
 }
 
 .page-description {
@@ -523,10 +527,10 @@ h1, h2, h3, h4, h5, h6 {
 .search-results-list-item {padding-bottom: 1rem;}
 .search-results-list-item .search-result-title {
   font-size: 16px;
-  color: #d9230f;
+  color: var(--color-primary, $curiosity-main);
 }
-.search-result-rel-url {color: silver;}
-.search-results-list-item a {display: block; color: #777;}
+.search-result-rel-url {color: var(--fg-muted, #6e7781);}
+.search-results-list-item a {display: block; color: var(--fg-secondary, #656d76);}
 .search-results-list-item a:hover, .search-results-list-item a:focus {text-decoration: none;}
 .search-results-list-item a:hover .search-result-title {text-decoration: underline;}
 
@@ -542,7 +546,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom:.02rem !important;
 }
 .search-result-highlight {
-  color: #2e0137;
+  color: var(--color-primary-dark, $curiosity-main-dark);
   font-weight:bold;
 }
 
@@ -631,7 +635,7 @@ pre code {
   color: #eee;
   padding: 0.75em 1.5em;
   text-align: center;
-  z-index: 9999;
+  z-index: 998;  // below back-to-top (999) and header (1030)
   font-size: 0.85em;
   backdrop-filter: blur(4px);
   border-top: 1px solid rgba(255, 255, 255, 0.15);
@@ -640,18 +644,18 @@ pre code {
   gap: .5em;
   flex-wrap: wrap;
 
-  a { color: $curiosity-main-light; margin-left: .5em; }
+  a { color: var(--color-light-accent); margin-left: .5em; }
   .privacy-ok-btn {
     margin-left: 1em;
     padding: .3em 1em;
     cursor: pointer;
-    background: $curiosity-main-dark;
+    background: var(--color-dark-accent);
     color: #fff;
     border: none;
     border-radius: var(--radius-sm);
     font-size: .9em;
     min-height: 32px;
-    &:hover { background: darken($curiosity-main-dark, 10%); }
+    &:hover { background: #6a3fa0; }  // $curiosity-main-dark darkened 10% (was: darken($curiosity-main-dark, 10%))
   }
 }
 
@@ -673,7 +677,7 @@ pre code {
     overflow-wrap: break-word;
     word-break: break-word;
     transition: border-color 0.15s, box-shadow 0.15s;
-    &:hover { border-color: $curiosity-main-light; box-shadow: var(--shadow-sm); }
+    &:hover { border-color: var(--color-light-accent); box-shadow: var(--shadow-sm); }
   }
   .previous_page { text-align: left; }
   .next_page { text-align: right; }
@@ -730,16 +734,15 @@ pre code {
   .tag-4 { font-size: 1.8em; font-weight: 600; }
   .tag-5 { font-size: 2.2em; font-weight: 700; }
   // Category-colored tags — AA-compliant on white (4.5:1+)
-  .tag-color-tech { color: #5a3a99; }         // dark purple (5.5:1)
-  .tag-color-philosophy { color: #8a4b00; }   // dark orange (5.2:1)
-  .tag-color-life { color: #006456; }         // dark teal (5.4:1)
+  .tag-color-tech { color: var(--color-tag-tech) !important; }
+  .tag-color-philosophy { color: var(--color-tag-philosophy) !important; }
+  .tag-color-life { color: var(--color-tag-life) !important; }
 }
 
 // ── Word cloud section (homepage) ──
 .wordcloud-section {
   margin-top: 2em;
   padding-top: 1.5em;
-  border-top: 1px solid var(--border-subtle, #eee);
   h2 {
     text-align: center;
     margin-bottom: 0.5em !important;
@@ -770,23 +773,24 @@ pre code {
 }
 .category-chip {
   display: inline-block;
-  padding: 0.15em 0.6em;
+  padding: 0.2em 0.6em;
   border: 1px solid var(--border-default, #d1d9e0);
   border-radius: 2em;
   font-size: 0.78em;
   font-weight: 500;
-  text-decoration: none;
-  color: var(--fg-secondary, #656d76);
+  text-decoration: none !important;
+  color: var(--fg-secondary, #656d76) !important;
   background: var(--bg-secondary, #f6f8fa);
   cursor: pointer;
   transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  &:visited { color: var(--fg-secondary, #656d76) !important; }
   &:hover {
     border-color: var(--color-primary, $curiosity-main);
-    color: var(--color-primary, $curiosity-main);
+    color: var(--color-primary, $curiosity-main) !important;
   }
   &.active {
     background-color: var(--color-primary, $curiosity-main);
-    color: white;
+    color: white !important;
     border-color: var(--color-primary, $curiosity-main);
     &:hover { opacity: 0.9; }
   }
@@ -816,7 +820,7 @@ blockquote {
     display: block;
     font-style: normal;
     font-size: 0.85em;
-    color: #999;
+    color: var(--fg-muted, #6e7781);
     text-align: right;
     margin-top: 0.5em;
     &::before { content: "— "; }
@@ -825,7 +829,7 @@ blockquote {
   .bq-attribution {
     font-style: normal;
     font-size: 0.88em;
-    color: #888;
+    color: var(--fg-muted, #6e7781);
     text-align: right;
     margin-top: 0.5em !important;
     margin-bottom: 0 !important;
@@ -841,14 +845,14 @@ blockquote {
     margin-bottom: 1em;
   }
   .Box {
-    border: 1px solid var(--border-subtle, #eaeef2) !important;
+    border: 1px solid var(--border-default, #d1d9e0) !important;
     border-radius: var(--radius-lg);
     overflow: hidden;
     box-shadow: var(--shadow-sm);
     transition: box-shadow 0.2s ease, transform 0.2s ease;
     &:hover {
-      box-shadow: var(--shadow-md);
-      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(140, 149, 159, 0.25);
+      transform: translateY(-2px);
     }
   }
 }
@@ -890,15 +894,16 @@ blockquote {
 
 // ── Featured post styling ──
 .featured-post .post-card {
-  border-left: 3px solid $color-featured !important;
+  border-left: 3px solid var(--color-featured-border) !important;
 }
 .featured-badge {
   display: inline-block;
   font-size: 0.7em;
   font-weight: 600;
-  color: $color-featured;
-  background: rgba($color-featured, 0.08);
-  padding: 0.1em 0.5em;
+  color: var(--color-featured-text);
+  background: rgba(212, 167, 44, 0.15);
+  padding: 0.15em 0.6em;
+  border: 1px solid rgba(212, 167, 44, 0.3);
   border-radius: 2em;
   margin-bottom: 0.3em;
   i { margin-right: 0.2em; font-size: 0.85em; }
@@ -968,7 +973,7 @@ blockquote {
 }
 .inline-post-callout-icon {
   font-size: 1.5em;
-  color: $curiosity-main;
+  color: var(--color-accent-hover);
   flex-shrink: 0;
 }
 .inline-post-callout-body {
@@ -985,7 +990,7 @@ blockquote {
   display: block;
   font-weight: 600;
   font-size: 1.05em;
-  color: $curiosity-main-dark;
+  color: var(--color-dark-accent);
   line-height: 1.3;
 }
 .inline-post-callout-arrow {
@@ -1212,7 +1217,7 @@ twitter-widget { display: block !important; margin: 0 auto !important; }
   border: none;
   border-radius: var(--radius-sm);
   background: rgba(128, 128, 128, 0.15);
-  color: #666;
+  color: var(--fg-muted, #6e7781);
   cursor: pointer;
   opacity: 0;
   transition: opacity 0.15s, background 0.15s;

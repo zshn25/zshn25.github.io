@@ -35,7 +35,7 @@ But this post is not about that. We will be looking at more recent neural networ
 $$d = \mathcal{f}(i)$$
 {:refdef}
 
-In-fact we are looking at methods that do not rely on the availability ground-truth (GT) depths. Why? Because it is expensive and tedious to gather such ground truth and difficult to calibrate and align different sensor ouputs, making it difficult to scale. But, how can we teach a neural network to estimate the underlying depth without having ground truth? Thanks for asking that! Geometry comes to the rescue. The idea is to synthesize different views of the same scene and compare these synthesized views with the real ones for supervision. It underlies on **the brightness constantcy assumption**[^5], where parts of the same scene are assumed to be observed in multiple views. A similar assumption is used in binocular vision, where the content of what a left eye/camera sees is very similar to that of what the right one sees; and in motion/optical-flow estimation, where the motion is the vector $u_{xy}, v_{xy}$ defined by the change in pixel locations as
+In-fact we are looking at methods that do not rely on the availability ground-truth (GT) depths. Why? Because it is expensive and tedious to gather such ground truth and difficult to calibrate and align different sensor outputs, making it difficult to scale. But, how can we teach a neural network to estimate the underlying depth without having ground truth? Thanks for asking that! Geometry comes to the rescue. The idea is to synthesize different views of the same scene and compare these synthesized views with the real ones for supervision. It underlies on **the brightness constancy assumption**[^5], where parts of the same scene are assumed to be observed in multiple views. A similar assumption is used in binocular vision, where the content of what a left eye/camera sees is very similar to that of what the right one sees; and in motion/optical-flow estimation, where the motion is the vector $u_{xy}, v_{xy}$ defined by the change in pixel locations as
 
 {:refdef: style="text-align: center;"}
 $$I(x, y, t) = I(x + u_{xy}, y + v_{xy}, t + 1)$$
@@ -81,13 +81,13 @@ The pipeline goes as follows:
   <sub><sup>*Depth as a function of disparity via triangulation[^3]. By [fr:Utilisateur:COLETTE](https://commons.wikimedia.org/wiki/File:Triangulation.svg), [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0), via Wikimedia Commons*
   </sup></sub>
   {: refdef} -->
-2. Relative camera pose (Ego-motion) is known, which in this case of recitfied stereo is just a scalar, representing the horizontal shift of 5.4 cm in X-direction.
+2. Relative camera pose (Ego-motion) is known, which in this case of rectified stereo is just a scalar, representing the horizontal shift of 5.4 cm in X-direction.
   ![s]({{site.baseurl}}/images/3dreco/1_hug.png){: .shadow}
 3. Using the estimated disparity, a per-pixel flow in the left image's coordinates is calculated based on the known relative rigid camera pose.
   ![s]({{site.baseurl}}/images/3dreco/2.png){: .shadow}
 4. The right input image is warped using the flow, into the view of the left image.
   ![s]({{site.baseurl}}/images/3dreco/3.png){: .shadow}
-5. The warped right image onto the left's view needs to be consistent with the original left image if the estimated depth from the network is correct. A loss is thus calculated between the two and is propogated through the depth network, thereby, making it learn to predict monocular depth.
+5. The warped right image onto the left's view needs to be consistent with the original left image if the estimated depth from the network is correct. A loss is thus calculated between the two and is propagated through the depth network, thereby, making it learn to predict monocular depth.
   ![s]({{site.baseurl}}/images/3dreco/4.png){: .shadow}
 
 ## The Monocular case
@@ -95,7 +95,7 @@ The pipeline goes as follows:
 While the stereo case is analogous to animals using binocular vision to perceive 3D, what about the monocular case, where creatures are still able to reconstruct the underlying 3D structure of the scene using a single eye? Can the above method be extended for monocular case?
 
 {:refdef: style="text-align: center;"}
-[![s](https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/2551b04d-fd4e-4ec9-9869-3e8c9ac5e7bf/d93a0lc-e4ecbd7d-6120-4925-be1d-1e250d7e0830.png/v1/fill/w_1024,h_576,q_80,strp/cyclops_greek_mythology_by_nilesdino_d93a0lc-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NTc2IiwicGF0aCI6IlwvZlwvMjU1MWIwNGQtZmQ0ZS00ZWM5LTk4NjktM2U4YzlhYzVlN2JmXC9kOTNhMGxjLWU0ZWNiZDdkLTYxMjAtNDkyNS1iZTFkLTFlMjUwZDdlMDgzMC5wbmciLCJ3aWR0aCI6Ijw9MTAyNCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.kEfvRjpv5KXW_HtOAtsBltiTNTF7DswBz8TwLvRVwyo){: width="50%" .shadow}](https://www.deviantart.com/nilesdino/art/Cyclops-greek-mythology-549701760)
+[![s](/images/cyclops_greek_mythology.webp){: width="50%" .shadow}](https://www.deviantart.com/nilesdino/art/Cyclops-greek-mythology-549701760)
 {: refdef}
 {:refdef: style="text-align: center;"}
 <sub><sup>*Cyclops by [Nilesdino](https://www.deviantart.com/nilesdino), [CC BY-NC-ND 3.0](http://creativecommons.org/licenses/by-nc-nd/3.0/)*
@@ -127,7 +127,7 @@ where the camera intrinsics matrix $K = \Bigl[\begin{smallmatrix}k_x&0&p_x \\\\ 
 $K^{-1}d_{xy} \left(\begin{array}{c}x_t \\\\ y_t \\\\ 1 \end{array} \right)$
 {: refdef}
 
-Intiutively, given the depth $D$, one could unproject the image coordinates using the depth and the inverse camera intrinsics onto 3D.
+Intuitively, given the depth $D$, one could unproject the image coordinates using the depth and the inverse camera intrinsics onto 3D.
 
 {:refdef: style="text-align: center;"}
 ![s]({{site.baseurl}}/images/3dreco/2011_09_26_drive_0022_sync 226_both_cams.webp){: width="90%" .shadow}
@@ -171,7 +171,7 @@ The resulting 2D rigid flow (flow due to rigid camera motion) that transforms ea
 $KTK^{-1}d_{xy} \left(\begin{array}{c}x_t \\\\ y_t \\\\ 1 \end{array} \right)$
 {: refdef}
 
-Note that this flow is a function of depth and 6 DOF transformation, i.e. the rigif flow field depends not only on the rigid 6 DOF transformation of the camera, but also on the distance of each point to the camera. Intuitively, this makes sense since objects fat away seem to move less in the image plane than those far away. This is known as motion parallax
+Note that this flow is a function of depth and 6 DOF transformation, i.e. the rigid flow field depends not only on the rigid 6 DOF transformation of the camera, but also on the distance of each point to the camera. Intuitively, this makes sense since objects far away seem to move less in the image plane than those far away. This is known as motion parallax
 
 {:refdef: style="text-align: center;"}
 [![Odontodactylus scyllarus eyes](https://upload.wikimedia.org/wikipedia/commons/a/ab/Parallax.gif)](https://en.wikipedia.org/wiki/File:Parallax.gif)

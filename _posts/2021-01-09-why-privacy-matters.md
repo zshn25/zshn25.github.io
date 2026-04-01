@@ -34,7 +34,7 @@ Most people do not realize the consequences of sharing things online or just all
 >
 > *[Cardinal Richelieu](https://en.wikiquote.org/wiki/Cardinal_Richelieu)*
 
-Privacy protects us from those who can misinterpret what we say, from those who maliciously want to harm us and from the powerful who want to abuse their power over us. Your personal preferences such as which flavor or ice cream you like might definitely be harmless but your political/religious believes could be used against you. You might be denied access to services, for example, your bank might deny you credit because you You might be denied from entering certain countries.
+Privacy protects us from those who can misinterpret what we say, from those who maliciously want to harm us and from the powerful who want to abuse their power over us. Your personal preferences such as which flavor or ice cream you like might definitely be harmless but your political/religious beliefs could be used against you. You might be denied access to services, for example, your bank might deny you credit because you You might be denied from entering certain countries.
 
 I need privacy, not because my actions are questionable, but because your judgement and intentions are.
 
@@ -51,7 +51,7 @@ I need privacy, not because my actions are questionable, but because your judgem
 
 Humans are social beings. We care about what others think of us. We try to adjust our behavior depending on the social norms and others' feedback. Imagine yourself in the middle of a busy street full of people. Would you be as free as you would be in your house all by yourself? Probably not. Not only humans change their behavior in others presence but also the possibility of someone being present changes our behavior. You are your true self when nobody's looking and nobody could be looking; because you have the freedom to be so. You don't have to constantly adjust yourself in the fear of being judged.
 
-Privacy brings freedom. I am free to have my life private, to have a pay where I can go and be free of the judgmental eyes. I am free to allow whomever I want (or no one at all) to monitor me. To be able to live freely as if no one is looking. To be my true self.
+Privacy brings freedom. I am free to have my life private, to have a place where I can go and be free of the judgmental eyes. I am free to allow whomever I want (or no one at all) to monitor me. To be able to live freely as if no one is looking. To be my true self.
 
 That freedom is taken away when privacy is taken away ( for e.g., via surveillance). Institutions want to be in control and the most effective way of being in control is to take away freedom. To force compliance of social norms and orthodoxy. To brainwash the members into believing what they want them to believe.
 

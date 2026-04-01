@@ -19,7 +19,6 @@ Uses alpha blending near edges so text and lines stay sharp.
 """
 
 import argparse
-import sys
 from pathlib import Path
 
 import numpy as np
@@ -43,7 +42,7 @@ def white_to_transparent(img_path: str, threshold: int = 240, feather: int = 10,
     im = Image.open(img_path).convert("RGBA")
 
     if max_width and im.width > max_width:
-        im.thumbnail((max_width, max_width), Image.LANCZOS)
+        im.thumbnail((max_width, max_width), Image.Resampling.LANCZOS)
 
     data = np.array(im, dtype=np.float32)
 

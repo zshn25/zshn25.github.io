@@ -50,8 +50,8 @@ ___
 
 Hobbes's justification for the state, emerging as a necessary response to natural anarchy, is based on the following assumptions:
 
-- the natural condition of humans is war of every man against another, but this is not always the case. Natural contiditon of humans also includes community, peace, based on consensus without escalating to conflict.
-- to be governed by the state is better than anarchy, but the creation of state brings its own disadvantages, such as heirarchies, inequality, etc. In fact, many anarchists believe the opposite
+- the natural condition of humans is war of every man against another, but this is not always the case. Natural condition of humans also includes community, peace, based on consensus without escalating to conflict.
+- to be governed by the state is better than anarchy, but the creation of state brings its own disadvantages, such as hierarchies, inequality, etc. In fact, many anarchists believe the opposite
   > we must not hastily conclude that the mischiefs of anarchy are worse than those which government is qualified to produce.
   >
   > *(Godwin 1793: bk VII, chap. V, p. 736)*

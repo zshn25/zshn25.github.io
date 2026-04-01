@@ -14,7 +14,7 @@ img + em {
     text-align: center;
     font-size: .8rem;
     font-style: italic;
-    color: lightgrey;
+    color: var(--fg-muted, #8b949e);
 }
 //image captions
 
@@ -58,19 +58,18 @@ img + em {
     border-radius: 50%;
   }
 }
-.share-btn--x:hover        { color: #fff !important; background: #0f1419 !important; border-color: #0f1419 !important; }
-.share-btn--facebook:hover { color: #fff !important; background: #1877f2 !important; border-color: #1877f2 !important; }
-.share-btn--linkedin:hover { color: #fff !important; background: #0a66c2 !important; border-color: #0a66c2 !important; }
-.share-btn--email:hover    { color: #fff !important; background: #666 !important;    border-color: #666 !important; }
+.share-btn--x:hover        { color: #fff !important; background: var(--color-social-twitter) !important; border-color: var(--color-social-twitter) !important; }
+.share-btn--facebook:hover { color: #fff !important; background: var(--color-social-facebook) !important; border-color: var(--color-social-facebook) !important; }
+.share-btn--linkedin:hover { color: #fff !important; background: var(--color-social-linkedin) !important; border-color: var(--color-social-linkedin) !important; }
+.share-btn--email:hover    { color: #fff !important; background: var(--color-social-email) !important; border-color: var(--color-social-email) !important; }
 
 .no-text-wrap {
     white-space: nowrap;
   }
 
 #nav-switch-theme {
-    /* We will make it visible with JavaScript
-     * as it does not work without it */
-    display: none;
+    /* Starts hidden via inline style="display:none" in HTML.
+     * applytheme.js clears the inline style to reveal it. */
     cursor: pointer;
   }
 .nav-theme-icon:before {
@@ -93,21 +92,21 @@ img + em {
 
 // Purple links with subtle visited shift
 a:link {
-  color: $curiosity-main-dark;
+  color: var(--color-link);
 }
 a:visited {
-  color: darken($curiosity-main-dark, 8%);
+  color: var(--color-link-visited);
 }
 
 ::selection
 {
-    background: $curiosity-main;
+    background: var(--color-selection-bg);
     color: white;
     text-shadow: none;
 }
 ::-moz-selection
 {
-    background: $curiosity-main;
+    background: var(--color-selection-bg);
     color: white;
     text-shadow: none;
 }
@@ -153,8 +152,8 @@ fieldset[disabled] .button {
 }
 .button.is-dark[disabled],
 fieldset[disabled] .button.is-dark {
-  background-color: #363636;
-  border-color: #363636;
+  background-color: var(--color-button-dark);
+  border-color: var(--color-button-dark);
   box-shadow: none;
 }
 .button.is-rounded {
@@ -171,9 +170,9 @@ fieldset[disabled] .button.is-dark {
   padding: 10px 24px;
 }
 .button.is-dark {
-  background-color: #363636;
+  background-color: var(--color-button-dark);
   border-color: transparent;
-  color: #fff;
+  color: var(--color-button-dark-fg);
 }
 // Primer primary button variant
 .button.is-primary, .btn-primary {

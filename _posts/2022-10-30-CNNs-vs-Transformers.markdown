@@ -11,7 +11,7 @@ comments: true
 ---
 
 
-Layers in neural netowrks can be seen as a function that takes in a multi-dimensional input and produces an output. For simplicity, let's assume the input and output dimesnions to be the same.
+Layers in neural networks can be seen as a function that takes in a multi-dimensional input and produces an output. For simplicity, let's assume the input and output dimensions to be the same.
 
 ## Fully-connected Layer
 
@@ -41,7 +41,7 @@ The weights matrix $\textcolor{9966FF}{W}$ is the learnable parameter which lear
 
 The problem with the fully-connected layer is that it consumes a lot of learnable parameters. Since each output is connected to all inputs, a lot of the weights have to be learnt. But, for most input types it is wasteful to connect to all inputs since dependencies are often local, for e.g. spatio-temporal neighbors, than global.
 
-In principle, connecting to all inputs shouldn't be a problem since given enough training samples and enough time to train, the network should be able to learn to assign meaningful (and sparse) weights to some locations (like the spatio-temporal neighbors) than to the rest, which could be exploited by post-processing steps such as Pruning to fasten inference.
+In principle, connecting to all inputs shouldn't be a problem since given enough training samples and enough time to train, the network should be able to learn to assign meaningful (and sparse) weights to some locations (like the spatio-temporal neighbors) than to the rest, which could be exploited by post-processing steps such as Pruning to speed up inference.
 
 But, especially for data such as images where we know the inherent local dependencies of pixels to their spatial neighbors, it is a good idea to limit the layer to such neighborhood.
 
@@ -54,14 +54,14 @@ Convolutional neural networks (CNNs) are typically used for **spatial** data pro
 ![convolution]({{site.baseurl}}/images/convolution.svg)
 {:refdef}
 {:refdef: style="text-align: center;"}
-<sub><sup>*A convolutional layer only attends at it's neighbors*
+<sub><sup>*A convolutional layer only attends to its neighbors*
 </sup></sub>
 {: refdef}
 
 
 ## Attention
 
-Transformers on the other hand are typically used for **sequential** data processing, such as text, natural language, where short-term and long-term dependencies are present. The actual dependencies are not explicit in this case. For example, in the sentence "Alice had gone to the supermarket to meet Bob", one of the verb "meet", is located far-away from the subject "Alice" and this dependency is not spatial but differs a lot. This is even more for longer inputs with multiple paragraphs where the final sentence could have had a dependecy to a sentence somewhere in the beginning. Transformers are based on the so called attention mechanisms which learns these relationships between the elements in the sequence.
+Transformers on the other hand are typically used for **sequential** data processing, such as text, natural language, where short-term and long-term dependencies are present. The actual dependencies are not explicit in this case. For example, in the sentence "Alice had gone to the supermarket to meet Bob", one of the verb "meet", is located far-away from the subject "Alice" and this dependency is not spatial but differs a lot. This is even more for longer inputs with multiple paragraphs where the final sentence could have had a dependency to a sentence somewhere in the beginning. Transformers are based on the so called attention mechanisms which learns these relationships between the elements in the sequence.
 
 {:refdef: style="text-align: center;"}
 [![Odontodactylus scyllarus eyes](https://upload.wikimedia.org/wikipedia/commons/3/3e/Vision_Transformer.gif){: width="100%" .shadow}](https://commons.wikimedia.org/wiki/File:Vision_Transformer.gif)
@@ -104,13 +104,13 @@ Note that the basic version of self-attention does not include any learnable par
 $\textcolor{FF7800}{\textbf{y}} = \text{softmax}\left(\frac{\textcolor{2EC27E}{\textbf{q}} \textcolor{2EC27E}{\textbf{k}^\mathrm{T}}}{\sqrt{d_k}}\right)\textcolor{FF7800}{\textbf{v}}$
 {:refdef}
 
-Also note that in the basic version, the self-similarity of the inputs always causes the diagonal to be of the highest similarity and makes the weight matrix symmetric. This problem is also elevated by transforming the same input using two seperate learnable weight matrices, $\textcolor{9966FF}{W_K}$ and $\textcolor{9966FF}{W_Q}$
+Also note that in the basic version, the self-similarity of the inputs always causes the diagonal to be of the highest similarity and makes the weight matrix symmetric. This problem is also alleviated by transforming the same input using two separate learnable weight matrices, $\textcolor{9966FF}{W_K}$ and $\textcolor{9966FF}{W_Q}$
 
 ## Convolution vs. Attention: Which is better?
 
-Although attention based models such as vision transformers have shown to outperform CNN based methods, a careful analysis of the two shows comparible performance.[^4]
+Although attention based models such as vision transformers have shown to outperform CNN based methods, a careful analysis of the two shows comparable performance.[^4]
 
-In early layers of a neural network for images, spatial relations can be captured by convolutions and the later layers could benifit from long-range receptive fields offered by attention. Hence, both can be combined.[^5]
+In early layers of a neural network for images, spatial relations can be captured by convolutions and the later layers could benefit from long-range receptive fields offered by attention. Hence, both can be combined.[^5]
 
 <blockquote class="twitter-tweet"><p lang="en" dir="ltr">Am I going to argue that &quot;Conv is all you need&quot;?<br>No!<br>My favorite architecture is DETR-like: ConvNet (or ConvNeXt) for the first layers, then something more memory-based and permutation invariant like transformer blocks for object-based reasoning on top.<a href="https://t.co/LA2J72N93A">https://t.co/LA2J72N93A</a></p>&mdash; Yann LeCun (@ylecun) <a href="https://twitter.com/ylecun/status/1481198016266739715?ref_src=twsrc%5Etfw">January 12, 2022</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
 
@@ -118,11 +118,11 @@ In early layers of a neural network for images, spatial relations can be capture
 
 - Different ways of connecting inputs to each other were discussed. A fully-connected layer connects all inputs to each other. This leads to exponential increase in network parameters and computational complexity. While the network can learn to assign different weights, this can take a lot of data and prolonged training.
 
-- Convolutional layer incorporates desirable inductive biases about the data to reduce computation and connects only to the neighbors. Spatial and temporal data benifits from doing so. Convolution is translation invariant. However, the dimensions of outputs of a convolution depend on the input dimensions.
+- Convolutional layer incorporates desirable inductive biases about the data to reduce computation and connects only to the neighbors. Spatial and temporal data benefits from doing so. Convolution is translation invariant. However, the dimensions of outputs of a convolution depend on the input dimensions.
 
 - A self-attention layer assigns importance to inputs based on their similarity. For e.g., in the sentence "Alice is adventurous and she is in wonderland." the word "she" refers to "Alice" and ideally, their embeddings should be similar, which can be used by the self-attention layer to determine contexts. Similar to fully-connected, far away connections can be established if the input features or embeddings are similar. However, not having enough data may lead to overfitting the inputs.
 
-- In early layers of a neural network for images, spatial relations can be captured by convolutions and the later layers could benifit from long-range receptive fields offered by attention. Hence, both can be combined. Works such as CoAtNet<sup>\[</sup>[^3]<sup>\]</sup> offer layers combining the two. 
+- In early layers of a neural network for images, spatial relations can be captured by convolutions and the later layers could benefit from long-range receptive fields offered by attention. Hence, both can be combined. Works such as CoAtNet<sup>\[</sup>[^3]<sup>\]</sup> offer layers combining the two. 
 
 
 ## Further Readings and Videos

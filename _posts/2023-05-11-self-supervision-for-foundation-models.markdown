@@ -11,8 +11,6 @@ comments: true
 featured: true
 ---
 
-
-
 <iframe src="https://ourworldindata.org/grapher/artificial-intelligence-training-computation" loading="lazy" style="width: 100%; height: 600px; border: 0px none;"></iframe>
 {:refdef: style="text-align: center;"}
 <sub><sup>*Model size of notable AI systems over time. Source: [Our World in Data](https://ourworldindata.org/grapher/artificial-intelligence-training-computation)*
@@ -29,7 +27,7 @@ Recent developments in deep learning can be attributed to the growing amount of 
 </sup></sub>
 {: refdef}
 
-But, collecting such massive amounts of carefully labeled data costs enormous time, effort and money; and are error prone. For e.g. Northcutt et al.[^1], and https://labelerrors.com/ outline errors in the labels of widely used datasets. What if there was a way to use massively available but **unlabled** data?
+But, collecting such massive amounts of carefully labeled data costs enormous time, effort and money; and are error prone. For e.g. Northcutt et al.[^1], and https://labelerrors.com/ outline errors in the labels of widely used datasets. What if there was a way to use massively available but **unlabeled** data?
 
 In this post, I motivate the necessity for large, general-purpose data representation models, known as foundation models, and in what ways self-supervised learning enables this achievement. Stay tuned!
 
@@ -49,7 +47,7 @@ The way to realize such a model is to use vast quantities of data and the way to
 
 ## History: Feature representations of images
 
-Tradition computer vision methods extract distinctive pixel-level features from input images. High-dimensional representations of these features, known as **feature descriptors** are computed from the detected local features which are then used for various applications, such as tracking, retrieval, structure from motion, localization, etc. The goal of transforming the detected features into high-dimensional descriptors is to embed some notion of semantic and neighboring information to the pixel-level features. The goal is to make them distinctive (good for matching across different viewpoints) and invariant to vairations in 3D viewpoint, illumination, etc.
+Traditional computer vision methods extract distinctive pixel-level features from input images. High-dimensional representations of these features, known as **feature descriptors** are computed from the detected local features which are then used for various applications, such as tracking, retrieval, structure from motion, localization, etc. The goal of transforming the detected features into high-dimensional descriptors is to embed some notion of semantic and neighboring information to the pixel-level features. The goal is to make them distinctive (good for matching across different viewpoints) and invariant to variations in 3D viewpoint, illumination, etc.
 
 ### Features of good features
 
@@ -99,7 +97,7 @@ You are absolutely right. Existing models such as YOLO[^3] object detection, ext
 
 # Self-supervised learning
 
-Animals, including humans, learn a many concepts such as object permanance, etc., without explicit supervision.
+Animals, including humans, learn many concepts such as object permanence, etc., without explicit supervision.
 
 <!-- {% include youtube.html content="https://www.youtube.com/embed/OLrYzY3jVPY" %}{: width="100%" .shadow}
 {:refdef: style="text-align: center;"}
@@ -111,7 +109,7 @@ Animals, including humans, learn a many concepts such as object permanance, etc.
 
 Is it possible to make machines learn general concepts without explicit supervision? If so, how?
 
-If we are able formulate **pretext tasks**, we can use <mark>self-supervised learning</mark> to <mark>learn good data representations and general concepts from massively-available, unlabelled data</mark>, we can use such models directly (without fine-tuning, Zero-Shot) for multiple **downstream tasks**. (atleast, that's the hope).
+If we are able formulate **pretext tasks**, we can use <mark>self-supervised learning</mark> to <mark>learn good data representations and general concepts from massively-available, unlabelled data</mark>, we can use such models directly (without fine-tuning, Zero-Shot) for multiple **downstream tasks**. (at least, that's the hope).
 
 {:refdef: style="text-align: center; "}
 [![feature-learning](https://upload.wikimedia.org/wikipedia/commons/0/0b/Feature_Learning_Diagram.png){: data-invert-dark="true"}](https://en.wikipedia.org/wiki/Feature_learning#/media/File:Feature_Learning_Diagram.png)
@@ -124,7 +122,7 @@ If we are able formulate **pretext tasks**, we can use <mark>self-supervised lea
 
 ## Pretext tasks for images
 
-Any task that doesn't require explitcit labels can be used as a pretext task. The goal is to be able to make use of as much data as possible. This task is not actually the task what the model would finally be required to do, but this task would allow to use much more data via self-supervised learning.
+Any task that doesn't require explicit labels can be used as a pretext task. The goal is to be able to make use of as much data as possible. This task is not actually the task what the model would finally be required to do, but this task would allow to use much more data via self-supervised learning.
 
 {% include tip.html content="For a more comprehensive list of self-supervised pretext tasks, checkout [this page from Papers with Code](https://paperswithcode.com/methods/category/self-supervised-learning), and [this curated list](https://github.com/jason718/awesome-self-supervised-learning) of research in self-supervised learning"%}
 
@@ -172,7 +170,7 @@ Several concurrent studies further explore diffusion features for semantic under
 
 Rather than having an explicit task, the idea is to maximize similarity of features of similar images. This simply means, collecting data samples which represent similar information and having a loss that minimizes distance between their feature representations.
 
-Just doing this causes the feature representations to collapse, i.e., all data just points to the same representation. To prevent this, negative samples (having distict representation) are introduced, which act as a relative contrast to the positive samples (having similar representation).
+Just doing this causes the feature representations to collapse, i.e., all data just points to the same representation. To prevent this, negative samples (having distinct representation) are introduced, which act as a relative contrast to the positive samples (having similar representation).
 
 #### Contrastive learning
 
@@ -194,9 +192,9 @@ Different approaches within the contrastive framework include [iBOT](https://arx
 
 ### Feature similarity vs. Generative pretext tasks
 
-The advantage of feature similarity based methods is that there is no need for exact pixel to pixel mapping of the input and output, as opposed to generative pretext tasks, where the restored output is a one-to-one mapping of the manipulated/distorted input. One could use non-exact data (for example neighboring frames of a video) for sampling feature learning. One could also combine various augmentation methods mentioned in generaive pretext tasks. Feature similarity would essentially be a way to automatically incorporate various handcrafted ad-hoc heuristics via augmentations and positive-negative sampling.
+The advantage of feature similarity based methods is that there is no need for exact pixel to pixel mapping of the input and output, as opposed to generative pretext tasks, where the restored output is a one-to-one mapping of the manipulated/distorted input. One could use non-exact data (for example neighboring frames of a video) for sampling feature learning. One could also combine various augmentation methods mentioned in generative pretext tasks. Feature similarity would essentially be a way to automatically incorporate various handcrafted ad-hoc heuristics via augmentations and positive-negative sampling.
 
-Recent work titled "What Do Self-Supervised Vision Transformers Learn?" compares contrastive learning with a prominant generative pretext task called Masked Image Modeling (MIM)[^6] and finds:
+Recent work titled "What Do Self-Supervised Vision Transformers Learn?" compares contrastive learning with a prominent generative pretext task called Masked Image Modeling (MIM)[^6] and finds:
 
 1. CL plays a significant role in the later layers of the ViT model, capturing longer-range global patterns, such as the shape of an object. However, it also leads to reduced diversity of representations, thereby worsening scalability and dense prediction performance.
 
@@ -270,7 +268,7 @@ Self-supervised learning has driven breakthroughs beyond computer vision. [ESM-2
 
 # tldr; Conclusion
 
-Performance of supervised models depends on the availability of high quality labeled data, which is tedious to aquire, and thereby limiting. Self-supervised learning not only makes it possible to realize gains via abundant unlabeled data, but also gives way for foundation models that learn a generic neural representation of inputs, whose knowledge can be transformed to application specific downstream tasks. The key to this is designing self-supervised pretext tasks to make use of unlabeled data. The underlying principle of generative pretext tasks is to corrupt the input and make the network recover the original input from the corrupt one. Feature similarity based pretext tasks learn data representations that are similar for similar inputs and dissimilar for dissimilar inputs.
+Performance of supervised models depends on the availability of high quality labeled data, which is tedious to acquire, and thereby limiting. Self-supervised learning not only makes it possible to realize gains via abundant unlabeled data, but also gives way for foundation models that learn a generic neural representation of inputs, whose knowledge can be transformed to application specific downstream tasks. The key to this is designing self-supervised pretext tasks to make use of unlabeled data. The underlying principle of generative pretext tasks is to corrupt the input and make the network recover the original input from the corrupt one. Feature similarity based pretext tasks learn data representations that are similar for similar inputs and dissimilar for dissimilar inputs.
 
 ___
 
@@ -278,13 +276,13 @@ ___
 
 ## Language Foundation models (LLM) and beyond
 
-In this post, I focus on vision foundation models. But, there are plenty of resources for launguage foundation models a.k.a. Large Language Models (LLMs).
+In this post, I focus on vision foundation models. But, there are plenty of resources for language foundation models a.k.a. Large Language Models (LLMs).
 
 - [Full Stack LLM Bootcamp, 2023](https://fullstackdeeplearning.com/llm-bootcamp/)
 
 ## Lectures / Videos
 
-- Yann LeCunn's [lecture](https://www.facebook.com/epflcampus/videos/1960325127394608), [[Slides](https://drive.google.com/file/d/12pDCno02FJPDEBk4iGuuaj8b2rr48Hh0/view)
+- Yann LeCun's [lecture](https://www.facebook.com/epflcampus/videos/1960325127394608), [[Slides](https://drive.google.com/file/d/12pDCno02FJPDEBk4iGuuaj8b2rr48Hh0/view)
 - [FSDL 2022 Course](https://fullstackdeeplearning.com/course/2022/)'s Lecture on Language [Foundation Models](https://fullstackdeeplearning.com/course/2022/lecture-7-foundation-models/)
 - [MIT FUTURE OF AI: Self-Supervised Learning and Foundation Models](https://futureofai.mit.edu/)
 - Self-Supervised Learning: Self-Prediction and Contrastive Learning, [NIPS 21 Tutorial Video](https://www.facebook.com/epflcampus/videos/1960325127394608), [[Slides]](https://nips.cc/media/neurips-2021/Slides/21895.pdf)
@@ -300,10 +298,10 @@ In this post, I focus on vision foundation models. But, there are plenty of reso
 
 ## Read
 
-- Yann LeCunn's blog post [Self-supervised learning: The dark matter of intelligence](https://ai.facebook.com/blog/self-supervised-learning-the-dark-matter-of-intelligence/)
+- Yann LeCun's blog post [Self-supervised learning: The dark matter of intelligence](https://ai.facebook.com/blog/self-supervised-learning-the-dark-matter-of-intelligence/)
 - Balestriero, Randall et al. [A Cookbook of Self-Supervised Learning](https://arxiv.org/abs/2304.12210) ArXiv abs/2304.12210 (2023): n. pag.
 - Weng, Lilian (2019). [Self-Supervised Representation Learning](https://lilianweng.github.io/posts/2019-11-10-self-supervised/) writes about pretext tasks in detail
-- Silva, Thalles Santos (2020). [Self-Supervised Learning and the Quest for Reducing Labeled Data in Deep Learning](https://sthalles.github.io/self-supervised-learning/) gives a great introduction on how self-supervised learning can enable foundation models, anagolous to Yann LeCunn's [lecture](https://www.facebook.com/epflcampus/videos/1960325127394608)
+- Silva, Thalles Santos (2020). [Self-Supervised Learning and the Quest for Reducing Labeled Data in Deep Learning](https://sthalles.github.io/self-supervised-learning/) gives a great introduction on how self-supervised learning can enable foundation models, anagolous to Yann LeCun's [lecture](https://www.facebook.com/epflcampus/videos/1960325127394608)
 - Ozbulak, Utku, et al. "[Know Your Self-supervised Learning: A Survey on Image-based Generative and Discriminative Training.](https://arxiv.org/abs/2305.13689)" arXiv preprint arXiv:2305.13689 (2023)
 
 ## Data

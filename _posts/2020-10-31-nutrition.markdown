@@ -4,7 +4,7 @@ title:  "Nutrition"
 description: "Preventing disease is the first step to long-term health and well-being. By following basic nutrition advice you can improve your health by significant amounts."
 date:   2020-10-29 22:21:23 -0700
 comments: true
-image: images/cook.jpg
+image: images/cook.webp
 categories: health nutrition cooking
 featured: true
 redirect_from:
@@ -19,9 +19,9 @@ Preventing disease is the first step to long-term health and well-being. By foll
 
 <!-- {::options parse_block_html="true" /} -->
 
-{% include alert.html content="Nutrition is not a solved problem. We still don’t know for sure which foods to eat and which ones to avoid but there is a decades of consistent science and research, which I want to bring to you. Take it with a grain of salt"%}
+{% include alert.html content="Nutrition is not a solved problem. We still don’t know for sure which foods to eat and which ones to avoid but there are decades of consistent science and research, which I want to bring to you. Take it with a grain of salt"%}
 
-<!-- ***Disclaimer***: *Nutrition is not a solved problem. We still don’t know for sure which foods to eat and which ones to avoid but there is a decades of consistent science and research, which I want to bring to you. Take it with a grain of salt*
+<!-- ***Disclaimer***: *Nutrition is not a solved problem. We still don’t know for sure which foods to eat and which ones to avoid but there are decades of consistent science and research, which I want to bring to you. Take it with a grain of salt*
 {: .note} -->
 
 ## Obesity as a worldwide public health crisis
@@ -76,21 +76,21 @@ Historically, food was a scarce resource. In the animal kingdom, presence of foo
 
 To address obesity, a lot of focus on reducing saturated fats in diets were made. The processed food industry responded by supplementing fat with sugar to make the food seem more appealing. This also increased the shelf life of foods and so almost every packaged food now comes with enormous amounts of sugar and other sweeteners. This fueled our modern obesity and diabetes.
 
-Despite of an enormous increase in the supply of fat-free foods, obesity rates continued to rise. It is important to know the difference between good and bad fats
+Despite an enormous increase in the supply of fat-free foods, obesity rates continued to rise. It is important to know the difference between good and bad fats
 
 #### The good, the bad, and the ugly
 
 - Unsaturated fats, such as Omega-3 fatty acids, which are found in fish and some nuts,seeds, are good for long term health. In fact, Omega-3 fatty acids are the only kinds which cannot be made in human body. So, it is essential to have them.
 
-- [Saturated fats](https://en.wikipedia.org/wiki/Saturated_fat#Association_with_diseases) are bad for health [^3]. They increase the amound of bad chelestrol in the blood (LDL).
+- [Saturated fats](https://en.wikipedia.org/wiki/Saturated_fat#Association_with_diseases) are bad for health [^3]. They increase the amount of bad cholesterol in the blood (LDL).
 
-- While naturally occurring unsaturated fats, such as the ones found in olive oil, avocado, fish and nuts are good, chemically engineered saturated fats, such as the ones found in margarines and frying oils have week chemical bonds and are easily converted into trans-fats [^4]. Trans fats increase the amount of bad cholesterol in the blood (LDL) and decreases the amount of good cholesterol (HDL), which increases the risk of heart disease [^5]. These must be avoided as much as possible.
+- While naturally occurring unsaturated fats, such as the ones found in olive oil, avocado, fish and nuts are good, chemically engineered saturated fats, such as the ones found in margarines and frying oils have weak chemical bonds and are easily converted into trans-fats [^4]. Trans fats increase the amount of bad cholesterol in the blood (LDL) and decreases the amount of good cholesterol (HDL), which increases the risk of heart disease [^5]. These must be avoided as much as possible.
 
 ### Are carbohydrates really bad?
 
-A lot of recent focus has been on the fact that we overconsume carbohydrates. A lot of popular diet trends encourage us to drastically reduce carbs from our diet, even to the extend of avoiding fresh fruits and even grains. At the same time, they seem to suggest that high intake of proteins and fats can be eaten freely. But, a diet with high amounts of animal protein and no whole grains, fruits could leave us with serious problems in the long run.
+A lot of recent focus has been on the fact that we overconsume carbohydrates. A lot of popular diet trends encourage us to drastically reduce carbs from our diet, even to the extent of avoiding fresh fruits and even grains. At the same time, they seem to suggest that high intake of proteins and fats can be eaten freely. But, a diet with high amounts of animal protein and no whole grains, fruits could leave us with serious problems in the long run.
 
-Carbs has a large variety of foods, some of which are very important for our health, such as brown rice, rolled oats which are rich in fiber; and some are are bad for our health, such as corn-syrup, which has no fiber. In general, the lower the glycemic index (GI) of the carbohydrate, the better. A list of low, medium and bad carbs w.r.t GI is mentioned [here](https://en.wikipedia.org/wiki/Glycemic_index#Grouping).
+Carbs have a large variety of foods, some of which are very important for our health, such as brown rice, rolled oats which are rich in fiber; and some are bad for our health, such as corn-syrup, which has no fiber. In general, the lower the glycemic index (GI) of the carbohydrate, the better. A list of low, medium and bad carbs w.r.t GI is mentioned [here](https://en.wikipedia.org/wiki/Glycemic_index#Grouping).
 
 ### What about proteins?
 
@@ -98,7 +98,7 @@ All proteins are not created equal. Plant based proteins contain more fiber and 
 
 ### Thinking of food as a whole and not as macronutrients
 
-Categorizing foods into these basic micronutrients may be helpful to study foods but it is not helpful to communicate about them. Food is much more complex than just these macronutrients. So, rather than focusing on nutrients, we should focus on **food**, because ultimately we don't eat nutrients but food.
+Categorizing foods into these basic macronutrients may be helpful to study foods but it is not helpful to communicate about them. Food is much more complex than just these macronutrients. So, rather than focusing on nutrients, we should focus on **food**, because ultimately we don't eat nutrients but food.
 
 ### Key takeaways:
 

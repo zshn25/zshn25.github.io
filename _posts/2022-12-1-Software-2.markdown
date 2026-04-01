@@ -35,13 +35,13 @@ Such an approach would work good enough in general and can be deployed for all k
 ![s]({{site.baseurl}}/images/performance_classical.svg) 
 {: refdef}
 {:refdef: style="text-align: center;"}
-<sub><sup>*Performance of a traditional algorithm does not depend on the amount of avaiable data*
+<sub><sup>*Performance of a traditional algorithm does not depend on the amount of available data*
 </sup></sub>
 {: refdef}
 
 ### How can we do better?
 
-We can try to improve each of the approach's steps and gain overall performance, and decades of research in Computer Vision does exactly that. But, by changing our fundemental thinking towards learning based approaches, unprecidented improvements were realized.
+We can try to improve each of the approach's steps and gain overall performance, and decades of research in Computer Vision does exactly that. But, by changing our fundamental thinking towards learning based approaches, unprecedented improvements were realized.
 
 ## Era of learning
 
@@ -76,21 +76,21 @@ This allows the performance of the model to be dependent on the amount of traini
 
 ### Production time
 
-Traditional algorithms have to be almost always completely re-written from their prototyping phase to production while keeping the computational power and memory in check. At test time, Deep learning replaces all of this with just one model inference call. So, we go from re-implementing production level code to passing the input through a bunch of linear algebra. Neural networks cost same amount of memory and even better comoutational effeciency during inference time.
+Traditional algorithms have to be almost always completely re-written from their prototyping phase to production while keeping the computational power and memory in check. At test time, Deep learning replaces all of this with just one model inference call. So, we go from re-implementing production level code to passing the input through a bunch of linear algebra. Neural networks cost same amount of memory and even better computational efficiency during inference time.
 
 ## Algorithm 2.0ic thinking
 
-1. First, to gain performance, it is not eough to copy paste one training example into multiple copies. The model needs to be intellignetly scaled by feeding in huge amounts of new data with much variation, representing the true population as truely as possible.
+1. First, to gain performance, it is not enough to copy paste one training example into multiple copies. The model needs to be intelligently scaled by feeding in huge amounts of new data with much variation, representing the true population as truly as possible.
 
 2. Secondly, new data doesn't come for free. It is labor-intensive and expensive to label data. Smart gathering is required. One cannot just copy paste existing data and assume the data has increased. It has to increase meaningfully.
 
 3. Thirdly, in order to be able to feed in that much amount of data, there needs to be infrastructure in place.
 
-4. As in the case of traditional algorithms, one cannot just hand-engineer the algorithm and use it in deployment forever. One needs to continuously improve/train the learnt model and continuoiusly deploy it. This is also where the data can be selected smartly for the next iteration of improvement.
+4. As in the case of traditional algorithms, one cannot just hand-engineer the algorithm and use it in deployment forever. One needs to continuously improve/train the learnt model and continuously deploy it. This is also where the data can be selected smartly for the next iteration of improvement.
 
 ## The holy grail? or just a fad?
 
-For many applications, the performance gain is really not that critical. Other factors such as explainability, fail-safe, etc are equally important, which the current deeo learning approaches lack. The availability of data is another critical factor in deciding to choose learning based approaches.
+For many applications, the performance gain is really not that critical. Other factors such as explainability, fail-safe, etc are equally important, which the current deep learning approaches lack. The availability of data is another critical factor in deciding to choose learning based approaches.
 
 {:refdef: style="text-align: center;"}
 ![s]({{site.baseurl}}/images/performance_lowdata.svg) 

@@ -17,9 +17,9 @@ So, in order to define justice more precisely, Socrates proposes to first look n
 
 ## Socrates‘s just city
 
-A city comes into, because none of us are self sufficient. And, the fundamental idea of Socrates‘s just city lies in the idea that it’s citizens should pursue one and only one role. The argument to this is that a person does a better job if the person practices one job. The doer has to pay close attention to the work rather than treating it as a secondary occupation. The job to be done won’t wait for the doer‘s leisure. One man one job is the key principal for a just city. A jack of all trades is a master of none.
+A city comes into, because none of us are self sufficient. And, the fundamental idea of Socrates‘s just city lies in the idea that its citizens should pursue one and only one role. The argument to this is that a person does a better job if the person practices one job. The doer has to pay close attention to the work rather than treating it as a secondary occupation. The job to be done won’t wait for the doer‘s leisure. One man one job is the key principal for a just city. A jack of all trades is a master of none.
 
-Socrates’s city consists of citizens belonging to mainly three classes, the worker class (bronze), the warrior class (silver) and the ruler class (gold). A person can only be good at one role if the role is pursued as the only role and not having multiple roles, thus the purpose of each class must be to perform it’s own function and nothing else. Children of citizens of one class belong to the same class unless in exceptional cases. The elite (gold and silver) class, which is a small proportion of the society, are not allowed to own private property, must live together in open spaces, get paid a wage just to get by, are not allowed to touch currency and must abolish family pursuits.
+Socrates’s city consists of citizens belonging to mainly three classes, the worker class (bronze), the warrior class (silver) and the ruler class (gold). A person can only be good at one role if the role is pursued as the only role and not having multiple roles, thus the purpose of each class must be to perform its own function and nothing else. Children of citizens of one class belong to the same class unless in exceptional cases. The elite (gold and silver) class, which is a small proportion of the society, are not allowed to own private property, must live together in open spaces, get paid a wage just to get by, are not allowed to touch currency and must abolish family pursuits.
 
 <!-- There are four virtues of the just city: wisdom, courage, temperance or moderation and justice -->
 
@@ -33,7 +33,7 @@ In order to ensure social order and not having mobility of social status of peop
 
 ### What is justice?
 
-Remember the idea of each class performing it’s own function and nothing else, since that is what leads to having the job done well? That, Socrates claims, is justice. Each part of the society, like each part of an individual’s soul, having and doing what is a it’s own and belongs to it, not externally (as for the city) but what is within, is justice.
+Remember the idea of each class performing its own function and nothing else, since that is what leads to having the job done well? That, Socrates claims, is justice. Each part of the society, like each part of an individual’s soul, having and doing what is its own and belongs to it, not externally (as for the city) but what is within, is justice.
 
 > “A man may neither take what is another’s (including job), not be deprived of what is his own.”
 

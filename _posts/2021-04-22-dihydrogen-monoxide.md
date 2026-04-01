@@ -4,7 +4,7 @@ title:  Dihydrogen Monoxide - The Truth
 link: https://www.dhmo.org/truth/Dihydrogen-Monoxide.html
 description: "Truth about the DHMO chemical, found in the city's water pipes, fatal if inhaled, and could produce blistering vapors"
 date:   2021-04-01 12:00:00 -0700
-image: "images/poison-1481596_640.jpg"
+image: "images/poison-1481596_640.webp"
 categories: external-link dhmo-conspiracy
 comments: true
 ---

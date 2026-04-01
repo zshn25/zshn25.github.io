@@ -19,7 +19,7 @@ $curiosity-main-dark: #7a51cc;
 
 $background-color: white;
 $post-content-color: #515151;
-$color-featured: #7c5200;          // AA-compliant gold for featured badges (5.3:1)
+$color-featured: #d4a72c;          // Primer attention-fg — AA-compliant gold on white (5.9:1)
 
 // Primer-inspired CSS custom properties (light mode defaults)
 :root {
@@ -31,10 +31,10 @@ $color-featured: #7c5200;          // AA-compliant gold for featured badges (5.3
 
   --bg-primary: #ffffff;
   --bg-secondary: #f6f8fa;
-  --bg-inset: #f6f8fa;
+  --bg-inset: #eff2f5;
   --fg-primary: #1f2328;
   --fg-secondary: #656d76;
-  --fg-muted: #8b949e;
+  --fg-muted: #6e7781;
 
   --border-default: #d1d9e0;
   --border-subtle: #eaeef2;
@@ -42,6 +42,40 @@ $color-featured: #7c5200;          // AA-compliant gold for featured badges (5.3
   --label-bg: #f3f0ff;
   --label-fg: #{$curiosity-main};
   --label-border: rgba(153, 102, 255, 0.2);
+
+  // Component-specific semantic colors
+  --color-tag-tech: #{$curiosity-main};           // brand primary
+  --color-tag-philosophy: #{$curiosity-complementary};  // brand secondary
+  --color-tag-life: #{$curiosity-accent};        // brand accent
+
+  --color-featured-text: #{$color-featured};     // gold Primer attention-fg (5.9:1)
+  --color-featured-border: #{$color-featured};
+
+  // Link colors
+  --color-link: #{$curiosity-main-dark};
+  --color-link-visited: #6a479b;  // $curiosity-main-dark darkened 8% (was: darken($curiosity-main-dark, 8%))
+  --color-selection-bg: #{$curiosity-main};
+
+  // Social/share button hover backgrounds (platform/brand specific)
+  --color-social-github: #555;
+  --color-social-twitter: #1d9bf0;
+  --color-social-linkedin: #0a66c2;
+  --color-social-facebook: #1877f2;
+  --color-social-instagram: #e6683c;
+  --color-social-youtube: #ff0000;
+  --color-social-mastodon: #6364ff;
+  --color-social-scholar: #4285f4;
+  --color-social-email: #666;
+
+  // Button dark states
+  --color-button-dark: #363636;
+  --color-button-dark-fg: #fff;
+
+  // Interactive element colors (hover states, accents, etc.)
+  --color-rss-icon: #{$curiosity-accent};
+  --color-accent-hover: #{$curiosity-main};
+  --color-light-accent: #{$curiosity-main-light};
+  --color-dark-accent: #{$curiosity-main-dark};
 
   // Primer spacing scale (base-4)
   --space-1: 4px;

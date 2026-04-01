@@ -2,7 +2,7 @@
 layout: post
 title:  "A minimal working example of a custom Vector class in C++"
 description: "C++ tutorial on how to write a custom vector class"
-image: images/c-coding-6205174_640.png
+image: images/c-coding-6205174_640.webp
 date:   2021-05-13 15:21:23 -0700
 categories: c++ vector tutorial
 author: Zeeshan Khan Suri

@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Aristotle’s regime, the good citizen and justice"
-description: "Aristotle’s definition of a regime, it’s forms and it’s purpose"
+description: "Aristotle’s definition of a regime, its forms and its purpose"
 date:   2022-09-23 12:21:23 -0700
 comments: true
 image: images/aristotle.webp
@@ -11,13 +11,13 @@ author: Aristotle
 
 {% include info.html content="The whole post is a collection of excerpts from Aristotle’s Politics Book 3"%}
 
-# Definitions of state/regime, it’s citizens, a good citizen and a good regime
+# Definitions of state/regime, its citizens, a good citizen and a good regime
 
 A state is composite, like any other whole made up of many parts; these are the citizens, who compose it. It is evident, therefore, that we must begin by asking, Who is the citizen, and what is the meaning of the term?
 
-We may say, first, that a citizen is not a citizen because he lives in a certain place, for resident aliens and slaves share in the place; But the citizen is he who shares in the administration of justice, and in offices. **He who has the power to take part in the deliberative or judicial administration of any state is said by us to be a citizens of that state; and, speaking generally, a state is a body of citizens sufficing for the purposes of life.** >Whoever is entitled to participate in an office involving deliberation and decision making is a citizen of the city.
+We may say, first, that a citizen is not a citizen because he lives in a certain place, for resident aliens and slaves share in the place; But the citizen is he who shares in the administration of justice, and in offices. **He who has the power to take part in the deliberative or judicial administration of any state is said by us to be a citizen of that state; and, speaking generally, a state is a body of citizens sufficing for the purposes of life.** >Whoever is entitled to participate in an office involving deliberation and decision making is a citizen of the city.
 
-The regime is an arrangement of a city with respect to it’s offices, particularly the ones who has authority over all matters. For, what has authority in a city is everywhere the governing body. And the governing body is the regime. 
+The regime is an arrangement of a city with respect to its offices, particularly the ones who has authority over all matters. For, what has authority in a city is everywhere the governing body. And the governing body is the regime. 
 
 Since there are many forms of regimes, there must be many varieties of citizen and especially of citizens who are subjects. There are different kinds of citizens; and he is a citizen in the highest sense who shares in the honours of the state.
 
@@ -38,7 +38,7 @@ The same question may also be approached by another road, from a consideration o
 
 The true forms of government, therefore, are those in which the one, or the few, or the many, govern with a view to the common interest; but governments which rule with a view to the private interest, whether of the one or of the few, or of the many, are perversions. For the members of a state, if they are truly citizens, ought to participate in its advantages. 
 
-Of forms of government in which one rules, we call that which regards the common interests, kingship or royalty; that in which more than one, but not many, rule, aristocracy; and it is so called, either because the rulers are the best men, or because they have at heart the best interests of the state and of the citizens. But when the citizens at large administer the state for the common interest, the government is called by the generic name --a constitution. And there is a reason for this use of language. One man or a few may excel in virtue; but as the number increases it becomes more difficult for them to attain pertection in every kind of virtue, though they may in military virtue, for this is found in the masses. Hence in constitutional government the fighting-men have the supreme power, and those who possess arms are the citizens. 
+Of forms of government in which one rules, we call that which regards the common interests, kingship or royalty; that in which more than one, but not many, rule, aristocracy; and it is so called, either because the rulers are the best men, or because they have at heart the best interests of the state and of the citizens. But when the citizens at large administer the state for the common interest, the government is called by the generic name --a constitution. And there is a reason for this use of language. One man or a few may excel in virtue; but as the number increases it becomes more difficult for them to attain perfection in every kind of virtue, though they may in military virtue, for this is found in the masses. Hence in constitutional government the fighting-men have the supreme power, and those who possess arms are the citizens. 
 
 Of the above-mentioned forms, the perversions are as follows: of royalty, tyranny; of aristocracy, oligarchy; of constitutional government, democracy. For tyranny is a kind of monarchy which has in view the interest of the monarch only; oligarchy has in view the interest of the wealthy; democracy, of the needy: none of them the common good of all.
 
@@ -50,7 +50,7 @@ Of the above-mentioned forms, the perversions are as follows: of royalty, tyrann
 </sup></sub>
 {: refdef}
 
-The real difference between democracy and oligarchy is poverty and wealth. Wherever men rule by reason of their wealth, weather they be few or many, that is an oligarchy, and where the poor rule, that is a democracy and wealth… and freedom are the grounds on which the two classes lay claim to the government.
+The real difference between democracy and oligarchy is poverty and wealth. Wherever men rule by reason of their wealth, whether they be few or many, that is an oligarchy, and where the poor rule, that is a democracy and wealth… and freedom are the grounds on which the two classes lay claim to the government.
 
 Kings rule according to law over voluntary subjects, but tyrants over involuntary; and the one are guarded by their fellow-citizens the others are guarded against them.
 
@@ -66,7 +66,7 @@ If wealth and freedom are necessary elements, justice and valor are equally so; 
 # Similarity in states
 
 A question is raised respecting the state, whether a certain act is or is not an act of the state; for example, in the transition from an oligarchy or a tyranny to a democracy. In such cases persons
-refuse to fulfill their contracts or any other obligations, on the ground that the tyrant, and not the state, contracted them; they argue that some constitutions are established by force, and not for the sake if the common good.
+refuse to fulfill their contracts or any other obligations, on the ground that the tyrant, and not the state, contracted them; they argue that some constitutions are established by force, and not for the sake of the common good.
 
 This question runs up into another: on what principle shall we ever say that the state is the same, Or different? It would be a very superficial view which considered only the place and the inhabitants (for the soil and the population may be separated, and some of the inhabitants may live in one place and some in another). Again, shall we say that while the race of inhabitants, as well as their place of abode, remain the same, the city is also the same, although the citizens are always dying and being born, as we call rivers and fountains the same, although the water is always flowing away and coming again.  Or shall we say that the generations of men, like the rivers, are the same, but that the state changes? **For, since the state is a partnership, and is a partnership of citizens in a constitution, when the form of government changes, and becomes different, then it may be supposed that the state is no longer the same.** And in this manner we speak of every union or composition of elements as different when the form of their composition
 alters; And if this is true it is evident that the sameness of the state consists chiefly in the sameness of the constitution, and it may be called or not called by the same name, whether the inhabitants are the same or entirely different. It is quite another question, whether a state ought or ought not to fulfil engagements when the form of government changes.
@@ -107,7 +107,7 @@ those who are equal in one thing ought not to have an equal share in all, nor th
 
 
 {% comment %} 
- in Nichomechian Ethics Book 7, C7 Aristotle says that all natural “right” is mutable or changeable. By this he means, what is naturally right is revealed not by general propositions, or universal maxims, but the concrete decisions of the community or it’s leaders about what is right or wrong. Natural right is mutable because different kinds of circumstances will require different kinds of decisions. 
+ in Nicomachean Ethics Book 7, C7 Aristotle says that all natural “right” is mutable or changeable. By this he means, what is naturally right is revealed not by general propositions, or universal maxims, but the concrete decisions of the community or it’s leaders about what is right or wrong. Natural right is mutable because different kinds of circumstances will require different kinds of decisions. 
 
 
 *[slave]: Aristotle believed slavery to be natural
