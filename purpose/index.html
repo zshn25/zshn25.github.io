@@ -162,8 +162,231 @@
     return darkLink.media === '' || (darkLink.media === '(prefers-color-scheme: dark)' && window.matchMedia('(prefers-color-scheme: dark)').matches);
   };
 })();
+</script><script>
+// Consent gate: Block third-party embeds until user opts in
+// Handles: Twitter/X tweets, Reddit embeds, YouTube (via youtube.html include)
+// Persists consent per provider in localStorage — user only consents once.
+// Inlined for performance: eliminates 450ms network request
+(function() {
+    'use strict';
+
+    var CONSENT_KEY = 'embedConsent';
+
+    function getConsent() {
+        try { return JSON.parse(localStorage.getItem(CONSENT_KEY)) || {}; } catch(e) { return {}; }
+    }
+    function setConsent(provider) {
+        var c = getConsent();
+        c[provider] = true;
+        localStorage.setItem(CONSENT_KEY, JSON.stringify(c));
+    }
+    function hasConsent(provider) {
+        return !!getConsent()[provider];
+    }
+
+    // Expose for reuse (utterances.html, youtube.html)
+    window._consent = { get: getConsent, set: setConsent, has: hasConsent };
+
+    // ── Expose for YouTube include (youtube.html calls loadYouTube) ──
+    var _origLoadYouTube = null;
+    window._consentYouTube = function() { setConsent('youtube'); };
+
+    // Immediately remove auto-loading third-party scripts (runs before DOM is ready)
+    function removeScripts() {
+        document.querySelectorAll(
+            'script[src*="platform.twitter.com"],' +
+            'script[src*="redditstatic.com"],' +
+            'script[src*="redditmedia.com"]'
+        ).forEach(function(s) { s.remove(); });
+    }
+    removeScripts();
+
+    // Use MutationObserver to catch dynamically added scripts
+    var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(m) {
+            m.addedNodes.forEach(function(node) {
+                if (node.tagName === 'SCRIPT' && node.src &&
+                    (node.src.indexOf('platform.twitter.com') !== -1 ||
+                     node.src.indexOf('redditstatic.com') !== -1 ||
+                     node.src.indexOf('redditmedia.com') !== -1)) {
+                    node.remove();
+                }
+            });
+        });
+    });
+    observer.observe(document.documentElement, { childList: true, subtree: true });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        observer.disconnect();
+        removeScripts();
+
+        var isDark = typeof window.isDarkMode === 'function' ? window.isDarkMode() : window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        // ── Twitter embeds ──
+        var tweets = document.querySelectorAll('blockquote.twitter-tweet');
+        if (tweets.length) {
+            var twitterOK = hasConsent('twitter');
+            tweets.forEach(function(tweet, i) {
+                var tweetLink = tweet.querySelector('a[href*="twitter.com"]') || tweet.querySelector('a[href*="x.com"]');
+                var tweetUrl = tweetLink ? tweetLink.href : '#';
+                if (twitterOK) {
+                    directLoadTwitter(tweet, isDark);
+                } else {
+                    wrapWithConsent(tweet, {
+                        id: 'twitter-' + i,
+                        icon: '<i class="fab fa-twitter" style="color:#1da1f2;"></i>',
+                        provider: 'twitter',
+                        providerLabel: 'Twitter/X',
+                        loadLabel: 'Load tweets',
+                        extUrl: tweetUrl,
+                        extLabel: 'View on Twitter',
+                        borderColor: '#1da1f2',
+                        onLoad: function(container, original) {
+                            setConsent('twitter');
+                            var restored = original.cloneNode(true);
+                            restored.style.display = '';
+                            if (isDark) restored.setAttribute('data-theme', 'dark');
+                            container.appendChild(restored);
+                            var s = document.createElement('script');
+                            s.src = 'https://platform.twitter.com/widgets.js';
+                            s.async = true;
+                            container.appendChild(s);
+                            // Auto-load remaining twitter embeds on this page
+                            autoLoadRemaining('twitter');
+                        }
+                    });
+                }
+            });
+        }
+
+        // ── Reddit embeds ──
+        var reddits = document.querySelectorAll('.reddit-embed, blockquote.reddit-card');
+        if (reddits.length) {
+            var redditOK = hasConsent('reddit');
+            reddits.forEach(function(embed, i) {
+                var redditLink = embed.querySelector('a[href*="reddit.com"]');
+                var redditUrl = redditLink ? redditLink.href : '#';
+                if (redditOK) {
+                    directLoadReddit(embed, isDark);
+                } else {
+                    wrapWithConsent(embed, {
+                        id: 'reddit-' + i,
+                        icon: '<i class="fab fa-reddit" style="color:#ff4500;"></i>',
+                        provider: 'reddit',
+                        providerLabel: 'Reddit',
+                        loadLabel: 'Load Reddit content',
+                        extUrl: redditUrl,
+                        extLabel: 'View on Reddit',
+                        borderColor: '#ff4500',
+                        onLoad: function(container, original) {
+                            setConsent('reddit');
+                            renderReddit(container, original, isDark);
+                            autoLoadRemaining('reddit');
+                        }
+                    });
+                }
+            });
+        }
+
+        // ── YouTube auto-consent if previously accepted ──
+        if (hasConsent('youtube')) {
+            document.querySelectorAll('.consent-embed[id^="yt-"]').forEach(function(el) {
+                var btn = el.querySelector('button[onclick*="loadYouTube"]');
+                if (btn) btn.click();
+            });
+        }
+    });
+
+    function directLoadTwitter(tweet, isDark) {
+        var restored = tweet.cloneNode(true);
+        restored.style.display = '';
+        if (isDark) restored.setAttribute('data-theme', 'dark');
+        var wrapper = document.createElement('div');
+        wrapper.appendChild(restored);
+        tweet.parentNode.replaceChild(wrapper, tweet);
+        var s = document.createElement('script');
+        s.src = 'https://platform.twitter.com/widgets.js';
+        s.async = true;
+        wrapper.appendChild(s);
+    }
+
+    function directLoadReddit(embed, isDark) {
+        var wrapper = document.createElement('div');
+        embed.parentNode.replaceChild(wrapper, embed);
+        renderReddit(wrapper, embed, isDark);
+    }
+
+    function renderReddit(container, original, isDark) {
+        var link = original.querySelector('a[href*="reddit.com"]');
+        if (!link) return;
+        var href = link.href;
+        var embedUrl = href.replace(/(?:old|www)\.reddit\.com/, 'www.redditmedia.com');
+        if (embedUrl.indexOf('?') === -1) embedUrl += '?';
+        else embedUrl += '&';
+        embedUrl += 'ref_source=embed&ref=share&embed=true&theme=' + (isDark ? 'dark' : 'light');
+        var iframe = document.createElement('iframe');
+        iframe.src = embedUrl;
+        iframe.style.cssText = 'width:100%;min-height:300px;border:none;border-radius:8px;overflow:hidden;';
+        iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-popups');
+        iframe.setAttribute('loading', 'lazy');
+        iframe.referrerPolicy = 'origin';
+        container.appendChild(iframe);
+    }
+
+    function autoLoadRemaining(provider) {
+        document.querySelectorAll('.consent-embed[data-provider="' + provider + '"]').forEach(function(el) {
+            var btn = el.querySelector('.consent-load-btn');
+            if (btn) btn.click();
+        });
+    }
+
+    function wrapWithConsent(element, opts) {
+        var wrapper = document.createElement('div');
+        wrapper.className = 'consent-embed';
+        wrapper.id = 'consent-' + opts.id;
+        wrapper.setAttribute('data-provider', opts.provider);
+
+        var placeholder = document.createElement('div');
+        placeholder.className = 'consent-placeholder';
+
+        var preview = element.cloneNode(true);
+        preview.classList.remove('twitter-tweet', 'reddit-card');
+        preview.removeAttribute('data-lang');
+        preview.removeAttribute('data-cards');
+        preview.querySelectorAll('script').forEach(function(s) { s.remove(); });
+        preview.style.cssText = 'text-align:left;margin:0 0 1em;padding:0.5em 1em;border-left:3px solid ' + opts.borderColor + ';font-size:0.9em;color:#666;max-height:120px;overflow:hidden;';
+
+        var info = document.createElement('p');
+        info.className = 'consent-detail';
+        info.innerHTML = opts.icon + ' This connects to <strong>' + opts.providerLabel + '</strong> and may set cookies. Your choice is remembered for future visits.';
+
+        var loadBtn = document.createElement('button');
+        loadBtn.className = 'button is-rounded consent-load-btn';
+        loadBtn.innerHTML = opts.icon + ' ' + opts.loadLabel;
+        loadBtn.onclick = function() {
+            wrapper.innerHTML = '';
+            opts.onLoad(wrapper, element);
+        };
+
+        var extLink = document.createElement('a');
+        extLink.href = opts.extUrl;
+        extLink.target = '_blank';
+        extLink.rel = 'noopener noreferrer';
+        extLink.className = 'button is-rounded';
+        extLink.innerHTML = '<i class="fas fa-external-link-alt"></i> ' + opts.extLabel;
+
+        placeholder.appendChild(preview);
+        placeholder.appendChild(info);
+        placeholder.appendChild(loadBtn);
+        placeholder.appendChild(extLink);
+
+        element.parentNode.insertBefore(wrapper, element);
+        wrapper.appendChild(placeholder);
+        element.style.display = 'none';
+        wrapper.appendChild(element);
+    }
+})();
 </script>
-<script src="/assets/js/consent-gate.js"></script>
 <script src="/assets/js/vendor/lunr.min.js" defer></script>
 <script src="/assets/js/main.js" defer></script>
 </head>
@@ -533,7 +756,7 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
             
                 <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
     <a href="/the-necessity-of-the-state/">
-    <img class="image-preview" src="/images/leviathan.webp" loading="lazy" alt="Trading Freedom for Peace: The necessity of the state" width="300" height="300" /></a>
+    <img class="image-preview" src="/images/leviathan.webp"  loading="lazy" alt="Trading Freedom for Peace: The necessity of the state" width="300" height="300" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -591,7 +814,7 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
             
                 <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
     <a href="/Aristotle-definitions/">
-    <img class="image-preview" src="/images/aristotle.webp" loading="lazy" alt="Aristotle’s regime, the good citizen and justice" width="300" height="300" /></a>
+    <img class="image-preview" src="/images/aristotle.webp"  loading="lazy" alt="Aristotle’s regime, the good citizen and justice" width="300" height="300" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -652,7 +875,7 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
             
                 <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
     <a href="/kinds-of-wealth-getting-Aristotle/">
-    <img class="image-preview" src="/images/aristotle_wallstreet.webp" loading="lazy" alt="Money serving Life (Provision) vs. Life serving Money (Hoarding)" width="300" height="300" /></a>
+    <img class="image-preview" src="/images/aristotle_wallstreet.webp"  loading="lazy" alt="Money serving Life (Provision) vs. Life serving Money (Hoarding)" width="300" height="300" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -716,7 +939,7 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
             
                 <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
     <a href="/plato-republic/">
-    <img class="image-preview" src="/images/death_of_socrates.webp" loading="lazy" alt="Notes on Justice from Plato&#39;s Republic" width="300" height="300" /></a>
+    <img class="image-preview" src="/images/death_of_socrates.webp"  loading="lazy" alt="Notes on Justice from Plato&#39;s Republic" width="300" height="300" /></a>
   </div><div class="post-card-body">
       <h3>
         

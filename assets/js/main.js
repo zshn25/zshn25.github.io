@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function() {
   var isDark = window.isDarkMode ? window.isDarkMode() : false;
   if (isDark) {
     var INVERT_FILTER = 'invert(0.88) hue-rotate(180deg)';
-    var darkImages = document.querySelectorAll('.post-content img');
+    var darkImages = document.querySelectorAll('.post-content img, img[data-invert-dark="true"], img[data-transparent-dark="true"]');
     var sampleCanvas, sampleCtx;
     if (darkImages.length) {
       sampleCanvas = document.createElement('canvas');

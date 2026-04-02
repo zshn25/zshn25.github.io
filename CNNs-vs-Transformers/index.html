@@ -17,14 +17,14 @@
 <link rel="canonical" href="https://zshn25.github.io/CNNs-vs-Transformers/" />
 <meta property="og:url" content="https://zshn25.github.io/CNNs-vs-Transformers/" />
 <meta property="og:site_name" content="Curiosity" />
-<meta property="og:image" content="https://zshn25.github.io/images/vision_transformer.gif" />
+<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/d/d7/Self-attention_in_CNN,_RNN,_and_self-attention.svg" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2023-03-10T02:21:23+00:00" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta property="twitter:image" content="https://zshn25.github.io/images/vision_transformer.gif" />
+<meta property="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/d/d7/Self-attention_in_CNN,_RNN,_and_self-attention.svg" />
 <meta property="twitter:title" content="Convolution vs. Attention" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Zeeshan Khan Suri"},"dateModified":"2023-03-10T02:21:23+00:00","datePublished":"2023-03-10T02:21:23+00:00","description":"Similarities and differences between convolutions and attention module of Transformers","headline":"Convolution vs. Attention","image":"https://zshn25.github.io/images/vision_transformer.gif","mainEntityOfPage":{"@type":"WebPage","@id":"https://zshn25.github.io/CNNs-vs-Transformers/"},"url":"https://zshn25.github.io/CNNs-vs-Transformers/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Zeeshan Khan Suri"},"dateModified":"2023-03-10T02:21:23+00:00","datePublished":"2023-03-10T02:21:23+00:00","description":"Similarities and differences between convolutions and attention module of Transformers","headline":"Convolution vs. Attention","image":"https://upload.wikimedia.org/wikipedia/commons/d/d7/Self-attention_in_CNN,_RNN,_and_self-attention.svg","mainEntityOfPage":{"@type":"WebPage","@id":"https://zshn25.github.io/CNNs-vs-Transformers/"},"url":"https://zshn25.github.io/CNNs-vs-Transformers/"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#181818" media="(prefers-color-scheme: dark)">
@@ -162,8 +162,231 @@
     return darkLink.media === '' || (darkLink.media === '(prefers-color-scheme: dark)' && window.matchMedia('(prefers-color-scheme: dark)').matches);
   };
 })();
+</script><script>
+// Consent gate: Block third-party embeds until user opts in
+// Handles: Twitter/X tweets, Reddit embeds, YouTube (via youtube.html include)
+// Persists consent per provider in localStorage — user only consents once.
+// Inlined for performance: eliminates 450ms network request
+(function() {
+    'use strict';
+
+    var CONSENT_KEY = 'embedConsent';
+
+    function getConsent() {
+        try { return JSON.parse(localStorage.getItem(CONSENT_KEY)) || {}; } catch(e) { return {}; }
+    }
+    function setConsent(provider) {
+        var c = getConsent();
+        c[provider] = true;
+        localStorage.setItem(CONSENT_KEY, JSON.stringify(c));
+    }
+    function hasConsent(provider) {
+        return !!getConsent()[provider];
+    }
+
+    // Expose for reuse (utterances.html, youtube.html)
+    window._consent = { get: getConsent, set: setConsent, has: hasConsent };
+
+    // ── Expose for YouTube include (youtube.html calls loadYouTube) ──
+    var _origLoadYouTube = null;
+    window._consentYouTube = function() { setConsent('youtube'); };
+
+    // Immediately remove auto-loading third-party scripts (runs before DOM is ready)
+    function removeScripts() {
+        document.querySelectorAll(
+            'script[src*="platform.twitter.com"],' +
+            'script[src*="redditstatic.com"],' +
+            'script[src*="redditmedia.com"]'
+        ).forEach(function(s) { s.remove(); });
+    }
+    removeScripts();
+
+    // Use MutationObserver to catch dynamically added scripts
+    var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(m) {
+            m.addedNodes.forEach(function(node) {
+                if (node.tagName === 'SCRIPT' && node.src &&
+                    (node.src.indexOf('platform.twitter.com') !== -1 ||
+                     node.src.indexOf('redditstatic.com') !== -1 ||
+                     node.src.indexOf('redditmedia.com') !== -1)) {
+                    node.remove();
+                }
+            });
+        });
+    });
+    observer.observe(document.documentElement, { childList: true, subtree: true });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        observer.disconnect();
+        removeScripts();
+
+        var isDark = typeof window.isDarkMode === 'function' ? window.isDarkMode() : window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        // ── Twitter embeds ──
+        var tweets = document.querySelectorAll('blockquote.twitter-tweet');
+        if (tweets.length) {
+            var twitterOK = hasConsent('twitter');
+            tweets.forEach(function(tweet, i) {
+                var tweetLink = tweet.querySelector('a[href*="twitter.com"]') || tweet.querySelector('a[href*="x.com"]');
+                var tweetUrl = tweetLink ? tweetLink.href : '#';
+                if (twitterOK) {
+                    directLoadTwitter(tweet, isDark);
+                } else {
+                    wrapWithConsent(tweet, {
+                        id: 'twitter-' + i,
+                        icon: '<i class="fab fa-twitter" style="color:#1da1f2;"></i>',
+                        provider: 'twitter',
+                        providerLabel: 'Twitter/X',
+                        loadLabel: 'Load tweets',
+                        extUrl: tweetUrl,
+                        extLabel: 'View on Twitter',
+                        borderColor: '#1da1f2',
+                        onLoad: function(container, original) {
+                            setConsent('twitter');
+                            var restored = original.cloneNode(true);
+                            restored.style.display = '';
+                            if (isDark) restored.setAttribute('data-theme', 'dark');
+                            container.appendChild(restored);
+                            var s = document.createElement('script');
+                            s.src = 'https://platform.twitter.com/widgets.js';
+                            s.async = true;
+                            container.appendChild(s);
+                            // Auto-load remaining twitter embeds on this page
+                            autoLoadRemaining('twitter');
+                        }
+                    });
+                }
+            });
+        }
+
+        // ── Reddit embeds ──
+        var reddits = document.querySelectorAll('.reddit-embed, blockquote.reddit-card');
+        if (reddits.length) {
+            var redditOK = hasConsent('reddit');
+            reddits.forEach(function(embed, i) {
+                var redditLink = embed.querySelector('a[href*="reddit.com"]');
+                var redditUrl = redditLink ? redditLink.href : '#';
+                if (redditOK) {
+                    directLoadReddit(embed, isDark);
+                } else {
+                    wrapWithConsent(embed, {
+                        id: 'reddit-' + i,
+                        icon: '<i class="fab fa-reddit" style="color:#ff4500;"></i>',
+                        provider: 'reddit',
+                        providerLabel: 'Reddit',
+                        loadLabel: 'Load Reddit content',
+                        extUrl: redditUrl,
+                        extLabel: 'View on Reddit',
+                        borderColor: '#ff4500',
+                        onLoad: function(container, original) {
+                            setConsent('reddit');
+                            renderReddit(container, original, isDark);
+                            autoLoadRemaining('reddit');
+                        }
+                    });
+                }
+            });
+        }
+
+        // ── YouTube auto-consent if previously accepted ──
+        if (hasConsent('youtube')) {
+            document.querySelectorAll('.consent-embed[id^="yt-"]').forEach(function(el) {
+                var btn = el.querySelector('button[onclick*="loadYouTube"]');
+                if (btn) btn.click();
+            });
+        }
+    });
+
+    function directLoadTwitter(tweet, isDark) {
+        var restored = tweet.cloneNode(true);
+        restored.style.display = '';
+        if (isDark) restored.setAttribute('data-theme', 'dark');
+        var wrapper = document.createElement('div');
+        wrapper.appendChild(restored);
+        tweet.parentNode.replaceChild(wrapper, tweet);
+        var s = document.createElement('script');
+        s.src = 'https://platform.twitter.com/widgets.js';
+        s.async = true;
+        wrapper.appendChild(s);
+    }
+
+    function directLoadReddit(embed, isDark) {
+        var wrapper = document.createElement('div');
+        embed.parentNode.replaceChild(wrapper, embed);
+        renderReddit(wrapper, embed, isDark);
+    }
+
+    function renderReddit(container, original, isDark) {
+        var link = original.querySelector('a[href*="reddit.com"]');
+        if (!link) return;
+        var href = link.href;
+        var embedUrl = href.replace(/(?:old|www)\.reddit\.com/, 'www.redditmedia.com');
+        if (embedUrl.indexOf('?') === -1) embedUrl += '?';
+        else embedUrl += '&';
+        embedUrl += 'ref_source=embed&ref=share&embed=true&theme=' + (isDark ? 'dark' : 'light');
+        var iframe = document.createElement('iframe');
+        iframe.src = embedUrl;
+        iframe.style.cssText = 'width:100%;min-height:300px;border:none;border-radius:8px;overflow:hidden;';
+        iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-popups');
+        iframe.setAttribute('loading', 'lazy');
+        iframe.referrerPolicy = 'origin';
+        container.appendChild(iframe);
+    }
+
+    function autoLoadRemaining(provider) {
+        document.querySelectorAll('.consent-embed[data-provider="' + provider + '"]').forEach(function(el) {
+            var btn = el.querySelector('.consent-load-btn');
+            if (btn) btn.click();
+        });
+    }
+
+    function wrapWithConsent(element, opts) {
+        var wrapper = document.createElement('div');
+        wrapper.className = 'consent-embed';
+        wrapper.id = 'consent-' + opts.id;
+        wrapper.setAttribute('data-provider', opts.provider);
+
+        var placeholder = document.createElement('div');
+        placeholder.className = 'consent-placeholder';
+
+        var preview = element.cloneNode(true);
+        preview.classList.remove('twitter-tweet', 'reddit-card');
+        preview.removeAttribute('data-lang');
+        preview.removeAttribute('data-cards');
+        preview.querySelectorAll('script').forEach(function(s) { s.remove(); });
+        preview.style.cssText = 'text-align:left;margin:0 0 1em;padding:0.5em 1em;border-left:3px solid ' + opts.borderColor + ';font-size:0.9em;color:#666;max-height:120px;overflow:hidden;';
+
+        var info = document.createElement('p');
+        info.className = 'consent-detail';
+        info.innerHTML = opts.icon + ' This connects to <strong>' + opts.providerLabel + '</strong> and may set cookies. Your choice is remembered for future visits.';
+
+        var loadBtn = document.createElement('button');
+        loadBtn.className = 'button is-rounded consent-load-btn';
+        loadBtn.innerHTML = opts.icon + ' ' + opts.loadLabel;
+        loadBtn.onclick = function() {
+            wrapper.innerHTML = '';
+            opts.onLoad(wrapper, element);
+        };
+
+        var extLink = document.createElement('a');
+        extLink.href = opts.extUrl;
+        extLink.target = '_blank';
+        extLink.rel = 'noopener noreferrer';
+        extLink.className = 'button is-rounded';
+        extLink.innerHTML = '<i class="fas fa-external-link-alt"></i> ' + opts.extLabel;
+
+        placeholder.appendChild(preview);
+        placeholder.appendChild(info);
+        placeholder.appendChild(loadBtn);
+        placeholder.appendChild(extLink);
+
+        element.parentNode.insertBefore(wrapper, element);
+        wrapper.appendChild(placeholder);
+        element.style.display = 'none';
+        wrapper.appendChild(element);
+    }
+})();
 </script>
-<script src="/assets/js/consent-gate.js"></script>
 <script src="/assets/js/vendor/lunr.min.js" defer></script>
 <script src="/assets/js/main.js" defer></script>
 </head>
@@ -265,7 +488,7 @@
       "@type": "WebPage",
       "@id": "https://zshn25.github.io/CNNs-vs-Transformers/"
     },
-    "image": "https://zshn25.github.io/images/vision_transformer.gif",
+    "image": "https://upload.wikimedia.org/wikipedia/commons/d/d7/Self-attention_in_CNN%2C_RNN%2C_and_self-attention.svg",
     "keywords": ["deep-learning","convolution","attention"]
   }
   </script>
@@ -405,8 +628,10 @@
 
 <p>Transformers on the other hand are typically used for <strong>sequential</strong> data processing, such as text, natural language, where short-term and long-term dependencies are present. The actual dependencies are not explicit in this case. For example, in the sentence “Alice had gone to the supermarket to meet Bob”, one of the verb “meet”, is located far-away from the subject “Alice” and this dependency is not spatial but differs a lot. This is even more for longer inputs with multiple paragraphs where the final sentence could have had a dependency to a sentence somewhere in the beginning. Transformers are based on the so called attention mechanisms which learns these relationships between the elements in the sequence.</p>
 
-<p style="text-align: center;"><a href="https://commons.wikimedia.org/wiki/File:Vision_Transformer.gif"><img src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Vision_Transformer.gif" alt="Odontodactylus scyllarus eyes" width="100%" class="shadow" /></a></p>
-<p style="text-align: center;"><sub><sup><em>Attentions is the key component of Transformers and have been successfully applied to image data. <a href="https://commons.wikimedia.org/wiki/File:Vision_Transformer.gif">Davide Coccomini</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>, via Wikimedia Commons</em>
+<p style="text-align: center;"><a href="https://commons.wikimedia.org/wiki/File:Self-attention_in_CNN,_RNN,_and_self-attention.svg" target="_blank" rel="noopener noreferrer" class="no_icon">
+	<img src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Self-attention_in_CNN%2C_RNN%2C_and_self-attention.svg" alt="Self-attention in CNN, RNN, and self-attention" width="100%" data-invert-dark="true" loading="lazy" decoding="async" />
+</a></p>
+<p style="text-align: center;"><sub><sup><em>Sentences do not have proper spatial relationships. Attention assigns higher importance to relevant parts of a sequence. <a href="https://commons.wikimedia.org/wiki/File:Self-attention_in_CNN,_RNN,_and_self-attention.svg">Zhang, Aston and Lipton, Zachary C. and Li, Mu and Smola, Alexander J.</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>, via Wikimedia Commons</em>
 </sup></sub></p>
       <h3 id="basic-self-attention">
         
@@ -482,9 +707,14 @@
   <li>
     <p>A self-attention layer assigns importance to inputs based on their similarity. For e.g., in the sentence “Alice is adventurous and she is in wonderland.” the word “she” refers to “Alice” and ideally, their embeddings should be similar, which can be used by the self-attention layer to determine contexts. Similar to fully-connected, far away connections can be established if the input features or embeddings are similar. However, not having enough data may lead to overfitting the inputs.</p>
   </li>
-  <li>
-    <p>In early layers of a neural network for images, spatial relations can be captured by convolutions and the later layers could benefit from long-range receptive fields offered by attention. Hence, both can be combined. Works such as CoAtNet<sup>[</sup><sup id="fnref:3"><a href="#fn:3" class="footnote" rel="footnote" role="doc-noteref">5</a></sup><sup>]</sup> offer layers combining the two.</p>
-  </li>
+</ul>
+
+<p style="text-align: center;"><a href="https://commons.wikimedia.org/wiki/File:Self-attention_in_CNN,_RNN,_and_self-attention.svg"><img src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Self-attention_in_CNN%2C_RNN%2C_and_self-attention.svg" alt="CNN,RNN,Attention" width="50%" data-invert-dark="true" /></a></p>
+<p style="text-align: center;"><sub><sup><em>Inductive Biases in CNN, RNN &amp; Self-Attention <a href="https://commons.wikimedia.org/wiki/File:Self-attention_in_CNN,_RNN,_and_self-attention.svg">Zhang, Aston and Lipton, Zachary C. and Li, Mu and Smola, Alexander J.,</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>, via Wikimedia Commons</em>
+</sup></sub></p>
+
+<ul>
+  <li>In early layers of a neural network for images, spatial relations can be captured by convolutions and the later layers could benefit from long-range receptive fields offered by attention. Hence, both can be combined. Works such as CoAtNet<sup>[</sup><sup id="fnref:3"><a href="#fn:3" class="footnote" rel="footnote" role="doc-noteref">5</a></sup><sup>]</sup> offer layers combining the two.</li>
 </ul>
       <h2 id="further-readings-and-videos">
         
@@ -625,7 +855,7 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
             
                 <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
     <a href="/inference_optimizations_benchmark/">
-    <img class="image-preview" src="/images/2026-03-24-inference_optimizations_benchmark/image.webp" loading="lazy" alt="Inference Runtime Optimization Benchmark" width="300" height="300" /></a>
+    <img class="image-preview" src="/images/2026-03-24-inference_optimizations_benchmark/image.webp"  loading="lazy" alt="Inference Runtime Optimization Benchmark" width="300" height="300" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -695,7 +925,7 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
             
                 <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
     <a href="/pc4consistentdepth/">
-    <img class="image-preview" src="/images/3dreco/out-poster.webp" loading="lazy" alt="Pose Constraints for Self-supervised Monocular Depth and Ego-Motion" width="300" height="300" /></a>
+    <img class="image-preview" src="/images/3dreco/out-poster.webp"  loading="lazy" alt="Pose Constraints for Self-supervised Monocular Depth and Ego-Motion" width="300" height="300" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -772,7 +1002,7 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
             
                 <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
     <a href="/Software-2/">
-    <img class="image-preview" src="/images/loop.svg" loading="lazy" alt="Software 2.0 2.0" width="300" height="300" /></a>
+    <img class="image-preview" src="/images/loop.svg"  loading="lazy" alt="Software 2.0 2.0" width="300" height="300" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -827,7 +1057,7 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
             
                 <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
     <a href="/How-Monocular-Depth-Estimation-works/">
-    <img class="image-preview" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/2551b04d-fd4e-4ec9-9869-3e8c9ac5e7bf/d93a0lc-e4ecbd7d-6120-4925-be1d-1e250d7e0830.png/v1/fill/w_1024,h_576,q_80,strp/cyclops_greek_mythology_by_nilesdino_d93a0lc-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NTc2IiwicGF0aCI6IlwvZlwvMjU1MWIwNGQtZmQ0ZS00ZWM5LTk4NjktM2U4YzlhYzVlN2JmXC9kOTNhMGxjLWU0ZWNiZDdkLTYxMjAtNDkyNS1iZTFkLTFlMjUwZDdlMDgzMC5wbmciLCJ3aWR0aCI6Ijw9MTAyNCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.kEfvRjpv5KXW_HtOAtsBltiTNTF7DswBz8TwLvRVwyo" loading="lazy" alt="Self-supervised monocular depth estimation" width="300" height="300" /></a>
+    <img class="image-preview" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/2551b04d-fd4e-4ec9-9869-3e8c9ac5e7bf/d93a0lc-e4ecbd7d-6120-4925-be1d-1e250d7e0830.png/v1/fill/w_1024,h_576,q_80,strp/cyclops_greek_mythology_by_nilesdino_d93a0lc-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NTc2IiwicGF0aCI6IlwvZlwvMjU1MWIwNGQtZmQ0ZS00ZWM5LTk4NjktM2U4YzlhYzVlN2JmXC9kOTNhMGxjLWU0ZWNiZDdkLTYxMjAtNDkyNS1iZTFkLTFlMjUwZDdlMDgzMC5wbmciLCJ3aWR0aCI6Ijw9MTAyNCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.kEfvRjpv5KXW_HtOAtsBltiTNTF7DswBz8TwLvRVwyo"  loading="lazy" alt="Self-supervised monocular depth estimation" width="300" height="300" /></a>
   </div><div class="post-card-body">
       <h3>
         
