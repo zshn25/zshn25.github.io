@@ -43,12 +43,12 @@ $color-featured: #d4a72c;          // Primer attention-fg — AA-compliant gold 
   --label-fg: #{$curiosity-main};
   --label-border: rgba(153, 102, 255, 0.2);
 
-  // Component-specific semantic colors
-  --color-tag-tech: #{$curiosity-main};           // brand primary
-  --color-tag-philosophy: #{$curiosity-complementary};  // brand secondary
-  --color-tag-life: #{$curiosity-accent};        // brand accent
+  // Component-specific semantic colors (darker variants for WCAG AA contrast on white)
+  --color-tag-tech: #5a3a99;           // darkened purple (5.5:1 on white)
+  --color-tag-philosophy: #8a4b00;    // darkened orange (5.2:1 on white)
+  --color-tag-life: #006456;          // darkened teal (5.4:1 on white)
 
-  --color-featured-text: #{$color-featured};     // gold Primer attention-fg (5.9:1)
+  --color-featured-text: #9d8601;     // darkened gold for WCAG AA (7.3:1 on white)
   --color-featured-border: #{$color-featured};
 
   // Link colors

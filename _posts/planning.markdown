@@ -2,7 +2,7 @@
 
 You sit in your car, open Navigator and type your destination. The map plans a route within seconds. For autonomous driving though, this is not enough. Navigator route is coarse and does not include a lot of information such as lanes, other road-users (vehicles, pedestrians, bicycles, etc.), traffic-lights and so on. Sure, some advanced navigators also provide HD-maps: fine-grained precise map information including road-markings, traffic signs, etc. As you may imagine, maintaining these high accuracy maps is a big challange: the lanes, speed-limits on multiple roads change everyday due to maintanance, repair or accident. Google dencentralized this and makes use of it's Map netowrk by asking users about roads. They are able to to do this since Google MAps is already the most widely used navigator. They also started offering HD maps to auto manufacturers [^1,2]. Other HD-Map service (MaaS: Map as a Service) providers include https://www.here.com/platform/adas-had, 
 
-(Maybe make a post on maps)
+(Maybe make a post on maps). Check https://www.thinkautonomous.ai/blog/robot-mapping/
 
 Navigator info comes from map services which build a static map of our world but driving in the real-world requires also adressing the dynamic objects. This is where 
 
@@ -11,6 +11,12 @@ After working on perception all my life, for the past 2 years, I got the oppertu
 World -> Sensor -> Perception -> Useful intermediates -> Prediction & Planning -> Control 
 
 Planning relies on perception to produce rich representations of the world. It needs (HD-maps with traffic-lights, lanes, crosswalks, etc.; all vehicles, pedestrians tracked for a long time in many scenarios). Most of these come from perception outputs (detecting other vehicles, pedestrians and tracking them over time, traffic light detection, traffic sign classification, etc.). Some my either come from perception or map providers (lane boundaries, crosswalks, stop-lines, speed limit)
+
+Planner papers:
+
+- EPSILON: An Efficient Planning System for Automated Vehicles in Highly Interactive Environments [Paper](https://arxiv.org/abs/2108.07993), [Code](https://github.com/HKUST-Aerial-Robotics/EPSILON)
+- PDM 
+ - When PDM's internal predictor (constant velocity) is changed to GT, it does not lead to higher performance, indicating that there is no scope for improvement in this direction. Perfect Prediction or Plenty of Proposals? What Matters Most in Planning for Autonomous Driving. [Paper](https://arxiv.org/abs/2510.15505)
 
 
 Acquiring such data is very difficult and even more difficult to scale (As mentioned in my talk, this is the disadvantage of modular approach. End-to-end methods are relatively easy to collect data). Companies like Waymo's most value lies in collecting these. Till recently such data was closed and only openly available options were Argoverse (2019: 570 hours), Lyft Level 5 data (2019: 1000+ hours), Waymo Open Dataset (2021: 570 hours). In all these benchmarks, it was only possible to do Open Loop (planner doesn't drive the vehicle, it's output is only compared to human driver's GT). NuPlan was the first benchmark to introduce closed-loop real world benchmarking with 1200 hours (Check nuPlan for more info). Motional had parts of this dataset released before (nuScenes, nuImages) but the nuPlan combines them all for what is required to predict and plan.

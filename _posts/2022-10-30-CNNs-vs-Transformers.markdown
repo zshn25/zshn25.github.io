@@ -2,7 +2,8 @@
 layout: post
 title:  "Convolution vs. Attention"
 description: "Similarities and differences between convolutions and attention module of Transformers"
-image: images/vision_transformer.gif
+image: https://upload.wikimedia.org/wikipedia/commons/d/d7/Self-attention_in_CNN%2C_RNN%2C_and_self-attention.svg
+invert_thumbnail_dark: true
 date:   2023-03-09 19:21:23 -0700
 categories: deep-learning convolution attention
 author: Zeeshan Khan Suri
@@ -64,10 +65,12 @@ Convolutional neural networks (CNNs) are typically used for **spatial** data pro
 Transformers on the other hand are typically used for **sequential** data processing, such as text, natural language, where short-term and long-term dependencies are present. The actual dependencies are not explicit in this case. For example, in the sentence "Alice had gone to the supermarket to meet Bob", one of the verb "meet", is located far-away from the subject "Alice" and this dependency is not spatial but differs a lot. This is even more for longer inputs with multiple paragraphs where the final sentence could have had a dependency to a sentence somewhere in the beginning. Transformers are based on the so called attention mechanisms which learns these relationships between the elements in the sequence.
 
 {:refdef: style="text-align: center;"}
-[![Odontodactylus scyllarus eyes](https://upload.wikimedia.org/wikipedia/commons/3/3e/Vision_Transformer.gif){: width="100%" .shadow}](https://commons.wikimedia.org/wiki/File:Vision_Transformer.gif)
+<a href="https://commons.wikimedia.org/wiki/File:Self-attention_in_CNN,_RNN,_and_self-attention.svg" target="_blank" rel="noopener noreferrer" class="no_icon">
+	<img src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Self-attention_in_CNN%2C_RNN%2C_and_self-attention.svg" alt="Self-attention in CNN, RNN, and self-attention" width="100%" data-invert-dark="true" loading="lazy" decoding="async" />
+</a>
 {: refdef}
 {:refdef: style="text-align: center;"}
-<sub><sup>*Attentions is the key component of Transformers and have been successfully applied to image data. [Davide Coccomini](https://commons.wikimedia.org/wiki/File:Vision_Transformer.gif), [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons*
+<sub><sup>*Sentences do not have proper spatial relationships. Attention assigns higher importance to relevant parts of a sequence. [Zhang, Aston and Lipton, Zachary C. and Li, Mu and Smola, Alexander J.](https://commons.wikimedia.org/wiki/File:Self-attention_in_CNN,_RNN,_and_self-attention.svg), [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons*
 </sup></sub>
 {: refdef}
 
@@ -121,6 +124,14 @@ In early layers of a neural network for images, spatial relations can be capture
 - Convolutional layer incorporates desirable inductive biases about the data to reduce computation and connects only to the neighbors. Spatial and temporal data benefits from doing so. Convolution is translation invariant. However, the dimensions of outputs of a convolution depend on the input dimensions.
 
 - A self-attention layer assigns importance to inputs based on their similarity. For e.g., in the sentence "Alice is adventurous and she is in wonderland." the word "she" refers to "Alice" and ideally, their embeddings should be similar, which can be used by the self-attention layer to determine contexts. Similar to fully-connected, far away connections can be established if the input features or embeddings are similar. However, not having enough data may lead to overfitting the inputs.
+
+{:refdef: style="text-align: center;"}
+[![CNN,RNN,Attention](https://upload.wikimedia.org/wikipedia/commons/d/d7/Self-attention_in_CNN%2C_RNN%2C_and_self-attention.svg){: width="50%" data-invert-dark="true"}](https://commons.wikimedia.org/wiki/File:Self-attention_in_CNN,_RNN,_and_self-attention.svg)
+{: refdef}
+{:refdef: style="text-align: center;"}
+<sub><sup>*Inductive Biases in CNN, RNN & Self-Attention [Zhang, Aston and Lipton, Zachary C. and Li, Mu and Smola, Alexander J.,](https://commons.wikimedia.org/wiki/File:Self-attention_in_CNN,_RNN,_and_self-attention.svg), [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons*
+</sup></sub>
+{: refdef}
 
 - In early layers of a neural network for images, spatial relations can be captured by convolutions and the later layers could benefit from long-range receptive fields offered by attention. Hence, both can be combined. Works such as CoAtNet<sup>\[</sup>[^3]<sup>\]</sup> offer layers combining the two. 
 
