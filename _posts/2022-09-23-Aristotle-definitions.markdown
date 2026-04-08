@@ -4,7 +4,7 @@ title:  "Aristotle’s regime, the good citizen and justice"
 description: "Aristotle’s definition of a regime, its forms and its purpose"
 date:   2022-09-23 12:21:23 -0700
 comments: true
-image: images/aristotle.webp
+image: images/aristotle_optimized.webp
 categories: politics philosophy justice regime
 author: Aristotle 
 ---

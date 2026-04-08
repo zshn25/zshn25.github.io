@@ -2,7 +2,7 @@
 layout: post
 title:  "Convolution vs. Attention"
 description: "Similarities and differences between convolutions and attention module of Transformers"
-image: https://upload.wikimedia.org/wikipedia/commons/d/d7/Self-attention_in_CNN%2C_RNN%2C_and_self-attention.svg
+image: images/self-attention-cnn-rnn.svg
 invert_thumbnail_dark: true
 date:   2023-03-09 19:21:23 -0700
 categories: deep-learning convolution attention
@@ -66,7 +66,7 @@ Transformers on the other hand are typically used for **sequential** data proces
 
 {:refdef: style="text-align: center;"}
 <a href="https://commons.wikimedia.org/wiki/File:Self-attention_in_CNN,_RNN,_and_self-attention.svg" target="_blank" rel="noopener noreferrer" class="no_icon">
-	<img src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Self-attention_in_CNN%2C_RNN%2C_and_self-attention.svg" alt="Self-attention in CNN, RNN, and self-attention" width="100%" data-invert-dark="true" loading="lazy" decoding="async" />
+	<img src="{{site.baseurl}}/images/self-attention-cnn-rnn.svg" alt="Self-attention in CNN, RNN, and self-attention" width="100%" data-invert-dark="true" loading="lazy" decoding="async" />
 </a>
 {: refdef}
 {:refdef: style="text-align: center;"}
@@ -126,7 +126,7 @@ In early layers of a neural network for images, spatial relations can be capture
 - A self-attention layer assigns importance to inputs based on their similarity. For e.g., in the sentence "Alice is adventurous and she is in wonderland." the word "she" refers to "Alice" and ideally, their embeddings should be similar, which can be used by the self-attention layer to determine contexts. Similar to fully-connected, far away connections can be established if the input features or embeddings are similar. However, not having enough data may lead to overfitting the inputs.
 
 {:refdef: style="text-align: center;"}
-[![CNN,RNN,Attention](https://upload.wikimedia.org/wikipedia/commons/d/d7/Self-attention_in_CNN%2C_RNN%2C_and_self-attention.svg){: width="50%" data-invert-dark="true"}](https://commons.wikimedia.org/wiki/File:Self-attention_in_CNN,_RNN,_and_self-attention.svg)
+[![CNN,RNN,Attention]({{site.baseurl}}/images/self-attention-cnn-rnn.svg){: width="50%" data-invert-dark="true"}](https://commons.wikimedia.org/wiki/File:Self-attention_in_CNN,_RNN,_and_self-attention.svg)
 {: refdef}
 {:refdef: style="text-align: center;"}
 <sub><sup>*Inductive Biases in CNN, RNN & Self-Attention [Zhang, Aston and Lipton, Zachary C. and Li, Mu and Smola, Alexander J.,](https://commons.wikimedia.org/wiki/File:Self-attention_in_CNN,_RNN,_and_self-attention.svg), [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0), via Wikimedia Commons*

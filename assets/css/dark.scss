@@ -218,7 +218,7 @@ table td {
   box-shadow: none !important;
   background-color: $dm-surface !important;
   border-color: $dm-border !important;
-  &:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.3) !important; }
+  &:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.3) !important; transform: translateY(-2px) !important; }
 }
 
 // ── Post link — consistent white color (no blue visited state) ──
@@ -268,6 +268,7 @@ canvas { filter: invert(100%); }
 }
 .category-tags-link:hover {
   color: var(--color-primary, #b399ff) !important;
+  border-color: var(--color-primary) !important;
 }
 
 // ── Privacy notice bar ──
@@ -295,7 +296,7 @@ canvas { filter: invert(100%); }
 .paginate-container .pagination {
   .previous_page, .next_page {
     border-color: $dm-border;
-    &:hover { border-color: $dm-link; }
+    &:hover { border-color: $dm-link; box-shadow: var(--shadow-sm) !important; }
   }
 }
 
@@ -386,7 +387,7 @@ hr { border-color: $dm-border !important; background-color: $dm-border !importan
 .share-btn--x:hover        { color: #fff !important; background: var(--color-social-twitter) !important; border-color: var(--color-social-twitter) !important; }
 .share-btn--facebook:hover { color: #fff !important; background: var(--color-social-facebook) !important; border-color: var(--color-social-facebook) !important; }
 .share-btn--linkedin:hover { color: #fff !important; background: var(--color-social-linkedin) !important; border-color: var(--color-social-linkedin) !important; }
-.share-btn--email:hover    { color: #fff !important; background: #888 !important;    border-color: #888 !important; }
+.share-btn--email:hover    { color: #fff !important; background: var(--color-social-email) !important; border-color: var(--color-social-email) !important; }
 
 // ── Anchor link stroke ──
 .heading-anchor { color: $low-emph; }
@@ -402,6 +403,7 @@ hr { border-color: $dm-border !important; background-color: $dm-border !importan
 // ── Inline post callout ──
 .inline-post-callout {
   border-color: $dm-border !important;
+  &:hover { box-shadow: var(--shadow-md) !important; transform: translateY(-1px) !important; }
 }
 .inline-post-callout-link {
   background: $dm-surface !important;

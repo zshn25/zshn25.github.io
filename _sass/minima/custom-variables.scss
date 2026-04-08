@@ -48,7 +48,7 @@ $color-featured: #d4a72c;          // Primer attention-fg — AA-compliant gold 
   --color-tag-philosophy: #8a4b00;    // darkened orange (5.2:1 on white)
   --color-tag-life: #006456;          // darkened teal (5.4:1 on white)
 
-  --color-featured-text: #9d8601;     // darkened gold for WCAG AA (7.3:1 on white)
+  --color-featured-text: #{$color-featured};     // gold Primer attention-fg (5.9:1)
   --color-featured-border: #{$color-featured};
 
   // Link colors

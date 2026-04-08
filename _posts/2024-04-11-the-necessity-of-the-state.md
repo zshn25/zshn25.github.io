@@ -4,7 +4,7 @@ title:  "Trading Freedom for Peace: The necessity of the state"
 description: "Hobbes motivates his justification of the Leviathan (the political state) by defining the grim natural state of man"
 date:   2022-10-22 19:21:23 -0700
 comments: true
-image: images/leviathan.webp
+image: images/leviathan_thumb.webp
 categories: politics philosophy social-contract
 author: Thomas Hobbes
 ---
