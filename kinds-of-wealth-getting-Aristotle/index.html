@@ -28,8 +28,20 @@
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#181818" media="(prefers-color-scheme: dark)">
-<!-- Preload critical font -->
-<link rel="preload" href="/assets/vendor/fonts/inter/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+
+<!-- Security headers (only CSP and Referrer-Policy can be set via meta on GitHub Pages) -->
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="
+  default-src 'self';
+  script-src 'self' 'unsafe-inline' https://utteranc.es https://platform.twitter.com https://embed.redditmedia.com https://www.redditstatic.com;
+  style-src 'self' 'unsafe-inline';
+  img-src 'self' data: https:;
+  font-src 'self';
+  frame-src https://ourworldindata.org https://archive.org https://hf.space https://www.youtube-nocookie.com https://www.redditmedia.com https://utteranc.es https://platform.twitter.com;
+  connect-src 'self';
+  base-uri 'self';
+  form-action 'self'
+">
 <!-- Self-hosted vendor CSS (no cross-origin requests for privacy) -->
 <link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css"></noscript>
@@ -732,7 +744,7 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
             
                 <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
     <a href="/the-necessity-of-the-state/">
-    <img class="image-preview" src="/images/leviathan.webp"  loading="lazy" alt="Trading Freedom for Peace: The necessity of the state" width="300" height="300" /></a>
+    <img class="image-preview" src="/images/leviathan_thumb.webp"  loading="lazy" alt="Trading Freedom for Peace: The necessity of the state" width="300" height="300" /></a>
   </div><div class="post-card-body">
       <h3>
         
@@ -790,7 +802,7 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
             
                 <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
     <a href="/Aristotle-definitions/">
-    <img class="image-preview" src="/images/aristotle.webp"  loading="lazy" alt="Aristotle’s regime, the good citizen and justice" width="300" height="300" /></a>
+    <img class="image-preview" src="/images/aristotle_optimized.webp"  loading="lazy" alt="Aristotle’s regime, the good citizen and justice" width="300" height="300" /></a>
   </div><div class="post-card-body">
       <h3>
         

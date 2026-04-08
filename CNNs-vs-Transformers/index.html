@@ -17,19 +17,31 @@
 <link rel="canonical" href="https://zshn25.github.io/CNNs-vs-Transformers/" />
 <meta property="og:url" content="https://zshn25.github.io/CNNs-vs-Transformers/" />
 <meta property="og:site_name" content="Curiosity" />
-<meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/d/d7/Self-attention_in_CNN,_RNN,_and_self-attention.svg" />
+<meta property="og:image" content="https://zshn25.github.io/images/self-attention-cnn-rnn.svg" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2023-03-10T02:21:23+00:00" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta property="twitter:image" content="https://upload.wikimedia.org/wikipedia/commons/d/d7/Self-attention_in_CNN,_RNN,_and_self-attention.svg" />
+<meta property="twitter:image" content="https://zshn25.github.io/images/self-attention-cnn-rnn.svg" />
 <meta property="twitter:title" content="Convolution vs. Attention" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Zeeshan Khan Suri"},"dateModified":"2023-03-10T02:21:23+00:00","datePublished":"2023-03-10T02:21:23+00:00","description":"Similarities and differences between convolutions and attention module of Transformers","headline":"Convolution vs. Attention","image":"https://upload.wikimedia.org/wikipedia/commons/d/d7/Self-attention_in_CNN,_RNN,_and_self-attention.svg","mainEntityOfPage":{"@type":"WebPage","@id":"https://zshn25.github.io/CNNs-vs-Transformers/"},"url":"https://zshn25.github.io/CNNs-vs-Transformers/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Zeeshan Khan Suri"},"dateModified":"2023-03-10T02:21:23+00:00","datePublished":"2023-03-10T02:21:23+00:00","description":"Similarities and differences between convolutions and attention module of Transformers","headline":"Convolution vs. Attention","image":"https://zshn25.github.io/images/self-attention-cnn-rnn.svg","mainEntityOfPage":{"@type":"WebPage","@id":"https://zshn25.github.io/CNNs-vs-Transformers/"},"url":"https://zshn25.github.io/CNNs-vs-Transformers/"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#181818" media="(prefers-color-scheme: dark)">
-<!-- Preload critical font -->
-<link rel="preload" href="/assets/vendor/fonts/inter/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
+
+<!-- Security headers (only CSP and Referrer-Policy can be set via meta on GitHub Pages) -->
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="
+  default-src 'self';
+  script-src 'self' 'unsafe-inline' https://utteranc.es https://platform.twitter.com https://embed.redditmedia.com https://www.redditstatic.com;
+  style-src 'self' 'unsafe-inline';
+  img-src 'self' data: https:;
+  font-src 'self';
+  frame-src https://ourworldindata.org https://archive.org https://hf.space https://www.youtube-nocookie.com https://www.redditmedia.com https://utteranc.es https://platform.twitter.com;
+  connect-src 'self';
+  base-uri 'self';
+  form-action 'self'
+">
 <!-- Self-hosted vendor CSS (no cross-origin requests for privacy) -->
 <link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css"></noscript>
@@ -488,7 +500,7 @@
       "@type": "WebPage",
       "@id": "https://zshn25.github.io/CNNs-vs-Transformers/"
     },
-    "image": "https://upload.wikimedia.org/wikipedia/commons/d/d7/Self-attention_in_CNN%2C_RNN%2C_and_self-attention.svg",
+    "image": "https://zshn25.github.io/images/self-attention-cnn-rnn.svg",
     "keywords": ["deep-learning","convolution","attention"]
   }
   </script>
@@ -629,7 +641,7 @@
 <p>Transformers on the other hand are typically used for <strong>sequential</strong> data processing, such as text, natural language, where short-term and long-term dependencies are present. The actual dependencies are not explicit in this case. For example, in the sentence “Alice had gone to the supermarket to meet Bob”, one of the verb “meet”, is located far-away from the subject “Alice” and this dependency is not spatial but differs a lot. This is even more for longer inputs with multiple paragraphs where the final sentence could have had a dependency to a sentence somewhere in the beginning. Transformers are based on the so called attention mechanisms which learns these relationships between the elements in the sequence.</p>
 
 <p style="text-align: center;"><a href="https://commons.wikimedia.org/wiki/File:Self-attention_in_CNN,_RNN,_and_self-attention.svg" target="_blank" rel="noopener noreferrer" class="no_icon">
-	<img src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Self-attention_in_CNN%2C_RNN%2C_and_self-attention.svg" alt="Self-attention in CNN, RNN, and self-attention" width="100%" data-invert-dark="true" loading="lazy" decoding="async" />
+	<img src="/images/self-attention-cnn-rnn.svg" alt="Self-attention in CNN, RNN, and self-attention" width="100%" data-invert-dark="true" loading="lazy" decoding="async" />
 </a></p>
 <p style="text-align: center;"><sub><sup><em>Sentences do not have proper spatial relationships. Attention assigns higher importance to relevant parts of a sequence. <a href="https://commons.wikimedia.org/wiki/File:Self-attention_in_CNN,_RNN,_and_self-attention.svg">Zhang, Aston and Lipton, Zachary C. and Li, Mu and Smola, Alexander J.</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>, via Wikimedia Commons</em>
 </sup></sub></p>
@@ -709,7 +721,7 @@
   </li>
 </ul>
 
-<p style="text-align: center;"><a href="https://commons.wikimedia.org/wiki/File:Self-attention_in_CNN,_RNN,_and_self-attention.svg"><img src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Self-attention_in_CNN%2C_RNN%2C_and_self-attention.svg" alt="CNN,RNN,Attention" width="50%" data-invert-dark="true" /></a></p>
+<p style="text-align: center;"><a href="https://commons.wikimedia.org/wiki/File:Self-attention_in_CNN,_RNN,_and_self-attention.svg"><img src="/images/self-attention-cnn-rnn.svg" alt="CNN,RNN,Attention" width="50%" data-invert-dark="true" /></a></p>
 <p style="text-align: center;"><sub><sup><em>Inductive Biases in CNN, RNN &amp; Self-Attention <a href="https://commons.wikimedia.org/wiki/File:Self-attention_in_CNN,_RNN,_and_self-attention.svg">Zhang, Aston and Lipton, Zachary C. and Li, Mu and Smola, Alexander J.,</a>, <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>, via Wikimedia Commons</em>
 </sup></sub></p>
 
@@ -855,7 +867,7 @@ License: https://creativecommons.org/licenses/by-sa/3.0/-->
             
                 <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
     <a href="/inference_optimizations_benchmark/">
-    <img class="image-preview" src="/images/2026-03-24-inference_optimizations_benchmark/image.webp"  loading="lazy" alt="Inference Runtime Optimization Benchmark" width="300" height="300" /></a>
+    <img class="image-preview" src="/images/2026-03-24-inference_optimizations_benchmark/image_thumb.webp"  loading="lazy" alt="Inference Runtime Optimization Benchmark" width="300" height="300" /></a>
   </div><div class="post-card-body">
       <h3>
         
