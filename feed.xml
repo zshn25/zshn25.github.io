@@ -1,4 +1,426 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://zshn25.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://zshn25.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-04-08T21:43:39+00:00</updated><id>https://zshn25.github.io/feed.xml</id><title type="html">Curiosity</title><subtitle>I am curious. Therefore I am.</subtitle><author><name>Zeeshan Khan Suri</name><email>zshn25[at]gmail[dot]com</email></author><entry><title type="html">Inference Runtime Optimization Benchmark</title><link href="https://zshn25.github.io/inference_optimizations_benchmark/" rel="alternate" type="text/html" title="Inference Runtime Optimization Benchmark" /><published>2026-03-24T22:21:23+00:00</published><updated>2026-03-24T22:21:23+00:00</updated><id>https://zshn25.github.io/inference_optimizations_benchmark</id><content type="html" xml:base="https://zshn25.github.io/inference_optimizations_benchmark/"><![CDATA[<p>How fast can we push a single forward pass of a modern depth estimator on a CUDA GPU?
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://zshn25.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://zshn25.github.io/" rel="alternate" type="text/html" hreflang="en" /><updated>2026-04-13T21:21:17+00:00</updated><id>https://zshn25.github.io/feed.xml</id><title type="html">Curiosity</title><subtitle>I am curious. Therefore I am.</subtitle><author><name>Zeeshan Khan Suri</name><email>zshn25[at]gmail[dot]com</email></author><entry><title type="html">WordFor: A reverse dictionary that runs entirely in your browser</title><link href="https://zshn25.github.io/wordfor-reverse-dictionary/" rel="alternate" type="text/html" title="WordFor: A reverse dictionary that runs entirely in your browser" /><published>2026-04-12T22:00:00+00:00</published><updated>2026-04-12T22:00:00+00:00</updated><id>https://zshn25.github.io/wordfor-reverse-dictionary</id><content type="html" xml:base="https://zshn25.github.io/wordfor-reverse-dictionary/"><![CDATA[<p>You know the feeling. You’re writing and you <em>know</em> the word exists – you can describe it perfectly, but your brain won’t retrieve it. So you Google <em>“word for fear of being forgotten”</em>, scroll through listicles, and maybe five minutes later find <strong>athazagoraphobia</strong>.</p>
+
+<p>I got tired of that loop. So I built <a href="https://wordfor.xyz" target="_blank"><strong>WordFor</strong></a> – a reverse dictionary where you describe a concept and get the word. No ads, no sign-ups, no data leaving your device. The AI model runs entirely in the browser.</p>
+
+<h2 id="semantic-search-over-a-dictionary">Semantic search over a dictionary</h2>
+
+<p>A reverse dictionary maps <em>descriptions</em> to <em>words</em>. Given <em>“a feeling of longing for the past”</em>, it should return <strong>nostalgia</strong>. Keyword matching fails here – the query barely overlaps with the definition (<em>“a bittersweet longing for things, persons, or situations of the past”</em>). We need <em>semantic</em> similarity.</p>
+
+<p>The approach: encode every dictionary definition into a dense vector (embedding) at build time. At query time, encode the user’s description and rank definitions by cosine similarity. The dictionary combines <a href="https://en-word.net/" target="_blank">Open English WordNet 2025</a> (120k+ synsets, CC-BY 4.0) and <a href="https://github.com/adambom/dictionary" target="_blank">Webster’s 1913 Unabridged</a> (public domain) – over 176,000 definitions after deduplication, enriched with <a href="https://en.wikipedia.org/wiki/Moby_Project" target="_blank">Moby Thesaurus</a> synonyms. The challenge is doing all of this in the browser, at interactive speed.</p>
+
+<h2 id="asymmetric-retrieval">Asymmetric retrieval</h2>
+
+<p>Definitions are encoded <em>once</em> at build time – we can afford a large model. Only the query model runs in the browser, so it must be small. This naturally leads to <strong>asymmetric retrieval</strong><sup id="fnref:1"><a href="#fn:1" class="footnote" rel="footnote" role="doc-noteref">1</a></sup>:</p>
+
+<ul>
+  <li><strong>Build time</strong>: <a href="https://huggingface.co/mixedbread-ai/mxbai-embed-large-v1" target="_blank">mxbai-embed-large-v1</a> (335M parameters) encodes definitions into 1024-dimensional embeddings.</li>
+  <li><strong>Runtime</strong>: <a href="https://huggingface.co/MongoDB/mdbr-leaf-mt" target="_blank">mdbr-leaf-mt</a> (22M parameters) encodes queries into the same embedding space. It runs via <a href="https://huggingface.co/docs/transformers.js" target="_blank">Transformers.js</a> + <abbr title="Open Neural Network Exchange">ONNX</abbr> Runtime <abbr title="WebAssembly">WASM</abbr> in the browser.</li>
+</ul>
+
+<p>The key is that mdbr-leaf-mt was distilled to map queries into mxbai-embed-large’s embedding space – the teacher-student pairing is what makes asymmetric retrieval work.</p>
+
+<h2 id="matryoshka-truncation">Matryoshka truncation</h2>
+
+<p>Serving 120k $\times$ 1024 float32 vectors (488 MB) to a browser is impractical. mxbai-embed-large supports <strong>Matryoshka Representation Learning (<abbr title="Matryoshka Representation Learning">MRL</abbr>)</strong><sup id="fnref:2"><a href="#fn:2" class="footnote" rel="footnote" role="doc-noteref">2</a></sup> – leading dimensions carry the most information, so we truncate and re-normalize:</p>
+
+<p style="text-align: center;"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="bold">v</mi><mi>d</mi></msub><mo>=</mo><mfrac><msub><mi mathvariant="bold">v</mi><mrow><mn>1</mn><mo>:</mo><mi>d</mi></mrow></msub><mrow><mi mathvariant="normal">∥</mi><msub><mi mathvariant="bold">v</mi><mrow><mn>1</mn><mo>:</mo><mi>d</mi></mrow></msub><mi mathvariant="normal">∥</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">\mathbf{v}_{d} = \frac{\mathbf{v}_{1:d}}{\|\mathbf{v}_{1:d}\|}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5944em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathbf" style="margin-right:0.01597em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.016em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">d</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.247em;vertical-align:-0.52em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.727em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">∥</span><span class="mord mtight"><span class="mord mathbf mtight" style="margin-right:0.01597em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3488em;margin-left:-0.016em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mrel mtight">:</span><span class="mord mathnormal mtight">d</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1512em;"><span></span></span></span></span></span></span><span class="mord mtight">∥</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.4159em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathbf mtight" style="margin-right:0.01597em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3488em;margin-left:-0.016em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mrel mtight">:</span><span class="mord mathnormal mtight">d</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1512em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.52em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></p>
+
+<p>Evaluated on 40 test queries (common words, rare phobias, scientific terms, abstract concepts):</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Dimensions</th>
+      <th style="text-align: center"><abbr title="Mean Reciprocal Rank">MRR</abbr></th>
+      <th style="text-align: center">Hit@1</th>
+      <th style="text-align: center">Hit@6</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">1024</td>
+      <td style="text-align: center">0.6733</td>
+      <td style="text-align: center">24/40</td>
+      <td style="text-align: center">32/40</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">768</td>
+      <td style="text-align: center">0.6720</td>
+      <td style="text-align: center">24/40</td>
+      <td style="text-align: center">33/40</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">512</td>
+      <td style="text-align: center">0.6645</td>
+      <td style="text-align: center">23/40</td>
+      <td style="text-align: center">33/40</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><strong>384</strong></td>
+      <td style="text-align: center"><strong>0.6529</strong></td>
+      <td style="text-align: center"><strong>23/40</strong></td>
+      <td style="text-align: center"><strong>32/40</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: center">256</td>
+      <td style="text-align: center">0.6590</td>
+      <td style="text-align: center">23/40</td>
+      <td style="text-align: center">32/40</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">128</td>
+      <td style="text-align: center">0.5944</td>
+      <td style="text-align: center">20/40</td>
+      <td style="text-align: center">30/40</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>256d actually edges out 384d on <abbr title="Mean Reciprocal Rank">MRR</abbr> (0.6590 vs 0.6529) – the Matryoshka ordering isn’t strictly monotonic on a small test set. I went with 384d for the slightly better Hit@6 and to stay consistent with the query model’s native output.</p>
+
+<h2 id="int8-scalar-quantization">Int8 scalar quantization</h2>
+
+<p>At 384d, float32 embeddings are 176 MB. Per-dimension scalar quantization to <abbr title="8-bit integer quantization">int8</abbr>:</p>
+
+<p style="text-align: center;"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>q</mi><mi>d</mi></msub><mo>=</mo><mrow><mi mathvariant="normal">r</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">u</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">d</mi></mrow><mtext> ⁣</mtext><mrow><mo fence="true">(</mo><mfrac><mrow><msub><mi>v</mi><mi>d</mi></msub><mo>−</mo><msub><mrow><mi>min</mi><mo>⁡</mo></mrow><mi>d</mi></msub></mrow><mrow><msub><mrow><mi>max</mi><mo>⁡</mo></mrow><mi>d</mi></msub><mo>−</mo><msub><mrow><mi>min</mi><mo>⁡</mo></mrow><mi>d</mi></msub></mrow></mfrac><mo>×</mo><mn>255</mn><mo fence="true">)</mo></mrow><mo>∈</mo><mo stretchy="false">[</mo><mn>0</mn><mo separator="true">,</mo><mn>255</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">q_d = \mathrm{round}\!\left(\frac{v_d - \min_d}{\max_d - \min_d} \times 255\right) \in [0, 255]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">q</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.8em;vertical-align:-0.65em;"></span><span class="mord"><span class="mord mathrm">round</span></span><span class="mspace" style="margin-right:-0.1667em;"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size2">(</span></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8834em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mop mtight"><span class="mop mtight"><span class="mtight">m</span><span class="mtight">a</span><span class="mtight">x</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3488em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1512em;"><span></span></span></span></span></span></span><span class="mspace mtight" style="margin-right:0.1952em;"></span><span class="mord mtight">−</span><span class="mspace mtight" style="margin-right:0.1952em;"></span><span class="mop mtight"><span class="mop mtight"><span class="mtight">m</span><span class="mtight">i</span><span class="mtight">n</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3488em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1512em;"><span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.4159em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3488em;margin-left:-0.0359em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1512em;"><span></span></span></span></span></span></span><span class="mbin mtight">−</span><span class="mop mtight"><span class="mop mtight"><span class="mtight">m</span><span class="mtight">i</span><span class="mtight">n</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3488em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1512em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.4509em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">255</span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size2">)</span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">255</span><span class="mclose">]</span></span></span></span></p>
+
+<p>At query time, the dot product decomposes into a scaled <abbr title="8-bit integer quantization">int8</abbr> dot product plus a per-query constant – cheap to compute. Int8 at 384d: <abbr title="Mean Reciprocal Rank">MRR</abbr> 0.6483 vs float32’s 0.6529, negligible loss. Final embedding file: <strong>42 MB</strong> for 120k entries.</p>
+
+<h2 id="the-mobile-problem">The mobile problem</h2>
+
+<p>On iOS Safari, the 22M-parameter <abbr title="Open Neural Network Exchange">ONNX</abbr> model fails to load – both q8 and q4f16 quantizations produce <code class="language-plaintext highlighter-rouge">RangeError: Out of Memory</code>. <abbr title="WebAssembly">WASM</abbr> on iOS has strict memory limits, and the model’s runtime footprint exceeds them. WebGPU isn’t available on iOS either.</p>
+
+<p>I evaluated four smaller transformer models in symmetric mode (same model for both queries and definitions, separate embedding files):</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Model</th>
+      <th style="text-align: center">Params</th>
+      <th style="text-align: center">Symmetric <abbr title="Mean Reciprocal Rank">MRR</abbr></th>
+      <th style="text-align: center">Hit@6</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="https://huggingface.co/Snowflake/snowflake-arctic-embed-xs" target="_blank">snowflake-arctic-embed-xs</a></td>
+      <td style="text-align: center">22.6M</td>
+      <td style="text-align: center">0.6296</td>
+      <td style="text-align: center">29/40</td>
+    </tr>
+    <tr>
+      <td><a href="https://huggingface.co/TaylorAI/bge-micro-v2" target="_blank">bge-micro-v2</a></td>
+      <td style="text-align: center">17.4M</td>
+      <td style="text-align: center">0.5491</td>
+      <td style="text-align: center">27/40</td>
+    </tr>
+    <tr>
+      <td><a href="https://huggingface.co/sentence-transformers/paraphrase-albert-small-v2" target="_blank">paraphrase-albert-small-v2</a></td>
+      <td style="text-align: center">11.7M</td>
+      <td style="text-align: center">0.5392</td>
+      <td style="text-align: center">26/40</td>
+    </tr>
+    <tr>
+      <td><a href="https://huggingface.co/sentence-transformers/paraphrase-MiniLM-L3-v2" target="_blank">paraphrase-MiniLM-L3-v2</a></td>
+      <td style="text-align: center">17.4M</td>
+      <td style="text-align: center">0.5155</td>
+      <td style="text-align: center">25/40</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Snowflake leads, but at 22.6M params it has the same <abbr title="Out of Memory">OOM</abbr> problem. The rest offer only marginal gains over the static embedding approach I was already using.</p>
+
+<h2 id="lite-mode-static-embeddings-in-pure-javascript">Lite mode: static embeddings in pure JavaScript</h2>
+
+<p>For devices where the <abbr title="Open Neural Network Exchange">ONNX</abbr> model can’t load, WordFor falls back to <a href="https://huggingface.co/minishlab/potion-base-8M" target="_blank">potion-base-8M</a> – a <a href="https://github.com/MinishLab/model2vec" target="_blank">Model2Vec</a> static embedding model. Inference is pure JavaScript:</p>
+
+<ol>
+  <li>WordPiece tokenize the query</li>
+  <li>Look up each token’s 256d vector from a float16 matrix (~15 MB)</li>
+  <li>Mean pool and L2-normalize</li>
+</ol>
+
+<p>Sub-1ms, zero dependencies. <del>Lite mode compensates for lower semantic quality with a keyword overlap score.</del> Quality weights computed at build time from cross-source agreement provide a soft re-ranking signal (see below).</p>
+
+<h2 id="fine-tuning-the-static-model">Fine-tuning the static model</h2>
+
+<p>The off-the-shelf potion-base-8M was trained on general text. WordFor’s definitions have distinctive structure – concise, noun-phrase-heavy, often starting with articles. Fine-tuning on in-domain data should help.</p>
+
+<p>sentence-transformers’ <code class="language-plaintext highlighter-rouge">StaticEmbedding</code> module wraps a Model2Vec model’s embedding matrix as a differentiable <code class="language-plaintext highlighter-rouge">torch.nn.EmbeddingBag</code><sup id="fnref:3"><a href="#fn:3" class="footnote" rel="footnote" role="doc-noteref">3</a></sup>. Training pipeline:</p>
+
+<ol>
+  <li><strong>Data</strong>: <a href="https://en-word.net/" target="_blank">Open English WordNet 2025</a> (CC-BY 4.0, 120k+ synsets) + <a href="https://github.com/adambom/dictionary" target="_blank">Webster’s 1913</a> (public domain). Merged and deduplicated with <a href="https://github.com/MinishLab/semhash" target="_blank">SemHash</a> (threshold 0.9) to ~176k unique definitions.</li>
+  <li><strong>Pairs</strong>: Each (word, definition) becomes a positive pair – the word is the “query” and the definition is the “passage”. ~845k training pairs.</li>
+  <li><strong>Loss</strong>: <code class="language-plaintext highlighter-rouge">MultipleNegativesRankingLoss</code> with in-batch negatives – for a batch of 512, each pair has 511 negatives for free.</li>
+  <li><strong>Decontamination</strong>: SemHash cross-deduplication removes training definitions that are too similar (threshold 0.85) to the 40 evaluation queries. 12 entries removed in practice.</li>
+</ol>
+
+<p>The embedding matrix is the only trainable parameter – 30k tokens $\times$ 256 dimensions. No attention layers, no positional encodings, just a lookup table getting nudged by contrastive gradients. Training takes ~22 minutes on a single GPU.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Version</th>
+      <th>Training data</th>
+      <th style="text-align: center"><abbr title="Mean Reciprocal Rank">MRR</abbr></th>
+      <th style="text-align: center">Hit@1</th>
+      <th style="text-align: center">Hit@6</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Baseline (off-the-shelf)</td>
+      <td>–</td>
+      <td style="text-align: center">0.4859</td>
+      <td style="text-align: center">16/40</td>
+      <td style="text-align: center">24/40</td>
+    </tr>
+    <tr>
+      <td>v1</td>
+      <td>OEWN only</td>
+      <td style="text-align: center">0.5401</td>
+      <td style="text-align: center">18/40</td>
+      <td style="text-align: center">26/40</td>
+    </tr>
+    <tr>
+      <td><strong>v4 (deployed)</strong></td>
+      <td><strong>OEWN + Webster’s</strong></td>
+      <td style="text-align: center"><strong>0.5499</strong></td>
+      <td style="text-align: center"><strong>18/40</strong></td>
+      <td style="text-align: center"><strong>27/40</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>+13% <abbr title="Mean Reciprocal Rank">MRR</abbr> from fine-tuning alone. The runtime is unchanged – same WordPiece tokenization, same mean-pooling, same sub-millisecond inference. Only the embedding matrix weights are different.</p>
+
+<h2 id="rust-wasm-for-lite-mode-inference">Rust <abbr title="WebAssembly">WASM</abbr> for lite mode inference</h2>
+
+<p>The pure JavaScript Model2Vec implementation works, but it has a weakness: a hand-rolled WordPiece tokenizer that doesn’t match the original HuggingFace tokenizer exactly. Edge cases in normalization, unknown token handling, and subword splitting can produce slightly different embeddings.</p>
+
+<p><a href="https://github.com/MinishLab/model2vec-rs" target="_blank">model2vec-rs</a> is an official Rust implementation of Model2Vec that includes the full HuggingFace tokenizer via the <a href="https://github.com/huggingface/tokenizers" target="_blank">tokenizers</a> crate. Compiling to WebAssembly gives us exact tokenizer parity with the Python training pipeline, in a 1.9 MB <code class="language-plaintext highlighter-rouge">.wasm</code> binary.</p>
+
+<p>The <abbr title="WebAssembly">WASM</abbr> wrapper exposes a simple interface:</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">#[wasm_bindgen]</span>
+<span class="k">impl</span> <span class="n">Model</span> <span class="p">{</span>
+    <span class="nd">#[wasm_bindgen(constructor)]</span>
+    <span class="k">pub</span> <span class="k">fn</span> <span class="nf">new</span><span class="p">(</span><span class="n">tok</span><span class="p">:</span> <span class="o">&amp;</span><span class="p">[</span><span class="nb">u8</span><span class="p">],</span> <span class="n">model</span><span class="p">:</span> <span class="o">&amp;</span><span class="p">[</span><span class="nb">u8</span><span class="p">],</span> <span class="n">config</span><span class="p">:</span> <span class="o">&amp;</span><span class="p">[</span><span class="nb">u8</span><span class="p">])</span> <span class="k">-&gt;</span> <span class="k">Self</span> <span class="p">{</span> <span class="o">...</span> <span class="p">}</span>
+
+    <span class="k">pub</span> <span class="k">fn</span> <span class="nf">encode_single</span><span class="p">(</span><span class="o">&amp;</span><span class="k">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="o">&amp;</span><span class="nb">str</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="nb">Vec</span><span class="o">&lt;</span><span class="nb">f32</span><span class="o">&gt;</span> <span class="p">{</span> <span class="o">...</span> <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>At runtime, WordFor tries the <abbr title="WebAssembly">WASM</abbr> model first and falls back to pure JS if it fails. The <abbr title="WebAssembly">WASM</abbr> path is faster (~0.1ms vs ~0.3ms per query) and produces embeddings that exactly match Python – verified against reference vectors with max difference &lt; 0.001.</p>
+
+<h2 id="data-centric-quality-scoring">Data-centric quality scoring</h2>
+
+<p>Embedding similarity alone has blind spots: compound words like “art teacher” outscore “teacher”, and bag-of-words models confuse antonyms (“fear” vs “fearless”). Rather than engineering the ranking function, we improve the <em>data</em> – a quality weight $q$ for every definition, computed at build time from four independent sources.</p>
+
+<p><strong>Cross-source agreement.</strong> Each word is checked against OEWN, Webster’s, <a href="https://kaikki.org/" target="_blank">Wiktionary</a> (1.3M headwords, CC-BY-SA 3.0), and <a href="https://conceptnet.io/" target="_blank">ConceptNet 5.7</a> (878K English concepts, CC-BY-SA 4.0). Words confirmed by more sources get a small boost. Wiktionary and ConceptNet are used at build time only and not redistributed, so the output remains CC-BY 4.0.</p>
+
+<p><strong>ConceptNet knowledge graph.</strong> ConceptNet’s 3M English edges provide two additional signals: <em>centrality</em> (log-normalized degree – well-connected concepts like “water” score higher than obscure terms) and <em>relation diversity</em> (concepts participating in many relation types – IsA, HasProperty, Synonym, etc. – are better-defined).</p>
+
+<p><strong>Definition quality.</strong> Heuristics penalize short ($&lt;$8 tokens), overly long ($&gt;$25 tokens), and generic definitions (“a kind of …”). An IDF-based richness score rewards definitions using specific vocabulary.</p>
+
+<p><strong>Compound penalty.</strong> Multi-word entries where all components exist as standalone words get penalized. The raw score is dampened via $q^{0.1}$ to act as a soft re-ranking signal rather than a hard filter:</p>
+
+<p style="text-align: center;"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mtext>score</mtext><mtext>final</mtext></msub><mo>=</mo><mtext>cosine</mtext><mo stretchy="false">(</mo><msub><mi>q</mi><mtext>user</mtext></msub><mo separator="true">,</mo><msub><mi>e</mi><mtext>def</mtext></msub><mo stretchy="false">)</mo><mo>⋅</mo><msup><mi>q</mi><mn>0.1</mn></msup></mrow><annotation encoding="application/x-tex">\text{score}_{\text{final}} = \text{cosine}(q_{\text{user}}, e_{\text{def}}) \cdot q^{0.1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord text"><span class="mord">score</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">final</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">cosine</span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">q</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">user</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">def</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0085em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">q</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">0.1</span></span></span></span></span></span></span></span></span></span></span></span></p>
+
+<p>On the expanded 67-query test set, quality weighting alone improved the base potion model by +7.8% <abbr title="Mean Reciprocal Rank">MRR</abbr> – matching a fine-tuned model without changing any weights.</p>
+
+<h2 id="results">Results</h2>
+
+<p>The full evaluation summary. The first block uses the original 40-query test set; the second uses an expanded 67-query set with harder near-miss pairs (active/passive semantics, antonyms, domain specificity):</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Config</th>
+      <th style="text-align: center"><abbr title="Mean Reciprocal Rank">MRR</abbr></th>
+      <th style="text-align: center">Hit@1</th>
+      <th style="text-align: center">Hit@6</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>asymmetric, f32 1024d</td>
+      <td style="text-align: center">0.6733</td>
+      <td style="text-align: center">24/40</td>
+      <td style="text-align: center">32/40</td>
+    </tr>
+    <tr>
+      <td><strong>asymmetric, <abbr title="8-bit integer quantization">int8</abbr> 384d (deployed full)</strong></td>
+      <td style="text-align: center"><strong>0.6483</strong></td>
+      <td style="text-align: center"><strong>22/40</strong></td>
+      <td style="text-align: center"><strong>33/40</strong></td>
+    </tr>
+    <tr>
+      <td>snowflake-arctic-embed-xs, symmetric</td>
+      <td style="text-align: center">0.6296</td>
+      <td style="text-align: center">23/40</td>
+      <td style="text-align: center">29/40</td>
+    </tr>
+    <tr>
+      <td>fine-tuned potion 256d (deployed lite)</td>
+      <td style="text-align: center">0.5499</td>
+      <td style="text-align: center">18/40</td>
+      <td style="text-align: center">27/40</td>
+    </tr>
+    <tr>
+      <td>potion 256d, cosine only</td>
+      <td style="text-align: center">0.4859</td>
+      <td style="text-align: center">16/40</td>
+      <td style="text-align: center">24/40</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th>Config (67-query expanded set)</th>
+      <th style="text-align: center"><abbr title="Mean Reciprocal Rank">MRR</abbr></th>
+      <th style="text-align: center">Hit@1</th>
+      <th style="text-align: center">Hit@6</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>potion base (no quality weights)</td>
+      <td style="text-align: center">0.4368</td>
+      <td style="text-align: center">22/67</td>
+      <td style="text-align: center">38/67</td>
+    </tr>
+    <tr>
+      <td>fine-tuned potion v4 (no quality weights)</td>
+      <td style="text-align: center">0.4662</td>
+      <td style="text-align: center">25/67</td>
+      <td style="text-align: center">41/67</td>
+    </tr>
+    <tr>
+      <td><strong>potion base + quality weights (Wikt+ConceptNet)</strong></td>
+      <td style="text-align: center"><strong>0.4708</strong></td>
+      <td style="text-align: center"><strong>25/67</strong></td>
+      <td style="text-align: center"><strong>41/67</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="browser-benchmarks">Browser benchmarks</h3>
+
+<p>Query latency (average over 5 queries, includes tokenization + embedding + scoring 120k entries):</p>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th style="text-align: center">Lite (Potion)</th>
+      <th style="text-align: center">Full q8 <abbr title="WebAssembly">WASM</abbr></th>
+      <th style="text-align: center">Full q4f16 WebGPU</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Edge (Desktop)</strong></td>
+      <td style="text-align: center">49.8 ms</td>
+      <td style="text-align: center">73.4 ms</td>
+      <td style="text-align: center">71.8 ms</td>
+    </tr>
+    <tr>
+      <td><strong>Firefox (Desktop)</strong></td>
+      <td style="text-align: center">29.4 ms</td>
+      <td style="text-align: center">53.4 ms</td>
+      <td style="text-align: center">228 ms</td>
+    </tr>
+    <tr>
+      <td><strong>Safari (iOS)</strong></td>
+      <td style="text-align: center">26.8 ms</td>
+      <td style="text-align: center"><abbr title="Out of Memory">OOM</abbr></td>
+      <td style="text-align: center">N/A</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>q8 <abbr title="WebAssembly">WASM</abbr> is faster than q4f16 <abbr title="WebAssembly">WASM</abbr> (73.4 vs 128.2 ms on Edge) – q4f16 decompression adds overhead. WebGPU helps on Edge but hurts on Firefox. Lite mode is uniformly fast.</p>
+
+<p>Deployed configuration: q8 <abbr title="WebAssembly">WASM</abbr> on desktop (WebGPU opt-in via <code class="language-plaintext highlighter-rouge">?device=webgpu</code>), automatic fallback to lite on mobile.</p>
+
+<h2 id="architecture">Architecture</h2>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    BUILD TIME (GPU)                    BROWSER (runtime)
+    ────────────────                    ─────────────────
+    mxbai-embed-large-v1 (335M)        Full: mdbr-leaf-mt (22M) ONNX WASM
+    → 176k defs → 1024d → MRL 384d     → query → 384d → dot 176k × q → ~70ms
+    → int8 → 65 MB
+
+    fine-tuned potion (8M)             Lite: model2vec-rs WASM (or pure JS)
+    → 176k defs → 256d → int8          → query → 256d → dot 176k × q
+    → 44 MB                            → ~30ms
+
+    Quality scoring (4 sources):
+    OEWN + Webster + Wiktionary
+    + ConceptNet → per-entry q weight
+</code></pre></div></div>
+
+<h2 id="what-makes-it-fast">What makes it fast</h2>
+
+<ul>
+  <li><strong>Int8 quantization</strong>: 4x smaller files, ~2x faster dot products in JS</li>
+  <li><strong>Parallel loading</strong>: potion data and the <abbr title="Open Neural Network Exchange">ONNX</abbr> model download simultaneously</li>
+  <li><strong>Service Worker caching</strong>: cache-first after first visit</li>
+  <li><strong>Model warmup</strong>: dummy inference during loading avoids first-query compilation stall</li>
+</ul>
+
+<h2 id="privacy">Privacy</h2>
+
+<p>Everything runs client-side. Static files served from GitHub Pages through Cloudflare CDN (see my post on <a href="/github-pages-cloudflare-gdpr">making GitHub Pages GDPR-compliant with Cloudflare</a>). No server, no database, no cookies. Analytics via <a href="https://www.goatcounter.com/" target="_blank">GoatCounter</a> – cookie-free, no personal data.</p>
+
+<h2 id="whats-next">What’s next</h2>
+
+<ul>
+  <li><strong>Binary quantization</strong>: The mdbr-leaf-mt model card reports robustness to binary (1-bit) quantization. At 384d, this would shrink the full-mode embedding file from 65 MB to ~8 MB – a 32x reduction with ~96% performance retained, using Hamming distance for fast retrieval.</li>
+  <li><strong>Model2Vec distillation</strong>: Distilling from mxbai-embed-large-v1 could produce a static embedding matrix that better captures the teacher’s space – without changing runtime latency.</li>
+  <li><strong>LLM-augmented definitions</strong>: Using a large language model (e.g., Gemma 4) at build time to clean, expand, and rephrase definitions could improve embedding quality for rare or poorly-defined words.</li>
+</ul>
+
+<h2 id="try-it">Try it</h2>
+
+<p><strong><a href="https://wordfor.xyz" target="_blank">wordfor.xyz</a></strong> – describe a concept, find the word.</p>
+
+<p>If you find it useful, consider a share or a <a href="https://ko-fi.com/zshn25" target="_blank">Ko-fi</a>.</p>
+
+<hr />
+
+<p>(c) Zeeshan Khan Suri, <a href="http://creativecommons.org/licenses/by-nc/4.0/"><img src="https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-nc.svg" width="60" /></a></p>
+
+<p>If this article was helpful to you, consider citing</p>
+
+<div class="language-bibtex highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">@misc</span><span class="p">{</span><span class="nl">suri_wordfor_2026</span><span class="p">,</span>
+      <span class="na">title</span><span class="p">=</span><span class="s">{WordFor: A reverse dictionary that runs entirely in your browser}</span><span class="p">,</span>
+      <span class="na">url</span><span class="p">=</span><span class="s">{https://zshn25.github.io/wordfor-reverse-dictionary}</span><span class="p">,</span>
+      <span class="na">journal</span><span class="p">=</span><span class="s">{Curiosity}</span><span class="p">,</span>
+      <span class="na">author</span><span class="p">=</span><span class="s">{Suri, Zeeshan Khan}</span><span class="p">,</span>
+      <span class="na">year</span><span class="p">=</span><span class="s">{2026}</span><span class="p">,</span>
+      <span class="na">month</span><span class="p">=</span><span class="s">{Apr}</span><span class="p">}</span>
+</code></pre></div></div>
+
+<h1 id="references">References</h1>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1">
+      <p>Asymmetric retrieval using the mxbai-embed-large + mdbr-leaf-mt pairing from <a href="https://huggingface.co/MongoDB/mdbr-leaf-mt" target="_blank">MongoDB’s retrieval model suite</a>. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:2">
+      <p>Kusupati et al., <a href="https://arxiv.org/abs/2205.13147" target="_blank">Matryoshka Representation Learning</a>, NeurIPS 2022. <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:3">
+      <p>Sentence-Transformers’ <a href="https://sbert.net/docs/package_reference/sentence_transformer/models.html#staticembedding" target="_blank"><code class="language-plaintext highlighter-rouge">StaticEmbedding</code></a> module. See also: Minish Lab, <a href="https://huggingface.co/blog/Pringled/model2vec" target="_blank">Model2Vec: Distill a Small Fast Model from any Sentence Transformer</a>. <a href="#fnref:3" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>]]></content><author><name>Zeeshan Khan Suri</name></author><category term="deep-learning" /><category term="nlp" /><category term="transformers" /><category term="embeddings" /><category term="side-project" /><summary type="html"><![CDATA[Building a free, private reverse dictionary with sentence embeddings, ONNX Runtime, and static model inference -- zero server-side compute.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://zshn25.github.io/images/wordfor.webp" /><media:content medium="image" url="https://zshn25.github.io/images/wordfor.webp" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Inference Runtime Optimization Benchmark</title><link href="https://zshn25.github.io/inference_optimizations_benchmark/" rel="alternate" type="text/html" title="Inference Runtime Optimization Benchmark" /><published>2026-03-24T22:21:23+00:00</published><updated>2026-03-24T22:21:23+00:00</updated><id>https://zshn25.github.io/inference_optimizations_benchmark</id><content type="html" xml:base="https://zshn25.github.io/inference_optimizations_benchmark/"><![CDATA[<p>How fast can we push a single forward pass of a modern depth estimator on a CUDA GPU?
 Let’s find out with a systematic exploration of every major optimization technique:</p>
 
 <table>
@@ -4976,111 +5398,4 @@ if (typeof loadYouTube === 'undefined') {
       <p>Dai, Z., Liu, H., Le, Q. V., &amp; Tan, M. (2021). <a href="https://papers.nips.cc/paper/2021/hash/20568692db622456cc42a2e853ca21f8-Abstract.html">Coatnet: Marrying convolution and attention for all data sizes</a>. Advances in Neural Information Processing Systems, 34, 3965-3977. <a href="#fnref:3" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
   </ol>
-</div>]]></content><author><name>Zeeshan Khan Suri</name></author><category term="deep-learning" /><category term="convolution" /><category term="attention" /><summary type="html"><![CDATA[Similarities and differences between convolutions and attention module of Transformers]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://zshn25.github.io/images/self-attention-cnn-rnn.svg" /><media:content medium="image" url="https://zshn25.github.io/images/self-attention-cnn-rnn.svg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Software 2.0 2.0</title><link href="https://zshn25.github.io/Software-2/" rel="alternate" type="text/html" title="Software 2.0 2.0" /><published>2022-12-05T03:21:23+00:00</published><updated>2022-12-05T03:21:23+00:00</updated><id>https://zshn25.github.io/Software-2</id><content type="html" xml:base="https://zshn25.github.io/Software-2/"><![CDATA[<p>This post is a rebuttal on Andrej Karpathy’s <a href="https://karpathy.medium.com/software-2-0-a64152b37c35">Software 2.0</a>. It is brilliant and you should definitely read it but I thought the critical takeaway was lost in the many great points and I wanted to make that more explicit.</p>
-
-<hr />
-
-<p>Traditional methods for solving a software problem involve people coming up with the required algorithmic steps to tackle it.</p>
-
-<p>For example, think about a problem of estimating the depth of an object from an image. A traditional algorithm would contain the following steps</p>
-
-<ul>
-  <li>
-    <p>Gather 2 frames with enough baseline such that there is change within the scene but not too much</p>
-  </li>
-  <li>
-    <p>Find features such as SIFT, etc. on one frame, assuming the same features also exist on the other frame.</p>
-  </li>
-  <li>
-    <p>Find correspondence between these features, filter the correspondences and estimate a 2D flow</p>
-  </li>
-  <li>
-    <p>Derive relative depth from the flow</p>
-  </li>
-</ul>
-
-<h2 id="scaling-with-data">Scaling with data</h2>
-
-<p>Such an approach would work good enough in general and can be deployed for all kinds of scenarios which satisfy the approach’s approximations/assumptions but its performance would not depend on the amount of available data.</p>
-
-<p style="text-align: center;"><img src="/images/performance_classical.svg" alt="s" /></p>
-<p style="text-align: center;"><sub><sup><em>Performance of a traditional algorithm does not depend on the amount of available data</em>
-</sup></sub></p>
-
-<h3 id="how-can-we-do-better">How can we do better?</h3>
-
-<p>We can try to improve each of the approach’s steps and gain overall performance, and decades of research in Computer Vision does exactly that. But, by changing our fundamental thinking towards learning based approaches, unprecedented improvements were realized.</p>
-
-<h2 id="era-of-learning">Era of learning</h2>
-
-<p>Learning based approaches replaced the handcrafted features (SURF in the above example) to derive these features from the data. Neural networks replaced the rest</p>
-
-<blockquote class="no_toc">
-  <p>Checkout my blog post on <a href="/self-supervision-for-foundation-models/">self-supervised learning for foundation models</a></p>
-</blockquote>
-
-<h3 id="neural-networks-are-function-approximators">Neural networks are function approximators</h3>
-
-<p>Traditional approach is to come up with a model/algorithm that converts an input to an output.</p>
-
-<p style="text-align: center;"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>input</mtext><mo>→</mo><mtext>model</mtext><mo>→</mo><mtext>output</mtext></mrow><annotation encoding="application/x-tex">\text{input} \rightarrow \text{model} \rightarrow \text{output}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8623em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">input</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord">model</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8095em;vertical-align:-0.1944em;"></span><span class="mord text"><span class="mord">output</span></span></span></span></span></p>
-
-<p>Deep learning replaces this with 2 steps:</p>
-
-<ol>
-  <li>
-    <p>Training: Given many examples of input and output data, the model is learnt.</p>
-  </li>
-  <li>
-    <p>Deployment: The learnt model is used on new inputs to infer their outputs.</p>
-  </li>
-</ol>
-
-<p>This allows the performance of the model to be dependent on the amount of training data available.</p>
-
-<p style="text-align: center;"><img src="/images/performance_data.svg" alt="s" /></p>
-<p style="text-align: center;"><sub><sup><em>As the training data increases, the performance of a DL model increases but traditional methods do not depend on the training data</em>
-</sup></sub></p>
-
-<h3 id="production-time">Production time</h3>
-
-<p>Traditional algorithms have to be almost always completely re-written from their prototyping phase to production while keeping the computational power and memory in check. At test time, Deep learning replaces all of this with just one model inference call. So, we go from re-implementing production level code to passing the input through a bunch of linear algebra. Neural networks cost same amount of memory and even better computational efficiency during inference time.</p>
-
-<h2 id="algorithm-20ic-thinking">Algorithm 2.0ic thinking</h2>
-
-<ol>
-  <li>
-    <p>First, to gain performance, it is not enough to copy paste one training example into multiple copies. The model needs to be intelligently scaled by feeding in huge amounts of new data with much variation, representing the true population as truly as possible.</p>
-  </li>
-  <li>
-    <p>Secondly, new data doesn’t come for free. It is labor-intensive and expensive to label data. Smart gathering is required. One cannot just copy paste existing data and assume the data has increased. It has to increase meaningfully.</p>
-  </li>
-  <li>
-    <p>Thirdly, in order to be able to feed in that much amount of data, there needs to be infrastructure in place.</p>
-  </li>
-  <li>
-    <p>As in the case of traditional algorithms, one cannot just hand-engineer the algorithm and use it in deployment forever. One needs to continuously improve/train the learnt model and continuously deploy it. This is also where the data can be selected smartly for the next iteration of improvement.</p>
-  </li>
-</ol>
-
-<h2 id="the-holy-grail-or-just-a-fad">The holy grail? or just a fad?</h2>
-
-<p>For many applications, the performance gain is really not that critical. Other factors such as explainability, fail-safe, etc are equally important, which the current deep learning approaches lack. The availability of data is another critical factor in deciding to choose learning based approaches.</p>
-
-<p style="text-align: center;"><img src="/images/performance_lowdata.svg" alt="s" /></p>
-<p style="text-align: center;"><sub><sup><em>If data is limited (green part), traditional algorithms provide better performance</em>
-</sup></sub></p>
-
-<h2 id="continuous-improvement">Continuous improvement</h2>
-
-<p>But, if the performance gains are to be realized, scaling with data is the way to go.</p>
-
-<iframe src="https://ourworldindata.org/grapher/artificial-intelligence-number-training-datapoints" loading="lazy" style="width: 100%; height: 600px; border: 0px none;"></iframe>
-<p style="text-align: center;"><sub><sup><em>Amount of data used to train notable AI systems. Source: <a href="https://ourworldindata.org/grapher/artificial-intelligence-number-training-datapoints">Our World in Data</a></em>
-</sup></sub></p>
-
-<p>And the way to execute this smartly is by continuous improvement</p>
-
-<p style="text-align: center;"><img src="/images/loop.svg" alt="s" /></p>
-<p style="text-align: center;"><sub><sup><em>Continuous Improvement loop</em>
-</sup></sub></p>]]></content><author><name>Zeeshan Khan Suri</name></author><category term="deep-learning" /><category term="mlops" /><summary type="html"><![CDATA[Realizing Performance in Era of Deep Learning by Scaling with Data]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://zshn25.github.io/images/loop.svg" /><media:content medium="image" url="https://zshn25.github.io/images/loop.svg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+</div>]]></content><author><name>Zeeshan Khan Suri</name></author><category term="deep-learning" /><category term="convolution" /><category term="attention" /><summary type="html"><![CDATA[Similarities and differences between convolutions and attention module of Transformers]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://zshn25.github.io/images/self-attention-cnn-rnn.svg" /><media:content medium="image" url="https://zshn25.github.io/images/self-attention-cnn-rnn.svg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

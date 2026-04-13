@@ -1,0 +1,1548 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="twitter:site" content="@zshn25" />
+  <meta name="twitter:creator" content="@zshn25" />
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>WordFor: A reverse dictionary that runs entirely in your browser | Curiosity</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="WordFor: A reverse dictionary that runs entirely in your browser" />
+<meta name="author" content="Zeeshan Khan Suri" />
+<meta property="og:locale" content="en" />
+<meta name="description" content="Building a free, private reverse dictionary with sentence embeddings, ONNX Runtime, and static model inference – zero server-side compute." />
+<meta property="og:description" content="Building a free, private reverse dictionary with sentence embeddings, ONNX Runtime, and static model inference – zero server-side compute." />
+<link rel="canonical" href="https://zshn25.github.io/wordfor-reverse-dictionary/" />
+<meta property="og:url" content="https://zshn25.github.io/wordfor-reverse-dictionary/" />
+<meta property="og:site_name" content="Curiosity" />
+<meta property="og:image" content="https://zshn25.github.io/images/wordfor.webp" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2026-04-12T22:00:00+00:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://zshn25.github.io/images/wordfor.webp" />
+<meta property="twitter:title" content="WordFor: A reverse dictionary that runs entirely in your browser" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Zeeshan Khan Suri"},"dateModified":"2026-04-12T22:00:00+00:00","datePublished":"2026-04-12T22:00:00+00:00","description":"Building a free, private reverse dictionary with sentence embeddings, ONNX Runtime, and static model inference – zero server-side compute.","headline":"WordFor: A reverse dictionary that runs entirely in your browser","image":"https://zshn25.github.io/images/wordfor.webp","mainEntityOfPage":{"@type":"WebPage","@id":"https://zshn25.github.io/wordfor-reverse-dictionary/"},"url":"https://zshn25.github.io/wordfor-reverse-dictionary/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://zshn25.github.io/feed.xml" title="Curiosity" /><link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico"><meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#181818" media="(prefers-color-scheme: dark)">
+
+<!-- Security headers (only CSP and Referrer-Policy can be set via meta on GitHub Pages) -->
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta http-equiv="Content-Security-Policy" content="
+  default-src 'self';
+  script-src 'self' 'unsafe-inline' https://utteranc.es https://platform.twitter.com https://embed.redditmedia.com https://www.redditstatic.com;
+  style-src 'self' 'unsafe-inline';
+  img-src 'self' data: https:;
+  font-src 'self';
+  frame-src https://ourworldindata.org https://archive.org https://hf.space https://www.youtube-nocookie.com https://www.redditmedia.com https://utteranc.es https://platform.twitter.com;
+  connect-src 'self';
+  base-uri 'self';
+  form-action 'self'
+">
+<!-- Self-hosted vendor CSS (no cross-origin requests for privacy) -->
+<link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="/assets/vendor/fontawesome/css/all.min.css"></noscript>
+<link rel="stylesheet" href="/assets/vendor/academicons/css/academicons.min.css" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="/assets/vendor/academicons/css/academicons.min.css"></noscript>
+    <!-- KaTeX: only on content pages (skipped on homepage for performance) -->
+    <link rel="stylesheet" href="/assets/vendor/katex/katex.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="/assets/vendor/katex/katex.min.css"></noscript>
+    <script defer src="/assets/vendor/katex/katex.min.js"></script>
+    <script defer src="/assets/vendor/katex/contrib/auto-render.min.js"></script>
+    <script>
+        function tryRenderMath(n) {
+            if (typeof renderMathInElement === 'function') {
+                renderMathInElement(document.body, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false},
+                        {left: '\\(', right: '\\)', display: false},
+                        {left: '\\[', right: '\\]', display: true}
+                    ],
+                    throwOnError: false,
+                    trust: true
+                });
+            } else if ((n || 0) < 50) {
+                setTimeout(function() { tryRenderMath((n || 0) + 1); }, 100);
+            }
+        }
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', tryRenderMath);
+        } else {
+            tryRenderMath();
+        }
+    </script>
+
+
+
+<script>document.documentElement.className=document.documentElement.className.replace(/\bno-js\b/,'js');</script>
+<link id="dark-css" href="/assets/css/dark.css" rel="stylesheet" media="(prefers-color-scheme: dark)"><script>// Theme toggle: light ↔ dark (two states only)
+(function () {
+  var STORAGE_KEY = "colorScheme";
+  var darkLink = document.querySelector("#dark-css");
+
+  function getStored() {
+    try { return localStorage.getItem(STORAGE_KEY); } catch (e) { return null; }
+  }
+
+  function setStored(v) {
+    try {
+      if (v === null) localStorage.removeItem(STORAGE_KEY);
+      else localStorage.setItem(STORAGE_KEY, v);
+    } catch (e) { /* private browsing */ }
+  }
+
+  function apply(mode) {
+    if (!darkLink) return;
+    if (mode === "dark") darkLink.removeAttribute("media");
+    else darkLink.setAttribute("media", "not all");
+    // Update theme-color meta for mobile browser chrome
+    var metas = document.querySelectorAll('meta[name="theme-color"]');
+    if (metas.length >= 2) {
+      if (mode === "dark") { metas[0].content = "#181818"; metas[1].content = "#181818"; }
+      else { metas[0].content = "#ffffff"; metas[1].content = "#ffffff"; }
+    }
+  }
+
+  // Icon shows what you'll switch TO: moon = "click for dark", sun = "click for light"
+  var LABELS = { dark: "Switch to Light mode", light: "Switch to Dark mode" };
+  var ICONS = { dark: "fa-sun", light: "fa-moon" };
+  var MODE_LABELS = { dark: "Light mode", light: "Dark mode" };
+
+  function updateToggle(el, iconSel, mode, showLabel) {
+    if (!el) return;
+    var icon = el.querySelector(iconSel);
+    if (icon) {
+      icon.classList.remove("fa-moon", "fa-sun", "fa-adjust");
+      icon.classList.add(ICONS[mode] || "fa-moon");
+    }
+    el.setAttribute("aria-label", LABELS[mode] || "Toggle theme");
+    if (!showLabel) el.title = LABELS[mode] || "Toggle theme";
+    if (showLabel) {
+      var label = el.querySelector(".nav-theme-label-mobile");
+      if (label) label.textContent = MODE_LABELS[mode] || "Theme";
+    }
+  }
+
+  function updateIcon(mode) {
+    updateToggle(document.getElementById("nav-switch-theme"), ".nav-theme-icon", mode, false);
+    updateToggle(document.getElementById("nav-switch-theme-mobile"), ".nav-theme-icon-mobile", mode, true);
+  }
+
+  function resolveMode() {
+    var stored = getStored();
+    if (stored === "dark" || stored === "light") return stored;
+    // No stored preference — use system preference
+    return (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light";
+  }
+
+  function toggle() {
+    var current = resolveMode();
+    var next = current === "dark" ? "light" : "dark";
+    setStored(next);
+    apply(next);
+    updateIcon(next);
+  }
+
+  // Initial apply
+  var mode = resolveMode();
+  apply(mode);
+
+  function init() {
+    var toggleBtn = document.getElementById("nav-switch-theme");
+    if (toggleBtn) {
+      toggleBtn.style.display = "";
+      toggleBtn.addEventListener("click", toggle);
+    }
+    var toggleM = document.getElementById("nav-switch-theme-mobile");
+    if (toggleM) {
+      toggleM.style.display = "";
+      toggleM.addEventListener("click", toggle);
+    }
+    updateIcon(mode);
+  }
+
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
+  else init();
+
+  // ── Shared utilities (used by main.js, consent-gate.js, utterances.html) ──
+  window.isDarkMode = function() {
+    if (!darkLink) return false;
+    return darkLink.media === '' || (darkLink.media === '(prefers-color-scheme: dark)' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  };
+})();
+</script><script>
+// Consent gate: Block third-party embeds until user opts in
+// Handles: Twitter/X tweets, Reddit embeds, YouTube (via youtube.html include)
+// Persists consent per provider in localStorage — user only consents once.
+// Inlined for performance: eliminates 450ms network request
+(function() {
+    'use strict';
+
+    var CONSENT_KEY = 'embedConsent';
+
+    function getConsent() {
+        try { return JSON.parse(localStorage.getItem(CONSENT_KEY)) || {}; } catch(e) { return {}; }
+    }
+    function setConsent(provider) {
+        var c = getConsent();
+        c[provider] = true;
+        localStorage.setItem(CONSENT_KEY, JSON.stringify(c));
+    }
+    function hasConsent(provider) {
+        return !!getConsent()[provider];
+    }
+
+    // Expose for reuse (utterances.html, youtube.html)
+    window._consent = { get: getConsent, set: setConsent, has: hasConsent };
+
+    // ── Expose for YouTube include (youtube.html calls loadYouTube) ──
+    var _origLoadYouTube = null;
+    window._consentYouTube = function() { setConsent('youtube'); };
+
+    // Immediately remove auto-loading third-party scripts (runs before DOM is ready)
+    function removeScripts() {
+        document.querySelectorAll(
+            'script[src*="platform.twitter.com"],' +
+            'script[src*="redditstatic.com"],' +
+            'script[src*="redditmedia.com"]'
+        ).forEach(function(s) { s.remove(); });
+    }
+    removeScripts();
+
+    // Use MutationObserver to catch dynamically added scripts
+    var observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(m) {
+            m.addedNodes.forEach(function(node) {
+                if (node.tagName === 'SCRIPT' && node.src &&
+                    (node.src.indexOf('platform.twitter.com') !== -1 ||
+                     node.src.indexOf('redditstatic.com') !== -1 ||
+                     node.src.indexOf('redditmedia.com') !== -1)) {
+                    node.remove();
+                }
+            });
+        });
+    });
+    observer.observe(document.documentElement, { childList: true, subtree: true });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        observer.disconnect();
+        removeScripts();
+
+        var isDark = typeof window.isDarkMode === 'function' ? window.isDarkMode() : window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        // ── Twitter embeds ──
+        var tweets = document.querySelectorAll('blockquote.twitter-tweet');
+        if (tweets.length) {
+            var twitterOK = hasConsent('twitter');
+            tweets.forEach(function(tweet, i) {
+                var tweetLink = tweet.querySelector('a[href*="twitter.com"]') || tweet.querySelector('a[href*="x.com"]');
+                var tweetUrl = tweetLink ? tweetLink.href : '#';
+                if (twitterOK) {
+                    directLoadTwitter(tweet, isDark);
+                } else {
+                    wrapWithConsent(tweet, {
+                        id: 'twitter-' + i,
+                        icon: '<i class="fab fa-twitter" style="color:#1da1f2;"></i>',
+                        provider: 'twitter',
+                        providerLabel: 'Twitter/X',
+                        loadLabel: 'Load tweets',
+                        extUrl: tweetUrl,
+                        extLabel: 'View on Twitter',
+                        borderColor: '#1da1f2',
+                        onLoad: function(container, original) {
+                            setConsent('twitter');
+                            var restored = original.cloneNode(true);
+                            restored.style.display = '';
+                            if (isDark) restored.setAttribute('data-theme', 'dark');
+                            container.appendChild(restored);
+                            var s = document.createElement('script');
+                            s.src = 'https://platform.twitter.com/widgets.js';
+                            s.async = true;
+                            container.appendChild(s);
+                            // Auto-load remaining twitter embeds on this page
+                            autoLoadRemaining('twitter');
+                        }
+                    });
+                }
+            });
+        }
+
+        // ── Reddit embeds ──
+        var reddits = document.querySelectorAll('.reddit-embed, blockquote.reddit-card');
+        if (reddits.length) {
+            var redditOK = hasConsent('reddit');
+            reddits.forEach(function(embed, i) {
+                var redditLink = embed.querySelector('a[href*="reddit.com"]');
+                var redditUrl = redditLink ? redditLink.href : '#';
+                if (redditOK) {
+                    directLoadReddit(embed, isDark);
+                } else {
+                    wrapWithConsent(embed, {
+                        id: 'reddit-' + i,
+                        icon: '<i class="fab fa-reddit" style="color:#ff4500;"></i>',
+                        provider: 'reddit',
+                        providerLabel: 'Reddit',
+                        loadLabel: 'Load Reddit content',
+                        extUrl: redditUrl,
+                        extLabel: 'View on Reddit',
+                        borderColor: '#ff4500',
+                        onLoad: function(container, original) {
+                            setConsent('reddit');
+                            renderReddit(container, original, isDark);
+                            autoLoadRemaining('reddit');
+                        }
+                    });
+                }
+            });
+        }
+
+        // ── YouTube auto-consent if previously accepted ──
+        if (hasConsent('youtube')) {
+            document.querySelectorAll('.consent-embed[id^="yt-"]').forEach(function(el) {
+                var btn = el.querySelector('button[onclick*="loadYouTube"]');
+                if (btn) btn.click();
+            });
+        }
+    });
+
+    function directLoadTwitter(tweet, isDark) {
+        var restored = tweet.cloneNode(true);
+        restored.style.display = '';
+        if (isDark) restored.setAttribute('data-theme', 'dark');
+        var wrapper = document.createElement('div');
+        wrapper.appendChild(restored);
+        tweet.parentNode.replaceChild(wrapper, tweet);
+        var s = document.createElement('script');
+        s.src = 'https://platform.twitter.com/widgets.js';
+        s.async = true;
+        wrapper.appendChild(s);
+    }
+
+    function directLoadReddit(embed, isDark) {
+        var wrapper = document.createElement('div');
+        embed.parentNode.replaceChild(wrapper, embed);
+        renderReddit(wrapper, embed, isDark);
+    }
+
+    function renderReddit(container, original, isDark) {
+        var link = original.querySelector('a[href*="reddit.com"]');
+        if (!link) return;
+        var href = link.href;
+        var embedUrl = href.replace(/(?:old|www)\.reddit\.com/, 'www.redditmedia.com');
+        if (embedUrl.indexOf('?') === -1) embedUrl += '?';
+        else embedUrl += '&';
+        embedUrl += 'ref_source=embed&ref=share&embed=true&theme=' + (isDark ? 'dark' : 'light');
+        var iframe = document.createElement('iframe');
+        iframe.src = embedUrl;
+        iframe.style.cssText = 'width:100%;min-height:300px;border:none;border-radius:8px;overflow:hidden;';
+        iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-popups');
+        iframe.setAttribute('loading', 'lazy');
+        iframe.referrerPolicy = 'origin';
+        container.appendChild(iframe);
+    }
+
+    function autoLoadRemaining(provider) {
+        document.querySelectorAll('.consent-embed[data-provider="' + provider + '"]').forEach(function(el) {
+            var btn = el.querySelector('.consent-load-btn');
+            if (btn) btn.click();
+        });
+    }
+
+    function wrapWithConsent(element, opts) {
+        var wrapper = document.createElement('div');
+        wrapper.className = 'consent-embed';
+        wrapper.id = 'consent-' + opts.id;
+        wrapper.setAttribute('data-provider', opts.provider);
+
+        var placeholder = document.createElement('div');
+        placeholder.className = 'consent-placeholder';
+
+        var preview = element.cloneNode(true);
+        preview.classList.remove('twitter-tweet', 'reddit-card');
+        preview.removeAttribute('data-lang');
+        preview.removeAttribute('data-cards');
+        preview.querySelectorAll('script').forEach(function(s) { s.remove(); });
+        preview.style.cssText = 'text-align:left;margin:0 0 1em;padding:0.5em 1em;border-left:3px solid ' + opts.borderColor + ';font-size:0.9em;color:#666;max-height:120px;overflow:hidden;';
+
+        var info = document.createElement('p');
+        info.className = 'consent-detail';
+        info.innerHTML = opts.icon + ' This connects to <strong>' + opts.providerLabel + '</strong> and may set cookies. Your choice is remembered for future visits.';
+
+        var loadBtn = document.createElement('button');
+        loadBtn.className = 'button is-rounded consent-load-btn';
+        loadBtn.innerHTML = opts.icon + ' ' + opts.loadLabel;
+        loadBtn.onclick = function() {
+            wrapper.innerHTML = '';
+            opts.onLoad(wrapper, element);
+        };
+
+        var extLink = document.createElement('a');
+        extLink.href = opts.extUrl;
+        extLink.target = '_blank';
+        extLink.rel = 'noopener noreferrer';
+        extLink.className = 'button is-rounded';
+        extLink.innerHTML = '<i class="fas fa-external-link-alt"></i> ' + opts.extLabel;
+
+        placeholder.appendChild(preview);
+        placeholder.appendChild(info);
+        placeholder.appendChild(loadBtn);
+        placeholder.appendChild(extLink);
+
+        element.parentNode.insertBefore(wrapper, element);
+        wrapper.appendChild(placeholder);
+        element.style.display = 'none';
+        wrapper.appendChild(element);
+    }
+})();
+</script>
+<script src="/assets/js/vendor/lunr.min.js" defer></script>
+<script src="/assets/js/main.js" defer></script>
+</head>
+<body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <a class="skip-link" href="#site-nav">Skip to navigation</a>
+    <a class="skip-link" href="#footer">Skip to footer</a><header class="site-header fixed-top">
+  <div class="wrapper header-wrapper">
+    <a class="site-title no-underline" rel="author" href="/">
+      <img src="/images/logo.webp" style="max-width:40px;" alt="Curiosity logo" width="40" height="40">
+      Curiosity
+    </a><nav id="site-nav" class="site-nav" aria-label="Main navigation" tabindex="-1">
+      <!-- Desktop nav links (hidden below breakpoint) -->
+      <div class="nav-items-desktop"><a class="page-link nav-item" href="/about/">About</a><button type="button" class="nav-item header-icon-btn search-trigger" aria-label="Search (Ctrl+K)" title="Search (Ctrl+K)">
+          <span class="fas fa-search" aria-hidden="true"></span>
+        </button>
+        <a href="/feed.xml" class="nav-item header-icon-btn no-underline no_icon" title="RSS Feed" aria-label="Subscribe via RSS">
+          <span class="fas fa-rss rss-icon" aria-hidden="true"></span>
+        </a>
+        <button id="nav-switch-theme" type="button" class="nav-item header-icon-btn" style="display:none" aria-label="Toggle theme">
+          <span class="nav-theme-icon fas fa-fw" aria-hidden="true"></span>
+        </button>
+      </div>
+
+      <!-- Mobile: search + hamburger (visible below breakpoint) -->
+      <div class="nav-mobile-actions">
+        <button type="button" class="header-icon-btn search-trigger" aria-label="Search (Ctrl+K)">
+          <span class="fas fa-search" aria-hidden="true"></span>
+        </button>
+        <button type="button" class="nav-hamburger" aria-label="Open navigation menu" aria-expanded="false" aria-controls="nav-dialog">
+          <span class="fas fa-bars" aria-hidden="true"></span>
+        </button>
+      </div>
+    </nav></div>
+</header>
+
+<!-- Mobile nav dialog -->
+<dialog id="nav-dialog" class="nav-dialog" aria-labelledby="nav-dialog-title">
+  <div class="nav-dialog-header">
+    <span id="nav-dialog-title" class="nav-dialog-title">Menu</span>
+    <button type="button" class="nav-dialog-close" aria-label="Close navigation menu">
+      <span class="fas fa-times" aria-hidden="true"></span>
+    </button>
+  </div>
+  <nav class="nav-dialog-body" aria-label="Mobile navigation"><a class="nav-dialog-link" href="/about/">About</a><button type="button" class="nav-dialog-link search-trigger" aria-label="Search">
+      <span class="fas fa-search" aria-hidden="true"></span> Search
+    </button>
+    <a href="/feed.xml" class="nav-dialog-link no_icon" aria-label="Subscribe via RSS">
+      <span class="fas fa-rss rss-icon" aria-hidden="true"></span> RSS Feed
+    </a>
+    <button type="button" id="nav-switch-theme-mobile" class="nav-dialog-link" style="display:none" aria-label="Toggle theme">
+      <span class="nav-theme-icon-mobile fas fa-fw" aria-hidden="true"></span> <span class="nav-theme-label-mobile">Theme</span>
+    </button>
+  </nav>
+</dialog>
+<dialog id="search-dialog" class="search-dialog" aria-label="Search Curiosity">
+  <form method="dialog" class="search-dialog-form">
+    <div class="search-dialog-header">
+      <span class="search-dialog-icon fas fa-search" aria-hidden="true"></span>
+      <input type="text" id="search-dialog-input" class="search-dialog-input" placeholder="Search posts..." autocomplete="off" aria-label="Search">
+      <kbd class="search-dialog-kbd">Esc</kbd>
+    </div>
+    <div id="search-dialog-results" class="search-dialog-results" role="listbox" aria-label="Search results"></div>
+    <div class="search-dialog-footer">
+      <span><kbd>&uarr;</kbd><kbd>&darr;</kbd> navigate</span>
+      <span><kbd>Enter</kbd> select</span>
+      <span><kbd>Esc</kbd> close</span>
+    </div>
+  </form>
+</dialog>
+
+
+    <main id="main-content" class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "WordFor: A reverse dictionary that runs entirely in your browser",
+    "description": "Building a free, private reverse dictionary with sentence embeddings, ONNX Runtime, and static model inference -- zero server-side compute.",
+    "datePublished": "2026-04-12T22:00:00+00:00",
+    
+    "author": {
+      "@type": "Person",
+      "name": "Zeeshan Khan Suri"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Curiosity",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://zshn25.github.io/images/logo.png"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://zshn25.github.io/wordfor-reverse-dictionary/"
+    },
+    "image": "https://zshn25.github.io/images/wordfor.webp",
+    "keywords": ["deep-learning","nlp","transformers","embeddings","side-project"]
+  }
+  </script>
+  
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://zshn25.github.io" },
+      { "@type": "ListItem", "position": 2, "name": "deep-learning", "item": "https://zshn25.github.io/categories/#deep-learning" },
+      { "@type": "ListItem", "position": 3, "name": "WordFor: A reverse dictionary that runs entirely in your browser" }
+    ]
+  }
+  </script><header class="post-header">
+    
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="/">Home</a> &rsaquo;
+      <a href="/?tag=deep-learning">deep-learning</a> &rsaquo;
+      <span>WordFor: A reverse dictionary that runs entirel...</span>
+    </nav>
+      <h1 class="post-title p-name" itemprop="name headline">
+        
+        
+          
+      
+        WordFor: A reverse dictionary that runs entirely in your browser
+      
+        
+        
+      </h1>
+    <p class="page-description">Building a free, private reverse dictionary with sentence embeddings, ONNX Runtime, and static model inference -- zero server-side compute.</p><p class="post-meta post-meta-title">
+      <i class="far fa-calendar-alt" aria-hidden="true"></i><time class="dt-published" datetime="2026-04-12T22:00:00+00:00" itemprop="datePublished">
+        Apr 12, 2026
+      </time>• <i class="far fa-user" aria-hidden="true"></i> 
+          <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+            <span class="p-author h-card" itemprop="name">Zeeshan Khan Suri</span></span>
+       • <i class="far fa-clock" aria-hidden="true"></i> <span class="read-time" title="Estimated read time">
+    
+    
+      10 mins read
+    
+</span>
+</p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon" aria-hidden="true"></i>
+      
+        <a class="category-tags-link label label-default" href="/?tag=deep-learning">#deep-learning</a>
+        &nbsp;
+      
+        <a class="category-tags-link label label-default" href="/?tag=nlp">#nlp</a>
+        &nbsp;
+      
+        <a class="category-tags-link label label-default" href="/?tag=transformers">#transformers</a>
+        &nbsp;
+      
+        <a class="category-tags-link label label-default" href="/?tag=embeddings">#embeddings</a>
+        &nbsp;
+      
+        <a class="category-tags-link label label-default" href="/?tag=side-project">#side-project</a>
+        
+      
+      </p>
+    
+
+    
+  </header>
+
+  
+  
+
+  
+  
+  
+  
+  
+
+  <div class="post-layout">
+    
+    <aside class="toc-sidebar" aria-label="On this page">
+      <nav class="toc-nav">
+        <p class="toc-heading">On this page</p>
+        <ul><li><a href="#semantic-search-over-a-dictionary" class="toc-link">Semantic search over a dictionary</a></li><li><a href="#asymmetric-retrieval" class="toc-link">Asymmetric retrieval</a></li><li><a href="#matryoshka-truncation" class="toc-link">Matryoshka truncation</a></li><li><a href="#int8-scalar-quantization" class="toc-link">Int8 scalar quantization</a></li><li><a href="#the-mobile-problem" class="toc-link">The mobile problem</a></li><li><a href="#lite-mode-static-embeddings-in-pure-javascript" class="toc-link">Lite mode: static embeddings in pure JavaScript</a></li><li><a href="#fine-tuning-the-static-model" class="toc-link">Fine-tuning the static model</a></li><li><a href="#rust-wasm-for-lite-mode-inference" class="toc-link">Rust WASM for lite mode inference</a></li><li><a href="#data-centric-quality-scoring" class="toc-link">Data-centric quality scoring</a></li><li><a href="#results" class="toc-link">Results</a><ul><li><a href="#browser-benchmarks" class="toc-link">Browser benchmarks</a></li></ul></li><li><a href="#architecture" class="toc-link">Architecture</a></li><li><a href="#what-makes-it-fast" class="toc-link">What makes it fast</a></li><li><a href="#privacy" class="toc-link">Privacy</a></li><li><a href="#whats-next" class="toc-link">What’s next</a></li><li><a href="#try-it" class="toc-link">Try it</a></li></ul>
+      </nav>
+    </aside>
+    
+
+    <div class="post-content e-content" itemprop="articleBody">
+      <p>You know the feeling. You’re writing and you <em>know</em> the word exists – you can describe it perfectly, but your brain won’t retrieve it. So you Google <em>“word for fear of being forgotten”</em>, scroll through listicles, and maybe five minutes later find <strong>athazagoraphobia</strong>.</p>
+
+<p>I got tired of that loop. So I built <a href="https://wordfor.xyz" target="_blank"><strong>WordFor</strong></a> – a reverse dictionary where you describe a concept and get the word. No ads, no sign-ups, no data leaving your device. The AI model runs entirely in the browser.</p>
+      <h2 id="semantic-search-over-a-dictionary">
+        
+        
+          <a href="#semantic-search-over-a-dictionary" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Semantic search over a dictionary
+        
+        
+      </h2>
+    
+
+<p>A reverse dictionary maps <em>descriptions</em> to <em>words</em>. Given <em>“a feeling of longing for the past”</em>, it should return <strong>nostalgia</strong>. Keyword matching fails here – the query barely overlaps with the definition (<em>“a bittersweet longing for things, persons, or situations of the past”</em>). We need <em>semantic</em> similarity.</p>
+
+<p>The approach: encode every dictionary definition into a dense vector (embedding) at build time. At query time, encode the user’s description and rank definitions by cosine similarity. The dictionary combines <a href="https://en-word.net/" target="_blank">Open English WordNet 2025</a> (120k+ synsets, CC-BY 4.0) and <a href="https://github.com/adambom/dictionary" target="_blank">Webster’s 1913 Unabridged</a> (public domain) – over 176,000 definitions after deduplication, enriched with <a href="https://en.wikipedia.org/wiki/Moby_Project" target="_blank">Moby Thesaurus</a> synonyms. The challenge is doing all of this in the browser, at interactive speed.</p>
+      <h2 id="asymmetric-retrieval">
+        
+        
+          <a href="#asymmetric-retrieval" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Asymmetric retrieval
+        
+        
+      </h2>
+    
+
+<p>Definitions are encoded <em>once</em> at build time – we can afford a large model. Only the query model runs in the browser, so it must be small. This naturally leads to <strong>asymmetric retrieval</strong><sup id="fnref:1"><a href="#fn:1" class="footnote" rel="footnote" role="doc-noteref">1</a></sup>:</p>
+
+<ul>
+  <li><strong>Build time</strong>: <a href="https://huggingface.co/mixedbread-ai/mxbai-embed-large-v1" target="_blank">mxbai-embed-large-v1</a> (335M parameters) encodes definitions into 1024-dimensional embeddings.</li>
+  <li><strong>Runtime</strong>: <a href="https://huggingface.co/MongoDB/mdbr-leaf-mt" target="_blank">mdbr-leaf-mt</a> (22M parameters) encodes queries into the same embedding space. It runs via <a href="https://huggingface.co/docs/transformers.js" target="_blank">Transformers.js</a> + <abbr title="Open Neural Network Exchange">ONNX</abbr> Runtime <abbr title="WebAssembly">WASM</abbr> in the browser.</li>
+</ul>
+
+<p>The key is that mdbr-leaf-mt was distilled to map queries into mxbai-embed-large’s embedding space – the teacher-student pairing is what makes asymmetric retrieval work.</p>
+      <h2 id="matryoshka-truncation">
+        
+        
+          <a href="#matryoshka-truncation" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Matryoshka truncation
+        
+        
+      </h2>
+    
+
+<p>Serving 120k $\times$ 1024 float32 vectors (488 MB) to a browser is impractical. mxbai-embed-large supports <strong>Matryoshka Representation Learning (<abbr title="Matryoshka Representation Learning">MRL</abbr>)</strong><sup id="fnref:2"><a href="#fn:2" class="footnote" rel="footnote" role="doc-noteref">2</a></sup> – leading dimensions carry the most information, so we truncate and re-normalize:</p>
+
+<p style="text-align: center;"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi mathvariant="bold">v</mi><mi>d</mi></msub><mo>=</mo><mfrac><msub><mi mathvariant="bold">v</mi><mrow><mn>1</mn><mo>:</mo><mi>d</mi></mrow></msub><mrow><mi mathvariant="normal">∥</mi><msub><mi mathvariant="bold">v</mi><mrow><mn>1</mn><mo>:</mo><mi>d</mi></mrow></msub><mi mathvariant="normal">∥</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">\mathbf{v}_{d} = \frac{\mathbf{v}_{1:d}}{\|\mathbf{v}_{1:d}\|}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5944em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathbf" style="margin-right:0.01597em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.016em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">d</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.247em;vertical-align:-0.52em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.727em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">∥</span><span class="mord mtight"><span class="mord mathbf mtight" style="margin-right:0.01597em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3488em;margin-left:-0.016em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mrel mtight">:</span><span class="mord mathnormal mtight">d</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1512em;"><span></span></span></span></span></span></span><span class="mord mtight">∥</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.4159em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathbf mtight" style="margin-right:0.01597em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3488em;margin-left:-0.016em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mrel mtight">:</span><span class="mord mathnormal mtight">d</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1512em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.52em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></p>
+
+<p>Evaluated on 40 test queries (common words, rare phobias, scientific terms, abstract concepts):</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Dimensions</th>
+      <th style="text-align: center"><abbr title="Mean Reciprocal Rank">MRR</abbr></th>
+      <th style="text-align: center">Hit@1</th>
+      <th style="text-align: center">Hit@6</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">1024</td>
+      <td style="text-align: center">0.6733</td>
+      <td style="text-align: center">24/40</td>
+      <td style="text-align: center">32/40</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">768</td>
+      <td style="text-align: center">0.6720</td>
+      <td style="text-align: center">24/40</td>
+      <td style="text-align: center">33/40</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">512</td>
+      <td style="text-align: center">0.6645</td>
+      <td style="text-align: center">23/40</td>
+      <td style="text-align: center">33/40</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><strong>384</strong></td>
+      <td style="text-align: center"><strong>0.6529</strong></td>
+      <td style="text-align: center"><strong>23/40</strong></td>
+      <td style="text-align: center"><strong>32/40</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: center">256</td>
+      <td style="text-align: center">0.6590</td>
+      <td style="text-align: center">23/40</td>
+      <td style="text-align: center">32/40</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">128</td>
+      <td style="text-align: center">0.5944</td>
+      <td style="text-align: center">20/40</td>
+      <td style="text-align: center">30/40</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>256d actually edges out 384d on <abbr title="Mean Reciprocal Rank">MRR</abbr> (0.6590 vs 0.6529) – the Matryoshka ordering isn’t strictly monotonic on a small test set. I went with 384d for the slightly better Hit@6 and to stay consistent with the query model’s native output.</p>
+      <h2 id="int8-scalar-quantization">
+        
+        
+          <a href="#int8-scalar-quantization" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Int8 scalar quantization
+        
+        
+      </h2>
+    
+
+<p>At 384d, float32 embeddings are 176 MB. Per-dimension scalar quantization to <abbr title="8-bit integer quantization">int8</abbr>:</p>
+
+<p style="text-align: center;"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>q</mi><mi>d</mi></msub><mo>=</mo><mrow><mi mathvariant="normal">r</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">u</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">d</mi></mrow><mtext> ⁣</mtext><mrow><mo fence="true">(</mo><mfrac><mrow><msub><mi>v</mi><mi>d</mi></msub><mo>−</mo><msub><mrow><mi>min</mi><mo>⁡</mo></mrow><mi>d</mi></msub></mrow><mrow><msub><mrow><mi>max</mi><mo>⁡</mo></mrow><mi>d</mi></msub><mo>−</mo><msub><mrow><mi>min</mi><mo>⁡</mo></mrow><mi>d</mi></msub></mrow></mfrac><mo>×</mo><mn>255</mn><mo fence="true">)</mo></mrow><mo>∈</mo><mo stretchy="false">[</mo><mn>0</mn><mo separator="true">,</mo><mn>255</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">q_d = \mathrm{round}\!\left(\frac{v_d - \min_d}{\max_d - \min_d} \times 255\right) \in [0, 255]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">q</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.8em;vertical-align:-0.65em;"></span><span class="mord"><span class="mord mathrm">round</span></span><span class="mspace" style="margin-right:-0.1667em;"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size2">(</span></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8834em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mop mtight"><span class="mop mtight"><span class="mtight">m</span><span class="mtight">a</span><span class="mtight">x</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3488em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1512em;"><span></span></span></span></span></span></span><span class="mspace mtight" style="margin-right:0.1952em;"></span><span class="mord mtight">−</span><span class="mspace mtight" style="margin-right:0.1952em;"></span><span class="mop mtight"><span class="mop mtight"><span class="mtight">m</span><span class="mtight">i</span><span class="mtight">n</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3488em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1512em;"><span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.4159em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3488em;margin-left:-0.0359em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1512em;"><span></span></span></span></span></span></span><span class="mbin mtight">−</span><span class="mop mtight"><span class="mop mtight"><span class="mtight">m</span><span class="mtight">i</span><span class="mtight">n</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3488em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1512em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.4509em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">255</span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size2">)</span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">255</span><span class="mclose">]</span></span></span></span></p>
+
+<p>At query time, the dot product decomposes into a scaled <abbr title="8-bit integer quantization">int8</abbr> dot product plus a per-query constant – cheap to compute. Int8 at 384d: <abbr title="Mean Reciprocal Rank">MRR</abbr> 0.6483 vs float32’s 0.6529, negligible loss. Final embedding file: <strong>42 MB</strong> for 120k entries.</p>
+      <h2 id="the-mobile-problem">
+        
+        
+          <a href="#the-mobile-problem" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> The mobile problem
+        
+        
+      </h2>
+    
+
+<p>On iOS Safari, the 22M-parameter <abbr title="Open Neural Network Exchange">ONNX</abbr> model fails to load – both q8 and q4f16 quantizations produce <code class="language-plaintext highlighter-rouge">RangeError: Out of Memory</code>. <abbr title="WebAssembly">WASM</abbr> on iOS has strict memory limits, and the model’s runtime footprint exceeds them. WebGPU isn’t available on iOS either.</p>
+
+<p>I evaluated four smaller transformer models in symmetric mode (same model for both queries and definitions, separate embedding files):</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Model</th>
+      <th style="text-align: center">Params</th>
+      <th style="text-align: center">Symmetric <abbr title="Mean Reciprocal Rank">MRR</abbr></th>
+      <th style="text-align: center">Hit@6</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="https://huggingface.co/Snowflake/snowflake-arctic-embed-xs" target="_blank">snowflake-arctic-embed-xs</a></td>
+      <td style="text-align: center">22.6M</td>
+      <td style="text-align: center">0.6296</td>
+      <td style="text-align: center">29/40</td>
+    </tr>
+    <tr>
+      <td><a href="https://huggingface.co/TaylorAI/bge-micro-v2" target="_blank">bge-micro-v2</a></td>
+      <td style="text-align: center">17.4M</td>
+      <td style="text-align: center">0.5491</td>
+      <td style="text-align: center">27/40</td>
+    </tr>
+    <tr>
+      <td><a href="https://huggingface.co/sentence-transformers/paraphrase-albert-small-v2" target="_blank">paraphrase-albert-small-v2</a></td>
+      <td style="text-align: center">11.7M</td>
+      <td style="text-align: center">0.5392</td>
+      <td style="text-align: center">26/40</td>
+    </tr>
+    <tr>
+      <td><a href="https://huggingface.co/sentence-transformers/paraphrase-MiniLM-L3-v2" target="_blank">paraphrase-MiniLM-L3-v2</a></td>
+      <td style="text-align: center">17.4M</td>
+      <td style="text-align: center">0.5155</td>
+      <td style="text-align: center">25/40</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Snowflake leads, but at 22.6M params it has the same <abbr title="Out of Memory">OOM</abbr> problem. The rest offer only marginal gains over the static embedding approach I was already using.</p>
+      <h2 id="lite-mode-static-embeddings-in-pure-javascript">
+        
+        
+          <a href="#lite-mode-static-embeddings-in-pure-javascript" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Lite mode: static embeddings in pure JavaScript
+        
+        
+      </h2>
+    
+
+<p>For devices where the <abbr title="Open Neural Network Exchange">ONNX</abbr> model can’t load, WordFor falls back to <a href="https://huggingface.co/minishlab/potion-base-8M" target="_blank">potion-base-8M</a> – a <a href="https://github.com/MinishLab/model2vec" target="_blank">Model2Vec</a> static embedding model. Inference is pure JavaScript:</p>
+
+<ol>
+  <li>WordPiece tokenize the query</li>
+  <li>Look up each token’s 256d vector from a float16 matrix (~15 MB)</li>
+  <li>Mean pool and L2-normalize</li>
+</ol>
+
+<p>Sub-1ms, zero dependencies. <del>Lite mode compensates for lower semantic quality with a keyword overlap score.</del> Quality weights computed at build time from cross-source agreement provide a soft re-ranking signal (see below).</p>
+      <h2 id="fine-tuning-the-static-model">
+        
+        
+          <a href="#fine-tuning-the-static-model" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Fine-tuning the static model
+        
+        
+      </h2>
+    
+
+<p>The off-the-shelf potion-base-8M was trained on general text. WordFor’s definitions have distinctive structure – concise, noun-phrase-heavy, often starting with articles. Fine-tuning on in-domain data should help.</p>
+
+<p>sentence-transformers’ <code class="language-plaintext highlighter-rouge">StaticEmbedding</code> module wraps a Model2Vec model’s embedding matrix as a differentiable <code class="language-plaintext highlighter-rouge">torch.nn.EmbeddingBag</code><sup id="fnref:3"><a href="#fn:3" class="footnote" rel="footnote" role="doc-noteref">3</a></sup>. Training pipeline:</p>
+
+<ol>
+  <li><strong>Data</strong>: <a href="https://en-word.net/" target="_blank">Open English WordNet 2025</a> (CC-BY 4.0, 120k+ synsets) + <a href="https://github.com/adambom/dictionary" target="_blank">Webster’s 1913</a> (public domain). Merged and deduplicated with <a href="https://github.com/MinishLab/semhash" target="_blank">SemHash</a> (threshold 0.9) to ~176k unique definitions.</li>
+  <li><strong>Pairs</strong>: Each (word, definition) becomes a positive pair – the word is the “query” and the definition is the “passage”. ~845k training pairs.</li>
+  <li><strong>Loss</strong>: <code class="language-plaintext highlighter-rouge">MultipleNegativesRankingLoss</code> with in-batch negatives – for a batch of 512, each pair has 511 negatives for free.</li>
+  <li><strong>Decontamination</strong>: SemHash cross-deduplication removes training definitions that are too similar (threshold 0.85) to the 40 evaluation queries. 12 entries removed in practice.</li>
+</ol>
+
+<p>The embedding matrix is the only trainable parameter – 30k tokens $\times$ 256 dimensions. No attention layers, no positional encodings, just a lookup table getting nudged by contrastive gradients. Training takes ~22 minutes on a single GPU.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Version</th>
+      <th>Training data</th>
+      <th style="text-align: center"><abbr title="Mean Reciprocal Rank">MRR</abbr></th>
+      <th style="text-align: center">Hit@1</th>
+      <th style="text-align: center">Hit@6</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Baseline (off-the-shelf)</td>
+      <td>–</td>
+      <td style="text-align: center">0.4859</td>
+      <td style="text-align: center">16/40</td>
+      <td style="text-align: center">24/40</td>
+    </tr>
+    <tr>
+      <td>v1</td>
+      <td>OEWN only</td>
+      <td style="text-align: center">0.5401</td>
+      <td style="text-align: center">18/40</td>
+      <td style="text-align: center">26/40</td>
+    </tr>
+    <tr>
+      <td><strong>v4 (deployed)</strong></td>
+      <td><strong>OEWN + Webster’s</strong></td>
+      <td style="text-align: center"><strong>0.5499</strong></td>
+      <td style="text-align: center"><strong>18/40</strong></td>
+      <td style="text-align: center"><strong>27/40</strong></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>+13% <abbr title="Mean Reciprocal Rank">MRR</abbr> from fine-tuning alone. The runtime is unchanged – same WordPiece tokenization, same mean-pooling, same sub-millisecond inference. Only the embedding matrix weights are different.</p>
+      <h2 id="rust-wasm-for-lite-mode-inference">
+        
+        
+          <a href="#rust-wasm-for-lite-mode-inference" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Rust <abbr title="WebAssembly">WASM</abbr> for lite mode inference
+        
+        
+      </h2>
+    
+
+<p>The pure JavaScript Model2Vec implementation works, but it has a weakness: a hand-rolled WordPiece tokenizer that doesn’t match the original HuggingFace tokenizer exactly. Edge cases in normalization, unknown token handling, and subword splitting can produce slightly different embeddings.</p>
+
+<p><a href="https://github.com/MinishLab/model2vec-rs" target="_blank">model2vec-rs</a> is an official Rust implementation of Model2Vec that includes the full HuggingFace tokenizer via the <a href="https://github.com/huggingface/tokenizers" target="_blank">tokenizers</a> crate. Compiling to WebAssembly gives us exact tokenizer parity with the Python training pipeline, in a 1.9 MB <code class="language-plaintext highlighter-rouge">.wasm</code> binary.</p>
+
+<p>The <abbr title="WebAssembly">WASM</abbr> wrapper exposes a simple interface:</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">#[wasm_bindgen]</span>
+<span class="k">impl</span> <span class="n">Model</span> <span class="p">{</span>
+    <span class="nd">#[wasm_bindgen(constructor)]</span>
+    <span class="k">pub</span> <span class="k">fn</span> <span class="nf">new</span><span class="p">(</span><span class="n">tok</span><span class="p">:</span> <span class="o">&amp;</span><span class="p">[</span><span class="nb">u8</span><span class="p">],</span> <span class="n">model</span><span class="p">:</span> <span class="o">&amp;</span><span class="p">[</span><span class="nb">u8</span><span class="p">],</span> <span class="n">config</span><span class="p">:</span> <span class="o">&amp;</span><span class="p">[</span><span class="nb">u8</span><span class="p">])</span> <span class="k">-&gt;</span> <span class="k">Self</span> <span class="p">{</span> <span class="o">...</span> <span class="p">}</span>
+
+    <span class="k">pub</span> <span class="k">fn</span> <span class="nf">encode_single</span><span class="p">(</span><span class="o">&amp;</span><span class="k">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="o">&amp;</span><span class="nb">str</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="nb">Vec</span><span class="o">&lt;</span><span class="nb">f32</span><span class="o">&gt;</span> <span class="p">{</span> <span class="o">...</span> <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>At runtime, WordFor tries the <abbr title="WebAssembly">WASM</abbr> model first and falls back to pure JS if it fails. The <abbr title="WebAssembly">WASM</abbr> path is faster (~0.1ms vs ~0.3ms per query) and produces embeddings that exactly match Python – verified against reference vectors with max difference &lt; 0.001.</p>
+      <h2 id="data-centric-quality-scoring">
+        
+        
+          <a href="#data-centric-quality-scoring" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Data-centric quality scoring
+        
+        
+      </h2>
+    
+
+<p>Embedding similarity alone has blind spots: compound words like “art teacher” outscore “teacher”, and bag-of-words models confuse antonyms (“fear” vs “fearless”). Rather than engineering the ranking function, we improve the <em>data</em> – a quality weight $q$ for every definition, computed at build time from four independent sources.</p>
+
+<p><strong>Cross-source agreement.</strong> Each word is checked against OEWN, Webster’s, <a href="https://kaikki.org/" target="_blank">Wiktionary</a> (1.3M headwords, CC-BY-SA 3.0), and <a href="https://conceptnet.io/" target="_blank">ConceptNet 5.7</a> (878K English concepts, CC-BY-SA 4.0). Words confirmed by more sources get a small boost. Wiktionary and ConceptNet are used at build time only and not redistributed, so the output remains CC-BY 4.0.</p>
+
+<p><strong>ConceptNet knowledge graph.</strong> ConceptNet’s 3M English edges provide two additional signals: <em>centrality</em> (log-normalized degree – well-connected concepts like “water” score higher than obscure terms) and <em>relation diversity</em> (concepts participating in many relation types – IsA, HasProperty, Synonym, etc. – are better-defined).</p>
+
+<p><strong>Definition quality.</strong> Heuristics penalize short ($&lt;$8 tokens), overly long ($&gt;$25 tokens), and generic definitions (“a kind of …”). An IDF-based richness score rewards definitions using specific vocabulary.</p>
+
+<p><strong>Compound penalty.</strong> Multi-word entries where all components exist as standalone words get penalized. The raw score is dampened via $q^{0.1}$ to act as a soft re-ranking signal rather than a hard filter:</p>
+
+<p style="text-align: center;"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mtext>score</mtext><mtext>final</mtext></msub><mo>=</mo><mtext>cosine</mtext><mo stretchy="false">(</mo><msub><mi>q</mi><mtext>user</mtext></msub><mo separator="true">,</mo><msub><mi>e</mi><mtext>def</mtext></msub><mo stretchy="false">)</mo><mo>⋅</mo><msup><mi>q</mi><mn>0.1</mn></msup></mrow><annotation encoding="application/x-tex">\text{score}_{\text{final}} = \text{cosine}(q_{\text{user}}, e_{\text{def}}) \cdot q^{0.1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord text"><span class="mord">score</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">final</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">cosine</span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">q</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">user</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord"><span class="mord mathnormal">e</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">def</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0085em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">q</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">0.1</span></span></span></span></span></span></span></span></span></span></span></span></p>
+
+<p>On the expanded 67-query test set, quality weighting alone improved the base potion model by +7.8% <abbr title="Mean Reciprocal Rank">MRR</abbr> – matching a fine-tuned model without changing any weights.</p>
+      <h2 id="results">
+        
+        
+          <a href="#results" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Results
+        
+        
+      </h2>
+    
+
+<p>The full evaluation summary. The first block uses the original 40-query test set; the second uses an expanded 67-query set with harder near-miss pairs (active/passive semantics, antonyms, domain specificity):</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Config</th>
+      <th style="text-align: center"><abbr title="Mean Reciprocal Rank">MRR</abbr></th>
+      <th style="text-align: center">Hit@1</th>
+      <th style="text-align: center">Hit@6</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>asymmetric, f32 1024d</td>
+      <td style="text-align: center">0.6733</td>
+      <td style="text-align: center">24/40</td>
+      <td style="text-align: center">32/40</td>
+    </tr>
+    <tr>
+      <td><strong>asymmetric, <abbr title="8-bit integer quantization">int8</abbr> 384d (deployed full)</strong></td>
+      <td style="text-align: center"><strong>0.6483</strong></td>
+      <td style="text-align: center"><strong>22/40</strong></td>
+      <td style="text-align: center"><strong>33/40</strong></td>
+    </tr>
+    <tr>
+      <td>snowflake-arctic-embed-xs, symmetric</td>
+      <td style="text-align: center">0.6296</td>
+      <td style="text-align: center">23/40</td>
+      <td style="text-align: center">29/40</td>
+    </tr>
+    <tr>
+      <td>fine-tuned potion 256d (deployed lite)</td>
+      <td style="text-align: center">0.5499</td>
+      <td style="text-align: center">18/40</td>
+      <td style="text-align: center">27/40</td>
+    </tr>
+    <tr>
+      <td>potion 256d, cosine only</td>
+      <td style="text-align: center">0.4859</td>
+      <td style="text-align: center">16/40</td>
+      <td style="text-align: center">24/40</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th>Config (67-query expanded set)</th>
+      <th style="text-align: center"><abbr title="Mean Reciprocal Rank">MRR</abbr></th>
+      <th style="text-align: center">Hit@1</th>
+      <th style="text-align: center">Hit@6</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>potion base (no quality weights)</td>
+      <td style="text-align: center">0.4368</td>
+      <td style="text-align: center">22/67</td>
+      <td style="text-align: center">38/67</td>
+    </tr>
+    <tr>
+      <td>fine-tuned potion v4 (no quality weights)</td>
+      <td style="text-align: center">0.4662</td>
+      <td style="text-align: center">25/67</td>
+      <td style="text-align: center">41/67</td>
+    </tr>
+    <tr>
+      <td><strong>potion base + quality weights (Wikt+ConceptNet)</strong></td>
+      <td style="text-align: center"><strong>0.4708</strong></td>
+      <td style="text-align: center"><strong>25/67</strong></td>
+      <td style="text-align: center"><strong>41/67</strong></td>
+    </tr>
+  </tbody>
+</table>
+      <h3 id="browser-benchmarks">
+        
+        
+          <a href="#browser-benchmarks" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Browser benchmarks
+        
+        
+      </h3>
+    
+
+<p>Query latency (average over 5 queries, includes tokenization + embedding + scoring 120k entries):</p>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th style="text-align: center">Lite (Potion)</th>
+      <th style="text-align: center">Full q8 <abbr title="WebAssembly">WASM</abbr></th>
+      <th style="text-align: center">Full q4f16 WebGPU</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Edge (Desktop)</strong></td>
+      <td style="text-align: center">49.8 ms</td>
+      <td style="text-align: center">73.4 ms</td>
+      <td style="text-align: center">71.8 ms</td>
+    </tr>
+    <tr>
+      <td><strong>Firefox (Desktop)</strong></td>
+      <td style="text-align: center">29.4 ms</td>
+      <td style="text-align: center">53.4 ms</td>
+      <td style="text-align: center">228 ms</td>
+    </tr>
+    <tr>
+      <td><strong>Safari (iOS)</strong></td>
+      <td style="text-align: center">26.8 ms</td>
+      <td style="text-align: center"><abbr title="Out of Memory">OOM</abbr></td>
+      <td style="text-align: center">N/A</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>q8 <abbr title="WebAssembly">WASM</abbr> is faster than q4f16 <abbr title="WebAssembly">WASM</abbr> (73.4 vs 128.2 ms on Edge) – q4f16 decompression adds overhead. WebGPU helps on Edge but hurts on Firefox. Lite mode is uniformly fast.</p>
+
+<p>Deployed configuration: q8 <abbr title="WebAssembly">WASM</abbr> on desktop (WebGPU opt-in via <code class="language-plaintext highlighter-rouge">?device=webgpu</code>), automatic fallback to lite on mobile.</p>
+      <h2 id="architecture">
+        
+        
+          <a href="#architecture" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Architecture
+        
+        
+      </h2>
+    
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    BUILD TIME (GPU)                    BROWSER (runtime)
+    ────────────────                    ─────────────────
+    mxbai-embed-large-v1 (335M)        Full: mdbr-leaf-mt (22M) ONNX WASM
+    → 176k defs → 1024d → MRL 384d     → query → 384d → dot 176k × q → ~70ms
+    → int8 → 65 MB
+
+    fine-tuned potion (8M)             Lite: model2vec-rs WASM (or pure JS)
+    → 176k defs → 256d → int8          → query → 256d → dot 176k × q
+    → 44 MB                            → ~30ms
+
+    Quality scoring (4 sources):
+    OEWN + Webster + Wiktionary
+    + ConceptNet → per-entry q weight
+</code></pre></div></div>
+      <h2 id="what-makes-it-fast">
+        
+        
+          <a href="#what-makes-it-fast" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> What makes it fast
+        
+        
+      </h2>
+    
+
+<ul>
+  <li><strong>Int8 quantization</strong>: 4x smaller files, ~2x faster dot products in JS</li>
+  <li><strong>Parallel loading</strong>: potion data and the <abbr title="Open Neural Network Exchange">ONNX</abbr> model download simultaneously</li>
+  <li><strong>Service Worker caching</strong>: cache-first after first visit</li>
+  <li><strong>Model warmup</strong>: dummy inference during loading avoids first-query compilation stall</li>
+</ul>
+      <h2 id="privacy">
+        
+        
+          <a href="#privacy" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Privacy
+        
+        
+      </h2>
+    
+
+<p>Everything runs client-side. Static files served from GitHub Pages through Cloudflare CDN (see my post on <a href="/github-pages-cloudflare-gdpr">making GitHub Pages GDPR-compliant with Cloudflare</a>). No server, no database, no cookies. Analytics via <a href="https://www.goatcounter.com/" target="_blank">GoatCounter</a> – cookie-free, no personal data.</p>
+      <h2 id="whats-next">
+        
+        
+          <a href="#whats-next" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> What’s next
+        
+        
+      </h2>
+    
+
+<ul>
+  <li><strong>Binary quantization</strong>: The mdbr-leaf-mt model card reports robustness to binary (1-bit) quantization. At 384d, this would shrink the full-mode embedding file from 65 MB to ~8 MB – a 32x reduction with ~96% performance retained, using Hamming distance for fast retrieval.</li>
+  <li><strong>Model2Vec distillation</strong>: Distilling from mxbai-embed-large-v1 could produce a static embedding matrix that better captures the teacher’s space – without changing runtime latency.</li>
+  <li><strong>LLM-augmented definitions</strong>: Using a large language model (e.g., Gemma 4) at build time to clean, expand, and rephrase definitions could improve embedding quality for rare or poorly-defined words.</li>
+</ul>
+      <h2 id="try-it">
+        
+        
+          <a href="#try-it" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> Try it
+        
+        
+      </h2>
+    
+
+<p><strong><a href="https://wordfor.xyz" target="_blank">wordfor.xyz</a></strong> – describe a concept, find the word.</p>
+
+<p>If you find it useful, consider a share or a <a href="https://ko-fi.com/zshn25" target="_blank">Ko-fi</a>.</p><hr />
+
+<p>(c) Zeeshan Khan Suri, <a href="http://creativecommons.org/licenses/by-nc/4.0/"><img src="https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-nc.svg" width="60" /></a></p>
+
+<p>If this article was helpful to you, consider citing</p>
+
+<div class="language-bibtex highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nc">@misc</span><span class="p">{</span><span class="nl">suri_wordfor_2026</span><span class="p">,</span>
+      <span class="na">title</span><span class="p">=</span><span class="s">{WordFor: A reverse dictionary that runs entirely in your browser}</span><span class="p">,</span>
+      <span class="na">url</span><span class="p">=</span><span class="s">{https://zshn25.github.io/wordfor-reverse-dictionary}</span><span class="p">,</span>
+      <span class="na">journal</span><span class="p">=</span><span class="s">{Curiosity}</span><span class="p">,</span>
+      <span class="na">author</span><span class="p">=</span><span class="s">{Suri, Zeeshan Khan}</span><span class="p">,</span>
+      <span class="na">year</span><span class="p">=</span><span class="s">{2026}</span><span class="p">,</span>
+      <span class="na">month</span><span class="p">=</span><span class="s">{Apr}</span><span class="p">}</span>
+</code></pre></div></div>
+      <h1 id="references">
+        
+        
+          <a href="#references" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> References
+        
+        
+      </h1>
+    
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1">
+      <p>Asymmetric retrieval using the mxbai-embed-large + mdbr-leaf-mt pairing from <a href="https://huggingface.co/MongoDB/mdbr-leaf-mt" target="_blank">MongoDB’s retrieval model suite</a>. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:2">
+      <p>Kusupati et al., <a href="https://arxiv.org/abs/2205.13147" target="_blank">Matryoshka Representation Learning</a>, NeurIPS 2022. <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:3">
+      <p>Sentence-Transformers’ <a href="https://sbert.net/docs/package_reference/sentence_transformer/models.html#staticembedding" target="_blank"><code class="language-plaintext highlighter-rouge">StaticEmbedding</code></a> module. See also: Minish Lab, <a href="https://huggingface.co/blog/Pringled/model2vec" target="_blank">Model2Vec: Distill a Small Fast Model from any Sentence Transformer</a>. <a href="#fnref:3" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+    </div>
+  </div>
+
+  
+  
+  
+  
+
+<section class="page-share" aria-label="Share this post">
+      <h4 class="page-share-title">
+        
+        
+          Share on
+        
+        
+      </h4>
+    
+  <a href="https://x.com/intent/tweet?text=WordFor%3A+A+reverse+dictionary+that+runs+entirely+in+your+browser&url=https://zshn25.github.io%2Fwordfor-reverse-dictionary%2F" class="share-btn share-btn--x" rel="noopener noreferrer" target="_blank" aria-label="Share on X" onclick="window.open(this.href,'share','width=550,height=435');return false;">
+    <i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> X</span>
+  </a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=https://zshn25.github.io%2Fwordfor-reverse-dictionary%2F" class="share-btn share-btn--facebook" rel="noopener noreferrer" target="_blank" aria-label="Share on Facebook" onclick="window.open(this.href,'share','width=550,height=435');return false;">
+    <i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span>
+  </a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://zshn25.github.io%2Fwordfor-reverse-dictionary%2F" class="share-btn share-btn--linkedin" rel="noopener noreferrer" target="_blank" aria-label="Share on LinkedIn" onclick="window.open(this.href,'share','width=550,height=435');return false;">
+    <i class="fab fa-fw fa-linkedin-in" aria-hidden="true"></i><span> LinkedIn</span>
+  </a>
+  <a href="mailto:?subject=WordFor%3A+A+reverse+dictionary+that+runs+entirely+in+your+browser&body=https://zshn25.github.io%2Fwordfor-reverse-dictionary%2F" class="share-btn share-btn--email" aria-label="Share via Email">
+    <i class="fas fa-fw fa-envelope" aria-hidden="true"></i><span> Email</span>
+  </a>
+</section>
+
+  
+  <!-- Source: https://stackoverflow.com/questions/25348389/jekyll-and-liquid-show-related-posts-by-amount-of-equal-tags-2
+License: https://creativecommons.org/licenses/by-sa/3.0/-->
+<div class="relatedPosts">
+      <h3>
+        
+        
+          You might also like
+        
+        
+      </h3>
+    
+
+    
+    
+    <ul class="post-list related-grid">
+    
+        
+
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+
+            
+
+            
+                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
+    <a href="/inference_optimizations_benchmark/">
+    <img class="image-preview" src="/images/2026-03-24-inference_optimizations_benchmark/image_thumb.webp"  loading="lazy" alt="Inference Runtime Optimization Benchmark" width="300" height="300" /></a>
+  </div><div class="post-card-body">
+      <h3>
+        
+        
+          
+      
+      <a class="post-link" href="/inference_optimizations_benchmark/">
+        Inference Runtime Optimization Benchmark
+      </a>
+      
+    
+        
+        
+      </h3>
+    
+    
+    <p class="post-meta"><i class="far fa-calendar-alt"></i>  Mar 24, 2026
+      • <i class="far fa-clock"></i> <span class="read-time" title="Estimated read time">
+    
+    
+      161 mins read
+    
+</span>
+</p>
+
+        
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
+          
+          <a class="category-tags-link" href="/?tag=runtime-optimization">#runtime-optimization</a>
+          &nbsp;
+          
+          <a class="category-tags-link" href="/?tag=gpu">#gpu</a>
+          &nbsp;
+          
+          <a class="category-tags-link" href="/?tag=deep-learning">#deep-learning</a>
+          
+          
+        </p>
+        
+  </div>
+</div>
+</li>
+                
+                
+            
+
+        
+    
+        
+    
+        
+
+            
+
+            
+
+            
+
+        
+    
+        
+
+            
+
+            
+
+            
+                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
+    <a href="/pc4consistentdepth/">
+    <img class="image-preview" src="/images/3dreco/out-poster.webp"  loading="lazy" alt="Pose Constraints for Self-supervised Monocular Depth and Ego-Motion" width="300" height="300" /></a>
+  </div><div class="post-card-body">
+      <h3>
+        
+        
+          
+      
+      <a class="post-link" href="/pc4consistentdepth/">
+        Pose Constraints for Self-supervised Monocular Depth and Ego-Motion
+      </a>
+      
+    
+        
+        
+      </h3>
+    
+    
+    <p class="post-meta"><i class="far fa-calendar-alt"></i>  Apr 18, 2023
+      • <i class="far fa-clock"></i> <span class="read-time" title="Estimated read time">
+    
+    
+      1 min read
+    
+</span>
+</p>
+
+        
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
+          
+          <a class="category-tags-link" href="/?tag=deep-learning">#deep-learning</a>
+          &nbsp;
+          
+          <a class="category-tags-link" href="/?tag=self-supervision">#self-supervision</a>
+          &nbsp;
+          
+          <a class="category-tags-link" href="/?tag=3d-reconstruction">#3d-reconstruction</a>
+          &nbsp;
+          
+          <a class="category-tags-link" href="/?tag=structure-from-motion">#structure-from-motion</a>
+          &nbsp;
+          
+          <a class="category-tags-link" href="/?tag=visual-odometry">#visual-odometry</a>
+          &nbsp;
+          
+          <a class="category-tags-link" href="/?tag=depth-estimation">#depth-estimation</a>
+          
+          
+        </p>
+        
+  </div>
+</div>
+</li>
+                
+                
+            
+
+        
+    
+        
+
+            
+
+            
+
+            
+                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
+    <a href="/CNNs-vs-Transformers/">
+    <img class="image-preview" src="/images/self-attention-cnn-rnn.svg" data-invert-dark="true" loading="lazy" alt="Convolution vs. Attention" width="300" height="300" /></a>
+  </div><div class="post-card-body">
+      <h3>
+        
+        
+          
+      
+      <a class="post-link" href="/CNNs-vs-Transformers/">
+        Convolution vs. Attention
+      </a>
+      
+    
+        
+        
+      </h3>
+    
+    
+    <p class="post-meta"><i class="far fa-calendar-alt"></i>  Mar 10, 2023
+      • <i class="far fa-clock"></i> <span class="read-time" title="Estimated read time">
+    
+    
+      6 mins read
+    
+</span>
+</p>
+
+        
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
+          
+          <a class="category-tags-link" href="/?tag=deep-learning">#deep-learning</a>
+          &nbsp;
+          
+          <a class="category-tags-link" href="/?tag=convolution">#convolution</a>
+          &nbsp;
+          
+          <a class="category-tags-link" href="/?tag=attention">#attention</a>
+          
+          
+        </p>
+        
+  </div>
+</div>
+</li>
+                
+                
+            
+
+        
+    
+        
+
+            
+
+            
+
+            
+                <li><div class="Box box-shadow-medium border-0 rounded-1 col-12 post-card card-compact"><div class="post-card-image">
+    <a href="/Software-2/">
+    <img class="image-preview" src="/images/loop.svg"  loading="lazy" alt="Software 2.0 2.0" width="300" height="300" /></a>
+  </div><div class="post-card-body">
+      <h3>
+        
+        
+          
+      
+      <a class="post-link" href="/Software-2/">
+        Software 2.0 2.0
+      </a>
+      
+    
+        
+        
+      </h3>
+    
+    
+    <p class="post-meta"><i class="far fa-calendar-alt"></i>  Dec 5, 2022
+      • <i class="far fa-clock"></i> <span class="read-time" title="Estimated read time">
+    
+    
+      3 mins read
+    
+</span>
+</p>
+
+        
+        <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i>
+          
+          <a class="category-tags-link" href="/?tag=deep-learning">#deep-learning</a>
+          &nbsp;
+          
+          <a class="category-tags-link" href="/?tag=mlops">#mlops</a>
+          
+          
+        </p>
+        
+  </div>
+</div>
+</li>
+                
+                
+                    
+    </ul>
+</div>
+
+  
+
+
+
+
+
+  
+    
+    
+    
+
+<nav class="paginate-container" aria-label="Pagination">
+  <div class="pagination">
+      
+        <a class="previous_page" rel="previous" aria-label="Previous Page" href="/inference_optimizations_benchmark/"><b>&larr; Previous:</b><br>Inference Runtime Optimization Benchmark
+</a>
+      
+      
+        <span class="next_page" aria-disabled="true"></span>
+      
+  </div>
+</nav>
+<!-- Privacy-respecting lazy-loaded comments (connects to GitHub via utteranc.es only when requested) -->
+<div id="utterances-container">
+    <div id="comments-placeholder" class="consent-placeholder">
+        <p><i class="fas fa-comments"></i> <strong>Comments</strong></p>
+        <p class="consent-detail">Loading comments connects to GitHub via utteranc.es and may set cookies. By clicking below, you consent to loading external content that may set third-party cookies. This preference will be remembered across all pages.</p>
+        <button id="load-comments" class="button is-rounded">
+            <i class="fas fa-comment-dots"></i> Load Comments
+        </button>
+    </div>
+</div>
+<script>
+(function() {
+    function loadUtterances() {
+        var placeholder = document.getElementById('comments-placeholder');
+        if (!placeholder) return;
+        placeholder.innerHTML = '<p><i class="fas fa-spinner fa-spin"></i> Loading comments...</p>';
+
+        var isDark = typeof window.isDarkMode === 'function' ? window.isDarkMode() : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = isDark ? 'github-dark' : 'github-light';
+
+        var script = document.createElement('script');
+        script.src = 'https://utteranc.es/client.js';
+        script.setAttribute('repo', 'zshn25/zshn25.github.io');
+        script.setAttribute('issue-term', 'title');
+        script.setAttribute('label', 'blogpost-comment');
+        script.setAttribute('theme', theme);
+        script.setAttribute('crossorigin', 'anonymous');
+        script.async = true;
+
+        var container = document.getElementById('utterances-container');
+        container.appendChild(script);
+
+        window.addEventListener('message', function handler(event) {
+            if (event.origin === 'https://utteranc.es') {
+                placeholder.remove();
+                window.removeEventListener('message', handler);
+            }
+        });
+    }
+
+    // Use shared consent helpers from consent-gate.js (fallback if not loaded)
+    var consent = window._consent || {
+        get: function() { try { return JSON.parse(localStorage.getItem('embedConsent')) || {}; } catch(e) { return {}; } },
+        set: function(p) { var c = this.get(); c[p] = true; localStorage.setItem('embedConsent', JSON.stringify(c)); }
+    };
+
+    if (consent.get().comments) {
+        loadUtterances();
+    } else {
+        document.getElementById('load-comments').addEventListener('click', function() {
+            consent.set('comments');
+            loadUtterances();
+        });
+    }
+})();
+</script>
+<a class="u-url" href="/wordfor-reverse-dictionary/" hidden></a>
+</article>
+
+      </div>
+    </main><footer id="footer" class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="https://feedrabbit.com/?url=https://zshn25.github.io/feed.xml">
+            <i class="fas fa-rss rss-icon"></i><span> Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">© Zeeshan Khan Suri </li>
+          <li><div xmlns:cc="http://creativecommons.org/ns#" > Text under  <a href="https://creativecommons.org/licenses/by-nc/4.0/?ref=chooser-v1" target="_blank" rel="license noopener noreferrer" style="display:inline-block;"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/cc.svg" alt="Creative Commons" width="22" height="22"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/by.svg" alt="Attribution" width="22" height="22"><img style="height:22px!important;margin-left:3px;vertical-align:text-bottom;" src="/assets/vendor/cc-icons/nc.svg" alt="Non-Commercial" width="22" height="22"></a> unless stated otherwise. Images and other media have their own copyright. </div></li>
+          <li><span class="u-email">zshn25[at]gmail[dot]com</span></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p>I am curious. Therefore I am.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a class="social-icon social-icon--github" rel="me noopener noreferrer" href="https://github.com/zshn25" target="_blank" aria-label="GitHub"><i class="fab fa-github" aria-hidden="true"></i></a></li><li><a class="social-icon social-icon--twitter" rel="me noopener noreferrer" href="https://twitter.com/zshn25" target="_blank" aria-label="X / Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a></li><li><a class="social-icon social-icon--linkedin" rel="me noopener noreferrer" href="https://www.linkedin.com/in/zshn25" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a></li><li><a class="social-icon social-icon--scholar" rel="me noopener noreferrer" href="https://scholar.google.com/citations?user=DSLVuBgAAAAJ" target="_blank" aria-label="Google Scholar"><i class="ai ai-google-scholar" aria-hidden="true"></i></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+<!-- Informational privacy notice (not a cookie consent - this site does not use cookies) -->
+<div id="privacy-notice" role="status" style="display:none">
+    This site does not use cookies or track you. Some posts contain embedded content that connects to third parties only when you click.
+    <a href="/about/#privacy">Learn more about our privacy practices</a>
+    <button class="privacy-ok-btn" onclick="localStorage.setItem('privacyOK','1');document.getElementById('privacy-notice').style.display='none'">OK</button>
+</div>
+<button class="back-to-top" id="back-to-top" aria-label="Back to top">
+      <i class="fas fa-chevron-up"></i>
+    </button>
+
+  </body>
+
+</html>
