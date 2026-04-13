@@ -14,13 +14,32 @@ Planning relies on perception to produce rich representations of the world. It n
 
 Planner papers:
 
+- MCTS-based
 - EPSILON: An Efficient Planning System for Automated Vehicles in Highly Interactive Environments [Paper](https://arxiv.org/abs/2108.07993), [Code](https://github.com/HKUST-Aerial-Robotics/EPSILON)
+
+- Rule-based
 - PDM 
  - When PDM's internal predictor (constant velocity) is changed to GT, it does not lead to higher performance, indicating that there is no scope for improvement in this direction. Perfect Prediction or Plenty of Proposals? What Matters Most in Planning for Autonomous Driving. [Paper](https://arxiv.org/abs/2510.15505)
+
+- Learning-based
+
+- MCTS + Learning:
+ - Differentiable MCTS https://arxiv.org/pdf/2511.11043v1
+  
+
+- Prediction papers:
+
+- When Planners Meet Reality: How Learned, Reactive Traffic Agents Shift nuPlan Benchmarks, [Paper](https://arxiv.org/abs/2510.14677v1)
+- SIMPL: A Simple and Efficient Multi-agent Motion Prediction Baseline for Autonomous Driving [Paper](https://arxiv.org/abs/2402.02519) [Code](https://github.com/HKUST-Aerial-Robotics/SIMPL?tab=readme-ov-file)
+
 
 World Models (Generative Video Action models for End-to-End)
 - Generateive Transformers
     - ![drivinggpt](https://rogerchern.github.io/DrivingGPT/static/images/drivinggpt_teaser.png) [DrivingGPT](https://rogerchern.github.io/DrivingGPT/), [Paper](https://rogerchern.github.io/DrivingGPT/static/pdfs/drivinggpt.pdf), [Code](https://github.com/RogerChern/DrivingGPT) generates future videos and planned actions
+
+End-to-End
+
+- [CVPR 2023 Best Paper Award] Planning-oriented Autonomous Driving [Code](https://github.com/OpenDriveLab/UniAD)
 
 Evaluation:
 
@@ -30,19 +49,28 @@ It is difficult to evaluate planners due to their extensive data requirements an
 Acquiring such data is very difficult and even more difficult to scale (As mentioned in my talk, this is the disadvantage of modular approach. End-to-end methods are relatively easy to collect data). Companies like Waymo's most value lies in collecting these. Till recently such data was closed and only openly available options were Argoverse (2019: 570 hours), Lyft Level 5 data (2019: 1000+ hours), Waymo Open Dataset (2021: 570 hours). In all these benchmarks, it was only possible to do Open Loop (planner doesn't drive the vehicle, it's output is only compared to human driver's GT). NuPlan was the first benchmark to introduce closed-loop real world benchmarking with 1200 hours (Check nuPlan for more info). Motional had parts of this dataset released before (nuScenes, nuImages) but the nuPlan combines them all for what is required to predict and plan.
 
 
+
+
+
+
+Benchmarks & Competitions
+
+[Argoverse 2: Motion Forecasting Competition, 2022](https://eval.ai/web/challenges/challenge-page/1719/leaderboard/4761)
+
+
+Benchmark Addons
+
+-  ![unitraj](https://vita-epfl.github.io/UniTraj/assets/framework.png) [UniTraj: A Unified Framework for Scalable Vehicle Trajectory Prediction](https://vita-epfl.github.io/UniTraj/) unified platform integrating various datasets, models, and evaluations
 - [![pred2plan](https://github.com/aumovio/pred2plan/raw/main/assets/Pred2Plan.png)](https://arxiv.org/pdf/2505.05638) Closing the Loop: Motion Prediction Models beyond Open-Loop Benchmarks — [Paper](https://arxiv.org/pdf/2505.05638), [Code](https://github.com/aumovio/pred2plan)
     - incorporates many prediction and planning algorithms in nuPlan benchmark
 - 
 
-
-
-
-
-
-
+Further Reading:
+- https://medium.com/the-thinking-car/a-crash-course-of-planning-for-perception-engineers-in-autonomous-driving-ede324d78717
 
 [^1]: https://www.volvocarstoronto.com/en/news/view/exploring-google-hd-maps-in-the-brand-new-volvo-ex90/124798#:~:text=This%20is%20where%20Google%20HD,for%20advanced%20driving%20assistance%20systems.&text=Developed%20specifically%20for%20car%20manufacturers,constantly%20updated%20representation%20of%20roadways.
 
 [^2]: https://techcrunch.com/2023/01/05/google-hd-maps-volvo-polestar/
 
 https://www.mathworks.com/help/driving/ug/use-here-hd-live-map-data-to-verify-lane-configurations.html
+
