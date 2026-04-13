@@ -16,6 +16,7 @@ Planner papers:
 
 - MCTS-based
 - EPSILON: An Efficient Planning System for Automated Vehicles in Highly Interactive Environments [Paper](https://arxiv.org/abs/2108.07993), [Code](https://github.com/HKUST-Aerial-Robotics/EPSILON)
+- DTPP [Paper](https://arxiv.org/pdf/2310.05885), https://github.com/MCZhi/DTPP
 
 - Rule-based
 - PDM 
@@ -56,6 +57,9 @@ Acquiring such data is very difficult and even more difficult to scale (As menti
 Benchmarks & Competitions
 
 [Argoverse 2: Motion Forecasting Competition, 2022](https://eval.ai/web/challenges/challenge-page/1719/leaderboard/4761)
+
+nuPlan
+interPlan [Paper](https://arxiv.org/pdf/2404.07569), https://github.com/mh0797/interPlan modifies original nuPlan scenarios by augmenting traffic agents quantitiy and behavior and by modifying the navigation target so that lane-changes become necessary
 
 
 Benchmark Addons

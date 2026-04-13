@@ -59,7 +59,34 @@ At 384d, float32 embeddings are 176 MB. Per-dimension scalar quantization to int
 $$q_d = \mathrm{round}\!\left(\frac{v_d - \min_d}{\max_d - \min_d} \times 255\right) \in [0, 255]$$
 {: refdef}
 
-At query time, the dot product decomposes into a scaled int8 dot product plus a per-query constant -- cheap to compute. Int8 at 384d: MRR 0.6483 vs float32's 0.6529, negligible loss. Final embedding file: **42 MB** for 120k entries.
+At query time, the dot product decomposes into a scaled int8 dot product plus a per-query constant -- cheap to compute. Int8 at 384d: MRR 0.6483 vs float32's 0.6529, negligible loss. Final embedding file: **65 MB** for 176k entries.
+
+## 1-bit binary quantization
+
+Int8 is 4x smaller than float32, but we can go further. **Binary quantization** maps each dimension to a single bit (positive → 1, negative → 0), replacing cosine similarity with **Hamming distance** via XOR + popcount -- bitwise operations that modern CPUs execute in a single instruction.
+
+The naive approach (threshold at zero) loses information because the dimension means aren't centered. **Iterative Quantization (ITQ)**[^4] learns an orthogonal rotation $R$ that minimizes quantization error:
+
+{:refdef: style="text-align: center;"}
+$$\mathbf{b} = \text{sign}\!\left((\mathbf{v} - \boldsymbol{\mu}) \cdot R\right)$$
+{: refdef}
+
+The rotation matrix is learned offline in ~50 iterations on a subsample of the definition embeddings. At query time, the query vector gets the same rotation before binarization.
+
+**Does 384d matter for binary?** MRL concentrates semantic information in leading dimensions, but binary quantization is lossy -- more bits might help. I tested pure binary retrieval at different MRL truncations on a 3K-entry subsample (62 valid queries):
+
+| Dimensions | Pure Binary MRR | Hit@1 |
+|:---:|:---:|:---:|
+| 1024 | 0.8022 | 50/62 |
+| 768 | 0.8094 | 50/62 |
+| **384** | **0.8210** | **51/62** |
+| 192 | 0.7282 | 42/62 |
+
+384d is optimal -- more dimensions past this point add noise rather than signal under binary quantization, consistent with the MRL property of concentrating information in leading dimensions.
+
+**Two-stage binary + int8 reranking.** Pure binary retrieval at 384d is fast (~13ms for 176k entries) but loses some precision compared to int8. A two-stage pipeline recovers it: binary Hamming distance narrows from 176k to the top 500 candidates, then int8 dot product reranks them. On the 67-query test set this exactly matches pure int8 quality (MRR 0.6305 for both) while being significantly faster.
+
+**Desktop** uses the two-stage pipeline (~8 MB binary + 65 MB int8). **Mobile** uses pure binary scoring only (~8 MB), keeping the total download under 30 MB -- a practical tradeoff since pure binary still achieves MRR 0.5782 (92% of int8 quality).
 
 ## The mobile problem
 
@@ -147,58 +174,65 @@ On the expanded 67-query test set, quality weighting alone improved the base pot
 
 ## Results
 
-The full evaluation summary. The first block uses the original 40-query test set; the second uses an expanded 67-query set with harder near-miss pairs (active/passive semantics, antonyms, domain specificity):
+The full evaluation on a 67-query test set with near-miss pairs (active/passive semantics, antonyms, domain specificity):
+
+**Full mode** (asymmetric: mdbr-leaf-mt queries, mxbai-embed-large definitions, 176k entries):
 
 | Config | MRR | Hit@1 | Hit@6 |
 |--------|:---:|:---:|:---:|
-| asymmetric, f32 1024d | 0.6733 | 24/40 | 32/40 |
-| **asymmetric, int8 384d (deployed full)** | **0.6483** | **22/40** | **33/40** |
-| snowflake-arctic-embed-xs, symmetric | 0.6296 | 23/40 | 29/40 |
-| fine-tuned potion 256d (deployed lite) | 0.5499 | 18/40 | 27/40 |
-| potion 256d, cosine only | 0.4859 | 16/40 | 24/40 |
+| **binary + int8 rerank (deployed desktop)** | **0.6305** | **36/67** | **54/67** |
+| int8 only (384d) | 0.6305 | 36/67 | 54/67 |
+| pure binary ITQ (deployed mobile) | 0.5782 | 32/67 | 51/67 |
 
-| Config (67-query expanded set) | MRR | Hit@1 | Hit@6 |
+**Lite mode** (symmetric: fine-tuned potion-base-8M, 256d):
+
+| Config | MRR | Hit@1 | Hit@6 |
 |--------|:---:|:---:|:---:|
+| fine-tuned potion v4 + quality weights | 0.1248 | 4/67 | 14/67 |
 | potion base (no quality weights) | 0.4368 | 22/67 | 38/67 |
-| fine-tuned potion v4 (no quality weights) | 0.4662 | 25/67 | 41/67 |
 | **potion base + quality weights (Wikt+ConceptNet)** | **0.4708** | **25/67** | **41/67** |
+
+Note: full-mode and lite-mode evaluations use different embedding sets (asymmetric vs symmetric), so MRR values are not directly comparable across blocks.
 
 ### Browser benchmarks
 
-Query latency (average over 5 queries, includes tokenization + embedding + scoring 120k entries):
+Scoring latency over 176k entries (average of 5 queries):
 
-| | Lite (Potion) | Full q8 WASM | Full q4f16 WebGPU |
-|---|:---:|:---:|:---:|
-| **Edge (Desktop)** | 49.8 ms | 73.4 ms | 71.8 ms |
-| **Firefox (Desktop)** | 29.4 ms | 53.4 ms | 228 ms |
-| **Safari (iOS)** | 26.8 ms | OOM | N/A |
+| | Lite (Potion int8) | Full binary + int8 rerank | Full pure binary | Full int8 only |
+|---|:---:|:---:|:---:|:---:|
+| **Latency** | ~46 ms | ~46 ms | ~13 ms | ~76 ms |
+| **Data size** | ~45 MB | ~76 MB | ~8 MB | ~68 MB |
 
-q8 WASM is faster than q4f16 WASM (73.4 vs 128.2 ms on Edge) -- q4f16 decompression adds overhead. WebGPU helps on Edge but hurts on Firefox. Lite mode is uniformly fast.
+Full mode also requires the mdbr-leaf-mt ONNX model (~22 MB, q8 WASM, ~50ms/query inference). Mobile uses pure binary to keep total download under 30 MB.
 
-Deployed configuration: q8 WASM on desktop (WebGPU opt-in via `?device=webgpu`), automatic fallback to lite on mobile.
+Deployed configuration: binary + int8 rerank on desktop, pure binary on mobile, automatic fallback to lite if the ONNX model fails to load.
 
 ## Architecture
 
 ```
     BUILD TIME (GPU)                    BROWSER (runtime)
-    ────────────────                    ─────────────────
+    ----------------                    -----------------
     mxbai-embed-large-v1 (335M)        Full: mdbr-leaf-mt (22M) ONNX WASM
-    → 176k defs → 1024d → MRL 384d     → query → 384d → dot 176k × q → ~70ms
-    → int8 → 65 MB
+    -> 176k defs -> 1024d -> MRL 384d   -> query -> 384d
+    -> ITQ binary (8 MB)                -> XOR+popcount 176k -> top 500
+    -> int8 (65 MB, desktop only)       -> int8 rerank -> ~46ms (desktop)
+                                        -> pure binary only -> ~13ms (mobile)
 
     fine-tuned potion (8M)             Lite: model2vec-rs WASM (or pure JS)
-    → 176k defs → 256d → int8          → query → 256d → dot 176k × q
-    → 44 MB                            → ~30ms
+    -> 176k defs -> 256d -> int8        -> query -> 256d -> dot 176k x q
+    -> 45 MB                            -> ~46ms
 
     Quality scoring (4 sources):
     OEWN + Webster + Wiktionary
-    + ConceptNet → per-entry q weight
+    + ConceptNet -> per-entry q weight
 ```
 
 ## What makes it fast
 
-- **Int8 quantization**: 4x smaller files, ~2x faster dot products in JS
-- **Parallel loading**: potion data and the ONNX model download simultaneously
+- **1-bit binary scoring**: XOR + popcount over 176k entries in ~13ms -- 6x faster than int8 dot products
+- **Two-stage retrieval**: binary first-pass narrows to 500 candidates, int8 rerank recovers full quality
+- **Int8 quantization**: 4x smaller files than float32, cheap scaled dot product
+- **Selective loading**: mobile skips the 65 MB int8 file entirely; full mode skips potion data
 - **Service Worker caching**: cache-first after first visit
 - **Model warmup**: dummy inference during loading avoids first-query compilation stall
 
@@ -208,9 +242,8 @@ Everything runs client-side. Static files served from GitHub Pages through Cloud
 
 ## What's next
 
-- **Binary quantization**: The mdbr-leaf-mt model card reports robustness to binary (1-bit) quantization. At 384d, this would shrink the full-mode embedding file from 65 MB to ~8 MB -- a 32x reduction with ~96% performance retained, using Hamming distance for fast retrieval.
 - **Model2Vec distillation**: Distilling from mxbai-embed-large-v1 could produce a static embedding matrix that better captures the teacher's space -- without changing runtime latency.
-- **LLM-augmented definitions**: Using a large language model (e.g., Gemma 4) at build time to clean, expand, and rephrase definitions could improve embedding quality for rare or poorly-defined words.
+- **LLM-augmented definitions**: Using a large language model at build time to clean, expand, and rephrase definitions could improve embedding quality for rare or poorly-defined words.
 
 ## Try it
 
@@ -242,9 +275,12 @@ If this article was helpful to you, consider citing
 
 [^3]: Sentence-Transformers' [`StaticEmbedding`](https://sbert.net/docs/package_reference/sentence_transformer/models.html#staticembedding){:target="_blank"} module. See also: Minish Lab, [Model2Vec: Distill a Small Fast Model from any Sentence Transformer](https://huggingface.co/blog/Pringled/model2vec){:target="_blank"}.
 
+[^4]: Gong et al., [Iterative Quantization: A Procrustean Approach to Learning Binary Codes](https://ieeexplore.ieee.org/document/6296665){:target="_blank"}, TPAMI 2013.
+
 *[MRL]: Matryoshka Representation Learning
 *[ONNX]: Open Neural Network Exchange
 *[WASM]: WebAssembly
 *[int8]: 8-bit integer quantization
 *[MRR]: Mean Reciprocal Rank
 *[OOM]: Out of Memory
+*[ITQ]: Iterative Quantization
