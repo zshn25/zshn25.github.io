@@ -541,7 +541,7 @@
        • <i class="far fa-clock" aria-hidden="true"></i> <span class="read-time" title="Estimated read time">
     
     
-      10 mins read
+      11 mins read
     
 </span>
 </p>
@@ -584,7 +584,7 @@
     <aside class="toc-sidebar" aria-label="On this page">
       <nav class="toc-nav">
         <p class="toc-heading">On this page</p>
-        <ul><li><a href="#semantic-search-over-a-dictionary" class="toc-link">Semantic search over a dictionary</a></li><li><a href="#asymmetric-retrieval" class="toc-link">Asymmetric retrieval</a></li><li><a href="#matryoshka-truncation" class="toc-link">Matryoshka truncation</a></li><li><a href="#int8-scalar-quantization" class="toc-link">Int8 scalar quantization</a></li><li><a href="#the-mobile-problem" class="toc-link">The mobile problem</a></li><li><a href="#lite-mode-static-embeddings-in-pure-javascript" class="toc-link">Lite mode: static embeddings in pure JavaScript</a></li><li><a href="#fine-tuning-the-static-model" class="toc-link">Fine-tuning the static model</a></li><li><a href="#rust-wasm-for-lite-mode-inference" class="toc-link">Rust WASM for lite mode inference</a></li><li><a href="#data-centric-quality-scoring" class="toc-link">Data-centric quality scoring</a></li><li><a href="#results" class="toc-link">Results</a><ul><li><a href="#browser-benchmarks" class="toc-link">Browser benchmarks</a></li></ul></li><li><a href="#architecture" class="toc-link">Architecture</a></li><li><a href="#what-makes-it-fast" class="toc-link">What makes it fast</a></li><li><a href="#privacy" class="toc-link">Privacy</a></li><li><a href="#whats-next" class="toc-link">What’s next</a></li><li><a href="#try-it" class="toc-link">Try it</a></li></ul>
+        <ul><li><a href="#semantic-search-over-a-dictionary" class="toc-link">Semantic search over a dictionary</a></li><li><a href="#asymmetric-retrieval" class="toc-link">Asymmetric retrieval</a></li><li><a href="#matryoshka-truncation" class="toc-link">Matryoshka truncation</a></li><li><a href="#int8-scalar-quantization" class="toc-link">Int8 scalar quantization</a></li><li><a href="#1-bit-binary-quantization" class="toc-link">1-bit binary quantization</a></li><li><a href="#the-mobile-problem" class="toc-link">The mobile problem</a></li><li><a href="#lite-mode-static-embeddings-in-pure-javascript" class="toc-link">Lite mode: static embeddings in pure JavaScript</a></li><li><a href="#fine-tuning-the-static-model" class="toc-link">Fine-tuning the static model</a></li><li><a href="#rust-wasm-for-lite-mode-inference" class="toc-link">Rust WASM for lite mode inference</a></li><li><a href="#data-centric-quality-scoring" class="toc-link">Data-centric quality scoring</a></li><li><a href="#results" class="toc-link">Results</a><ul><li><a href="#browser-benchmarks" class="toc-link">Browser benchmarks</a></li></ul></li><li><a href="#architecture" class="toc-link">Architecture</a></li><li><a href="#what-makes-it-fast" class="toc-link">What makes it fast</a></li><li><a href="#privacy" class="toc-link">Privacy</a></li><li><a href="#whats-next" class="toc-link">What’s next</a></li><li><a href="#try-it" class="toc-link">Try it</a></li></ul>
       </nav>
     </aside>
     
@@ -700,7 +700,63 @@
 
 <p style="text-align: center;"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>q</mi><mi>d</mi></msub><mo>=</mo><mrow><mi mathvariant="normal">r</mi><mi mathvariant="normal">o</mi><mi mathvariant="normal">u</mi><mi mathvariant="normal">n</mi><mi mathvariant="normal">d</mi></mrow><mtext> ⁣</mtext><mrow><mo fence="true">(</mo><mfrac><mrow><msub><mi>v</mi><mi>d</mi></msub><mo>−</mo><msub><mrow><mi>min</mi><mo>⁡</mo></mrow><mi>d</mi></msub></mrow><mrow><msub><mrow><mi>max</mi><mo>⁡</mo></mrow><mi>d</mi></msub><mo>−</mo><msub><mrow><mi>min</mi><mo>⁡</mo></mrow><mi>d</mi></msub></mrow></mfrac><mo>×</mo><mn>255</mn><mo fence="true">)</mo></mrow><mo>∈</mo><mo stretchy="false">[</mo><mn>0</mn><mo separator="true">,</mo><mn>255</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">q_d = \mathrm{round}\!\left(\frac{v_d - \min_d}{\max_d - \min_d} \times 255\right) \in [0, 255]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">q</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1.8em;vertical-align:-0.65em;"></span><span class="mord"><span class="mord mathrm">round</span></span><span class="mspace" style="margin-right:-0.1667em;"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size2">(</span></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8834em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mop mtight"><span class="mop mtight"><span class="mtight">m</span><span class="mtight">a</span><span class="mtight">x</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3488em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1512em;"><span></span></span></span></span></span></span><span class="mspace mtight" style="margin-right:0.1952em;"></span><span class="mord mtight">−</span><span class="mspace mtight" style="margin-right:0.1952em;"></span><span class="mop mtight"><span class="mop mtight"><span class="mtight">m</span><span class="mtight">i</span><span class="mtight">n</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3488em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1512em;"><span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.4159em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">v</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3488em;margin-left:-0.0359em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1512em;"><span></span></span></span></span></span></span><span class="mbin mtight">−</span><span class="mop mtight"><span class="mop mtight"><span class="mtight">m</span><span class="mtight">i</span><span class="mtight">n</span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3448em;"><span style="top:-2.3488em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">d</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.1512em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.4509em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord">255</span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size2">)</span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">255</span><span class="mclose">]</span></span></span></span></p>
 
-<p>At query time, the dot product decomposes into a scaled <abbr title="8-bit integer quantization">int8</abbr> dot product plus a per-query constant – cheap to compute. Int8 at 384d: <abbr title="Mean Reciprocal Rank">MRR</abbr> 0.6483 vs float32’s 0.6529, negligible loss. Final embedding file: <strong>42 MB</strong> for 120k entries.</p>
+<p>At query time, the dot product decomposes into a scaled <abbr title="8-bit integer quantization">int8</abbr> dot product plus a per-query constant – cheap to compute. Int8 at 384d: <abbr title="Mean Reciprocal Rank">MRR</abbr> 0.6483 vs float32’s 0.6529, negligible loss. Final embedding file: <strong>65 MB</strong> for 176k entries.</p>
+      <h2 id="1-bit-binary-quantization">
+        
+        
+          <a href="#1-bit-binary-quantization" class="heading-anchor" aria-hidden="true" tabindex="-1"><svg class='octicon octicon-heading-anchor' viewBox='0 0 16 16' version='1.1' width='16' height='32' aria-hidden='true'><path fill-rule='evenodd' d='M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z'></path></svg></a> 1-bit binary quantization
+        
+        
+      </h2>
+    
+
+<p>Int8 is 4x smaller than float32, but we can go further. <strong>Binary quantization</strong> maps each dimension to a single bit (positive → 1, negative → 0), replacing cosine similarity with <strong>Hamming distance</strong> via XOR + popcount – bitwise operations that modern CPUs execute in a single instruction.</p>
+
+<p>The naive approach (threshold at zero) loses information because the dimension means aren’t centered. <strong>Iterative Quantization (<abbr title="Iterative Quantization">ITQ</abbr>)</strong><sup id="fnref:4"><a href="#fn:4" class="footnote" rel="footnote" role="doc-noteref">3</a></sup> learns an orthogonal rotation $R$ that minimizes quantization error:</p>
+
+<p style="text-align: center;"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="bold">b</mi><mo>=</mo><mtext>sign</mtext><mtext> ⁣</mtext><mrow><mo fence="true">(</mo><mo stretchy="false">(</mo><mi mathvariant="bold">v</mi><mo>−</mo><mi mathvariant="bold-italic">μ</mi><mo stretchy="false">)</mo><mo>⋅</mo><mi>R</mi><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">\mathbf{b} = \text{sign}\!\left((\mathbf{v} - \boldsymbol{\mu}) \cdot R\right)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathbf">b</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord">sign</span></span><span class="mspace" style="margin-right:-0.1667em;"></span><span class="mspace" style="margin-right:0.1667em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">(</span><span class="mopen">(</span><span class="mord mathbf" style="margin-right:0.01597em;">v</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord"><span class="mord"><span class="mord boldsymbol">μ</span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">⋅</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="mclose delimcenter" style="top:0em;">)</span></span></span></span></span></p>
+
+<p>The rotation matrix is learned offline in ~50 iterations on a subsample of the definition embeddings. At query time, the query vector gets the same rotation before binarization.</p>
+
+<p><strong>Does 384d matter for binary?</strong> <abbr title="Matryoshka Representation Learning">MRL</abbr> concentrates semantic information in leading dimensions, but binary quantization is lossy – more bits might help. I tested pure binary retrieval at different <abbr title="Matryoshka Representation Learning">MRL</abbr> truncations on a 3K-entry subsample (62 valid queries):</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Dimensions</th>
+      <th style="text-align: center">Pure Binary <abbr title="Mean Reciprocal Rank">MRR</abbr></th>
+      <th style="text-align: center">Hit@1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">1024</td>
+      <td style="text-align: center">0.8022</td>
+      <td style="text-align: center">50/62</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">768</td>
+      <td style="text-align: center">0.8094</td>
+      <td style="text-align: center">50/62</td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><strong>384</strong></td>
+      <td style="text-align: center"><strong>0.8210</strong></td>
+      <td style="text-align: center"><strong>51/62</strong></td>
+    </tr>
+    <tr>
+      <td style="text-align: center">192</td>
+      <td style="text-align: center">0.7282</td>
+      <td style="text-align: center">42/62</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>384d is optimal – more dimensions past this point add noise rather than signal under binary quantization, consistent with the <abbr title="Matryoshka Representation Learning">MRL</abbr> property of concentrating information in leading dimensions.</p>
+
+<p><strong>Two-stage binary + <abbr title="8-bit integer quantization">int8</abbr> reranking.</strong> Pure binary retrieval at 384d is fast (~13ms for 176k entries) but loses some precision compared to <abbr title="8-bit integer quantization">int8</abbr>. A two-stage pipeline recovers it: binary Hamming distance narrows from 176k to the top 500 candidates, then <abbr title="8-bit integer quantization">int8</abbr> dot product reranks them. On the 67-query test set this exactly matches pure <abbr title="8-bit integer quantization">int8</abbr> quality (<abbr title="Mean Reciprocal Rank">MRR</abbr> 0.6305 for both) while being significantly faster.</p>
+
+<p><strong>Desktop</strong> uses the two-stage pipeline (~8 MB binary + 65 MB <abbr title="8-bit integer quantization">int8</abbr>). <strong>Mobile</strong> uses pure binary scoring only (~8 MB), keeping the total download under 30 MB – a practical tradeoff since pure binary still achieves <abbr title="Mean Reciprocal Rank">MRR</abbr> 0.5782 (92% of <abbr title="8-bit integer quantization">int8</abbr> quality).</p>
       <h2 id="the-mobile-problem">
         
         
@@ -781,7 +837,7 @@
 
 <p>The off-the-shelf potion-base-8M was trained on general text. WordFor’s definitions have distinctive structure – concise, noun-phrase-heavy, often starting with articles. Fine-tuning on in-domain data should help.</p>
 
-<p>sentence-transformers’ <code class="language-plaintext highlighter-rouge">StaticEmbedding</code> module wraps a Model2Vec model’s embedding matrix as a differentiable <code class="language-plaintext highlighter-rouge">torch.nn.EmbeddingBag</code><sup id="fnref:3"><a href="#fn:3" class="footnote" rel="footnote" role="doc-noteref">3</a></sup>. Training pipeline:</p>
+<p>sentence-transformers’ <code class="language-plaintext highlighter-rouge">StaticEmbedding</code> module wraps a Model2Vec model’s embedding matrix as a differentiable <code class="language-plaintext highlighter-rouge">torch.nn.EmbeddingBag</code><sup id="fnref:3"><a href="#fn:3" class="footnote" rel="footnote" role="doc-noteref">4</a></sup>. Training pipeline:</p>
 
 <ol>
   <li><strong>Data</strong>: <a href="https://en-word.net/" target="_blank">Open English WordNet 2025</a> (CC-BY 4.0, 120k+ synsets) + <a href="https://github.com/adambom/dictionary" target="_blank">Webster’s 1913</a> (public domain). Merged and deduplicated with <a href="https://github.com/MinishLab/semhash" target="_blank">SemHash</a> (threshold 0.9) to ~176k unique definitions.</li>
@@ -884,7 +940,9 @@
       </h2>
     
 
-<p>The full evaluation summary. The first block uses the original 40-query test set; the second uses an expanded 67-query set with harder near-miss pairs (active/passive semantics, antonyms, domain specificity):</p>
+<p>The full evaluation on a 67-query test set with near-miss pairs (active/passive semantics, antonyms, domain specificity):</p>
+
+<p><strong>Full mode</strong> (asymmetric: mdbr-leaf-mt queries, mxbai-embed-large definitions, 176k entries):</p>
 
 <table>
   <thead>
@@ -897,42 +955,32 @@
   </thead>
   <tbody>
     <tr>
-      <td>asymmetric, f32 1024d</td>
-      <td style="text-align: center">0.6733</td>
-      <td style="text-align: center">24/40</td>
-      <td style="text-align: center">32/40</td>
+      <td><strong>binary + <abbr title="8-bit integer quantization">int8</abbr> rerank (deployed desktop)</strong></td>
+      <td style="text-align: center"><strong>0.6305</strong></td>
+      <td style="text-align: center"><strong>36/67</strong></td>
+      <td style="text-align: center"><strong>54/67</strong></td>
     </tr>
     <tr>
-      <td><strong>asymmetric, <abbr title="8-bit integer quantization">int8</abbr> 384d (deployed full)</strong></td>
-      <td style="text-align: center"><strong>0.6483</strong></td>
-      <td style="text-align: center"><strong>22/40</strong></td>
-      <td style="text-align: center"><strong>33/40</strong></td>
+      <td><abbr title="8-bit integer quantization">int8</abbr> only (384d)</td>
+      <td style="text-align: center">0.6305</td>
+      <td style="text-align: center">36/67</td>
+      <td style="text-align: center">54/67</td>
     </tr>
     <tr>
-      <td>snowflake-arctic-embed-xs, symmetric</td>
-      <td style="text-align: center">0.6296</td>
-      <td style="text-align: center">23/40</td>
-      <td style="text-align: center">29/40</td>
-    </tr>
-    <tr>
-      <td>fine-tuned potion 256d (deployed lite)</td>
-      <td style="text-align: center">0.5499</td>
-      <td style="text-align: center">18/40</td>
-      <td style="text-align: center">27/40</td>
-    </tr>
-    <tr>
-      <td>potion 256d, cosine only</td>
-      <td style="text-align: center">0.4859</td>
-      <td style="text-align: center">16/40</td>
-      <td style="text-align: center">24/40</td>
+      <td>pure binary <abbr title="Iterative Quantization">ITQ</abbr> (deployed mobile)</td>
+      <td style="text-align: center">0.5782</td>
+      <td style="text-align: center">32/67</td>
+      <td style="text-align: center">51/67</td>
     </tr>
   </tbody>
 </table>
 
+<p><strong>Lite mode</strong> (symmetric: fine-tuned potion-base-8M, 256d):</p>
+
 <table>
   <thead>
     <tr>
-      <th>Config (67-query expanded set)</th>
+      <th>Config</th>
       <th style="text-align: center"><abbr title="Mean Reciprocal Rank">MRR</abbr></th>
       <th style="text-align: center">Hit@1</th>
       <th style="text-align: center">Hit@6</th>
@@ -940,16 +988,16 @@
   </thead>
   <tbody>
     <tr>
+      <td>fine-tuned potion v4 + quality weights</td>
+      <td style="text-align: center">0.1248</td>
+      <td style="text-align: center">4/67</td>
+      <td style="text-align: center">14/67</td>
+    </tr>
+    <tr>
       <td>potion base (no quality weights)</td>
       <td style="text-align: center">0.4368</td>
       <td style="text-align: center">22/67</td>
       <td style="text-align: center">38/67</td>
-    </tr>
-    <tr>
-      <td>fine-tuned potion v4 (no quality weights)</td>
-      <td style="text-align: center">0.4662</td>
-      <td style="text-align: center">25/67</td>
-      <td style="text-align: center">41/67</td>
     </tr>
     <tr>
       <td><strong>potion base + quality weights (Wikt+ConceptNet)</strong></td>
@@ -959,6 +1007,8 @@
     </tr>
   </tbody>
 </table>
+
+<p>Note: full-mode and lite-mode evaluations use different embedding sets (asymmetric vs symmetric), so <abbr title="Mean Reciprocal Rank">MRR</abbr> values are not directly comparable across blocks.</p>
       <h3 id="browser-benchmarks">
         
         
@@ -968,42 +1018,39 @@
       </h3>
     
 
-<p>Query latency (average over 5 queries, includes tokenization + embedding + scoring 120k entries):</p>
+<p>Scoring latency over 176k entries (average of 5 queries):</p>
 
 <table>
   <thead>
     <tr>
       <th> </th>
-      <th style="text-align: center">Lite (Potion)</th>
-      <th style="text-align: center">Full q8 <abbr title="WebAssembly">WASM</abbr></th>
-      <th style="text-align: center">Full q4f16 WebGPU</th>
+      <th style="text-align: center">Lite (Potion <abbr title="8-bit integer quantization">int8</abbr>)</th>
+      <th style="text-align: center">Full binary + <abbr title="8-bit integer quantization">int8</abbr> rerank</th>
+      <th style="text-align: center">Full pure binary</th>
+      <th style="text-align: center">Full <abbr title="8-bit integer quantization">int8</abbr> only</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td><strong>Edge (Desktop)</strong></td>
-      <td style="text-align: center">49.8 ms</td>
-      <td style="text-align: center">73.4 ms</td>
-      <td style="text-align: center">71.8 ms</td>
+      <td><strong>Latency</strong></td>
+      <td style="text-align: center">~46 ms</td>
+      <td style="text-align: center">~46 ms</td>
+      <td style="text-align: center">~13 ms</td>
+      <td style="text-align: center">~76 ms</td>
     </tr>
     <tr>
-      <td><strong>Firefox (Desktop)</strong></td>
-      <td style="text-align: center">29.4 ms</td>
-      <td style="text-align: center">53.4 ms</td>
-      <td style="text-align: center">228 ms</td>
-    </tr>
-    <tr>
-      <td><strong>Safari (iOS)</strong></td>
-      <td style="text-align: center">26.8 ms</td>
-      <td style="text-align: center"><abbr title="Out of Memory">OOM</abbr></td>
-      <td style="text-align: center">N/A</td>
+      <td><strong>Data size</strong></td>
+      <td style="text-align: center">~45 MB</td>
+      <td style="text-align: center">~76 MB</td>
+      <td style="text-align: center">~8 MB</td>
+      <td style="text-align: center">~68 MB</td>
     </tr>
   </tbody>
 </table>
 
-<p>q8 <abbr title="WebAssembly">WASM</abbr> is faster than q4f16 <abbr title="WebAssembly">WASM</abbr> (73.4 vs 128.2 ms on Edge) – q4f16 decompression adds overhead. WebGPU helps on Edge but hurts on Firefox. Lite mode is uniformly fast.</p>
+<p>Full mode also requires the mdbr-leaf-mt <abbr title="Open Neural Network Exchange">ONNX</abbr> model (~22 MB, q8 <abbr title="WebAssembly">WASM</abbr>, ~50ms/query inference). Mobile uses pure binary to keep total download under 30 MB.</p>
 
-<p>Deployed configuration: q8 <abbr title="WebAssembly">WASM</abbr> on desktop (WebGPU opt-in via <code class="language-plaintext highlighter-rouge">?device=webgpu</code>), automatic fallback to lite on mobile.</p>
+<p>Deployed configuration: binary + <abbr title="8-bit integer quantization">int8</abbr> rerank on desktop, pure binary on mobile, automatic fallback to lite if the <abbr title="Open Neural Network Exchange">ONNX</abbr> model fails to load.</p>
       <h2 id="architecture">
         
         
@@ -1014,18 +1061,20 @@
     
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    BUILD TIME (GPU)                    BROWSER (runtime)
-    ────────────────                    ─────────────────
+    ----------------                    -----------------
     mxbai-embed-large-v1 (335M)        Full: mdbr-leaf-mt (22M) ONNX WASM
-    → 176k defs → 1024d → MRL 384d     → query → 384d → dot 176k × q → ~70ms
-    → int8 → 65 MB
+    -&gt; 176k defs -&gt; 1024d -&gt; MRL 384d   -&gt; query -&gt; 384d
+    -&gt; ITQ binary (8 MB)                -&gt; XOR+popcount 176k -&gt; top 500
+    -&gt; int8 (65 MB, desktop only)       -&gt; int8 rerank -&gt; ~46ms (desktop)
+                                        -&gt; pure binary only -&gt; ~13ms (mobile)
 
     fine-tuned potion (8M)             Lite: model2vec-rs WASM (or pure JS)
-    → 176k defs → 256d → int8          → query → 256d → dot 176k × q
-    → 44 MB                            → ~30ms
+    -&gt; 176k defs -&gt; 256d -&gt; int8        -&gt; query -&gt; 256d -&gt; dot 176k x q
+    -&gt; 45 MB                            -&gt; ~46ms
 
     Quality scoring (4 sources):
     OEWN + Webster + Wiktionary
-    + ConceptNet → per-entry q weight
+    + ConceptNet -&gt; per-entry q weight
 </code></pre></div></div>
       <h2 id="what-makes-it-fast">
         
@@ -1037,8 +1086,10 @@
     
 
 <ul>
-  <li><strong>Int8 quantization</strong>: 4x smaller files, ~2x faster dot products in JS</li>
-  <li><strong>Parallel loading</strong>: potion data and the <abbr title="Open Neural Network Exchange">ONNX</abbr> model download simultaneously</li>
+  <li><strong>1-bit binary scoring</strong>: XOR + popcount over 176k entries in ~13ms – 6x faster than <abbr title="8-bit integer quantization">int8</abbr> dot products</li>
+  <li><strong>Two-stage retrieval</strong>: binary first-pass narrows to 500 candidates, <abbr title="8-bit integer quantization">int8</abbr> rerank recovers full quality</li>
+  <li><strong>Int8 quantization</strong>: 4x smaller files than float32, cheap scaled dot product</li>
+  <li><strong>Selective loading</strong>: mobile skips the 65 MB <abbr title="8-bit integer quantization">int8</abbr> file entirely; full mode skips potion data</li>
   <li><strong>Service Worker caching</strong>: cache-first after first visit</li>
   <li><strong>Model warmup</strong>: dummy inference during loading avoids first-query compilation stall</li>
 </ul>
@@ -1062,9 +1113,8 @@
     
 
 <ul>
-  <li><strong>Binary quantization</strong>: The mdbr-leaf-mt model card reports robustness to binary (1-bit) quantization. At 384d, this would shrink the full-mode embedding file from 65 MB to ~8 MB – a 32x reduction with ~96% performance retained, using Hamming distance for fast retrieval.</li>
   <li><strong>Model2Vec distillation</strong>: Distilling from mxbai-embed-large-v1 could produce a static embedding matrix that better captures the teacher’s space – without changing runtime latency.</li>
-  <li><strong>LLM-augmented definitions</strong>: Using a large language model (e.g., Gemma 4) at build time to clean, expand, and rephrase definitions could improve embedding quality for rare or poorly-defined words.</li>
+  <li><strong>LLM-augmented definitions</strong>: Using a large language model at build time to clean, expand, and rephrase definitions could improve embedding quality for rare or poorly-defined words.</li>
 </ul>
       <h2 id="try-it">
         
@@ -1107,6 +1157,9 @@
     </li>
     <li id="fn:2">
       <p>Kusupati et al., <a href="https://arxiv.org/abs/2205.13147" target="_blank">Matryoshka Representation Learning</a>, NeurIPS 2022. <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:4">
+      <p>Gong et al., <a href="https://ieeexplore.ieee.org/document/6296665" target="_blank">Iterative Quantization: A Procrustean Approach to Learning Binary Codes</a>, TPAMI 2013. <a href="#fnref:4" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
     <li id="fn:3">
       <p>Sentence-Transformers’ <a href="https://sbert.net/docs/package_reference/sentence_transformer/models.html#staticembedding" target="_blank"><code class="language-plaintext highlighter-rouge">StaticEmbedding</code></a> module. See also: Minish Lab, <a href="https://huggingface.co/blog/Pringled/model2vec" target="_blank">Model2Vec: Distill a Small Fast Model from any Sentence Transformer</a>. <a href="#fnref:3" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
