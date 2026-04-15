@@ -19,7 +19,7 @@ I got tired of that loop. So I built [**WordFor**](https://wordfor.xyz){:target=
 
 A reverse dictionary maps *descriptions* to *words*. Given *"a feeling of longing for the past"*, it should return **nostalgia**. Keyword matching fails here -- the query barely overlaps with the definition (*"a bittersweet longing for things, persons, or situations of the past"*). We need *semantic* similarity.
 
-The approach: encode every dictionary definition into a dense vector (embedding) at build time. At query time, encode the user's description and rank definitions by cosine similarity. The dictionary combines [Open English WordNet 2025](https://en-word.net/){:target="_blank"} (120k+ synsets, CC-BY 4.0) and [Webster's 1913 Unabridged](https://github.com/adambom/dictionary){:target="_blank"} (public domain) -- over 176,000 definitions after deduplication, enriched with [Moby Thesaurus](https://en.wikipedia.org/wiki/Moby_Project){:target="_blank"} synonyms. The challenge is doing all of this in the browser, at interactive speed.
+The approach: encode every dictionary definition into a dense vector (embedding) at build time. At query time, encode the user's description and rank definitions by cosine similarity. The dictionary combines [Open English WordNet 2025](https://en-word.net/){:target="_blank"} (120k+ synsets, CC-BY 4.0), [Webster's 1913 Unabridged](https://github.com/adambom/dictionary){:target="_blank"} (public domain), [GCIDE](https://gcide.gnu.org.ua/){:target="_blank"} Webster 1913 portion (public domain), and the [Century Dictionary](https://en.wikipedia.org/wiki/Century_Dictionary){:target="_blank"} (1889--1911, public domain) -- over 350,000 definitions after deduplication, enriched with [Moby Thesaurus](https://en.wikipedia.org/wiki/Moby_Project){:target="_blank"} synonyms. The challenge is doing all of this in the browser, at interactive speed.
 
 ## Asymmetric retrieval
 
@@ -59,7 +59,7 @@ At 384d, float32 embeddings are 176 MB. Per-dimension scalar quantization to int
 $$q_d = \mathrm{round}\!\left(\frac{v_d - \min_d}{\max_d - \min_d} \times 255\right) \in [0, 255]$$
 {: refdef}
 
-At query time, the dot product decomposes into a scaled int8 dot product plus a per-query constant -- cheap to compute. Int8 at 384d: MRR 0.6483 vs float32's 0.6529, negligible loss. Final embedding file: **65 MB** for 176k entries.
+At query time, the dot product decomposes into a scaled int8 dot product plus a per-query constant -- cheap to compute. Int8 at 384d: MRR 0.6483 vs float32's 0.6529, negligible loss. Int4 quantization halves the file size further while matching or beating int8 quality (MRR 0.6375 vs 0.6305).
 
 ## 1-bit binary quantization
 
@@ -84,9 +84,9 @@ The rotation matrix is learned offline in ~50 iterations on a subsample of the d
 
 384d is optimal -- more dimensions past this point add noise rather than signal under binary quantization, consistent with the MRL property of concentrating information in leading dimensions.
 
-**Two-stage binary + int8 reranking.** Pure binary retrieval at 384d is fast (~13ms for 176k entries) but loses some precision compared to int8. A two-stage pipeline recovers it: binary Hamming distance narrows from 176k to the top 500 candidates, then int8 dot product reranks them. On the 67-query test set this exactly matches pure int8 quality (MRR 0.6305 for both) while being significantly faster.
+**Two-stage binary + reranking.** Pure binary retrieval at 384d is fast (~13ms for 350k entries) but loses some precision compared to int8. A two-stage pipeline recovers it: binary Hamming distance narrows from 350k to the top 500 candidates, then a dense dot product reranks them. Int4 reranking (half the file size of int8) actually produces *better* results -- MRR 0.6375 vs 0.6305 for int8, likely because the int4 quantization grid acts as light regularization.
 
-**Desktop** uses the two-stage pipeline (~8 MB binary + 65 MB int8). **Mobile** uses pure binary scoring only (~8 MB), keeping the total download under 30 MB -- a practical tradeoff since pure binary still achieves MRR 0.5782 (92% of int8 quality).
+**Desktop** uses binary + int4 rerank (~8 MB binary + 33 MB int4). **Mobile** uses pure binary scoring only (~8 MB), keeping the total download under 30 MB -- a practical tradeoff since pure binary still achieves MRR 0.5401 on the 67-query test set.
 
 ## The mobile problem
 
@@ -105,34 +105,37 @@ Snowflake leads, but at 22.6M params it has the same OOM problem. The rest offer
 
 ## Lite mode: static embeddings in pure JavaScript
 
-For devices where the ONNX model can't load, WordFor falls back to [potion-base-8M](https://huggingface.co/minishlab/potion-base-8M){:target="_blank"} -- a [Model2Vec](https://github.com/MinishLab/model2vec){:target="_blank"} static embedding model. Inference is pure JavaScript:
+For devices where the ONNX model can't load, WordFor falls back to a static embedding model -- a [Model2Vec](https://github.com/MinishLab/model2vec){:target="_blank"} architecture distilled from the teacher model. Inference is pure JavaScript:
 
 1. WordPiece tokenize the query
 2. Look up each token's 256d vector from a float16 matrix (~15 MB)
 3. Mean pool and L2-normalize
 
-Sub-1ms, zero dependencies. ~~Lite mode compensates for lower semantic quality with a keyword overlap score.~~ Quality weights computed at build time from cross-source agreement provide a soft re-ranking signal (see below).
+Sub-1ms, zero dependencies. Quality weights computed at build time from cross-source agreement provide a soft re-ranking signal (see below).
 
-## Fine-tuning the static model
+## Knowledge distillation for lite mode
 
-The off-the-shelf potion-base-8M was trained on general text. WordFor's definitions have distinctive structure -- concise, noun-phrase-heavy, often starting with articles. Fine-tuning on in-domain data should help.
+Off-the-shelf static models like [potion-base-8M](https://huggingface.co/minishlab/potion-base-8M){:target="_blank"} are trained on general text. For a reverse dictionary, we can do better by distilling directly from our teacher model.
 
-sentence-transformers' `StaticEmbedding` module wraps a Model2Vec model's embedding matrix as a differentiable `torch.nn.EmbeddingBag`[^3]. Training pipeline:
+**Step 1: Distill the teacher.** Model2Vec's [`distill()`](https://github.com/MinishLab/model2vec){:target="_blank"} runs a forward pass through mxbai-embed-large-v1 for each vocabulary token and applies PCA to produce a 256d static embedding matrix. This gives the lite model a starting point that captures the teacher's embedding space -- the same space the full-mode definition embeddings live in.
 
-1. **Data**: [Open English WordNet 2025](https://en-word.net/){:target="_blank"} (CC-BY 4.0, 120k+ synsets) + [Webster's 1913](https://github.com/adambom/dictionary){:target="_blank"} (public domain). Merged and deduplicated with [SemHash](https://github.com/MinishLab/semhash){:target="_blank"} (threshold 0.9) to ~176k unique definitions.
-2. **Pairs**: Each (word, definition) becomes a positive pair -- the word is the "query" and the definition is the "passage". ~845k training pairs.
-3. **Loss**: `MultipleNegativesRankingLoss` with in-batch negatives -- for a batch of 512, each pair has 511 negatives for free.
-4. **Decontamination**: SemHash cross-deduplication removes training definitions that are too similar (threshold 0.85) to the 40 evaluation queries. 12 entries removed in practice.
+**Step 2: Fine-tune on dictionary data.** sentence-transformers' `StaticEmbedding` module wraps the embedding matrix as a differentiable `torch.nn.EmbeddingBag`[^3]. Training pipeline:
 
-The embedding matrix is the only trainable parameter -- 30k tokens $\times$ 256 dimensions. No attention layers, no positional encodings, just a lookup table getting nudged by contrastive gradients. Training takes ~22 minutes on a single GPU.
+1. **Data**: [Open English WordNet 2025](https://en-word.net/){:target="_blank"} (CC-BY 4.0, 115k entries) + [Webster's 1913](https://github.com/adambom/dictionary){:target="_blank"} (public domain, 70k entries) + [Wiktionary](https://kaikki.org/){:target="_blank"} (CC-BY-SA 3.0, 308k entries filtered to words already in the main dictionary). Total: 493k entries, 2.3M training pairs.
+2. **Pairs**: Each (word, definition) becomes a positive pair -- the word is the "query" and the definition is the "passage".
+3. **Loss**: `MultipleNegativesRankingLoss` with in-batch negatives -- for a batch of 2048, each pair has 2047 negatives for free.
+4. **Decontamination**: Cross-deduplication removes training definitions too similar (cosine > 0.85) to the 67 evaluation queries.
+5. **No deduplication**: Near-duplicate definitions from different sources are kept as natural data augmentation.
 
-| Version | Training data | MRR | Hit@1 | Hit@6 |
-|---------|--------------|:---:|:---:|:---:|
-| Baseline (off-the-shelf) | -- | 0.4859 | 16/40 | 24/40 |
-| v1 | OEWN only | 0.5401 | 18/40 | 26/40 |
-| **v4 (deployed)** | **OEWN + Webster's** | **0.5499** | **18/40** | **27/40** |
+The embedding matrix is the only trainable parameter -- 30k tokens $\times$ 256 dimensions. No attention layers, no positional encodings, just a lookup table getting nudged by contrastive gradients. Training takes ~27 minutes on a single GPU with early stopping.
 
-+13% MRR from fine-tuning alone. The runtime is unchanged -- same WordPiece tokenization, same mean-pooling, same sub-millisecond inference. Only the embedding matrix weights are different.
+| Version | Base model | Training data | MRR | Hit@1 | Hit@6 |
+|---------|-----------|--------------|:---:|:---:|:---:|
+| potion-base-8M (off-the-shelf) | potion-base-8M | -- | 0.4621 | 25/67 | 38/67 |
+| potion-base-8M fine-tuned | potion-base-8M | OEWN + Webster's + Wikt | 0.5128 | 29/67 | 41/67 |
+| **distilled-mxbai fine-tuned (deployed)** | **distilled from mxbai-embed-large** | **OEWN + Webster's + Wikt** | **0.5353** | **30/67** | **43/67** |
+
+Knowledge distillation from the teacher gives +3.3% MRR at baseline (0.4621 vs 0.4475 for potion-base-8M). Fine-tuning amplifies that to +4.4% over the previous best. The runtime is unchanged -- same WordPiece tokenization, same mean-pooling, same sub-millisecond inference. Only the embedding matrix weights are different.
 
 ## Rust WASM for lite mode inference
 
@@ -158,7 +161,7 @@ At runtime, WordFor tries the WASM model first and falls back to pure JS if it f
 
 Embedding similarity alone has blind spots: compound words like "art teacher" outscore "teacher", and bag-of-words models confuse antonyms ("fear" vs "fearless"). Rather than engineering the ranking function, we improve the *data* -- a quality weight $q$ for every definition, computed at build time from four independent sources.
 
-**Cross-source agreement.** Each word is checked against OEWN, Webster's, [Wiktionary](https://kaikki.org/){:target="_blank"} (1.3M headwords, CC-BY-SA 3.0), and [ConceptNet 5.7](https://conceptnet.io/){:target="_blank"} (878K English concepts, CC-BY-SA 4.0). Words confirmed by more sources get a small boost. Wiktionary and ConceptNet are used at build time only and not redistributed, so the output remains CC-BY 4.0.
+**Cross-source agreement.** Each word is checked against OEWN, Webster's, [Wiktionary](https://kaikki.org/){:target="_blank"} (1.3M headwords, CC-BY-SA 3.0), and [ConceptNet 5.7](https://conceptnet.io/){:target="_blank"} (878K English concepts, CC-BY-SA 4.0). Words confirmed by more sources get a small boost. Wiktionary and ConceptNet are used at build time only -- for quality scoring and fine-tuning data -- and not redistributed, so the output remains CC-BY 4.0.
 
 **ConceptNet knowledge graph.** ConceptNet's 3M English edges provide two additional signals: *centrality* (log-normalized degree -- well-connected concepts like "water" score higher than obscure terms) and *relation diversity* (concepts participating in many relation types -- IsA, HasProperty, Synonym, etc. -- are better-defined).
 
@@ -176,36 +179,34 @@ On the expanded 67-query test set, quality weighting alone improved the base pot
 
 The full evaluation on a 67-query test set with near-miss pairs (active/passive semantics, antonyms, domain specificity):
 
-**Full mode** (asymmetric: mdbr-leaf-mt queries, mxbai-embed-large definitions, 176k entries):
+**Full mode** (asymmetric: mdbr-leaf-mt queries, mxbai-embed-large definitions, 350k entries):
 
 | Config | MRR | Hit@1 | Hit@6 |
 |--------|:---:|:---:|:---:|
-| **binary + int8 rerank (deployed desktop)** | **0.6305** | **36/67** | **54/67** |
-| int8 only (384d) | 0.6305 | 36/67 | 54/67 |
-| pure binary ITQ (deployed mobile) | 0.5782 | 32/67 | 51/67 |
+| **binary + int4 rerank (deployed desktop)** | **0.6375** | **37/67** | **53/67** |
+| pure binary ITQ (deployed mobile) | 0.5401 | 28/67 | 46/67 |
 
-**Lite mode** (symmetric: fine-tuned potion-base-8M, 256d):
+**Lite mode** (distilled-mxbai fine-tuned, 256d, int4 scoring):
 
 | Config | MRR | Hit@1 | Hit@6 |
 |--------|:---:|:---:|:---:|
-| fine-tuned potion v4 + quality weights | 0.1248 | 4/67 | 14/67 |
-| potion base (no quality weights) | 0.4368 | 22/67 | 38/67 |
-| **potion base + quality weights (Wikt+ConceptNet)** | **0.4708** | **25/67** | **41/67** |
+| **distilled-mxbai fine-tuned (deployed)** | **0.5353** | **30/67** | **43/67** |
+| distilled-mxbai base (no fine-tuning) | 0.4621 | 25/67 | 38/67 |
 
 Note: full-mode and lite-mode evaluations use different embedding sets (asymmetric vs symmetric), so MRR values are not directly comparable across blocks.
 
 ### Browser benchmarks
 
-Scoring latency over 176k entries (average of 5 queries):
+Scoring latency over 350k entries (average of 5 queries):
 
-| | Lite (Potion int8) | Full binary + int8 rerank | Full pure binary | Full int8 only |
+| | Lite (Potion int4) | Full binary + int4 rerank | Full pure binary | Full int8 only |
 |---|:---:|:---:|:---:|:---:|
 | **Latency** | ~46 ms | ~46 ms | ~13 ms | ~76 ms |
-| **Data size** | ~45 MB | ~76 MB | ~8 MB | ~68 MB |
+| **Data size** | ~45 MB | ~43 MB | ~8 MB | ~68 MB |
 
 Full mode also requires the mdbr-leaf-mt ONNX model (~22 MB, q8 WASM, ~50ms/query inference). Mobile uses pure binary to keep total download under 30 MB.
 
-Deployed configuration: binary + int8 rerank on desktop, pure binary on mobile, automatic fallback to lite if the ONNX model fails to load.
+Deployed configuration: binary + int4 rerank on desktop, pure binary on mobile, automatic fallback to lite if the ONNX model fails to load.
 
 ## Architecture
 
@@ -213,26 +214,27 @@ Deployed configuration: binary + int8 rerank on desktop, pure binary on mobile, 
     BUILD TIME (GPU)                    BROWSER (runtime)
     ----------------                    -----------------
     mxbai-embed-large-v1 (335M)        Full: mdbr-leaf-mt (22M) ONNX WASM
-    -> 176k defs -> 1024d -> MRL 384d   -> query -> 384d
-    -> ITQ binary (8 MB)                -> XOR+popcount 176k -> top 500
-    -> int8 (65 MB, desktop only)       -> int8 rerank -> ~46ms (desktop)
+    -> 350k defs -> 1024d -> MRL 384d   -> query -> 384d
+    -> ITQ binary (8 MB)                -> XOR+popcount 350k -> top 500
+    -> int4 (33 MB, desktop only)       -> int4 rerank -> ~46ms (desktop)
                                         -> pure binary only -> ~13ms (mobile)
 
-    fine-tuned potion (8M)             Lite: model2vec-rs WASM (or pure JS)
-    -> 176k defs -> 256d -> int8        -> query -> 256d -> dot 176k x q
-    -> 45 MB                            -> ~46ms
+    distilled-mxbai (Model2Vec distill) Lite: model2vec-rs WASM (or pure JS)
+    -> fine-tuned on all sources          -> query -> 256d -> dot 350k x q
+    -> 350k defs -> 256d -> int4          -> ~46ms
+    -> 23 MB
 
     Quality scoring (4 sources):
-    OEWN + Webster + Wiktionary
-    + ConceptNet -> per-entry q weight
+    OEWN + Webster + GCIDE + Century
+    + Wiktionary + ConceptNet -> per-entry q weight
 ```
 
 ## What makes it fast
 
-- **1-bit binary scoring**: XOR + popcount over 176k entries in ~13ms -- 6x faster than int8 dot products
-- **Two-stage retrieval**: binary first-pass narrows to 500 candidates, int8 rerank recovers full quality
-- **Int8 quantization**: 4x smaller files than float32, cheap scaled dot product
-- **Selective loading**: mobile skips the 65 MB int8 file entirely; full mode skips potion data
+- **1-bit binary scoring**: XOR + popcount over 350k entries in ~13ms -- 6x faster than int8 dot products
+- **Two-stage retrieval**: binary first-pass narrows to 500 candidates, int4 rerank recovers full quality
+- **Int4 quantization**: 8x smaller files than float32, half the size of int8 -- and slightly *better* MRR
+- **Selective loading**: mobile skips the int4 rerank file entirely; full mode skips potion data
 - **Service Worker caching**: cache-first after first visit
 - **Model warmup**: dummy inference during loading avoids first-query compilation stall
 
@@ -242,8 +244,8 @@ Everything runs client-side. Static files served from GitHub Pages through Cloud
 
 ## What's next
 
-- **Model2Vec distillation**: Distilling from mxbai-embed-large-v1 could produce a static embedding matrix that better captures the teacher's space -- without changing runtime latency.
 - **LLM-augmented definitions**: Using a large language model at build time to clean, expand, and rephrase definitions could improve embedding quality for rare or poorly-defined words.
+- **Better deduplication**: With 350k entries from six sources, near-duplicate definitions still slip through. Semantic deduplication using embedding similarity could further reduce noise.
 
 ## Try it
 
@@ -253,7 +255,7 @@ If you find it useful, consider a share or a [Ko-fi](https://ko-fi.com/zshn25){:
 
 ___
 
-(c) Zeeshan Khan Suri, [<img src="https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-nc.svg" width="60"/>](http://creativecommons.org/licenses/by-nc/4.0/)
+© Zeeshan Khan Suri, [<img src="https://mirrors.creativecommons.org/presskit/buttons/88x31/svg/by-nc-nd.eu.svg" width="60"/>  CC BY-NC-ND 4.0](https://creativecommons.org/licenses/by-nc-nd/4.0/)
 
 If this article was helpful to you, consider citing
 
