@@ -79,8 +79,8 @@ These have caused repeated bugs — be aware:
 ## Visual Design
 
 - **Brand purple**: `#9966ff` (primary), `#7a51cc` (dark), `#b399ff` (light/dark-mode links)
-- **Accent orange**: `#FF7800` (light), `#ff9933` (dark) — used for RSS feed icon
-- **Featured posts**: Left border `3px solid $color-featured`. Badge has border + tinted background in both themes. Needs `!important` to override `.post-list .Box` border shorthand.
+- **Accent gold**: `#bf8700` (light, Primer attention), `#d4a72c` (dark, Primer attention-emphasis)
+- **Featured posts**: Left border `3px solid $color-featured` (#9a6700, Primer attention-fg). Needs `!important` to override `.post-list .Box` border shorthand.
 - **Ghost-style buttons**: Transparent bg + gray border → brand-color fill on hover (used for social icons `.social-icon--*` and share buttons `.share-btn--*`)
 - **CSS custom properties** defined in `custom-variables.scss` `:root`, overridden in `dark.scss` `:root`
 
